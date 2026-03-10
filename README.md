@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Developer Portfolio
+
+Personal developer portfolio website built with **Next.js** to showcase my projects, technical skills, and experience as a software developer.
+This website serves as a central place to present my work, including mobile applications, web projects, and other software development activities.
+
+## Live Website
+
+Visit the live portfolio here:
+
+https://portfolio-amber-ten-22.vercel.app/
+
+## Repository
+
+GitHub Repository:
+
+https://github.com/callmezaa/KEN-PORTFOLIO
+
+## Tech Stack
+
+This portfolio website was built using modern web technologies:
+
+- **Next.js** – React framework for production
+- **React** – JavaScript library for building user interfaces
+- **TypeScript** – Typed JavaScript for better maintainability
+- **Tailwind CSS** – Utility-first CSS framework for styling
+- **Vercel** – Hosting and deployment platform
+
+## Features
+
+- Responsive and modern portfolio design
+- Project showcase section
+- Skills and technology stack display
+- About me section
+- Contact information
+- Fast performance using Next.js optimization
+- SEO-friendly structure
+
+## Project Structure
+
+```
+portfolio/
+├── app/                # Next.js App Router pages
+├── components/         # Reusable UI components
+├── public/             # Static assets
+├── styles/             # Global styles
+├── screenshots/        # Website preview images
+├── package.json
+└── README.md
+```
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to run the project locally.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. Clone the repository
+
+```
+git clone https://github.com/callmezaa/KEN-PORTFOLIO.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Navigate to the project directory
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+cd portfolio
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Install dependencies
 
-## Learn More
+```
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+or
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+yarn install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Run the development server
 
-## Deploy on Vercel
+```
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Open your browser and visit:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+http://localhost:3000
+```
+
+## Deployment
+
+This project is deployed using **Vercel**.
+
+To deploy your own version:
+
+1. Push the repository to GitHub
+2. Connect the repository to Vercel
+3. Vercel will automatically build and deploy the project
+
+Official website: https://vercel.com
+
+## Author
+
+Ken Zamariyan
+Informatics Engineering
+
+GitHub: https://github.com/callmezaa
+
+## License
+
+This project is open-source and available under the MIT License.
