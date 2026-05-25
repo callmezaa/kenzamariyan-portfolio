@@ -1,11 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
 
 html {
   scroll-behavior: smooth;
+  /* Premium Apple Typography Tweaks */
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  letter-spacing: -0.01em;
 }
 
 body {
   background-color: #09090b; /* zinc-950 */
   color: #e4e4e7; /* zinc-200 */
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+/* Make headings look extremely sharp and elegant like iOS */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em !important;
 }
