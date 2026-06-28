@@ -1,7 +1,7 @@
 "use client";
 
 import { ExternalLink, Sparkle, FileText, AlertTriangle, Award, Lock, Github } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { projects, type Project, type ProjectType } from "../data/projects";
 import GlowCard from "./ui/GlowCard";
 import Button from "./ui/Button";
@@ -9,25 +9,26 @@ import { useState, useEffect } from "react";
 import { sectionHeader, fadeUp, staggerContainer, staggerItem, slideLeft, slideRight } from "../utils/animations";
 
 function ProjectPreview({ type }: { type: ProjectType }) {
+  const reduced = useReducedMotion();
   const [salesCount, setSalesCount] = useState(1280);
   const [orderPulse, setOrderPulse] = useState(false);
 
   // Auto-update stats to simulate real-time POS transaction intake
   useEffect(() => {
-    if (type !== "mobile" && type !== "dashboard" && type !== "messaging") return;
+    if (type !== "mobile" && type !== "dashboard" && type !== "messaging" || reduced) return;
     const interval = setInterval(() => {
       setSalesCount((prev) => prev + 1);
       setOrderPulse(true);
       setTimeout(() => setOrderPulse(false), 800);
     }, 4500);
     return () => clearInterval(interval);
-  }, [type]);
+  }, [type, reduced]);
 
   // AI / Fullstack mockup (browser + AI badge)
   if (type === "ai" || type === "fullstack") {
     const isAi = type === "ai";
     return (
-      <div className="relative mx-auto w-full max-w-[520px] aspect-[3/2] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-105 select-none">
+      <div className="relative mx-auto w-full max-w-[520px] aspect-[3/2] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-105 select-none">
         <div className="flex items-center gap-1.5 border-b border-zinc-800 bg-zinc-900 px-3.5 py-2">
           <div className="flex gap-1">
             <span className="h-1.5 w-1.5 rounded-full bg-red-500/60" />
@@ -161,7 +162,7 @@ function ProjectPreview({ type }: { type: ProjectType }) {
 
   // Browser Mockup
   return (
-    <div className="relative mx-auto w-full max-w-[520px] aspect-[3/2] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-105 select-none">
+    <div className="relative mx-auto w-full max-w-[520px] aspect-[3/2] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-105 select-none">
       {/* Window Controls Header */}
       <div className="flex items-center gap-1.5 border-b border-zinc-800 bg-zinc-900 px-3.5 py-2">
         <div className="flex gap-1">

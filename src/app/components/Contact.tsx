@@ -5,11 +5,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Check, AlertTriangle, X, Calendar } from "lucide-react";
 import Button from "./ui/Button";
 import GlowCard from "./ui/GlowCard";
-import { slideLeft, slideRight } from "../utils/animations";
+import { easeOut } from "../utils/animations";
 
-// TODO: Ganti URL di bawah dengan tautan Calendly/Cal.com Anda yang aktif
-// Contoh: "https://calendly.com/kenzamariyan/15min" atau "https://cal.com/kenzamariyan/15min"
-const CALENDLY_URL = "https://calendly.com/kenzamariyan32/15-minute-discovery-call";
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "";
+const HAS_CALENDLY = !!process.env.NEXT_PUBLIC_CALENDLY_URL;
+
+function CharCounter({ current, max }: { current: number; max: number }) {
+  const remaining = max - current;
+  const isClose = remaining < max * 0.1;
+  return (
+    <span className={`text-[10px] font-mono tabular-nums transition-colors duration-200 ${isClose ? "text-amber-400" : "text-zinc-600"}`}>
+      {current}/{max}
+    </span>
+  );
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -24,7 +33,7 @@ export default function Contact() {
 
   const [showScheduler, setShowScheduler] = useState(false);
   const [iframeLoading, setIframeLoading] = useState(true);
-  const [showPlaceholderWarning, setShowPlaceholderWarning] = useState(CALENDLY_URL.includes("kenzamariyan/15min"));
+  const [showPlaceholderWarning, setShowPlaceholderWarning] = useState(!HAS_CALENDLY);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -93,10 +102,10 @@ export default function Contact() {
           
           {/* LEFT COLUMN: Info & Scheduler Trigger */}
           <motion.div
-            variants={slideLeft}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: easeOut }}
             className="lg:col-span-5 w-full space-y-8"
           >
             <div className="space-y-4">
@@ -149,7 +158,9 @@ export default function Contact() {
             <div className="pt-2">
               <button
                 onClick={() => setShowScheduler(true)}
-                className="btn-press inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-xs font-semibold text-white hover:border-white/20 hover:bg-white/10 w-full sm:w-auto justify-center sm:justify-start cursor-pointer"
+                disabled={!HAS_CALENDLY}
+                title={HAS_CALENDLY ? "Book a 15-min discovery call" : "Configure NEXT_PUBLIC_CALENDLY_URL in .env.local"}
+                className="btn-press inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-xs font-semibold text-white hover:border-white/20 hover:bg-white/10 w-full sm:w-auto justify-center sm:justify-start cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <span>Schedule a 15-min Call</span>
                 <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-mono">Book now</span>
@@ -159,13 +170,13 @@ export default function Contact() {
 
           {/* RIGHT COLUMN: Contact Form */}
           <motion.div
-            variants={slideRight}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: easeOut }}
             className="lg:col-span-7 w-full"
           >
-            <div className="rounded-xl border border-white/10 bg-surface-tile-1 p-6 md:p-8">
+            <div className="rounded-lg border border-white/10 bg-surface-tile-1 p-6 md:p-8">
               <AnimatePresence mode="wait">
                 {status === "success" ? (
                   <motion.div
@@ -235,6 +246,9 @@ export default function Contact() {
                             disabled:opacity-50
                           "
                         />
+                        <div className="flex justify-end">
+                          <CharCounter current={formData.name.length} max={80} />
+                        </div>
                       </div>
 
                       {/* Email */}
@@ -260,6 +274,9 @@ export default function Contact() {
                             disabled:opacity-50
                           "
                         />
+                        <div className="flex justify-end">
+                          <CharCounter current={formData.email.length} max={120} />
+                        </div>
                       </div>
                     </div>
 
@@ -286,6 +303,9 @@ export default function Contact() {
                           disabled:opacity-50
                         "
                       />
+                      <div className="flex justify-end">
+                        <CharCounter current={formData.message.length} max={2000} />
+                      </div>
                     </div>
 
                     {/* Error indicator */}
@@ -338,7 +358,7 @@ export default function Contact() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative w-full max-w-4xl h-full max-h-[85dvh] min-h-[500px] overflow-hidden rounded-2xl border border-white/10 bg-[#09090b] shadow-2xl z-10 flex flex-col"
+              className="relative w-full max-w-4xl h-full max-h-[85dvh] min-h-[500px] overflow-hidden rounded-lg border border-white/10 bg-[#09090b] shadow-2xl z-10 flex flex-col"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-zinc-950/50">
@@ -367,7 +387,7 @@ export default function Contact() {
                         Currently, this modal points to the placeholder URL: <code className="text-[10px] bg-white/5 px-1.5 py-0.5 rounded font-mono text-indigo-300">{CALENDLY_URL}</code> which returns a 404 error page.
                       </p>
                       <p className="text-xs text-zinc-500 leading-relaxed pt-2">
-                        To connect your real calendar, open <span className="font-mono text-zinc-300">src/app/components/Contact.tsx</span> and change the <code className="text-zinc-300">CALENDLY_URL</code> variable at the top of the file to your active link.
+                        To connect your real calendar, set <code className="text-[10px] bg-white/5 px-1.5 py-0.5 rounded font-mono text-indigo-300">NEXT_PUBLIC_CALENDLY_URL</code> in your <span className="font-mono text-zinc-300">.env.local</span> file.
                       </p>
                     </div>
                     <div className="flex items-center gap-3">

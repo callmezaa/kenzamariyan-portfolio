@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiFirebase, SiGo, SiExpress, SiPostgresql, SiRedis, SiDocker, SiGooglecloud, SiPrisma, SiSupabase } from "react-icons/si";
 import { Sparkle } from "lucide-react";
 import GlowCard from "./ui/GlowCard";
@@ -28,6 +28,7 @@ function useIsVisible(threshold = 0.3) {
 }
 
 export default function Skills() {
+  const reduced = useReducedMotion();
   const [gridRef, isVisible] = useIsVisible(0.3);
 
   // Card 1: Frontend State Toggle
@@ -36,12 +37,12 @@ export default function Skills() {
   // Card 3: Backend Database Latency — only runs when skills section is visible
   const [latency, setLatency] = useState(18);
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible || reduced) return;
     const interval = setInterval(() => {
       setLatency(Math.floor(14 + Math.random() * 8));
     }, 3000);
     return () => clearInterval(interval);
-  }, [isVisible]);
+  }, [isVisible, reduced]);
 
   // Card 2: Mobile POS Log Queue — simulated real-time transactions
   const products = ["Agriculture Supply", "Harvest Seed Stock", "Organic Fertilizer", "Rice Paddy 50kg", "Corn Feed 25kg", "Palm Oil Crude", "Coffee Beans Arabica", "Cocoa Pods Wet"];
@@ -53,7 +54,7 @@ export default function Skills() {
   const txCounter = useRef(9483);
 
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible || reduced) return;
     const interval = setInterval(() => {
       const idx = Math.floor(Math.random() * products.length);
       setTxQueue((prev) => {
@@ -63,7 +64,7 @@ export default function Skills() {
       txCounter.current += 1;
     }, 5000 + Math.random() * 3000);
     return () => clearInterval(interval);
-  }, [isVisible]);
+  }, [isVisible, reduced]);
 
   return (
     <section

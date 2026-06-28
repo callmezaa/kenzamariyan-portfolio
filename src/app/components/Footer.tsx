@@ -3,6 +3,19 @@
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 
+function FooterLink({ href, children, external }: { href: string; children: React.ReactNode; external?: boolean }) {
+  const classes = "relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors";
+
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="me noopener noreferrer" className={classes}>
+        {children}
+      </a>
+    );
+  }
+  return <Link href={href} className={classes}>{children}</Link>;
+}
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -28,12 +41,12 @@ export default function Footer() {
           <div className="md:col-span-2 w-full">
             <h3 className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest mb-4 font-display">Navigation</h3>
             <ul className="flex flex-col text-xs space-y-2.5 font-medium">
-              <li><Link href="#home" className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="#about" className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors">About</Link></li>
-              <li><Link href="#projects" className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors">Projects</Link></li>
-              <li><Link href="#skills" className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors">Skills</Link></li>
-              <li><Link href="#experience" className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors">Experience</Link></li>
-              <li><Link href="#contact" className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors">Contact</Link></li>
+              <li><FooterLink href="#home">Home</FooterLink></li>
+              <li><FooterLink href="#about">About</FooterLink></li>
+              <li><FooterLink href="#projects">Projects</FooterLink></li>
+              <li><FooterLink href="#skills">Skills</FooterLink></li>
+              <li><FooterLink href="#experience">Experience</FooterLink></li>
+              <li><FooterLink href="#contact">Contact</FooterLink></li>
             </ul>
           </div>
 
@@ -53,36 +66,13 @@ export default function Footer() {
           <div className="md:col-span-3 w-full">
             <h3 className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest mb-4 font-display">Connect</h3>
             <ul className="flex flex-col text-xs space-y-2.5 font-medium">
+              <li><FooterLink href="https://github.com/callmezaa" external>GitHub</FooterLink></li>
+              <li><FooterLink href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" external>LinkedIn</FooterLink></li>
               <li>
-                <a
-                  href="https://github.com/callmezaa"
-                  target="_blank"
-                  rel="me noopener noreferrer"
-                  className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors"
-                >
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.linkedin.com/in/ken-zamariyan-10b140318/"
-                  target="_blank"
-                  rel="me noopener noreferrer"
-                  className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors"
-                >
-                  LinkedIn
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://calendly.com/kenzamariyan32/15-minute-discovery-call"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors inline-flex items-center gap-1.5"
-                >
+                <FooterLink href="https://calendly.com/kenzamariyan32/15-minute-discovery-call" external>
                   <Calendar size={14} />
                   <span>Book a Call</span>
-                </a>
+                </FooterLink>
               </li>
             </ul>
           </div>

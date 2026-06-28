@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
 import { MouseEvent, ReactNode } from "react";
 
 interface GlowCardProps {
@@ -16,22 +16,24 @@ export default function GlowCard({
   glowColor = "rgba(99, 102, 241, 0.12)", // Default Indigo glow
   radialSize = 300,
 }: GlowCardProps) {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const reduced = useReducedMotion();
 
-  // Smooth out coordinate tracking
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+
   const springX = useSpring(mouseX, { stiffness: 350, damping: 40 });
   const springY = useSpring(mouseY, { stiffness: 350, damping: 40 });
 
-  const xPx = useTransform(springX, (val) => `${val}px`);
-  const yPx = useTransform(springY, (val) => `${val}px`);
+  const xPct = useTransform(springX, (val) => `${val * 100}%`);
+  const yPct = useTransform(springY, (val) => `${val * 100}%`);
 
   function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
+    if (reduced) return;
     const { currentTarget, clientX, clientY } = event;
-    const { left, top } = currentTarget.getBoundingClientRect();
-    
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
+    const { left, top, width, height } = currentTarget.getBoundingClientRect();
+
+    mouseX.set((clientX - left) / width);
+    mouseY.set((clientY - top) / height);
   }
 
   return (
@@ -43,19 +45,19 @@ export default function GlowCard({
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
         style={{
-          background: `radial-gradient(${radialSize}px circle at var(--x) var(--y), ${glowColor}, transparent 80%)`,
-          "--x": xPx,
-          "--y": yPx,
+          background: `radial-gradient(${radialSize}px circle at var(--gx) var(--gy), ${glowColor}, transparent 80%)`,
+          "--gx": xPct,
+          "--gy": yPct,
         }}
       />
-      
+
       {/* Light border glow accent */}
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
         style={{
-          background: `radial-gradient(${radialSize / 1.5}px circle at var(--x) var(--y), rgba(255, 255, 255, 0.08), transparent 80%)`,
-          "--x": xPx,
-          "--y": yPx,
+          background: `radial-gradient(${radialSize / 1.5}px circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.08), transparent 80%)`,
+          "--gx": xPct,
+          "--gy": yPct,
         }}
       />
 

@@ -1,7 +1,23 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Navbar from "./components/Navbar";
+import KeyboardNav from "./components/KeyboardNav";
+import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://portfolio-amber-ten-22.vercel.app"),
@@ -45,11 +61,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html
+      lang="en"
+      className={`${inter.variable} ${plusJakartaSans.variable} scroll-smooth`}
+    >
       <body className="bg-surface-black font-sans text-body-muted antialiased">
+        <a
+          href="#main-content"
+          className="fixed -top-full left-4 z-[100] rounded-b-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 focus:top-0 focus:outline-2 focus:outline-offset-0 focus:outline-primary-focus"
+        >
+          Skip to main content
+        </a>
+        <KeyboardNav />
         <Navbar />
         {children}
         <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );

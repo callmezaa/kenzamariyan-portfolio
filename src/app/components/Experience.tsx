@@ -40,10 +40,10 @@ export default function Experience() {
         </motion.div>
 
         {/* Release-Log Style Timeline */}
-        <div className="relative space-y-10 md:space-y-12 pl-6 sm:pl-8 ml-2 sm:ml-4">
+        <div className="relative space-y-10 md:space-y-12">
           
           {/* Continuous timeline line */}
-          <div className="absolute left-[3px] sm:left-[4px] top-0 bottom-0 w-px bg-white/10 pointer-events-none" />
+          <div className="absolute left-4 top-0 bottom-0 w-px bg-white/10 pointer-events-none" />
           
           {experiences.map((exp, index) => {
             return (
@@ -53,10 +53,10 @@ export default function Experience() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
-                className="relative group"
+                className="relative pl-8 group"
               >
                 {/* Timeline Node Dot */}
-                <div className="absolute -left-[31px] sm:-left-[39px] top-6 flex h-5 w-5 items-center justify-center">
+                <div className="absolute left-4 -translate-x-1/2 top-6 flex h-5 w-5 items-center justify-center">
                   <div className="h-3 w-3 rounded-full bg-zinc-800 border border-white/20 transition-all duration-300 group-hover:bg-primary group-hover:scale-150 group-hover:border-primary-on-dark" />
                 </div>
 

@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: var(--font-plus-jakarta-sans), system-ui, sans-serif;
   
   --color-primary: #6366f1; /* Indigo 500 */
   --color-primary-focus: #818cf8; /* Indigo 400 */
@@ -40,7 +39,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-feature-settings: "ss03", "cv02", "cv03", "cv04", "cv11";
   background-color: #030303;
   color-scheme: dark;
@@ -76,9 +74,9 @@ body {
 /* Typography styles matching Premium guidelines */
 .hero-display {
   font-family: var(--font-display);
-  font-size: clamp(38px, 6vw, 68px);
+  font-size: clamp(40px, 7vw, 76px);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.05;
   letter-spacing: -0.03em;
 }
 
@@ -118,7 +116,7 @@ body {
   font-weight: 400;
   line-height: 1.6;
   letter-spacing: -0.005em;
-  color: #d4d4d8;
+  color: #a1a1aa;
 }
 
 .tagline {
@@ -139,6 +137,18 @@ body {
   transform: scale(0.96);
 }
 
+/* Page entrance — subtle fade-in on initial load */
+@keyframes page-entrance {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  main {
+    animation: page-entrance 0.5s ease-out 0.1s both;
+  }
+}
+
 /* High-fidelity glassmorphism */
 .glass-panel {
   background: rgba(10, 10, 12, 0.7);
@@ -150,6 +160,20 @@ body {
 /* Single soft shadow reserved for product imagery resting on a surface */
 .product-shadow {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+}
+
+/* Reduced motion — disable all CSS animations/transitions */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .btn-press,
+  .btn-press:active {
+    transform: none;
+  }
+  .mesh-grid {
+    animation: none;
+  }
 }
 
 /* Anchor scroll offset — clears sticky sub-nav height (52px) */

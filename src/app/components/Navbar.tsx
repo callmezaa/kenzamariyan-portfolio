@@ -14,6 +14,17 @@ export default function Navbar() {
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [progress, setProgress] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
+  const navHeight = useRef(0);
+
+  useEffect(() => {
+    const measure = () => {
+      navHeight.current = headerRef.current?.offsetHeight ?? 80;
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -24,13 +35,13 @@ export default function Navbar() {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(docHeight > 0 ? Math.min(currentScroll / docHeight, 1) : 0);
 
-      // Track active section
+      // Track active section — threshold = nav height + small buffer
+      const threshold = navHeight.current + 20;
       const current = sections.find((id) => {
         const el = document.getElementById(id);
         if (!el) return false;
         const rect = el.getBoundingClientRect();
-        // Section is active if it occupies the middle-top viewport focus area
-        return rect.top <= 160 && rect.bottom >= 160;
+        return rect.top <= threshold && rect.bottom >= threshold;
       });
 
       if (current) setActive(current);
@@ -66,9 +77,12 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-500 z-[60] origin-left"
         style={{ scaleX: progress }}
       />
-      <header className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-4 transition-all duration-300">
+      <header
+  ref={headerRef}
+  className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-4 transition-all duration-300"
+>
         <nav
-          className={`mx-auto max-w-5xl rounded-2xl border transition-all duration-300 px-6 py-3 flex items-center justify-between ${
+          className={`mx-auto max-w-5xl rounded-lg border transition-all duration-300 px-6 py-3 flex items-center justify-between ${
             scrolled || menuOpen
               ? "border-white/10 bg-black/70 backdrop-blur-xl shadow-2xl shadow-black/40"
               : "border-white/5 bg-black/30 backdrop-blur-md"
@@ -165,7 +179,7 @@ export default function Navbar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute left-4 right-4 top-20 border border-white/10 bg-black/95 backdrop-blur-2xl rounded-2xl p-6 md:hidden z-30 shadow-2xl shadow-black/80"
+              className="absolute left-4 right-4 top-20 border border-white/10 bg-black/95 backdrop-blur-2xl rounded-lg p-6 md:hidden z-30 shadow-2xl shadow-black/80"
             >
               <div className="flex flex-col gap-3">
                 {sections.map((item, index) => (

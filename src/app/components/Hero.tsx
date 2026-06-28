@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
-import { Sparkle } from "lucide-react";
+import Image from "next/image";
+import { motion, useReducedMotion, Variants } from "framer-motion";
+import { Sparkle, Download } from "lucide-react";
 import Button from "./ui/Button";
 import Magnetic from "./ui/Magnetic";
 
@@ -29,6 +30,8 @@ const credibilityMetrics = [
 ];
 
 export default function Hero() {
+  const reduced = useReducedMotion();
+
   return (
     <section id="home" className="relative overflow-hidden bg-canvas pt-36 pb-20 min-h-screen flex flex-col justify-between">
       {/* Background Layers */}
@@ -105,9 +108,7 @@ export default function Hero() {
                 download
               >
                 <span>Download CV</span>
-                <svg className="h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
+                <Download size={16} className="text-zinc-400" />
               </Button>
             </motion.div>
           </div>
@@ -121,8 +122,8 @@ export default function Hero() {
               >
                 {/* Ambient glow halo */}
                 <motion.div
-                  animate={{ scale: [1, 1.06, 1] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  animate={reduced ? { scale: 1 } : { scale: [1, 1.06, 1] }}
+                  transition={reduced ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   className="absolute h-[250px] w-[250px] lg:h-[330px] lg:w-[330px] rounded-full bg-indigo-500/15 blur-[60px] pointer-events-none"
                 />
 
@@ -132,15 +133,14 @@ export default function Hero() {
                 </div>
 
                 {/* Avatar image */}
-                <div className="relative h-[200px] w-[200px] lg:h-[260px] lg:w-[260px] overflow-hidden rounded-full border-[1.5px] border-white/10 shadow-2xl z-10">
-                  <div
-                    className="absolute inset-0 rounded-full"
-                    style={{
-                      backgroundImage: "url('/image/profile/hero.jpeg')",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center 60%",
-                      backgroundRepeat: "no-repeat",
-                    }}
+                <div className="relative h-[200px] w-[200px] lg:h-[260px] lg:w-[260px] overflow-hidden rounded-full border-[1.5px] border-white/10 shadow-2xl z-10 bg-zinc-900">
+                  <Image
+                    src="/image/profile/hero.jpeg"
+                    alt="Ken Zamariyan"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 200px, 260px"
+                    className="object-cover object-[center_60%]"
                   />
                   {/* Subtle bottom vignette for depth */}
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 pointer-events-none rounded-full" />
@@ -185,7 +185,7 @@ export default function Hero() {
                   {i < 3 && <span className="text-primary text-lg">+</span>}
                 </div>
                 <div className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">{metric.label}</div>
-                <div className="text-[11px] text-zinc-500 leading-normal">{metric.desc}</div>
+                <div className="body-small text-zinc-500 line-clamp-2">{metric.desc}</div>
               </motion.div>
             ))}
           </div>
