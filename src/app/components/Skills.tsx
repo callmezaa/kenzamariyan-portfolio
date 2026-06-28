@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiFirebase, SiGo, SiExpress, SiPostgresql, SiRedis, SiDocker, SiGooglecloud, SiPrisma, SiSupabase } from "react-icons/si";
 import { Sparkle } from "lucide-react";
 import GlowCard from "./ui/GlowCard";
-import { sectionHeader, staggerContainer, staggerItem } from "../utils/animations";
+import { seqHeader, seqLabel, seqTitle, seqDesc, staggerContainer, staggerItem } from "../utils/animations";
 
 function useIsVisible(threshold = 0.3) {
   const ref = useRef<HTMLDivElement>(null);
@@ -75,17 +75,17 @@ export default function Skills() {
         
         {/* Section Header */}
         <motion.div
-          variants={sectionHeader}
+          variants={seqHeader}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           className="mb-16 max-w-2xl space-y-3"
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Capabilities</p>
-          <h2 className="display-lg tracking-tight text-white">
+          <motion.p variants={seqLabel} className="text-xs font-semibold uppercase tracking-widest text-primary">Capabilities</motion.p>
+          <motion.h2 variants={seqTitle} className="display-lg tracking-tight text-white">
             Expertise Ecosystem
-          </h2>
-          <p className="body-base">A comprehensive mapping of my engineering domains, showcasing the technical depth and workflows I use to launch digital products.</p>
+          </motion.h2>
+          <motion.p variants={seqDesc} className="body-base">A comprehensive mapping of my engineering domains, showcasing the technical depth and workflows I use to launch digital products.</motion.p>
         </motion.div>
 
         {/* Bento Grid */}
@@ -95,6 +95,7 @@ export default function Skills() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
+          transition={{ staggerChildren: 0.08, delayChildren: 0.1 }}
           className="grid gap-6 md:grid-cols-2"
         >
           

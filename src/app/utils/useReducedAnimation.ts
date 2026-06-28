@@ -12,6 +12,11 @@ import {
   staggerContainer,
   staggerItem,
   sectionHeader,
+  seqHeader,
+  seqLabel,
+  seqTitle,
+  seqDesc,
+  seqContent,
 } from "./animations";
 
 export function useReducedVariants() {
@@ -27,6 +32,11 @@ export function useReducedVariants() {
       staggerContainer,
       staggerItem,
       sectionHeader,
+      seqHeader,
+      seqLabel,
+      seqTitle,
+      seqDesc,
+      seqContent,
     };
   }
 
@@ -56,9 +66,11 @@ export function useReducedVariants() {
     scaleIn: instant,
     staggerContainer: instantContainer,
     staggerItem: instantItem,
-    sectionHeader: {
-      hidden: { opacity: 0 },
-      visible: { opacity: 1, transition: { duration: 0 } },
-    },
+    sectionHeader: { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0 } } },
+    seqHeader: { hidden: {}, visible: { transition: { staggerChildren: 0 } } },
+    seqLabel: instant,
+    seqTitle: instant,
+    seqDesc: instant,
+    seqContent: instant,
   };
 }

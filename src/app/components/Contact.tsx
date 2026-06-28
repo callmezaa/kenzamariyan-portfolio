@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Check, AlertTriangle, X, Calendar } from "lucide-react";
 import Button from "./ui/Button";
 import GlowCard from "./ui/GlowCard";
-import { easeOut } from "../utils/animations";
+import CopyEmail from "./ui/CopyEmail";
+import { easeOut, seqHeader, seqLabel, seqTitle, seqDesc, seqContent } from "../utils/animations";
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "";
 const HAS_CALENDLY = !!process.env.NEXT_PUBLIC_CALENDLY_URL;
@@ -102,26 +103,26 @@ export default function Contact() {
           
           {/* LEFT COLUMN: Info & Scheduler Trigger */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            variants={seqHeader}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: easeOut }}
             className="lg:col-span-5 w-full space-y-8"
           >
             <div className="space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-widest text-primary">Get In Touch</p>
-              <h2 className="display-lg tracking-tight text-white leading-tight">
-                Let’s Build
+              <motion.p variants={seqLabel} className="text-xs font-semibold uppercase tracking-widest text-primary">Get In Touch</motion.p>
+              <motion.h2 variants={seqTitle} className="display-lg tracking-tight text-white leading-tight">
+                Let&rsquo;s Build
                 <br />
                 Something Elite
-              </h2>
-              <p className="body-base">
+              </motion.h2>
+              <motion.p variants={seqDesc} className="body-base">
                 Have an active product requirement, need an engineer to scale operations, or want to audit your UI architecture? Reach out below.
-              </p>
+              </motion.p>
             </div>
 
             {/* Info Stacks */}
-            <div className="space-y-4 pt-2">
+            <motion.div variants={seqContent} className="space-y-4 pt-2">
               {/* Availability */}
               <GlowCard glowColor="rgba(16, 185, 129, 0.08)" radialSize={200} className="p-4 bg-zinc-950/40 border-white/10 hover:border-white/20">
                 <div className="flex items-center gap-4">
@@ -146,15 +147,11 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider font-display">Email Inbox</h4>
-                    <a href="mailto:kenzamariyan32@gmail.com" className="text-xs text-zinc-200 font-semibold hover:text-indigo-400 transition-colors">
-                      kenzamariyan32@gmail.com
-                    </a>
+                    <CopyEmail email="kenzamariyan32@gmail.com" />
                   </div>
                 </div>
               </GlowCard>
-            </div>
-
-            {/* Calendly Booking Trigger */}
+            </motion.div>
             <div className="pt-2">
               <button
                 onClick={() => setShowScheduler(true)}

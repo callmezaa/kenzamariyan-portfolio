@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion, Variants } from "framer-motion";
+import { motion, useReducedMotion, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
 import { Sparkle, Download } from "lucide-react";
 import Button from "./ui/Button";
 import Magnetic from "./ui/Magnetic";
+import CountUp from "./ui/CountUp";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -22,15 +23,56 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
 };
 
-const credibilityMetrics = [
-  { value: "9", label: "Products Shipped", desc: "AI apps, mobile POS, dashboards & marketplaces" },
-  { value: "6", label: "Technologies", desc: "React, Go, Python, PostgreSQL, Docker & Cloud" },
-  { value: "5", label: "Industries Served", desc: "Agritech, fintech, legal-tech, e-commerce & productivity" },
-  { value: "8+", label: "Production Deployments", desc: "GCP Cloud Run, Vercel, Docker, Supabase & Firebase" },
+const achievements = [
+  {
+    prefix: "< ",
+    target: 15,
+    suffix: "s",
+    title: "AI Contract Analysis",
+    context: "Hackathon-winning feature — processes documents under 15 seconds",
+    barColor: "bg-indigo-400",
+  },
+  {
+    prefix: "",
+    target: 90,
+    suffix: "%",
+    title: "Faster Data Reconciliation",
+    context: "Offline-first mobile POS serving rural cooperatives",
+    barColor: "bg-emerald-400",
+  },
+  {
+    prefix: "",
+    target: 9,
+    suffix: "",
+    title: "Products Shipped",
+    context: "Across web, mobile & AI — from idea to production",
+    barColor: "bg-violet-400",
+  },
 ];
 
 export default function Hero() {
   const reduced = useReducedMotion();
+
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const springX = useSpring(mouseX, { stiffness: 200, damping: 30 });
+  const springY = useSpring(mouseY, { stiffness: 200, damping: 30 });
+  const tiltX = useTransform(springY, [0, 1], reduced ? [0, 0] : [3, -3]);
+  const tiltY = useTransform(springX, [0, 1], reduced ? [0, 0] : [-3, 3]);
+
+  function handleMouseMove(e: React.MouseEvent) {
+    if (reduced) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    mouseX.set(x);
+    mouseY.set(y);
+  }
+
+  function handleMouseLeave() {
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  }
 
   return (
     <section id="home" className="relative overflow-hidden bg-canvas pt-36 pb-20 min-h-screen flex flex-col justify-between">
@@ -66,7 +108,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-3.5 py-1.5 text-xs font-medium tracking-tight text-primary-on-dark"
             >
               <Sparkle size={10} className="text-primary-on-dark" />
-              <span>React + Go + AI</span>
+              <span>Full-Stack · Mobile · AI</span>
             </motion.div>
 
             {/* Headline */}
@@ -74,9 +116,10 @@ export default function Hero() {
               variants={item}
               className="hero-display text-white"
             >
-              I build products that work.{" "}
-              <span className="text-glow">Web, mobile & AI</span>{" "}
-              — shipped to production.
+              Full-stack.{" "}
+              <span className="text-glow">Multi-platform. AI-ready.</span>{" "}
+              9 products shipped.
+              <span className={`inline-block w-[2px] h-[0.85em] bg-indigo-400 align-middle ml-0.5 -mt-0.5 ${reduced ? "" : "cursor-blink"}`} />
             </motion.h1>
 
             {/* Value Proposition */}
@@ -84,9 +127,9 @@ export default function Hero() {
               variants={item}
               className="text-base md:text-lg text-zinc-300 font-normal leading-relaxed w-full"
             >
-              Full-stack developer building with React, Go, Python, and cloud infrastructure.{" "}
-              From AI-powered contract analyzers to offline-first mobile POS systems —{" "}
-              I ship products that work in production.
+              From AI contract analyzers and e-commerce marketplaces to
+              offline-first mobile POS systems — I build production apps across
+              web, mobile, and AI with React, Go, Python, and cloud infrastructure.
             </motion.p>
 
             {/* Call To Actions */}
@@ -119,32 +162,40 @@ export default function Hero() {
               <motion.div
                 variants={item}
                 className="relative flex items-center justify-center"
+                style={{ perspective: reduced ? undefined : 800 }}
               >
-                {/* Ambient glow halo */}
                 <motion.div
-                  animate={reduced ? { scale: 1 } : { scale: [1, 1.06, 1] }}
-                  transition={reduced ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute h-[250px] w-[250px] lg:h-[330px] lg:w-[330px] rounded-full bg-indigo-500/15 blur-[60px] pointer-events-none"
-                />
-
-                {/* Gradient ring */}
-                <div className="absolute h-[208px] w-[208px] lg:h-[272px] lg:w-[272px] rounded-full p-[1.5px] opacity-60">
-                  <div className="h-full w-full rounded-full bg-gradient-to-br from-indigo-400 via-violet-500 to-emerald-400" />
-                </div>
-
-                {/* Avatar image */}
-                <div className="relative h-[200px] w-[200px] lg:h-[260px] lg:w-[260px] overflow-hidden rounded-full border-[1.5px] border-white/10 shadow-2xl z-10 bg-zinc-900">
-                  <Image
-                    src="/image/profile/hero.jpeg"
-                    alt="Ken Zamariyan"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 200px, 260px"
-                    className="object-cover object-[center_60%]"
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleMouseLeave}
+                  className="relative flex items-center justify-center"
+                  style={{ rotateX: tiltX, rotateY: tiltY }}
+                >
+                  {/* Ambient glow halo */}
+                  <motion.div
+                    animate={reduced ? { scale: 1 } : { scale: [1, 1.06, 1] }}
+                    transition={reduced ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute h-[250px] w-[250px] lg:h-[330px] lg:w-[330px] rounded-full bg-indigo-500/15 blur-[60px] pointer-events-none"
                   />
-                  {/* Subtle bottom vignette for depth */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 pointer-events-none rounded-full" />
-                </div>
+
+                  {/* Gradient ring */}
+                  <div className="absolute h-[208px] w-[208px] lg:h-[272px] lg:w-[272px] rounded-full p-[1px] opacity-60">
+                    <div className="h-full w-full rounded-full bg-gradient-to-br from-indigo-400 via-violet-500 to-emerald-400" />
+                  </div>
+
+                  {/* Avatar image */}
+                  <div className="relative h-[200px] w-[200px] lg:h-[260px] lg:w-[260px] overflow-hidden rounded-full border border-white/10 shadow-2xl z-10 bg-zinc-900">
+                    <Image
+                      src="/image/profile/hero.jpeg"
+                      alt="Ken Zamariyan"
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 200px, 260px"
+                      className="object-cover object-[center_60%]"
+                    />
+                    {/* Subtle bottom vignette for depth */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 pointer-events-none rounded-full" />
+                  </div>
+                </motion.div>
               </motion.div>
 
               {/* Status badge */}
@@ -168,26 +219,33 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Credibility Strip */}
+      {/* Achievement Highlight Strip */}
       <div className="relative border-t border-white/5 bg-black/40 backdrop-blur-xs py-8 z-10">
         <div className="mx-auto max-w-6xl px-6 md:px-8 w-full">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-left">
-            {credibilityMetrics.map((metric, i) => (
-              <motion.div
-                key={metric.label}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
-                className="space-y-1.5"
-              >
-                <div className="text-2xl font-bold tracking-tight text-white flex items-baseline gap-1 font-display">
-                  <span>{metric.value}</span>
-                  {i < 3 && <span className="text-primary text-lg">+</span>}
-                </div>
-                <div className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">{metric.label}</div>
-                <div className="body-small text-zinc-500 line-clamp-2">{metric.desc}</div>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
+            {achievements.map((item, i) => {
+              const { prefix, target, suffix } = item;
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
+                  className="group relative"
+                >
+                  <div className="space-y-3">
+                    <div className={`h-[2px] w-6 rounded-full transition-all duration-300 group-hover:w-10 ${item.barColor}`} />
+                    <div className="space-y-1">
+                      <div className="text-2xl md:text-3xl font-bold tracking-tight text-white font-display">
+                        <CountUp target={target} prefix={prefix} suffix={suffix} delay={i * 0.05} />
+                      </div>
+                      <p className="text-xs font-semibold text-zinc-200">{item.title}</p>
+                    </div>
+                    <p className="text-[10px] text-zinc-500 leading-relaxed">{item.context}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

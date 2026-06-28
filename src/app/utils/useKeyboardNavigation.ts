@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useReducedMotion } from "framer-motion";
 
-const sections = ["home", "about", "skills", "projects", "experience", "contact"];
+const sections = ["home", "about", "skills", "projects", "experience", "testimonials", "playground", "contact"];
 
 export function useKeyboardNavigation() {
   const reduced = useReducedMotion();

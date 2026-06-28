@@ -6,7 +6,7 @@ import { projects, type Project, type ProjectType } from "../data/projects";
 import GlowCard from "./ui/GlowCard";
 import Button from "./ui/Button";
 import { useState, useEffect } from "react";
-import { sectionHeader, fadeUp, staggerContainer, staggerItem, slideLeft, slideRight } from "../utils/animations";
+import { sectionHeader, seqHeader, seqLabel, seqTitle, seqDesc, fadeUp, staggerContainer, staggerItem, slideLeft, slideRight } from "../utils/animations";
 
 function ProjectPreview({ type }: { type: ProjectType }) {
   const reduced = useReducedMotion();
@@ -439,19 +439,19 @@ export default function Projects() {
         
         {/* Section Header */}
         <motion.div
-          variants={sectionHeader}
+          variants={seqHeader}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           className="mb-16 max-w-2xl space-y-3"
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Selected Work</p>
-          <h2 className="display-lg tracking-tight text-white">
+          <motion.p variants={seqLabel} className="text-xs font-semibold uppercase tracking-widest text-primary">Selected Work</motion.p>
+          <motion.h2 variants={seqTitle} className="display-lg tracking-tight text-white">
             Signature Case Studies
-          </h2>
-          <p className="body-base">
+          </motion.h2>
+          <motion.p variants={seqDesc} className="body-base">
             A detailed breakdown of product applications designed and built to optimize operational efficiency and workflow delivery.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Featured Project Cards */}

@@ -4,6 +4,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Navbar from "./components/Navbar";
 import KeyboardNav from "./components/KeyboardNav";
 import ScrollToTop from "./components/ScrollToTop";
+import FloatingDock from "./components/FloatingDock";
 import Footer from "./components/Footer";
 
 const inter = Inter({
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Footer />
         <ScrollToTop />
+        <FloatingDock />
       </body>
     </html>
   );

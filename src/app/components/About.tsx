@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { SiReact, SiNextdotjs, SiGo, SiPython, SiFastapi, SiPostgresql, SiDocker, SiGooglecloud, SiTypescript } from "react-icons/si";
 import GlowCard from "./ui/GlowCard";
-import { fadeUp, slideLeft, slideRight, staggerContainer, staggerItem, sectionHeader } from "../utils/animations";
+import { fadeUp, slideRight, staggerContainer, staggerItem, seqHeader, seqLabel, seqTitle, seqDesc, seqContent } from "../utils/animations";
 
 
 export default function About() {
@@ -14,36 +14,24 @@ export default function About() {
           
           {/* Left Column Text details */}
           <motion.div
-            variants={slideLeft}
+            variants={seqHeader}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             className="space-y-6 text-white"
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">About Me</p>
-            <h2 className="display-lg tracking-tight text-white">
+            <motion.p variants={seqLabel} className="text-xs font-semibold uppercase tracking-widest text-primary">About Me</motion.p>
+            <motion.h2 variants={seqTitle} className="display-lg tracking-tight text-white">
               Building reliable digital products with
               <span className="text-primary-on-dark"> clarity</span> and
               <span className="text-primary-on-dark"> purpose</span>.
-            </h2>
+            </motion.h2>
             
-            <motion.p
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="w-full text-lg font-normal leading-relaxed text-zinc-300"
-            >
+            <motion.p variants={seqDesc} className="w-full text-lg font-normal leading-relaxed text-zinc-300">
               I build full-stack products across web, mobile, and AI layers — using TypeScript, Go, Python, and PostgreSQL. My work spans AI contract analysis, mobile POS systems, e-commerce platforms, real-time messaging, and productivity tools.
             </motion.p>
 
-            <motion.p
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="w-full text-sm leading-relaxed text-zinc-500"
-            >
+            <motion.p variants={seqContent} className="w-full text-sm leading-relaxed text-zinc-500">
               From containerized backends on Google Cloud Run to offline-first React Native apps serving rural cooperatives — I focus on shipping reliable, maintainable systems that solve real problems.
             </motion.p>
           </motion.div>
@@ -62,6 +50,7 @@ export default function About() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
+              transition={{ staggerChildren: 0.08, delayChildren: 0.2 }}
               className="relative z-10 w-full space-y-4 px-6 md:px-8"
             >
               {[
@@ -99,15 +88,15 @@ export default function About() {
 
         {/* Credibility / Collaborations & Stack Strip */}
         <motion.div
-          variants={sectionHeader}
+          variants={seqHeader}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           className="mt-20 pt-10 border-t border-white/5"
         >
-          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest text-center mb-6">
+          <motion.p variants={seqLabel} className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest text-center mb-6">
             Trusted Frameworks & Client Collaborations
-          </p>
+          </motion.p>
           <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-75 hover:opacity-100 transition-opacity duration-500">
             <span className="flex items-center gap-3 opacity-75 hover:opacity-100 transition-opacity" title="React & Next.js">
               <SiReact size={22} />

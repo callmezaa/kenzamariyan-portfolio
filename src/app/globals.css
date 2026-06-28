@@ -143,6 +143,14 @@ body {
   to { opacity: 1; }
 }
 
+@keyframes cursor-blink {
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   main {
     animation: page-entrance 0.5s ease-out 0.1s both;
@@ -170,6 +178,9 @@ body {
   .btn-press,
   .btn-press:active {
     transform: none;
+  }
+  .group:hover {
+    transform: none !important;
   }
   .mesh-grid {
     animation: none;

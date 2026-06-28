@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Magnetic from "./ui/Magnetic";
 
-const sections = ["home", "about", "skills", "projects", "experience", "contact"];
+const sections = ["home", "about", "skills", "projects", "experience", "testimonials", "playground", "contact"];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -99,32 +99,6 @@ export default function Navbar() {
               <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             </Link>
           </Magnetic>
-
-          {/* Desktop Nav Links */}
-          <ul className="hidden md:flex items-center gap-8 text-sm font-medium tracking-tight text-zinc-300">
-            {sections.map((item) => {
-              const isActive = active === item;
-              return (
-                <li key={item} className="relative py-1">
-                  <Link
-                    href={`#${item}`}
-                    className={`capitalize transition-colors duration-250 relative ${
-                      isActive ? "text-white font-semibold" : "hover:text-zinc-200"
-                    }`}
-                  >
-                    {item}
-                    {isActive && (
-                      <motion.span
-                        layoutId="activeNavIndicator"
-                        className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary rounded-full"
-                        transition={{ type: "spring", stiffness: 280, damping: 38, mass: 0.8 }}
-                      />
-                    )}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
 
           {/* Desktop CTA / Socials */}
           <div className="hidden md:flex items-center gap-5">

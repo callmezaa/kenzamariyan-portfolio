@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { experiences, type ExperienceType } from "../data/experience";
 import GlowCard from "./ui/GlowCard";
-import { sectionHeader, slideLeft } from "../utils/animations";
+import { sectionHeader, seqHeader, seqLabel, seqTitle, seqDesc, slideLeft } from "../utils/animations";
 
 const typeLabels: Record<ExperienceType, string> = {
   work: "Professional",
@@ -24,19 +24,19 @@ export default function Experience() {
         
         {/* Section Header */}
         <motion.div
-          variants={sectionHeader}
+          variants={seqHeader}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           className="mb-16 max-w-2xl space-y-3"
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Career Journey</p>
-          <h2 className="display-lg tracking-tight text-white">
+          <motion.p variants={seqLabel} className="text-xs font-semibold uppercase tracking-widest text-primary">Career Journey</motion.p>
+          <motion.h2 variants={seqTitle} className="display-lg tracking-tight text-white">
             Professional Timeline
-          </h2>
-          <p className="body-base">
+          </motion.h2>
+          <motion.p variants={seqDesc} className="body-base">
             A timeline of full-stack projects across AI, fintech, e-commerce, agritech, and productivity — from freelance delivery to hackathon wins.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Release-Log Style Timeline */}
