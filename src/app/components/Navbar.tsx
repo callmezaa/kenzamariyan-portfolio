@@ -1,9 +1,10 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Magnetic from "./ui/Magnetic";
 
 const sections = ["home", "about", "skills", "projects", "experience", "contact"];
@@ -11,22 +12,25 @@ const sections = ["home", "about", "skills", "projects", "experience", "contact"
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
-  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const lastScrollRef = useRef(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const onScroll = () => {
       const currentScroll = window.scrollY;
-      setScrolled(currentScroll > 40);
-      setHidden(currentScroll > lastScrollRef.current && currentScroll > 140 && !menuOpen);
-      lastScrollRef.current = currentScroll;
+      setScrolled(currentScroll > 50);
 
+      // Calculate page scroll progress
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? Math.min(currentScroll / docHeight, 1) : 0);
+
+      // Track active section
       const current = sections.find((id) => {
         const el = document.getElementById(id);
         if (!el) return false;
         const rect = el.getBoundingClientRect();
-        return rect.top <= window.innerHeight * 0.36 && rect.bottom >= window.innerHeight * 0.2;
+        // Section is active if it occupies the middle-top viewport focus area
+        return rect.top <= 160 && rect.bottom >= 160;
       });
 
       if (current) setActive(current);
@@ -35,98 +39,194 @@ export default function Navbar() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [menuOpen]);
+  }, []);
 
+  // Prevent background scroll when mobile menu is open — uses CSS class with scrollbar compensation
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
+    if (typeof window === "undefined") return;
+
+    // Measure scrollbar width once and set CSS variable
+    if (!document.documentElement.style.getPropertyValue("--scrollbar-width")) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty("--scrollbar-width", `${scrollbarWidth}px`);
+    }
+
+    document.body.classList.toggle("scroll-lock", menuOpen);
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("scroll-lock");
     };
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-out ${
-        hidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
-      } ${scrolled || menuOpen ? "border-b border-zinc-900 bg-zinc-950/85 backdrop-blur-xl" : "bg-transparent"}`}
-    >
-      {(scrolled || menuOpen) && (
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
-      )}
-
-      <nav className={`mx-auto flex max-w-6xl items-center justify-between px-6 transition-all duration-300 ${scrolled ? "h-14" : "h-20"}`}>
-        <Link href="#home" onClick={closeMenu} className="group text-lg font-light tracking-tight text-zinc-200 transition duration-300 hover:text-white">
-          ken<span className="font-semibold text-blue-400 transition duration-300 group-hover:text-blue-300">zamariyan.</span>
-        </Link>
-
-        <ul className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-wider md:flex">
-          {sections.map((item) => {
-            const isActive = active === item;
-            return (
-              <li key={item} className="relative">
-                <Link href={`#${item}`} className={`py-2 transition duration-300 ${isActive ? "text-zinc-100" : "text-zinc-400 hover:text-zinc-200"}`}>
-                  {item}
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeSectionIndicator"
-                      className="absolute -bottom-1.5 left-0 h-[1.5px] w-full bg-blue-500"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-
-        <div className="hidden items-center md:flex">
-          <Magnetic>
+    <>
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-500 z-[60] origin-left"
+        style={{ scaleX: progress }}
+      />
+      <header className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-4 transition-all duration-300">
+        <nav
+          className={`mx-auto max-w-5xl rounded-2xl border transition-all duration-300 px-6 py-3 flex items-center justify-between ${
+            scrolled || menuOpen
+              ? "border-white/10 bg-black/70 backdrop-blur-xl shadow-2xl shadow-black/40"
+              : "border-white/5 bg-black/30 backdrop-blur-md"
+          }`}
+        >
+          {/* Logo Brand */}
+          <Magnetic strength={0.2}>
             <Link
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-full bg-blue-600 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/20"
+              href="#home"
+              onClick={closeMenu}
+              className="text-sm font-semibold tracking-tight text-white flex items-center gap-1.5"
             >
-              Contact Me
+              <span>kenzamariyan</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             </Link>
           </Magnetic>
-        </div>
 
-        <button
-          type="button"
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-800 bg-zinc-950/70 text-zinc-200 transition hover:border-blue-500/40 hover:text-white md:hidden"
-        >
-          {menuOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
-      </nav>
+          {/* Desktop Nav Links */}
+          <ul className="hidden md:flex items-center gap-8 text-sm font-medium tracking-tight text-zinc-300">
+            {sections.map((item) => {
+              const isActive = active === item;
+              return (
+                <li key={item} className="relative py-1">
+                  <Link
+                    href={`#${item}`}
+                    className={`capitalize transition-colors duration-250 relative ${
+                      isActive ? "text-white font-semibold" : "hover:text-zinc-200"
+                    }`}
+                  >
+                    {item}
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeNavIndicator"
+                        className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary rounded-full"
+                        transition={{ type: "spring", stiffness: 280, damping: 38, mass: 0.8 }}
+                      />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
 
-      {menuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          className="border-t border-zinc-900 bg-zinc-950/95 px-6 pb-6 pt-3 md:hidden"
-        >
-          <div className="mx-auto grid max-w-6xl gap-2">
-            {sections.map((item) => (
+          {/* Desktop CTA / Socials */}
+          <div className="hidden md:flex items-center gap-5">
+            <a
+              href="https://github.com/callmezaa"
+              target="_blank"
+              rel="me noopener noreferrer"
+              className="text-zinc-300 hover:text-white transition-colors"
+              aria-label="GitHub"
+            >
+              <FaGithub size={18} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ken-zamariyan-10b140318/"
+              target="_blank"
+              rel="me noopener noreferrer"
+              className="text-zinc-300 hover:text-white transition-colors"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin size={18} />
+            </a>
+            
+            <div className="h-4 w-px bg-white/10" />
+
+            <Magnetic strength={0.15}>
               <Link
-                key={item}
-                href={`#${item}`}
-                onClick={closeMenu}
-                className={`flex h-11 items-center justify-between rounded-xl px-4 text-sm font-semibold capitalize transition ${
-                  active === item ? "bg-blue-500/10 text-blue-300" : "text-zinc-300 hover:bg-zinc-900 hover:text-white"
-                }`}
+                href="#contact"
+                className="btn-press inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:bg-zinc-200 transition-colors"
               >
-                {item}
-                {active === item && <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />}
+                Contact
               </Link>
-            ))}
+            </Magnetic>
           </div>
-        </motion.div>
-      )}
-    </header>
+
+          {/* Mobile Menu Toggle Button */}
+          <button
+            type="button"
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={menuOpen ? "true" : "false"}
+            onClick={() => setMenuOpen((open) => !open)}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-200 transition-colors hover:bg-white/10 md:hidden"
+          >
+            {menuOpen ? <X size={15} /> : <Menu size={15} />}
+          </button>
+        </nav>
+
+        {/* Mobile Navigation Drawer Overlay */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute left-4 right-4 top-20 border border-white/10 bg-black/95 backdrop-blur-2xl rounded-2xl p-6 md:hidden z-30 shadow-2xl shadow-black/80"
+            >
+              <div className="flex flex-col gap-3">
+                {sections.map((item, index) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    <Link
+                      href={`#${item}`}
+                      onClick={closeMenu}
+                      className={`flex h-11 items-center justify-between rounded-lg px-4 text-sm font-medium capitalize transition-all ${
+                        active === item
+                          ? "bg-white/10 text-white"
+                          : "text-zinc-300 hover:bg-white/5 hover:text-white"
+                      }`}
+                    >
+                      {item}
+                      {active === item && <span className="h-1.5 w-1.5 rounded-full bg-primary" />}
+                    </Link>
+                  </motion.div>
+                ))}
+                
+                <div className="h-px bg-white/5 my-2" />
+                
+                <div className="flex items-center justify-around py-2">
+                  <a
+                    href="https://github.com/callmezaa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-zinc-300 hover:text-white"
+                    onClick={closeMenu}
+                  >
+                    <FaGithub size={18} />
+                    <span className="text-xs">GitHub</span>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/ken-zamariyan-10b140318/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-zinc-300 hover:text-white"
+                    onClick={closeMenu}
+                  >
+                    <FaLinkedin size={18} />
+                    <span className="text-xs">LinkedIn</span>
+                  </a>
+                </div>
+
+                <Link
+                  href="#contact"
+                  onClick={closeMenu}
+                  className="mt-2 flex h-11 items-center justify-center rounded-full bg-white text-sm font-semibold text-black hover:bg-zinc-200 transition-colors"
+                >
+                  Contact Me
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+    </>
   );
 }

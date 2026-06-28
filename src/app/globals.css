@@ -1,23 +1,202 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  
+  --color-primary: #6366f1; /* Indigo 500 */
+  --color-primary-focus: #818cf8; /* Indigo 400 */
+  --color-primary-on-dark: #a5b4fc; /* Indigo 300 */
+  
+  --color-ink: #f3f4f6; /* zinc-100 */
+  --color-ink-muted: #9ca3af; /* zinc-400 */
+  --color-ink-dark: #1f2937; /* zinc-800 */
+  
+  --color-canvas: #030303; /* Deep obsidian black */
+  --color-canvas-card: #09090b; /* Card black */
+  --color-canvas-card-hover: #121214; /* Card hover background */
+  
+  --color-surface-black: #030303;
+  --color-surface-tile-1: #09090b;
+  --color-surface-tile-2: #121214;
+  --color-surface-tile-3: #18181b;
+  --color-surface-chip: rgba(255, 255, 255, 0.08);
+  
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+  
+  --color-body-muted: #9ca3af; /* zinc-400 */
+  
+  --color-divider-soft: rgba(255, 255, 255, 0.06);
+  --color-hairline: rgba(255, 255, 255, 0.08);
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 9999px;
+  
 }
 
 html {
   scroll-behavior: smooth;
-  /* Premium Apple Typography Tweaks */
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  letter-spacing: -0.01em;
+  font-feature-settings: "ss03", "cv02", "cv03", "cv04", "cv11";
+  background-color: #030303;
+  color-scheme: dark;
 }
 
 body {
-  background-color: #09090b; /* zinc-950 */
-  color: #e4e4e7; /* zinc-200 */
+  background-color: #030303;
+  color: var(--color-body-muted);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Make headings look extremely sharp and elegant like iOS */
-h1, h2, h3, h4, h5, h6 {
-  letter-spacing: -0.025em !important;
+/* Scrollbar customizations */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #030303;
+}
+::-webkit-scrollbar-thumb {
+  background: #18181b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #27272a;
+}
+
+/* Typography styles matching Premium guidelines */
+.hero-display {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 6vw, 68px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.lead {
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.body-base {
+  font-size: clamp(15px, 2.5vw, 17px);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  color: #d4d4d8;
+}
+
+.body-small {
+  font-size: clamp(13px, 2vw, 14px);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  color: #d4d4d8;
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.8vw, 18px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Active scale micro-interaction */
+.btn-press {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-press:active {
+  transform: scale(0.96);
+}
+
+/* High-fidelity glassmorphism */
+.glass-panel {
+  background: rgba(10, 10, 12, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Single soft shadow reserved for product imagery resting on a surface */
+.product-shadow {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+}
+
+/* Anchor scroll offset — clears sticky sub-nav height (52px) */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Scroll lock — prevents background scroll on mobile with scrollbar-width compensation */
+body.scroll-lock {
+  overflow: hidden;
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+/* Input placeholder colors on dark surfaces */
+input::placeholder,
+textarea::placeholder {
+  color: #52525b;
+  opacity: 1;
+}
+
+/* Remove default browser focus ring; rely on Tailwind focus-visible */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Background animated glow mesh utilities */
+.mesh-grid {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Text glow gradient */
+.text-glow {
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-glow-accent {
+  background: linear-gradient(135deg, #818cf8 0%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

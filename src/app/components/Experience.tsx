@@ -2,109 +2,118 @@
 
 import { motion } from "framer-motion";
 import { experiences, type ExperienceType } from "../data/experience";
+import GlowCard from "./ui/GlowCard";
+import { sectionHeader, slideLeft } from "../utils/animations";
 
-const typeMeta: Record<ExperienceType, { label: string; color: string; dot: string }> = {
-  work: {
-    label: "Work",
-    color: "border-blue-500/30 bg-blue-500/10 text-blue-300",
-    dot: "bg-blue-400",
-  },
-  education: {
-    label: "Education",
-    color: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
-    dot: "bg-emerald-400",
-  },
-  organization: {
-    label: "Organization",
-    color: "border-violet-500/30 bg-violet-500/10 text-violet-300",
-    dot: "bg-violet-400",
-  },
+const typeLabels: Record<ExperienceType, string> = {
+  work: "Professional",
+  education: "Academic",
+  organization: "Leadership",
+};
+
+const badgeColors: Record<ExperienceType, string> = {
+  work: "border-indigo-500/20 bg-indigo-500/5 text-indigo-300",
+  education: "border-emerald-500/20 bg-emerald-500/5 text-emerald-300",
+  organization: "border-cyan-500/20 bg-cyan-500/5 text-cyan-300",
 };
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative scroll-mt-24 overflow-hidden bg-gradient-to-b from-zinc-950 via-zinc-950 to-black py-24 md:py-32">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute right-1/4 top-1/3 h-96 w-96 rounded-full bg-blue-500/5 blur-[160px]" />
-        <div className="absolute left-1/4 bottom-1/3 h-64 w-64 rounded-full bg-blue-600/5 blur-[120px]" />
-      </div>
-
-      <div className="relative mx-auto max-w-6xl px-6">
+    <section id="experience" className="relative bg-canvas py-24 md:py-28 border-b border-white/5">
+      <div className="relative mx-auto max-w-6xl px-6 md:px-8">
+        
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={sectionHeader}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mb-14 max-w-xl space-y-3 md:mb-20"
+          className="mb-16 max-w-2xl space-y-3"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-blue-400">Career Journey</p>
-          <h2 className="text-3xl font-semibold text-zinc-100 md:text-4xl">
-            Experience & <span className="text-blue-400">Education</span>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Career Journey</p>
+          <h2 className="display-lg tracking-tight text-white">
+            Professional Timeline
           </h2>
-          <p className="leading-relaxed text-zinc-400">A concise timeline of project ownership, freelance work, and academic foundation.</p>
+          <p className="body-base">
+            A timeline of full-stack projects across AI, fintech, e-commerce, agritech, and productivity — from freelance delivery to hackathon wins.
+          </p>
         </motion.div>
 
-        <div className="relative">
-          <div className="absolute left-4 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-zinc-700/60 to-transparent md:left-1/2 md:block" />
-          <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-zinc-700/60 to-transparent md:hidden" />
+        {/* Release-Log Style Timeline */}
+        <div className="relative space-y-10 md:space-y-12 pl-6 sm:pl-8 ml-2 sm:ml-4">
+          
+          {/* Continuous timeline line */}
+          <div className="absolute left-[3px] sm:left-[4px] top-0 bottom-0 w-px bg-white/10 pointer-events-none" />
+          
+          {experiences.map((exp, index) => {
+            return (
+              <motion.div
+                key={`${exp.title}-${index}`}
+                variants={slideLeft}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="relative group"
+              >
+                {/* Timeline Node Dot */}
+                <div className="absolute -left-[31px] sm:-left-[39px] top-6 flex h-5 w-5 items-center justify-center">
+                  <div className="h-3 w-3 rounded-full bg-zinc-800 border border-white/20 transition-all duration-300 group-hover:bg-primary group-hover:scale-150 group-hover:border-primary-on-dark" />
+                </div>
 
-          <div className="space-y-8 md:space-y-10">
-            {experiences.map((exp, index) => {
-              const isLeft = index % 2 === 0;
-              const meta = typeMeta[exp.type];
-
-              return (
-                <motion.div
-                  key={`${exp.title}-${index}`}
-                  initial={{ opacity: 0, x: isLeft ? -28 : 28, y: 10 }}
-                  whileInView={{ opacity: 1, x: 0, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.04 }}
-                  className={`relative flex items-start gap-6 md:gap-0 ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
-                >
-                  <div
-                    className={`group relative ml-12 flex-1 rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/30 hover:bg-zinc-900/50 md:ml-0 ${
-                      isLeft ? "md:mr-8" : "md:ml-8"
-                    }`}
-                  >
-                    <div className="relative space-y-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-medium tracking-wide ${meta.color}`}>{meta.label}</span>
-                        <span className="font-mono text-xs text-zinc-500">{exp.year}</span>
-                      </div>
-
-                      <h3 className="text-base font-semibold text-zinc-100 transition-colors duration-300 group-hover:text-blue-400 md:text-lg">{exp.title}</h3>
-
-                      <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
-                        <span className="font-medium text-zinc-300">{exp.place}</span>
-                        <span className="text-zinc-700">/</span>
-                        <span>{exp.location}</span>
-                      </div>
-
-                      <p className="text-sm leading-relaxed text-zinc-500">{exp.description}</p>
-
-                      <div className="flex flex-wrap gap-2 pt-1">
-                        {exp.tags.map((tag) => (
-                          <span key={tag} className="rounded-md border border-zinc-800/80 bg-zinc-950/60 px-2.5 py-1 text-[11px] text-zinc-400">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                <div className="grid md:grid-cols-12 gap-4 items-start">
+                  
+                  {/* Left Column: Date & Badge (3 cols) */}
+                  <div className="md:col-span-3 space-y-1">
+                    <span className="font-mono text-xs font-semibold text-zinc-400 block">{exp.year}</span>
+                    <span className={`inline-block rounded-md border px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase ${badgeColors[exp.type]}`}>
+                      {typeLabels[exp.type]}
+                    </span>
                   </div>
 
-                  <div className="absolute left-4 top-6 hidden items-center justify-center md:left-1/2 md:flex">
-                    <div className={`z-10 h-3.5 w-3.5 -translate-x-1/2 rounded-full ring-4 ring-zinc-950 ${meta.dot}`} />
+                  {/* Right Column: Card Details (9 cols) */}
+                  <div className="md:col-span-9">
+                    <GlowCard
+                      glowColor="rgba(99, 102, 241, 0.06)"
+                      radialSize={350}
+                      className="p-5 md:p-6 bg-surface-tile-1 border-white/10 hover:border-white/20"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex flex-wrap items-baseline justify-between gap-2">
+                          <h3 className="text-[15px] sm:text-[17px] font-bold text-white tracking-tight font-display group-hover:text-primary-on-dark transition-colors duration-200">
+                            {exp.title}
+                          </h3>
+                          <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-medium">
+                            <span>{exp.place}</span>
+                            <span className="text-zinc-700">/</span>
+                            <span className="text-zinc-500 text-[11px] font-normal">{exp.location}</span>
+                          </div>
+                        </div>
+
+                        <p className="body-small">
+                          {exp.description}
+                        </p>
+
+                        {/* Tech Tags */}
+                        <div className="flex flex-wrap gap-1.5 pt-1.5 border-t border-white/5">
+                          {exp.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded bg-white/5 px-2 py-0.5 text-[10px] font-normal text-zinc-400 border border-white/5"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </GlowCard>
                   </div>
-                  <div className="absolute left-4 top-6 flex items-center justify-center md:hidden">
-                    <div className={`z-10 h-3 w-3 -translate-x-1/2 rounded-full ring-4 ring-zinc-950 ${meta.dot}`} />
-                  </div>
-                  <div className="hidden flex-1 md:block" />
-                </motion.div>
-              );
-            })}
-          </div>
+                  
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
+
       </div>
     </section>
   );

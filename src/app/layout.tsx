@@ -2,23 +2,22 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import ClientOnlyCursorGlow from "./components/ui/ClientOnlyCursorGlow";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://portfolio-amber-ten-22.vercel.app"),
   title: {
-    default: "Ken Zamariyan | Frontend & Mobile Developer",
+    default: "Ken Zamariyan | Full-Stack Developer",
     template: "%s | Ken Zamariyan",
   },
   description:
-    "Frontend and mobile developer building React, Next.js, React Native, and Firebase-backed product workflows.",
-  keywords: ["Ken Zamariyan", "Frontend Developer", "React Developer", "Next.js Developer", "React Native Developer", "Firebase"],
+    "Full-stack developer building with React, Next.js, Go, Python, and PostgreSQL. Shipping production apps across web, mobile, and AI — from contract analyzers to mobile POS systems.",
+  keywords: ["Ken Zamariyan", "Full-Stack Developer", "React Developer", "Go Developer", "Next.js Developer", "React Native Developer", "TypeScript", "PostgreSQL"],
   authors: [{ name: "Ken Zamariyan" }],
   creator: "Ken Zamariyan",
   openGraph: {
-    title: "Ken Zamariyan | Frontend & Mobile Developer",
+    title: "Ken Zamariyan | Full-Stack Developer",
     description:
-      "Selected work across React, Next.js, React Native, Firebase, dashboards, and mobile product workflows.",
+      "Full-stack development across React, Go, Python, PostgreSQL, and cloud infrastructure. AI-powered apps, mobile POS, e-commerce, and more.",
     url: "/",
     siteName: "Ken Zamariyan Portfolio",
     images: [
@@ -34,8 +33,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ken Zamariyan | Frontend & Mobile Developer",
-    description: "React, Next.js, React Native, and Firebase portfolio.",
+    title: "Ken Zamariyan | Full-Stack Developer",
+    description: "React, Go, Python, PostgreSQL, AI, and cloud-native apps.",
     images: ["/opengraph-image"],
   },
   robots: {
@@ -46,9 +45,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-zinc-950 font-sans text-zinc-100 antialiased">
-        <ClientOnlyCursorGlow />
+    <html lang="en" className="scroll-smooth">
+      <body className="bg-surface-black font-sans text-body-muted antialiased">
         <Navbar />
         {children}
         <Footer />

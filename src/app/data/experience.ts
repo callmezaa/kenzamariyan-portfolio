@@ -12,13 +12,23 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    year: "2024 - Present",
+    year: "2026",
+    title: "Full-Stack Developer (Hackathon Project)",
+    place: "ContractChill — #JuaraVibeCoding",
+    location: "Remote",
+    description:
+      "Built an AI-powered legal document analyzer using Google Gemini AI, Node.js/Express backend, React frontend, Firebase Auth, and Docker deployment on Google Cloud Run. Analyzes PDF contracts in under 15 seconds with 4 AI personas.",
+    tags: ["React", "TypeScript", "Node.js", "Express", "Gemini AI", "Firebase", "Docker", "GCP"],
+    type: "work",
+  },
+  {
+    year: "Jan 2024 - Present",
     title: "Freelance Web & Mobile Developer",
     place: "Independent",
     location: "Remote",
     description:
-      "Developing end-to-end web and mobile applications, from requirements and interface planning to implementation and deployment handoff.",
-    tags: ["Next.js", "React Native", "Firebase", "TypeScript"],
+      "Developing end-to-end web and mobile applications across multiple domains — fintech, e-commerce, legal-tech, productivity, and agritech. From requirements and architecture to implementation and deployment.",
+    tags: ["Next.js", "React Native", "Node.js", "Go", "Python", "PostgreSQL", "TypeScript"],
     type: "work",
   },
   {

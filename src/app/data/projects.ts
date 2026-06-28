@@ -1,4 +1,4 @@
-export type ProjectType = "mobile" | "dashboard" | "company";
+export type ProjectType = "mobile" | "dashboard" | "company" | "ai" | "fullstack" | "messaging";
 
 export interface Project {
   title: string;
@@ -13,90 +13,215 @@ export interface Project {
   demoUrl?: string;
   type: ProjectType;
   metrics: string[];
+  featured?: boolean;
+  badge?: string;
   accent: {
     glow: string;
-    text: string;
-    border: string;
-    shadow: string;
-    button: string;
-    badge: string;
+    color: string;
   };
 }
 
 export const projects: Project[] = [
   {
-    title: "Gotani Mobile Application",
+    title: "ContractChill — AI Contract Analyzer",
     summary:
-      "A React Native point-of-sale and agriculture workflow app for product, transaction, and inventory operations.",
+      "An AI-powered legal document analyzer and generator that detects red flags, translates legal jargon into plain English, and drafts negotiation scripts — built for freelancers and small businesses.",
     challenge:
-      "Farmers and operators needed a mobile-first workflow to record products and transactions without relying on a desktop admin panel.",
+      "Freelancers and small business owners often sign contracts containing unfair clauses, unlimited liability, and IP traps because they lack the legal expertise or budget to consult a lawyer for every agreement.",
     solution:
-      "Built the mobile UI, Firebase integration, Firestore data flows, and transaction screens with a focus on simple daily operations.",
+      "Built a full-stack app using Google Gemini AI to scan PDF/DOCX contracts, identify high-risk clauses, generate risk scores, provide interactive chat with 4 distinct AI personas (Chill Friend, Angry Lawyer, Corporate Mentor, Freelancer Senior), and auto-draft negotiation scripts.",
     impact:
-      "Turned a manual operational process into a structured mobile workflow that can scale into reporting, inventory, and admin review.",
-    stack: ["React Native", "Firebase", "Firestore"],
-    role: "Mobile & Backend Developer",
-    year: "2024",
-    sourceUrl: "https://github.com/callmezaa/pointofsales-gotani.git",
-    type: "mobile",
-    metrics: ["Mobile POS workflow", "Firebase-backed data", "Inventory-oriented UX"],
+      "Processes contracts under 15 seconds with 4 AI personas, deployed on Google Cloud Run with Docker, featuring Firebase Auth, Firestore storage, and a premium PDF report export system.",
+    stack: ["React", "TypeScript", "Node.js", "Express", "Google Gemini AI", "Firebase", "Docker", "Google Cloud Run"],
+    role: "Full-Stack Developer & AI Engineer",
+    year: "2025",
+    sourceUrl: "https://github.com/callmezaa/contract-chill",
+    demoUrl: "https://contract-chill-884974546946.asia-southeast1.run.app",
+    type: "ai",
+    featured: true,
+    badge: "Hackathon",
+    metrics: ["< 15s Analysis", "4 AI Personas", "PDF/DOCX Support", "Cloud Run Deployed"],
     accent: {
-      glow: "rgba(16, 185, 129, 0.14)",
-      text: "group-hover:text-emerald-400",
-      border: "hover:border-emerald-500/30",
-      shadow: "hover:shadow-emerald-500/5",
-      button: "hover:border-emerald-500/50 hover:text-emerald-300",
-      badge: "rgba(16, 185, 129, 0.08)",
+      glow: "rgba(99, 102, 241, 0.14)",
+      color: "#6366f1",
     },
   },
   {
-    title: "Gotani Admin Dashboard",
+    title: "Assetra — Digital Asset Marketplace",
     summary:
-      "A web dashboard for managing agriculture products, users, and transaction data with operational clarity.",
+      "A modern digital asset marketplace built with Next.js 16 where creators can buy, sell, and discover premium UI kits, templates, icons, and digital resources.",
     challenge:
-      "Admin users needed a clearer interface to inspect platform data and manage daily agriculture operations from the web.",
+      "Creators lacked a dedicated platform to monetize digital assets with secure file delivery, integrated payments, and real-time buyer-seller communication.",
     solution:
-      "Developed dashboard screens with React and Vite, organizing management flows around scannable tables and action-focused views.",
+      "Built a full-featured marketplace with Next.js 16 App Router, Supabase (PostgreSQL + RLS) for auth & data, Midtrans payment gateway integration, real-time chat between buyers and sellers, and secure file downloads via Supabase Signed URLs.",
     impact:
-      "Created a centralized admin surface that makes non-technical operational tasks easier to navigate and maintain.",
-    stack: ["React", "Vite", "Tailwind CSS"],
-    role: "Frontend Developer",
+      "Delivered a production-grade marketplace featuring server-side filtering, creator wallets with earnings analytics, dark/light mode, JSON-LD structured data for SEO, and skeleton loading states.",
+    stack: ["Next.js 16", "TypeScript", "Supabase", "PostgreSQL", "Midtrans", "Resend", "Tailwind CSS"],
+    role: "Full-Stack Developer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/assetra-digital-product",
+    demoUrl: "https://assetra-digital-product.vercel.app",
+    type: "fullstack",
+    featured: true,
+    metrics: ["Midtrans Payments", "Real-time Chat", "Creator Wallet", "Supabase RLS"],
+    accent: {
+      glow: "rgba(168, 85, 247, 0.14)",
+      color: "#a855f7",
+    },
+  },
+  {
+    title: "Gotani Mobile POS Application",
+    summary:
+      "A high-performance React Native point-of-sale and supply-chain workflow app designed for offline-first agricultural ledger operations in remote farming areas.",
+    challenge:
+      "Cooperative operators in remote farming areas lacked desktop connections and required a robust transaction tool capable of recording POS ledger logs offline without internet connectivity.",
+    solution:
+      "Built a robust local state cache synced with Firestore, integrated transactional state machines with offline queue, and designed responsive transaction grids optimized for low-end mobile devices.",
+    impact:
+      "Eliminated manual paper bookkeeping, reducing data reconciliation errors by 90% and accelerating transaction entries to under 5 seconds per operation.",
+    stack: ["React Native", "Expo", "Firebase", "Firestore", "AsyncStorage"],
+    role: "Mobile & Backend Developer",
+    year: "2024",
+    sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
+    type: "mobile",
+    featured: true,
+    badge: "Enterprise App",
+    metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
+    accent: {
+      glow: "rgba(16, 185, 129, 0.14)",
+      color: "#10b981",
+    },
+  },
+  {
+    title: "Monetra — Personal Finance Tracker",
+    summary:
+      "A full-stack personal finance tracker with a Go (Gin) backend and React frontend, featuring budget tracking, financial goals, transaction management, and AI-powered spending insights.",
+    challenge:
+      "Existing finance tracking apps were either too complex for casual users or lacked the depth needed for meaningful budget analysis and goal tracking.",
+    solution:
+      "Architected a clean REST API in Go with Gin framework and PostgreSQL, paired with a React/Vite dashboard featuring Recharts visualizations, budget alerts, recurring transaction automation, and AI-generated spending insights.",
+    impact:
+      "Created a production-ready finance platform with JWT authentication, CSV reporting, dark mode, and comprehensive budget/goal tracking — demonstrating full-stack capability across Go and React.",
+    stack: ["Go", "Gin", "PostgreSQL", "React", "Vite", "Tailwind CSS", "Recharts"],
+    role: "Full-Stack Developer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/monetra-financetrackerApp",
+    type: "dashboard",
+    featured: true,
+    metrics: ["Go + React Full Stack", "AI Spending Insights", "JWT Auth", "Recurring Transactions"],
+    accent: {
+      glow: "rgba(251, 146, 60, 0.14)",
+      color: "#fb923c",
+    },
+  },
+  {
+    title: "Gotani Operations Dashboard",
+    summary:
+      "A responsive operations control center to monitor live transactions, audit logs, and manage product inventory catalogs for agricultural supply-chain management.",
+    challenge:
+      "Cooperative managers lacked visual telemetry on mobile sales, inventory changes, and ledger history, leading to operational delays and poor decision-making.",
+    solution:
+      "Developed an interactive dashboard panel using React and Vite, featuring reactive data tables, multi-column search, SVG analytics charts, and real-time billing sync from the mobile POS system.",
+    impact:
+      "Established centralized data visibility for cooperative managers, reducing catalog update times and providing real-time clarity on daily billing and inventory flow.",
+    stack: ["React", "Vite", "Tailwind CSS", "Firebase", "REST API"],
+    role: "Lead Frontend Developer",
     year: "2024",
     sourceUrl: "https://github.com/callmezaa/web-admin-gotani",
     type: "dashboard",
-    metrics: ["Admin operations", "Data management", "Responsive web UI"],
+    badge: "Enterprise App",
+    metrics: ["Real-time Billing Sync", "Interactive Catalog", "Zero Lag Data Tables"],
     accent: {
-      glow: "rgba(6, 182, 212, 0.14)",
-      text: "group-hover:text-cyan-400",
-      border: "hover:border-cyan-500/30",
-      shadow: "hover:shadow-cyan-500/5",
-      button: "hover:border-cyan-500/50 hover:text-cyan-300",
-      badge: "rgba(6, 182, 212, 0.08)",
+      glow: "rgba(99, 102, 241, 0.14)",
+      color: "#6366f1",
     },
   },
   {
-    title: "KPJMI Company Profile Website",
+    title: "Mercato — E-Commerce Boutique App",
     summary:
-      "A cooperative company profile website with dynamic content management for public-facing information.",
+      "A flagship mobile e-commerce platform built with React Native, featuring a cinematic design language, geometric consistency, and robust full-stack architecture with Express.js and PostgreSQL.",
     challenge:
-      "The cooperative needed a stronger digital presence and a practical way to publish information for members and external visitors.",
+      "Most mobile e-commerce apps prioritize function over form, resulting in generic interfaces that fail to create an emotional connection with users during the shopping experience.",
     solution:
-      "Designed and implemented a company profile experience backed by a MySQL-powered content workflow.",
+      "Designed and built a boutique e-commerce experience with React Native and Expo, featuring animated onboarding, skeleton shimmer loaders, digital e-receipt with perforated borders, wishlist grid, and secure checkout with JWT authentication.",
     impact:
-      "Improved public trust and information access by giving the organization a maintainable web presence.",
+      "Delivered a premium mobile shopping experience across the full purchase lifecycle — from onboarding and product discovery to checkout, payment success, and order history — all running on an Express.js + Prisma + PostgreSQL backend.",
+    stack: ["React Native", "Expo", "Node.js", "Express", "PostgreSQL", "Prisma", "JWT"],
+    role: "Full-Stack Mobile Developer",
+    year: "2025",
+    sourceUrl: "https://github.com/callmezaa/mercato-ecommerceApp",
+    type: "mobile",
+    badge: "Enterprise App",
+    metrics: ["Cinematic UI/UX", "Prisma ORM", "JWT Auth", "Digital E-Receipt"],
+    accent: {
+      glow: "rgba(236, 72, 153, 0.14)",
+      color: "#ec4899",
+    },
+  },
+  {
+    title: "Architect AI — Productivity Suite",
+    summary:
+      "A premium full-stack productivity ecosystem with FastAPI backend and React Native mobile frontend, featuring AI-powered task prioritization, deep work modes, and performance analytics.",
+    challenge:
+      "Knowledge workers struggle with task prioritization and focus in an age of constant digital distractions, lacking a cohesive system that combines AI-driven planning with distraction-free execution.",
+    solution:
+      "Built a FastAPI backend with PostgreSQL and OpenAI integration, paired with a React Native (Expo) mobile app featuring glassmorphic UI, Reanimated 4 micro-animations, AI smart chat, focus timer, and bilingual support (English & Bahasa Indonesia).",
+    impact:
+      "Created an end-to-end productivity ecosystem with intelligent task management, behavior-based AI prioritization, haptic feedback, and comprehensive performance analytics across mobile surfaces.",
+    stack: ["FastAPI", "Python", "React Native", "Expo", "PostgreSQL", "OpenAI", "Redis"],
+    role: "Full-Stack Developer & AI Engineer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/architect-productivityApp",
+    type: "mobile",
+    badge: "Enterprise App",
+    metrics: ["AI Task Prioritization", "Deep Work Timer", "Bilingual i18n", "Glassmorphic UI"],
+    accent: {
+      glow: "rgba(34, 211, 238, 0.14)",
+      color: "#22d3ee",
+    },
+  },
+  {
+    title: "NexTalk — Real-Time Messaging App",
+    summary:
+      "A sophisticated real-time messaging ecosystem with a Go/Fiber backend, Redis caching, and a premium React Native frontend featuring glassmorphism design and AI-powered chat assistant.",
+    challenge:
+      "Modern messaging apps often compromise between beautiful UI and real-time performance, leaving users with either clunky interfaces or unreliable message delivery.",
+    solution:
+      "Engineered a high-performance messaging platform using Go (Fiber) with Gorilla WebSocket for real-time communication, Redis for state management, PostgreSQL with GORM for data persistence, and a React Native frontend with indigo-themed glassmorphic UI and Reanimated animations.",
+    impact:
+      "Delivered a full-featured messaging app with real-time chat, group conversations, AI assistant (NexBot), story/sharing features, call history, and Cloudinary media uploads — all running on a scalable Go backend.",
+    stack: ["Go", "Fiber", "Gorilla WebSocket", "React Native", "Expo", "PostgreSQL", "Redis", "Cloudinary"],
+    role: "Full-Stack Developer & Backend Engineer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/nextalk-messagingApp",
+    type: "messaging",
+    featured: true,
+    metrics: ["Real-time WebSocket", "Go + Fiber Backend", "Redis Caching", "AI Chat Assistant"],
+    accent: {
+      glow: "rgba(59, 130, 246, 0.14)",
+      color: "#3b82f6",
+    },
+  },
+  {
+    title: "KPJMI Cooperative Web Portal",
+    summary:
+      "A company profile and dynamic content portal for an agricultural cooperative, built to display credentials, public reports, and program information.",
+    challenge:
+      "An agricultural cooperative required a secure, readable digital presence to share announcements and build credibility with corporate partners and members.",
+    solution:
+      "Implemented a performant static webpage architecture with a MySQL-driven dynamic content workflow and responsive grid interfaces for accessibility across devices.",
+    impact:
+      "Successfully reached over 1,500 cooperative members, improving organizational transparency and facilitating corporate partnership outreach.",
     stack: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
     role: "Web Developer",
     year: "2023",
-    sourceUrl: "https://github.com/callmezaa/koperasi-merdekaa",
+    sourceUrl: "https://github.com/callmezaa/KPJMI-websiteprofile",
     type: "company",
-    metrics: ["Public profile", "Dynamic content", "MySQL-backed CMS"],
+    badge: "Enterprise App",
+    metrics: ["1,500+ Members Reached", "Dynamic Content", "Responsive Design"],
     accent: {
-      glow: "rgba(245, 158, 11, 0.14)",
-      text: "group-hover:text-amber-400",
-      border: "hover:border-amber-500/30",
-      shadow: "hover:shadow-amber-500/5",
-      button: "hover:border-amber-500/50 hover:text-amber-300",
-      badge: "rgba(245, 158, 11, 0.08)",
+      glow: "rgba(6, 182, 212, 0.14)",
+      color: "#06b6d4",
     },
   },
 ];

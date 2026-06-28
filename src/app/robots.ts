@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://portfolio-amber-ten-22.vercel.app/sitemap.xml",
+    sitemap: "https://kenzamariyan-portfolio.vercel.app/sitemap.xml",
   };
 }
