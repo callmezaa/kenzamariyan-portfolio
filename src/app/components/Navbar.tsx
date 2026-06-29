@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Magnetic from "./ui/Magnetic";
 
-const sections = ["home", "about", "skills", "projects", "experience", "testimonials", "playground", "contact"];
+const sections = ["home", "about", "skills", "projects", "experience", "achievements", "playground", "contact"];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

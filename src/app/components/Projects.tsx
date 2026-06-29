@@ -1,17 +1,204 @@
 "use client";
 
+import Image from "next/image";
 import { ExternalLink, Sparkle, FileText, AlertTriangle, Award, Lock, Github } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { projects, type Project, type ProjectType } from "../data/projects";
 import GlowCard from "./ui/GlowCard";
 import Button from "./ui/Button";
 import { useState, useEffect } from "react";
 import { sectionHeader, seqHeader, seqLabel, seqTitle, seqDesc, fadeUp, staggerContainer, staggerItem, slideLeft, slideRight } from "../utils/animations";
 
+function ScreenshotShowcase({
+  mockupSrc,
+  mockupWidth,
+  mockupHeight,
+  tabs,
+  alt,
+}: {
+  mockupSrc: string;
+  mockupWidth: number;
+  mockupHeight: number;
+  tabs: { label: string; src: string; width: number; height: number }[];
+  alt: string;
+}) {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div className="relative mx-auto w-full max-w-[520px] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-[1.03] select-none">
+      {/* Hero Mockup Render */}
+      <div className="relative w-full bg-zinc-900">
+        <Image
+          src={mockupSrc}
+          alt={alt}
+          width={mockupWidth}
+          height={mockupHeight}
+          className="w-full h-auto"
+          sizes="520px"
+          priority
+        />
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="flex items-center gap-1 bg-zinc-900/80 px-3 py-2.5 border-t border-zinc-800">
+        {tabs.map((tab, i) => (
+          <button
+            key={tab.label}
+            onClick={() => setActiveTab(i)}
+            className={`btn-press rounded-md px-2.5 py-1 text-[9px] font-medium transition-all duration-200 ${
+              i === activeTab
+                ? "bg-indigo-500/15 text-indigo-400"
+                : "text-zinc-500 hover:text-zinc-300 hover:bg-white/5"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Screenshot Area */}
+      <div className="flex items-center justify-center bg-zinc-950 py-2 px-4">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="w-full"
+          >
+            <Image
+              src={tabs[activeTab].src}
+              alt={`${alt} — ${tabs[activeTab].label}`}
+              width={tabs[activeTab].width}
+              height={tabs[activeTab].height}
+              className="w-full h-auto rounded-[2px] shadow-lg"
+              sizes="520px"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+function PhoneShowcase({
+  mockupSrc,
+  categories,
+  alt,
+}: {
+  mockupSrc: string;
+  categories: {
+    label: string;
+    screenshots: { label: string; src: string }[];
+  }[];
+  alt: string;
+}) {
+  const [activeCat, setActiveCat] = useState(0);
+  const [activeShot, setActiveShot] = useState(0);
+
+  useEffect(() => {
+    const cat = categories[activeCat];
+    if (cat.screenshots.length <= 1) return;
+    const timer = setInterval(() => {
+      setActiveShot((i) => (i + 1) % cat.screenshots.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [activeCat, categories]);
+
+  const current = categories[activeCat].screenshots[activeShot];
+
+  return (
+    <div className="relative mx-auto w-full max-w-[520px] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-[1.03] select-none">
+      {/* Hero Mockup Render */}
+      <div className="relative w-full bg-zinc-900">
+        <Image
+          src={mockupSrc}
+          alt={alt}
+          width={1024}
+          height={1024}
+          className="w-full h-auto"
+          sizes="520px"
+          priority
+        />
+      </div>
+
+      {/* Category Tabs */}
+      <div className="flex items-center gap-1 bg-zinc-900/80 px-2 py-2.5 border-t border-zinc-800 overflow-x-auto">
+        {categories.map((cat, i) => (
+          <button
+            key={cat.label}
+            onClick={() => { setActiveCat(i); setActiveShot(0); }}
+            className={`btn-press shrink-0 rounded-md px-2.5 py-1 text-[9px] font-medium transition-all duration-200 ${
+              i === activeCat
+                ? "bg-indigo-500/15 text-indigo-400"
+                : "text-zinc-500 hover:text-zinc-300 hover:bg-white/5"
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Phone Frame + Screenshot */}
+      <div className="flex items-center justify-center bg-zinc-950 py-8 px-4">
+        <div className="relative w-[200px]">
+          {/* Phone Bezel */}
+          <div className="rounded-[36px] border-[3px] border-zinc-700 bg-zinc-800 p-2 shadow-2xl">
+            {/* Notch */}
+            <div className="mx-auto h-3.5 w-16 rounded-b-xl bg-zinc-900" />
+            {/* Screen */}
+            <div className="mt-0.5 overflow-hidden rounded-[20px] bg-zinc-900">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${activeCat}-${activeShot}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Image
+                    src={current.src}
+                    alt={`${alt} — ${categories[activeCat].label}: ${current.label}`}
+                    width={1480}
+                    height={2800}
+                    className="w-full h-auto"
+                    sizes="200px"
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            {/* Home Indicator */}
+            <div className="mx-auto mt-1.5 h-1 w-20 rounded-full bg-zinc-600" />
+          </div>
+        </div>
+      </div>
+
+      {/* Page Dots */}
+      {categories[activeCat].screenshots.length > 1 && (
+        <div className="flex items-center justify-center gap-1 pb-4 bg-zinc-950">
+          {categories[activeCat].screenshots.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveShot(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === activeShot
+                  ? "w-4 bg-indigo-400"
+                  : "w-1.5 bg-zinc-700 hover:bg-zinc-600"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ProjectPreview({ type }: { type: ProjectType }) {
   const reduced = useReducedMotion();
   const [salesCount, setSalesCount] = useState(1280);
   const [orderPulse, setOrderPulse] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
 
   // Auto-update stats to simulate real-time POS transaction intake
   useEffect(() => {
@@ -24,9 +211,178 @@ function ProjectPreview({ type }: { type: ProjectType }) {
     return () => clearInterval(interval);
   }, [type, reduced]);
 
-  // AI / Fullstack mockup (browser + AI badge)
-  if (type === "ai" || type === "fullstack") {
-    const isAi = type === "ai";
+  // Marketplace showcase — mockup + interactive screenshot carousel
+  if (type === "marketplace") {
+    const tabs = [
+      { label: "Home", src: "/image/assetra/homesection.png", width: 1891, height: 858 },
+      { label: "Marketplace", src: "/image/assetra/marketplacepage.png", width: 1881, height: 858 },
+      { label: "Assets", src: "/image/assetra/assetsection.png", width: 1879, height: 855 },
+      { label: "Wallet", src: "/image/assetra/walletpage.png", width: 1882, height: 856 },
+      { label: "Overview", src: "/image/assetra/overviewpage.png", width: 1888, height: 859 },
+    ];
+
+    return (
+      <ScreenshotShowcase
+        mockupSrc="/image/assetra/mockup.png"
+        mockupWidth={1024}
+        mockupHeight={1024}
+        tabs={tabs}
+        alt="Assetra — Digital Asset Marketplace"
+      />
+    );
+  }
+
+  // Finance showcase — mockup + interactive screenshot carousel
+  if (type === "finance") {
+    const tabs = [
+      { label: "Dashboard", src: "/image/monetra/dashboard.png", width: 1876, height: 802 },
+      { label: "Transactions", src: "/image/monetra/transactions.png", width: 1869, height: 796 },
+      { label: "Budgets", src: "/image/monetra/budgets.png", width: 1897, height: 808 },
+      { label: "Reports", src: "/image/monetra/reports.png", width: 1879, height: 805 },
+      { label: "Goals", src: "/image/monetra/goals.png", width: 1894, height: 817 },
+    ];
+
+    return (
+      <ScreenshotShowcase
+        mockupSrc="/image/monetra/mockup.png"
+        mockupWidth={1024}
+        mockupHeight={1024}
+        tabs={tabs}
+        alt="Monetra — Personal Finance Tracker"
+      />
+    );
+  }
+
+  // AI showcase — mockup + interactive screenshot carousel
+  if (type === "ai") {
+    const tabs = [
+      { label: "Home", src: "/image/contract-chill/screenshot/homesection.png", width: 1636, height: 799 },
+      { label: "Login", src: "/image/contract-chill/screenshot/loginpage.png", width: 1920, height: 1080 },
+      { label: "Analyze", src: "/image/contract-chill/screenshot/analyzersection.png", width: 1566, height: 805 },
+      { label: "Dashboard", src: "/image/contract-chill/screenshot/dashboardpage.png", width: 1872, height: 807 },
+      { label: "Generate", src: "/image/contract-chill/screenshot/generatepage.png", width: 1881, height: 813 },
+    ];
+
+    return (
+      <ScreenshotShowcase
+        mockupSrc="/image/contract-chill/screenshot/mockup.png"
+        mockupWidth={1920}
+        mockupHeight={1080}
+        tabs={tabs}
+        alt="ContractChill — AI Contract Analyzer"
+      />
+    );
+  }
+
+  // POS mobile showcase — phone frame + feature categories
+  if (type === "pos") {
+    const categories = [
+      {
+        label: "Dashboard",
+        screenshots: [
+          { label: "Beranda", src: "/image/GotaniApp/beranda.png" },
+          { label: "Drawer", src: "/image/GotaniApp/drawerberanda-portrait.png" },
+        ],
+      },
+      {
+        label: "Products",
+        screenshots: [
+          { label: "Product List", src: "/image/GotaniApp/kelolaproduk.png" },
+          { label: "Add Product", src: "/image/GotaniApp/tambahproduk-portrait.png" },
+          { label: "Edit Product", src: "/image/GotaniApp/editproduk-portrait.png" },
+        ],
+      },
+      {
+        label: "Stock",
+        screenshots: [
+          { label: "Stock List", src: "/image/GotaniApp/kelolastok-portrait.png" },
+          { label: "Distribution", src: "/image/GotaniApp/distribusistok-portrait.png" },
+          { label: "Management", src: "/image/GotaniApp/manajemenstok-portrait.png" },
+        ],
+      },
+      {
+        label: "POS",
+        screenshots: [
+          { label: "Transaction", src: "/image/GotaniApp/transaksi.png" },
+          { label: "Payment", src: "/image/GotaniApp/pembayaran-portrait.png" },
+          { label: "Details", src: "/image/GotaniApp/detailtransaksi-portrait.png" },
+        ],
+      },
+      {
+        label: "Reports",
+        screenshots: [
+          { label: "Reports", src: "/image/GotaniApp/laporan.png" },
+          { label: "Sales Report", src: "/image/GotaniApp/laporanpenjualan-portrait.png" },
+          { label: "Monthly Revenue", src: "/image/GotaniApp/omsetperbulan-portrait.png" },
+        ],
+      },
+    ];
+
+    return (
+      <PhoneShowcase
+        mockupSrc="/image/GotaniApp/mockup.png"
+        categories={categories}
+        alt="GotaniApp — Mobile POS Application"
+      />
+    );
+  }
+
+  // Chat mobile showcase — phone frame + feature categories
+  if (type === "chat") {
+    const categories = [
+      {
+        label: "Onboarding",
+        screenshots: [
+          { label: "Splash", src: "/image/nextalkApp/splashscreen.png" },
+          { label: "Onboarding 1", src: "/image/nextalkApp/onboarding1.png" },
+          { label: "Onboarding 2", src: "/image/nextalkApp/onboarding2.png" },
+        ],
+      },
+      {
+        label: "Home",
+        screenshots: [
+          { label: "Home", src: "/image/nextalkApp/homescreen.png" },
+          { label: "Explore", src: "/image/nextalkApp/explorescreen.png" },
+          { label: "Unread", src: "/image/nextalkApp/unreadscreen.png" },
+        ],
+      },
+      {
+        label: "Chat",
+        screenshots: [
+          { label: "Room Chat", src: "/image/nextalkApp/roomchatscreen.png" },
+          { label: "Group", src: "/image/nextalkApp/grupscreen.png" },
+          { label: "Create Group", src: "/image/nextalkApp/creategrupscreen.png" },
+        ],
+      },
+      {
+        label: "Features",
+        screenshots: [
+          { label: "NexBot AI", src: "/image/nextalkApp/nexbotscreen.png" },
+          { label: "Stories", src: "/image/nextalkApp/storyscreen.png" },
+          { label: "Calls", src: "/image/nextalkApp/callscreen.png" },
+        ],
+      },
+      {
+        label: "Profile",
+        screenshots: [
+          { label: "Login", src: "/image/nextalkApp/loginscreen.png" },
+          { label: "Register", src: "/image/nextalkApp/registerscreen.png" },
+          { label: "Profile", src: "/image/nextalkApp/profilescreen.png" },
+        ],
+      },
+    ];
+
+    return (
+      <PhoneShowcase
+        mockupSrc="/image/nextalkApp/mockup.png"
+        categories={categories}
+        alt="NexTalk — Real-Time Messaging App"
+      />
+    );
+  }
+
+  // Fullstack mockup (browser + AI badge)
+  if (type === "fullstack") {
     return (
       <div className="relative mx-auto w-full max-w-[520px] aspect-[3/2] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-105 select-none">
         <div className="flex items-center gap-1.5 border-b border-zinc-800 bg-zinc-900 px-3.5 py-2">
@@ -36,35 +392,28 @@ function ProjectPreview({ type }: { type: ProjectType }) {
             <span className="h-1.5 w-1.5 rounded-full bg-green-500/60" />
           </div>
           <div className="flex h-3.5 flex-1 items-center rounded border border-zinc-850 bg-zinc-950 px-2 font-mono text-[4.5px] text-zinc-500">
-            {isAi ? "contractchill.app/analyze" : "assetra.marketplace"}
+            assetra.marketplace
           </div>
-          {isAi && (
-            <span className="flex items-center gap-1 rounded bg-indigo-500/10 px-1.5 py-0.5 text-[4.5px] font-bold text-indigo-400">
-              <Sparkle size={8} /> AI
-            </span>
-          )}
         </div>
         <div className="flex h-[calc(100%-22px)] gap-2 bg-zinc-900 p-2.5 text-[5px]">
           {/* Left: Document viewer */}
           <div className="flex-1 space-y-1.5 rounded border border-zinc-800 bg-zinc-950 p-2">
             <div className="flex items-center gap-1 border-b border-zinc-800 pb-1 text-[4px] text-zinc-500">
-              <FileText size={8} /> contract.pdf
+              <FileText size={8} /> asset-details.md
             </div>
             {[60, 90, 75, 85, 50, 70].map((w, i) => (
               <div key={i} className={`h-1 rounded-full bg-zinc-800`} style={{ width: `${w}%` }} />
             ))}
           </div>
-          {/* Right: AI analysis panel */}
+          {/* Right: details panel */}
           <div className="w-24 space-y-1.5">
-            <div className="rounded border border-red-500/20 bg-red-500/5 p-1.5">
-              <div className="flex items-center gap-1 text-[4px] font-bold text-red-400 mb-0.5">
-                <AlertTriangle size={7} /> High Risk
-              </div>
-              <div className="h-1 rounded-full bg-red-500/30 w-full" />
-              <div className="h-1 rounded-full bg-red-500/30 w-3/4 mt-0.5" />
+            <div className="rounded border border-purple-500/20 bg-purple-500/5 p-1.5">
+              <div className="text-[4px] font-bold text-purple-400 mb-0.5">Asset Pricing</div>
+              <div className="h-1 rounded-full bg-purple-500/30 w-full" />
+              <div className="h-1 rounded-full bg-purple-500/30 w-3/4 mt-0.5" />
             </div>
             <div className="rounded border border-emerald-500/20 bg-emerald-500/5 p-1.5">
-              <div className="text-[4px] font-bold text-emerald-400 mb-0.5">AI Summary</div>
+              <div className="text-[4px] font-bold text-emerald-400 mb-0.5">Seller Dashboard</div>
               <div className="h-1 rounded-full bg-emerald-500/30 w-full" />
               <div className="h-1 rounded-full bg-emerald-500/30 w-2/3 mt-0.5" />
             </div>

@@ -1,4 +1,4 @@
-export type ProjectType = "mobile" | "dashboard" | "company" | "ai" | "fullstack" | "messaging";
+export type ProjectType = "mobile" | "dashboard" | "company" | "ai" | "fullstack" | "messaging" | "marketplace" | "pos" | "finance" | "chat";
 
 export interface Project {
   title: string;
@@ -61,7 +61,7 @@ export const projects: Project[] = [
     year: "2026",
     sourceUrl: "https://github.com/callmezaa/assetra-digital-product",
     demoUrl: "https://assetra-digital-product.vercel.app",
-    type: "fullstack",
+    type: "marketplace",
     featured: true,
     metrics: ["Midtrans Payments", "Real-time Chat", "Creator Wallet", "Supabase RLS"],
     accent: {
@@ -83,7 +83,7 @@ export const projects: Project[] = [
     role: "Mobile & Backend Developer",
     year: "2024",
     sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
-    type: "mobile",
+    type: "pos",
     featured: true,
     badge: "Enterprise App",
     metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
@@ -106,7 +106,7 @@ export const projects: Project[] = [
     role: "Full-Stack Developer",
     year: "2026",
     sourceUrl: "https://github.com/callmezaa/monetra-financetrackerApp",
-    type: "dashboard",
+    type: "finance",
     featured: true,
     metrics: ["Go + React Full Stack", "AI Spending Insights", "JWT Auth", "Recurring Transactions"],
     accent: {
@@ -194,7 +194,7 @@ export const projects: Project[] = [
     role: "Full-Stack Developer & Backend Engineer",
     year: "2026",
     sourceUrl: "https://github.com/callmezaa/nextalk-messagingApp",
-    type: "messaging",
+    type: "chat",
     featured: true,
     metrics: ["Real-time WebSocket", "Go + Fiber Backend", "Redis Caching", "AI Chat Assistant"],
     accent: {

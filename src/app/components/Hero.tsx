@@ -145,7 +145,7 @@ export default function Hero() {
               
               <Button
                 variant="secondary"
-                href="/CV_Ken_Zamariyan.pdf"
+                href="/Ken_Zamariyan_FullStack_Developer.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 download

@@ -15,7 +15,7 @@ const dockItems: DockItem[] = [
   { id: "skills", label: "Skills", icon: Sparkle },
   { id: "projects", label: "Projects", icon: FolderKanban },
   { id: "experience", label: "Experience", icon: Briefcase },
-  { id: "testimonials", label: "Achievements", icon: MessageCircle },
+  { id: "achievements", label: "Achievements", icon: MessageCircle },
   { id: "playground", label: "Playground", icon: Beaker },
   { id: "contact", label: "Contact", icon: Mail },
 ];
