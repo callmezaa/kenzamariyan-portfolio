@@ -1,4 +1,4 @@
-export type ProjectType = "mobile" | "dashboard" | "company" | "ai" | "fullstack" | "messaging" | "marketplace" | "pos" | "finance" | "chat";
+export type ProjectType = "mobile" | "dashboard" | "company" | "ai" | "fullstack" | "messaging" | "marketplace" | "pos" | "finance" | "chat" | "interviewos";
 
 export interface Project {
   title: string;
@@ -200,6 +200,30 @@ export const projects: Project[] = [
     accent: {
       glow: "rgba(59, 130, 246, 0.14)",
       color: "#3b82f6",
+    },
+  },
+  {
+    title: "InterviewOS — AI-Powered Interview Platform",
+    summary:
+      "A production-grade realtime technical interview platform combining WebRTC video calls, synchronized code editing, screen recording, and Whisper-powered speech-to-text transcription into a single operating system for hiring.",
+    challenge:
+      "Technical interviews are fragmented across Zoom, CoderPad, Loom, and manual evaluation sheets — creating friction, context-switching, and inconsistent candidate experiences for engineering teams.",
+    solution:
+      "Architected a full-stack monorepo with Next.js 16 + NestJS 11 featuring P2P WebRTC video with Socket.io signaling, synchronized Monaco Editor with keystroke broadcast, MediaRecorder screen recording, and an OpenAI Whisper transcription pipeline — all wrapped in an Apple-inspired dark design system with JWT/OAuth authentication.",
+    impact:
+      "Delivered a comprehensive platform integrating WebRTC, collaborative editing, Whisper AI transcription, screen recording, live audio waveforms, and room management — demonstrating deep full-stack systems architecture across 51 commits with Sentry monitoring, PostHog analytics, and Playwright E2E tests.",
+    stack: ["Next.js 16", "React 19", "NestJS 11", "TypeScript", "WebRTC", "Socket.io", "Monaco Editor", "OpenAI Whisper", "Prisma", "PostgreSQL", "Docker", "Tailwind CSS"],
+    role: "Full-Stack Developer & Systems Architect",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/InterviewOS",
+    demoUrl: "https://interviewos-dev.vercel.app",
+    type: "interviewos",
+    featured: true,
+    badge: "Open Source",
+    metrics: ["WebRTC Video Calls", "Collaborative Code Editor", "Whisper Transcription", "Screen Recording"],
+    accent: {
+      glow: "rgba(0, 102, 204, 0.14)",
+      color: "#0066cc",
     },
   },
   {

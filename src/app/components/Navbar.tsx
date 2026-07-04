@@ -1,15 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Magnetic from "./ui/Magnetic";
+import { useTheme } from "./ThemeProvider";
 
 const sections = ["home", "about", "skills", "projects", "experience", "achievements", "playground", "contact"];
 
 export default function Navbar() {
+  const { theme, toggle } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -84,7 +87,7 @@ export default function Navbar() {
         <nav
           className={`mx-auto max-w-5xl rounded-lg border transition-all duration-300 px-6 py-3 flex items-center justify-between ${
             scrolled || menuOpen
-              ? "border-white/10 bg-black/70 backdrop-blur-xl shadow-2xl shadow-black/40"
+              ? "border-white/10 bg-black/70 backdrop-blur-xl shadow-elevated-soft"
               : "border-white/5 bg-black/30 backdrop-blur-md"
           }`}
         >
@@ -93,10 +96,19 @@ export default function Navbar() {
             <Link
               href="#home"
               onClick={closeMenu}
-              className="text-sm font-semibold tracking-tight text-white flex items-center gap-1.5"
+              className="flex items-center gap-2"
             >
-              <span>kenzamariyan</span>
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              <Image
+                src="/image/brand/logo-white.svg"
+                alt="Ken Zamariyan"
+                width={28}
+                height={28}
+                className="shrink-0"
+                priority
+              />
+              <span className="text-sm font-semibold tracking-tight text-white hidden sm:inline">
+                kenzamariyan
+              </span>
             </Link>
           </Magnetic>
 
@@ -120,6 +132,24 @@ export default function Navbar() {
             >
               <FaLinkedin size={18} />
             </a>
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggle}
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              className="relative flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer"
+            >
+              <motion.span
+                key={theme}
+                initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute"
+              >
+                {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+              </motion.span>
+            </button>
             
             <div className="h-4 w-px bg-white/10" />
 
@@ -153,7 +183,7 @@ export default function Navbar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute left-4 right-4 top-20 border border-white/10 bg-black/95 backdrop-blur-2xl rounded-lg p-6 md:hidden z-30 shadow-2xl shadow-black/80"
+              className="absolute left-4 right-4 top-20 border border-white/10 bg-black/95 backdrop-blur-2xl rounded-lg p-6 md:hidden z-30 shadow-elevated-strong"
             >
               <div className="flex flex-col gap-3">
                 {sections.map((item, index) => (
@@ -179,7 +209,18 @@ export default function Navbar() {
                 ))}
                 
                 <div className="h-px bg-white/5 my-2" />
-                
+
+                <div className="flex items-center justify-center gap-4 py-2">
+                  <button
+                    onClick={toggle}
+                    aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                    className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  >
+                    {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+                    <span>{theme === "dark" ? "Light" : "Dark"} Mode</span>
+                  </button>
+                </div>
+
                 <div className="flex items-center justify-around py-2">
                   <a
                     href="https://github.com/callmezaa"

@@ -21,6 +21,21 @@ function CharCounter({ current, max }: { current: number; max: number }) {
   );
 }
 
+type FormFields = "name" | "email" | "message";
+
+function validate(field: FormFields, value: string): string {
+  if (field === "name") return value.trim() ? "" : "Name is required";
+  if (field === "email") {
+    if (!value.trim()) return "Email is required";
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "" : "Please enter a valid email";
+  }
+  if (field === "message") {
+    if (!value.trim()) return "Message is required";
+    return value.trim().length < 10 ? "Message must be at least 10 characters" : "";
+  }
+  return "";
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -28,6 +43,9 @@ export default function Contact() {
     message: "",
     company: "", // Honeypot
   });
+
+  const [touched, setTouched] = useState<Record<FormFields, boolean>>({ name: false, email: false, message: false });
+  const [fieldErrors, setFieldErrors] = useState<Record<FormFields, string>>({ name: "", email: "", message: "" });
 
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -39,20 +57,29 @@ export default function Contact() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (touched[name as FormFields]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: validate(name as FormFields, value) }));
+    }
+  };
+
+  const handleBlur = (field: FormFields) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    setFieldErrors((prev) => ({ ...prev, [field]: validate(field, formData[field]) }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
-      setErrorMessage("Please fill in all fields.");
-      setStatus("error");
-      return;
-    }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setErrorMessage("Please enter a valid email address.");
+    const allTouched = { name: true, email: true, message: true };
+    setTouched(allTouched);
+    const errors = {
+      name: validate("name", formData.name),
+      email: validate("email", formData.email),
+      message: validate("message", formData.message),
+    };
+    setFieldErrors(errors);
+    const hasError = Object.values(errors).some(Boolean);
+    if (hasError) {
+      setErrorMessage("Please fix the highlighted fields before submitting.");
       setStatus("error");
       return;
     }
@@ -77,6 +104,8 @@ export default function Contact() {
       if (response.ok) {
         setStatus("success");
         setFormData({ name: "", email: "", message: "", company: "" });
+        setTouched({ name: false, email: false, message: false });
+        setFieldErrors({ name: "", email: "", message: "" });
       } else {
         setErrorMessage(result.error || "Something went wrong. Please try again.");
         setStatus("error");
@@ -152,17 +181,6 @@ export default function Contact() {
                 </div>
               </GlowCard>
             </motion.div>
-            <div className="pt-2">
-              <button
-                onClick={() => setShowScheduler(true)}
-                disabled={!HAS_CALENDLY}
-                title={HAS_CALENDLY ? "Book a 15-min discovery call" : "Configure NEXT_PUBLIC_CALENDLY_URL in .env.local"}
-                className="btn-press inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-xs font-semibold text-white hover:border-white/20 hover:bg-white/10 w-full sm:w-auto justify-center sm:justify-start cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <span>Schedule a 15-min Call</span>
-                <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-mono">Book now</span>
-              </button>
-            </div>
           </motion.div>
 
           {/* RIGHT COLUMN: Contact Form */}
@@ -173,6 +191,19 @@ export default function Contact() {
             transition={{ duration: 0.5, ease: easeOut }}
             className="lg:col-span-7 w-full"
           >
+            {/* Calendly - prominent above form */}
+            <div className="mb-6">
+              <button
+                onClick={() => setShowScheduler(true)}
+                disabled={!HAS_CALENDLY}
+                title={HAS_CALENDLY ? "Book a 15-min discovery call" : "Configure NEXT_PUBLIC_CALENDLY_URL in .env.local"}
+                className="btn-press group inline-flex w-full items-center justify-center gap-3 rounded-lg border border-indigo-500/20 bg-indigo-600/10 px-6 py-4 text-sm font-semibold text-white hover:bg-indigo-600/20 hover:border-indigo-500/30 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              >
+                <Calendar size={18} className="text-indigo-400 group-hover:scale-110 transition-transform" />
+                <span>Schedule a 15-min Discovery Call</span>
+                <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-full font-mono font-medium">Book now</span>
+              </button>
+            </div>
             <div className="rounded-lg border border-white/10 bg-surface-tile-1 p-6 md:p-8">
               <AnimatePresence mode="wait">
                 {status === "success" ? (
@@ -231,20 +262,26 @@ export default function Contact() {
                           name="name"
                           value={formData.name}
                           onChange={handleChange}
+                          onBlur={() => handleBlur("name")}
                           disabled={status === "loading"}
                           required
                           maxLength={80}
                           placeholder="John Doe"
-                          aria-invalid={status === "error" ? true : undefined}
-                          className="
-                            w-full rounded-md border border-white/5 bg-white/5 px-4 py-3
+                          aria-invalid={touched.name && fieldErrors.name ? true : undefined}
+                          className={`
+                            w-full rounded-md border bg-white/5 px-4 py-3
                             text-base text-white placeholder-zinc-600 outline-hidden
-                            transition focus:border-indigo-500 focus:ring-0
+                            transition focus:ring-0
                             disabled:opacity-50
-                          "
+                            ${touched.name && fieldErrors.name ? "border-red-500/60 focus:border-red-500" : "border-white/5 focus:border-indigo-500"}
+                          `}
                         />
-                        <div className="flex justify-end">
-                          <CharCounter current={formData.name.length} max={80} />
+                        <div className="flex justify-end min-h-[18px]">
+                          {touched.name && fieldErrors.name ? (
+                            <span className="text-[10px] text-red-400">{fieldErrors.name}</span>
+                          ) : (
+                            <CharCounter current={formData.name.length} max={80} />
+                          )}
                         </div>
                       </div>
 
@@ -259,20 +296,26 @@ export default function Contact() {
                           name="email"
                           value={formData.email}
                           onChange={handleChange}
+                          onBlur={() => handleBlur("email")}
                           disabled={status === "loading"}
                           required
                           maxLength={120}
                           placeholder="john@example.com"
-                          aria-invalid={status === "error" ? true : undefined}
-                          className="
-                            w-full rounded-md border border-white/5 bg-white/5 px-4 py-3
+                          aria-invalid={touched.email && fieldErrors.email ? true : undefined}
+                          className={`
+                            w-full rounded-md border bg-white/5 px-4 py-3
                             text-base text-white placeholder-zinc-600 outline-hidden
-                            transition focus:border-indigo-500 focus:ring-0
+                            transition focus:ring-0
                             disabled:opacity-50
-                          "
+                            ${touched.email && fieldErrors.email ? "border-red-500/60 focus:border-red-500" : "border-white/5 focus:border-indigo-500"}
+                          `}
                         />
-                        <div className="flex justify-end">
-                          <CharCounter current={formData.email.length} max={120} />
+                        <div className="flex justify-end min-h-[18px]">
+                          {touched.email && fieldErrors.email ? (
+                            <span className="text-[10px] text-red-400">{fieldErrors.email}</span>
+                          ) : (
+                            <CharCounter current={formData.email.length} max={120} />
+                          )}
                         </div>
                       </div>
                     </div>
@@ -288,20 +331,26 @@ export default function Contact() {
                         rows={5}
                         value={formData.message}
                         onChange={handleChange}
+                        onBlur={() => handleBlur("message")}
                         disabled={status === "loading"}
                         required
                         maxLength={2000}
                         placeholder="Detail your requirements here..."
-                        aria-invalid={status === "error" ? true : undefined}
-                        className="
-                          w-full rounded-md border border-white/5 bg-white/5 px-4 py-3
+                        aria-invalid={touched.message && fieldErrors.message ? true : undefined}
+                        className={`
+                          w-full rounded-md border bg-white/5 px-4 py-3
                           text-base text-white placeholder-zinc-600 outline-hidden resize-none
-                          transition focus:border-indigo-500 focus:ring-0
+                          transition focus:ring-0
                           disabled:opacity-50
-                        "
+                          ${touched.message && fieldErrors.message ? "border-red-500/60 focus:border-red-500" : "border-white/5 focus:border-indigo-500"}
+                        `}
                       />
-                      <div className="flex justify-end">
-                        <CharCounter current={formData.message.length} max={2000} />
+                      <div className="flex justify-end min-h-[18px]">
+                        {touched.message && fieldErrors.message ? (
+                          <span className="text-[10px] text-red-400">{fieldErrors.message}</span>
+                        ) : (
+                          <CharCounter current={formData.message.length} max={2000} />
+                        )}
                       </div>
                     </div>
 
@@ -355,7 +404,7 @@ export default function Contact() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative w-full max-w-4xl h-full max-h-[85dvh] min-h-[500px] overflow-hidden rounded-lg border border-white/10 bg-[#09090b] shadow-2xl z-10 flex flex-col"
+              className="relative w-full max-w-4xl h-full max-h-[85dvh] min-h-[500px] overflow-hidden rounded-lg border border-white/10 bg-surface-tile-1 shadow-2xl z-10 flex flex-col"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-zinc-950/50">
@@ -372,9 +421,9 @@ export default function Contact() {
               </div>
 
               {/* Iframe container */}
-              <div className="flex-1 w-full bg-[#09090b] relative">
+              <div className="flex-1 w-full bg-surface-tile-1 relative">
                 {showPlaceholderWarning ? (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center space-y-6 bg-[#09090b]">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center space-y-6 bg-surface-tile-1">
                     <div className="h-12 w-12 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
                       <Calendar size={22} className="text-indigo-400" />
                     </div>
@@ -405,7 +454,7 @@ export default function Contact() {
                 ) : (
                   <>
                     {iframeLoading && (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center space-y-3 bg-[#09090b]">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center space-y-3 bg-surface-tile-1">
                         <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
                         <p className="text-xs text-zinc-500">Connecting to calendar...</p>
                       </div>

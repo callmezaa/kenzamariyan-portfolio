@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, Sparkle, Terminal, Palette, Braces, Cpu } from "lucide-react";
 import GlowCard from "./ui/GlowCard";
-import { sectionHeader, seqHeader, seqLabel, seqTitle, seqDesc, staggerContainer, staggerItem } from "../utils/animations";
+import { seqHeader, seqLabel, seqTitle, seqDesc } from "../utils/animations";
 import { useReducedVariants } from "../utils/useReducedAnimation";
 
 interface Experiment {
@@ -160,7 +160,7 @@ function ExperimentCard({ exp, index }: { exp: Experiment; index: number }) {
 }
 
 export default function Playground() {
-  const { staggerContainer: container, staggerItem: item } = useReducedVariants();
+  const { staggerContainer: container, flipCard } = useReducedVariants();
 
   return (
     <section id="playground" className="relative bg-canvas py-24 md:py-28 border-b border-white/5">
@@ -194,7 +194,7 @@ export default function Playground() {
           className="grid gap-5 md:grid-cols-2 lg:grid-cols-4"
         >
           {experiments.map((exp, i) => (
-            <motion.div key={exp.title} variants={item}>
+            <motion.div key={exp.title} variants={flipCard}>
               <ExperimentCard exp={exp} index={i} />
             </motion.div>
           ))}

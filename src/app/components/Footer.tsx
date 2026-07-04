@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar } from "lucide-react";
 
 function FooterLink({ href, children, external }: { href: string; children: React.ReactNode; external?: boolean }) {
@@ -28,9 +29,17 @@ export default function Footer() {
           
           {/* Brand Column (4 cols) */}
           <div className="md:col-span-4 w-full space-y-4">
-            <Link href="#home" className="text-sm font-bold text-white tracking-tight font-display flex items-center gap-1.5">
-              <span>kenzamariyan</span>
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+            <Link href="#home" className="flex items-center gap-2">
+              <Image
+                src="/image/brand/logo-white.svg"
+                alt="Ken Zamariyan"
+                width={24}
+                height={24}
+                className="shrink-0"
+              />
+              <span className="text-sm font-bold text-white tracking-tight font-display">
+                kenzamariyan
+              </span>
             </Link>
             <p className="body-small">
               An elite Frontend & Mobile Product Engineer designing and building production-grade digital platforms. Committed to structural speed, readability, and design integrity.

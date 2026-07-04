@@ -6,6 +6,7 @@ import KeyboardNav from "./components/KeyboardNav";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingDock from "./components/FloatingDock";
 import Footer from "./components/Footer";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,6 +55,15 @@ export const metadata: Metadata = {
     description: "React, Go, Python, PostgreSQL, AI, and cloud-native apps.",
     images: ["/opengraph-image"],
   },
+  icons: {
+    icon: [
+      { url: "/favicon/favicon.ico", sizes: "any" },
+      { url: "/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/favicon/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/favicon/site.webmanifest",
   robots: {
     index: true,
     follow: true,
@@ -65,7 +75,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       className={`${inter.variable} ${plusJakartaSans.variable} scroll-smooth`}
+      data-theme="dark"
     >
+      <head>
+        <meta name="theme-color" content="#030303" id="theme-color-meta" />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function(){
+              var t = localStorage.getItem("theme");
+              if (t === "light" || t === "dark") {
+                document.documentElement.setAttribute("data-theme", t);
+              } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+                document.documentElement.setAttribute("data-theme", "light");
+              }
+              var meta = document.getElementById("theme-color-meta");
+              if (meta) {
+                meta.setAttribute("content", document.documentElement.getAttribute("data-theme") === "dark" ? "#030303" : "#f5f5f5");
+              }
+            })();
+          `,
+        }} />
+      </head>
       <body className="bg-surface-black font-sans text-body-muted antialiased">
         <a
           href="#main-content"
@@ -73,12 +103,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to main content
         </a>
-        <KeyboardNav />
-        <Navbar />
-        {children}
-        <Footer />
-        <ScrollToTop />
-        <FloatingDock />
+        <ThemeProvider>
+          <KeyboardNav />
+          <Navbar />
+          {children}
+          <Footer />
+          <ScrollToTop />
+          <FloatingDock />
+        </ThemeProvider>
       </body>
     </html>
   );

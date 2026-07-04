@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { ExternalLink, Sparkle, FileText, AlertTriangle, Award, Lock, Github } from "lucide-react";
+import { ExternalLink, Sparkle, FileText, AlertTriangle, Award, Lock, Github, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { projects, type Project, type ProjectType } from "../data/projects";
 import GlowCard from "./ui/GlowCard";
 import Button from "./ui/Button";
 import { useState, useEffect } from "react";
-import { sectionHeader, seqHeader, seqLabel, seqTitle, seqDesc, fadeUp, staggerContainer, staggerItem, slideLeft, slideRight } from "../utils/animations";
+import { seqHeader, seqLabel, seqTitle, seqDesc, fadeUp, staggerContainer, staggerItem, clipRevealUp } from "../utils/animations";
 
 function ScreenshotShowcase({
   mockupSrc,
@@ -381,6 +381,27 @@ function ProjectPreview({ type }: { type: ProjectType }) {
     );
   }
 
+  // InterviewOS showcase — mockup + interactive screenshot carousel
+  if (type === "interviewos") {
+    const tabs = [
+      { label: "Home", src: "/image/interviewOS/homesection.png", width: 1911, height: 849 },
+      { label: "Features", src: "/image/interviewOS/featuressection.png", width: 1894, height: 859 },
+      { label: "Login", src: "/image/interviewOS/loginpage.png", width: 1918, height: 853 },
+      { label: "Dashboard", src: "/image/interviewOS/dashboardpage.png", width: 1906, height: 861 },
+      { label: "Room", src: "/image/interviewOS/interviewroom.png", width: 1917, height: 858 },
+    ];
+
+    return (
+      <ScreenshotShowcase
+        mockupSrc="/image/interviewOS/mockup.png"
+        mockupWidth={1024}
+        mockupHeight={1024}
+        tabs={tabs}
+        alt="InterviewOS — AI-Powered Interview Platform"
+      />
+    );
+  }
+
   // Fullstack mockup (browser + AI badge)
   if (type === "fullstack") {
     return (
@@ -593,6 +614,7 @@ function ProjectPreview({ type }: { type: ProjectType }) {
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isEven = index % 2 === 0;
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   return (
     <GlowCard
@@ -629,20 +651,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
           <p className="max-w-2xl body-base">{project.summary}</p>
 
-          {/* Structured Detail Grid */}
-          <div className="grid gap-4 md:grid-cols-3">
-            {[
-              ["Challenge", project.challenge],
-              ["Solution", project.solution],
-              ["Impact", project.impact],
-            ].map(([label, value]) => (
-              <div key={label} className="rounded-lg border p-4 space-y-1" style={{ backgroundColor: `${project.accent.color}08`, borderColor: `${project.accent.color}15` }}>
-                <p className="text-[9px] font-bold uppercase tracking-wider font-display" style={{ color: project.accent.color }}>{label}</p>
-                <p className="body-small">{value}</p>
-              </div>
-            ))}
-          </div>
-
           {/* Metrics highlights */}
           <div className="flex flex-wrap gap-4 py-1.5">
             {project.metrics.map((metric) => (
@@ -660,6 +668,50 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 {tech}
               </span>
             ))}
+          </div>
+
+          {/* Accordion toggle — Case Details */}
+          <div className="border-t border-white/5 pt-4">
+            <button
+              onClick={() => setDetailsOpen(!detailsOpen)}
+              className="btn-press inline-flex items-center gap-2 text-[11px] font-semibold transition-colors cursor-pointer"
+              style={{ color: project.accent.color }}
+            >
+              <motion.span
+                animate={{ rotate: detailsOpen ? 180 : 0 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="inline-flex"
+              >
+                <ChevronDown size={14} />
+              </motion.span>
+              {detailsOpen ? "Hide Details" : "Show Case Details"}
+            </button>
+
+            <AnimatePresence initial={false}>
+              {detailsOpen && (
+                <motion.div
+                  key="case-details"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="pt-4 grid gap-4 md:grid-cols-3">
+                    {[
+                      ["Challenge", project.challenge],
+                      ["Solution", project.solution],
+                      ["Impact", project.impact],
+                    ].map(([label, value]) => (
+                      <div key={label} className="rounded-lg border p-4 space-y-1" style={{ backgroundColor: `${project.accent.color}08`, borderColor: `${project.accent.color}15` }}>
+                        <p className="text-[9px] font-bold uppercase tracking-wider font-display" style={{ color: project.accent.color }}>{label}</p>
+                        <p className="body-small">{value}</p>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Details & CTAs */}
@@ -706,7 +758,22 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
+const typeIcon: Record<string, typeof Sparkle> = {
+  mobile: Sparkle,
+  dashboard: FileText,
+  ai: Sparkle,
+  fullstack: FileText,
+  marketplace: Sparkle,
+  pos: Sparkle,
+  finance: Sparkle,
+  chat: Sparkle,
+  company: FileText,
+  interviewos: Sparkle,
+};
+
 function ProjectMiniCard({ project }: { project: Project }) {
+  const Icon = typeIcon[project.type] || Sparkle;
+
   return (
     <GlowCard
       glowColor={project.accent.glow}
@@ -714,19 +781,25 @@ function ProjectMiniCard({ project }: { project: Project }) {
       className="p-5 bg-surface-tile-1 border-white/10 hover:border-white/20 h-full"
     >
       <div className="flex flex-col h-full gap-3">
-          {/* Header: Title + Year */}
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="text-sm font-semibold text-white font-display leading-snug">{project.title}</h3>
+          {/* Accent header bar */}
+          <div
+            className="flex items-center gap-2.5 rounded-lg px-3 py-2"
+            style={{ backgroundColor: `${project.accent.color}10` }}
+          >
             <span
-              className="shrink-0 rounded-full border px-2 py-0.5 text-[9px] font-medium"
-              style={{
-                backgroundColor: `${project.accent.color}1a`,
-                borderColor: `${project.accent.color}30`,
-                color: project.accent.color,
-              }}
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md"
+              style={{ backgroundColor: `${project.accent.color}18` }}
             >
-              {project.year}
+              <Icon size={13} style={{ color: project.accent.color }} />
             </span>
+            <div className="min-w-0">
+              <h3 className="text-sm font-semibold text-white font-display leading-snug truncate">{project.title}</h3>
+              <div className="flex items-center gap-2 text-[10px] mt-0.5">
+                <span className="font-medium" style={{ color: project.accent.color }}>{project.year}</span>
+                <span className="text-zinc-600">·</span>
+                <span className="text-zinc-500 capitalize">{project.type}</span>
+              </div>
+            </div>
           </div>
 
           {/* Short description */}
@@ -808,7 +881,7 @@ export default function Projects() {
           {featuredProjects.map((project, index) => (
             <motion.div
               key={project.title}
-              variants={index % 2 === 0 ? slideLeft : slideRight}
+              variants={clipRevealUp}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}

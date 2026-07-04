@@ -69,7 +69,7 @@ export default function FloatingDock() {
           transition={{ duration: reduced ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 pointer-events-none"
         >
-          <div className="pointer-events-auto glass-panel flex items-center gap-0.5 rounded-2xl px-2.5 py-2 shadow-2xl shadow-black/60">
+          <div className="pointer-events-auto glass-panel flex items-center gap-0.5 rounded-2xl px-2.5 py-2 shadow-elevated-soft">
             {dockItems.map(({ id, label, icon: Icon }) => {
               const isActive = activeSection === id;
               return (

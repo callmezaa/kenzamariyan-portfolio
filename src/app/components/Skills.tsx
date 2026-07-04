@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiFirebase, SiGo, SiExpress, SiPostgresql, SiRedis, SiDocker, SiGooglecloud, SiPrisma, SiSupabase } from "react-icons/si";
 import { Sparkle } from "lucide-react";
 import GlowCard from "./ui/GlowCard";
-import { seqHeader, seqLabel, seqTitle, seqDesc, staggerContainer, staggerItem } from "../utils/animations";
+import { seqHeader, seqLabel, seqTitle, seqDesc, staggerContainer, staggerItem, scaleRotateIn } from "../utils/animations";
 
 function useIsVisible(threshold = 0.3) {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,7 +16,7 @@ function useIsVisible(threshold = 0.3) {
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
+        setIsVisible(entry.isIntersecting);
       },
       { threshold }
     );
@@ -48,20 +48,18 @@ export default function Skills() {
   const products = ["Agriculture Supply", "Harvest Seed Stock", "Organic Fertilizer", "Rice Paddy 50kg", "Corn Feed 25kg", "Palm Oil Crude", "Coffee Beans Arabica", "Cocoa Pods Wet"];
   const amounts = ["$340.00", "$1,250.00", "$85.50", "$670.00", "$210.00", "$1,890.00", "$45.00", "$920.00"];
   const [txQueue, setTxQueue] = useState([
-    { id: 9482, desc: "Agriculture Supply", amount: "$340.00" },
-    { id: 9481, desc: "Harvest Seed Stock", amount: "$1,250.00" },
+    { id: "init-1", desc: "Agriculture Supply", amount: "$340.00" },
+    { id: "init-2", desc: "Harvest Seed Stock", amount: "$1,250.00" },
   ]);
-  const txCounter = useRef(9483);
 
   useEffect(() => {
     if (!isVisible || reduced) return;
     const interval = setInterval(() => {
       const idx = Math.floor(Math.random() * products.length);
       setTxQueue((prev) => {
-        const next = [{ id: txCounter.current, desc: products[idx], amount: amounts[idx] }, ...prev];
+        const next = [{ id: crypto.randomUUID(), desc: products[idx], amount: amounts[idx] }, ...prev];
         return next.slice(0, 3);
       });
-      txCounter.current += 1;
     }, 5000 + Math.random() * 3000);
     return () => clearInterval(interval);
   }, [isVisible, reduced]);
@@ -99,8 +97,8 @@ export default function Skills() {
           className="grid gap-6 md:grid-cols-2"
         >
           
-          {/* Card 1: Frontend Architecture */}
-          <motion.div variants={staggerItem}>
+          {/* Card 1: Frontend Architecture — full width */}
+          <motion.div variants={scaleRotateIn} className="md:col-span-2">
             <GlowCard glowColor="rgba(99, 102, 241, 0.08)" className="h-full p-6 md:p-8 flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -152,7 +150,7 @@ export default function Skills() {
 
           {/* Card 2: Mobile Platform Development */}
           <motion.div
-            variants={staggerItem}
+            variants={scaleRotateIn}
           >
             <GlowCard glowColor="rgba(16, 185, 129, 0.06)" className="h-full p-6 md:p-8 flex flex-col justify-between">
               <div className="space-y-3">
@@ -203,7 +201,7 @@ export default function Skills() {
 
           {/* Card 3: Backend & Data Integration */}
           <motion.div
-            variants={staggerItem}
+            variants={scaleRotateIn}
           >
             <GlowCard glowColor="rgba(6, 182, 212, 0.06)" className="h-full p-6 md:p-8 flex flex-col justify-between">
               <div className="space-y-3">
@@ -247,9 +245,10 @@ export default function Skills() {
             </GlowCard>
           </motion.div>
 
-          {/* Card 4: Tooling & Delivery */}
+          {/* Card 4: Infrastructure & AI — full width */}
           <motion.div
-            variants={staggerItem}
+            variants={scaleRotateIn}
+            className="md:col-span-2"
           >
             <GlowCard glowColor="rgba(245, 158, 11, 0.06)" className="h-full p-6 md:p-8 flex flex-col justify-between">
               <div className="space-y-3">

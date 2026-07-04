@@ -11,12 +11,14 @@ import {
   scaleIn,
   staggerContainer,
   staggerItem,
-  sectionHeader,
   seqHeader,
   seqLabel,
   seqTitle,
   seqDesc,
   seqContent,
+  scaleRotateIn,
+  clipRevealUp,
+  flipCard,
 } from "./animations";
 
 export function useReducedVariants() {
@@ -31,12 +33,14 @@ export function useReducedVariants() {
       scaleIn,
       staggerContainer,
       staggerItem,
-      sectionHeader,
       seqHeader,
       seqLabel,
       seqTitle,
       seqDesc,
       seqContent,
+      scaleRotateIn,
+      clipRevealUp,
+      flipCard,
     };
   }
 
@@ -66,11 +70,13 @@ export function useReducedVariants() {
     scaleIn: instant,
     staggerContainer: instantContainer,
     staggerItem: instantItem,
-    sectionHeader: { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0 } } },
     seqHeader: { hidden: {}, visible: { transition: { staggerChildren: 0 } } },
     seqLabel: instant,
     seqTitle: instant,
     seqDesc: instant,
     seqContent: instant,
+    scaleRotateIn: instant,
+    clipRevealUp: instant,
+    flipCard: instant,
   };
 }

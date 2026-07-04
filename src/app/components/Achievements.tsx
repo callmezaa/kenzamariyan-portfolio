@@ -115,7 +115,7 @@ function CertificatePreview({ cert }: { cert: Certificate }) {
   const multi = cert.files.length > 1;
 
   return (
-    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg bg-zinc-900/50 group">
+    <div className="relative w-full aspect-[16/10] overflow-hidden rounded-lg bg-zinc-900/50 group">
       <Image
         src={cert.files[page]}
         alt={cert.title}
@@ -159,7 +159,7 @@ function CertificatePreview({ cert }: { cert: Certificate }) {
   );
 }
 
-export default function Testimonials() {
+export default function Achievements() {
   const { staggerContainer: container, staggerItem: item } = useReducedVariants();
 
   return (

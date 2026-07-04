@@ -39,7 +39,7 @@ export default function GlowCard({
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={`group relative overflow-hidden rounded-md border border-white/10 bg-canvas-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl hover:shadow-black/40 ${className}`}
+      className={`group relative overflow-hidden rounded-md border border-white/10 bg-canvas-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 ${className}`}
     >
       {/* Background Radial Glow */}
       <motion.div

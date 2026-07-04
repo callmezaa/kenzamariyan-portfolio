@@ -1,20 +1,42 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Briefcase, GraduationCap, Users, type LucideIcon } from "lucide-react";
 import { experiences, type ExperienceType } from "../data/experience";
 import GlowCard from "./ui/GlowCard";
-import { sectionHeader, seqHeader, seqLabel, seqTitle, seqDesc, slideLeft } from "../utils/animations";
+import { seqHeader, seqLabel, seqTitle, seqDesc, timelineItem, timelineDot, timelineCard } from "../utils/animations";
 
-const typeLabels: Record<ExperienceType, string> = {
-  work: "Professional",
-  education: "Academic",
-  organization: "Leadership",
-};
-
-const badgeColors: Record<ExperienceType, string> = {
-  work: "border-indigo-500/20 bg-indigo-500/5 text-indigo-300",
-  education: "border-emerald-500/20 bg-emerald-500/5 text-emerald-300",
-  organization: "border-cyan-500/20 bg-cyan-500/5 text-cyan-300",
+const typeConfig: Record<ExperienceType, { label: string; icon: LucideIcon; border: string; bg: string; text: string; glow: string; dot: string; ring: string }> = {
+  work: {
+    label: "Professional",
+    icon: Briefcase,
+    border: "border-indigo-500/20",
+    bg: "bg-indigo-500/5",
+    text: "text-indigo-300",
+    glow: "rgba(99, 102, 241, 0.08)",
+    dot: "bg-indigo-400",
+    ring: "ring-indigo-500/30",
+  },
+  education: {
+    label: "Academic",
+    icon: GraduationCap,
+    border: "border-emerald-500/20",
+    bg: "bg-emerald-500/5",
+    text: "text-emerald-300",
+    glow: "rgba(16, 185, 129, 0.08)",
+    dot: "bg-emerald-400",
+    ring: "ring-emerald-500/30",
+  },
+  organization: {
+    label: "Leadership",
+    icon: Users,
+    border: "border-cyan-500/20",
+    bg: "bg-cyan-500/5",
+    text: "text-cyan-300",
+    glow: "rgba(6, 182, 212, 0.08)",
+    dot: "bg-cyan-400",
+    ring: "ring-cyan-500/30",
+  },
 };
 
 export default function Experience() {
@@ -46,40 +68,47 @@ export default function Experience() {
           <div className="absolute left-4 top-0 bottom-0 w-px bg-white/10 pointer-events-none" />
           
           {experiences.map((exp, index) => {
+            const cfg = typeConfig[exp.type];
+            const Icon = cfg.icon;
             return (
               <motion.div
                 key={`${exp.title}-${index}`}
-                variants={slideLeft}
+                variants={timelineItem}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 className="relative pl-8 group"
               >
-                {/* Timeline Node Dot */}
-                <div className="absolute left-4 -translate-x-1/2 top-6 flex h-5 w-5 items-center justify-center">
-                  <div className="h-3 w-3 rounded-full bg-zinc-800 border border-white/20 transition-all duration-300 group-hover:bg-primary group-hover:scale-150 group-hover:border-primary-on-dark" />
-                </div>
+                {/* Timeline Node Dot — reveals first */}
+                <motion.div variants={timelineDot} className="absolute left-4 -translate-x-1/2 top-6 flex h-5 w-5 items-center justify-center">
+                  <div className={`h-3 w-3 rounded-full ${cfg.dot} ring-2 ${cfg.ring} transition-all duration-300 group-hover:scale-[2]`} />
+                </motion.div>
 
-                <div className="grid md:grid-cols-12 gap-4 items-start">
-                  
-                  {/* Left Column: Date & Badge (3 cols) */}
-                  <div className="md:col-span-3 space-y-1">
-                    <span className="font-mono text-xs font-semibold text-zinc-400 block">{exp.year}</span>
-                    <span className={`inline-block rounded-md border px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase ${badgeColors[exp.type]}`}>
-                      {typeLabels[exp.type]}
+                <motion.div variants={timelineCard} className="grid md:grid-cols-12 gap-4 items-start">
+                   
+                  {/* Left Column: Icon + Date + Badge (3 cols) */}
+                  <div className="md:col-span-3 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className={`flex h-6 w-6 items-center justify-center rounded-md ${cfg.bg} ${cfg.border} border`}>
+                        <Icon size={13} className={cfg.text} />
+                      </span>
+                      <span className="font-mono text-xs font-semibold text-zinc-400">{exp.year}</span>
+                    </div>
+                    <span className={`inline-block rounded-md border px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase ${cfg.border} ${cfg.bg} ${cfg.text}`}>
+                      {cfg.label}
                     </span>
                   </div>
 
                   {/* Right Column: Card Details (9 cols) */}
                   <div className="md:col-span-9">
                     <GlowCard
-                      glowColor="rgba(99, 102, 241, 0.06)"
+                      glowColor={cfg.glow}
                       radialSize={350}
-                      className="p-5 md:p-6 bg-surface-tile-1 border-white/10 hover:border-white/20"
+                      className="p-5 md:p-6 bg-surface-tile-1 border-white/10 transition-all duration-300 hover:translate-x-1 hover:shadow-[0_0_24px_rgba(255,255,255,0.03)] hover:border-white/20"
                     >
                       <div className="space-y-3">
                         <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <h3 className="text-[15px] sm:text-[17px] font-bold text-white tracking-tight font-display group-hover:text-primary-on-dark transition-colors duration-200">
+                          <h3 className="text-[15px] sm:text-[17px] font-bold text-white tracking-tight font-display transition-colors duration-200">
                             {exp.title}
                           </h3>
                           <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-medium">
@@ -108,7 +137,7 @@ export default function Experience() {
                     </GlowCard>
                   </div>
                   
-                </div>
+                </motion.div>
               </motion.div>
             );
           })}
