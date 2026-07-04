@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar } from "lucide-react";
+import VisitorCounter from "./ui/VisitorCounter";
 
 function FooterLink({ href, children, external }: { href: string; children: React.ReactNode; external?: boolean }) {
   const classes = "relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full hover:text-white transition-colors";
@@ -93,7 +94,8 @@ export default function Footer() {
           <p suppressHydrationWarning>
             Copyright © {currentYear} Ken Zamariyan. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex items-center gap-6">
+            <VisitorCounter />
             <span className="hover:text-zinc-400 transition-colors cursor-default">Built with Next.js & React</span>
             <span className="hover:text-zinc-400 transition-colors cursor-default">Designed in Jakarta, ID</span>
           </div>

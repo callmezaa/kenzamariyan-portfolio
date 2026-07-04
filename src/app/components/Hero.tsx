@@ -11,14 +11,25 @@ const easeOut = [0.16, 1, 0.3, 1] as const;
 
 const headlineWords = "9 products shipped across web, mobile, and AI — no fluff.".split(" ");
 
+const START_YEAR = 2022;
+const yearsOfExp = new Date().getFullYear() - START_YEAR;
+
 const achievements = [
+  {
+    prefix: "",
+    target: yearsOfExp,
+    suffix: "+",
+    title: "Years of Experience",
+    context: "Full-stack engineering across web, mobile & AI since 2022",
+    barColor: "bg-indigo-400",
+  },
   {
     prefix: "< ",
     target: 15,
     suffix: "s",
     title: "AI Contract Analysis",
     context: "Hackathon-winning feature — processes documents under 15 seconds",
-    barColor: "bg-indigo-400",
+    barColor: "bg-emerald-400",
   },
   {
     prefix: "",
@@ -26,7 +37,7 @@ const achievements = [
     suffix: "%",
     title: "Faster Data Reconciliation",
     context: "Offline-first mobile POS serving rural cooperatives",
-    barColor: "bg-emerald-400",
+    barColor: "bg-cyan-400",
   },
   {
     prefix: "",
@@ -132,11 +143,32 @@ export default function Hero() {
               web, mobile, and AI with React, Go, Python, and cloud infrastructure.
             </motion.p>
 
+            {/* Now building — live status indicator */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 + headlineWords.length * 0.03 + 0.2, duration: 0.4, ease: easeOut }}
+            >
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-indigo-500/10 bg-indigo-500/5 px-4 py-2 text-xs transition-all duration-300 hover:bg-indigo-500/10 hover:border-indigo-500/20"
+              >
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-indigo-500" />
+                </span>
+                <span className="flex items-baseline gap-1.5">
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">Now building</span>
+                  <span className="text-xs font-semibold text-indigo-300 group-hover:text-indigo-200 transition-colors">InterviewOS</span>
+                </span>
+              </a>
+            </motion.div>
+
             {/* Call To Actions */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 + headlineWords.length * 0.03 + 0.25, duration: 0.4, ease: easeOut }}
+              transition={{ delay: 0.25 + headlineWords.length * 0.03 + 0.28, duration: 0.4, ease: easeOut }}
               className="flex flex-row items-center gap-4 pt-2"
             >
               <Magnetic strength={0.3}>
@@ -224,7 +256,7 @@ export default function Hero() {
       {/* Achievement Highlight Strip */}
       <div className="relative border-t border-white/5 bg-black/40 backdrop-blur-xs py-8 z-10">
         <div className="mx-auto max-w-6xl px-6 md:px-8 w-full">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
             {achievements.map((item, i) => {
               const { prefix, target, suffix } = item;
               return (

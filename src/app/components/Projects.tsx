@@ -4,10 +4,12 @@ import Image from "next/image";
 import { ExternalLink, Sparkle, FileText, AlertTriangle, Award, Lock, Github, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { projects, type Project, type ProjectType } from "../data/projects";
+import { codeSnippets } from "../data/codeSnippets";
 import GlowCard from "./ui/GlowCard";
+import CodeBlock from "./ui/CodeBlock";
 import Button from "./ui/Button";
 import { useState, useEffect } from "react";
-import { seqHeader, seqLabel, seqTitle, seqDesc, fadeUp, staggerContainer, staggerItem, clipRevealUp } from "../utils/animations";
+import { seqHeader, seqLabel, seqTitle, seqDesc, fadeUp, staggerContainer, staggerItem, clipRevealUp, easeOut } from "../utils/animations";
 
 function ScreenshotShowcase({
   mockupSrc,
@@ -615,6 +617,7 @@ function ProjectPreview({ type }: { type: ProjectType }) {
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isEven = index % 2 === 0;
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
 
   return (
     <GlowCard
@@ -713,6 +716,48 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               )}
             </AnimatePresence>
           </div>
+
+          {/* Code snippet section */}
+          {codeSnippets[project.title] && (
+            <div className="border-t border-white/5 pt-4">
+              <button
+                onClick={() => setCodeOpen(!codeOpen)}
+                className="btn-press inline-flex items-center gap-2 text-[11px] font-semibold transition-colors cursor-pointer"
+                style={{ color: project.accent.color }}
+              >
+                <motion.span
+                  animate={{ rotate: codeOpen ? 180 : 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="inline-flex"
+                >
+                  <ChevronDown size={14} />
+                </motion.span>
+                {codeOpen ? "Hide Code" : "Show Code"}
+              </button>
+
+              <AnimatePresence initial={false}>
+                {codeOpen && (
+                  <motion.div
+                    key="code-snippet"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-4">
+                      <CodeBlock
+                        code={codeSnippets[project.title].code}
+                        filename={codeSnippets[project.title].filename}
+                        language={codeSnippets[project.title].language}
+                        highlightLines={codeSnippets[project.title].highlightLines}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
 
           {/* Details & CTAs */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-white/5">
@@ -851,9 +896,32 @@ function ProjectMiniCard({ project }: { project: Project }) {
   );
 }
 
+type FilterCategory = "all" | "ai" | "mobile" | "fullstack";
+
+const filterTabs: { key: FilterCategory; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "ai", label: "AI" },
+  { key: "mobile", label: "Mobile" },
+  { key: "fullstack", label: "Full-Stack" },
+];
+
+const filterMap: Record<FilterCategory, ProjectType[]> = {
+  all: [],
+  ai: ["ai", "interviewos"],
+  mobile: ["mobile", "pos", "chat"],
+  fullstack: ["fullstack", "marketplace", "dashboard", "finance", "company"],
+};
+
+function matchesFilter(project: Project, filter: FilterCategory): boolean {
+  if (filter === "all") return true;
+  return filterMap[filter].includes(project.type);
+}
+
 export default function Projects() {
-  const featuredProjects = projects.filter((p) => p.featured);
-  const moreProjects = projects.filter((p) => !p.featured);
+  const [activeFilter, setActiveFilter] = useState<FilterCategory>("all");
+
+  const filteredFeatured = projects.filter((p) => p.featured && matchesFilter(p, activeFilter));
+  const filteredMore = projects.filter((p) => !p.featured && matchesFilter(p, activeFilter));
 
   return (
     <section id="projects" className="relative bg-canvas py-24 md:py-28 border-b border-white/5">
@@ -865,7 +933,7 @@ export default function Projects() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mb-16 max-w-2xl space-y-3"
+          className="mb-12 max-w-2xl space-y-3"
         >
           <motion.p variants={seqLabel} className="text-xs font-semibold uppercase tracking-widest text-primary">Selected Work</motion.p>
           <motion.h2 variants={seqTitle} className="display-lg tracking-tight text-white">
@@ -876,28 +944,82 @@ export default function Projects() {
           </motion.p>
         </motion.div>
 
+        {/* Filter Tabs */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.35, ease: easeOut }}
+          className="mb-12 flex items-center gap-1 rounded-lg border border-white/5 bg-white/[0.02] p-1 w-fit"
+        >
+          {filterTabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveFilter(tab.key)}
+              className={`relative rounded-md px-4 py-2 text-xs font-medium transition-all duration-300 cursor-pointer ${
+                activeFilter === tab.key
+                  ? "text-white"
+                  : "text-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              {activeFilter === tab.key && (
+                <motion.span
+                  layoutId="filter-pill"
+                  className="absolute inset-0 rounded-md bg-white/10"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{tab.label}</span>
+            </button>
+          ))}
+        </motion.div>
+
         {/* Featured Project Cards */}
         <div className="space-y-10 md:space-y-12">
-          {featuredProjects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              variants={clipRevealUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <ProjectCard project={project} index={index} />
-            </motion.div>
-          ))}
+          <AnimatePresence mode="wait">
+            {filteredFeatured.length > 0 ? (
+              <motion.div
+                key={activeFilter + "-featured"}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.35, ease: easeOut }}
+                className="space-y-10 md:space-y-12"
+              >
+                {filteredFeatured.map((project, index) => (
+                  <motion.div
+                    key={project.title}
+                    variants={clipRevealUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    layout
+                  >
+                    <ProjectCard project={project} index={index} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="no-featured"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="py-16 text-center"
+              >
+                <p className="body-small text-zinc-600">No featured projects in this category.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* More Projects Section */}
-        {moreProjects.length > 0 && (
+        {filteredMore.length > 0 && (
           <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.4, ease: easeOut }}
             className="mt-20 pt-14 border-t border-white/5"
           >
             <div className="mb-8 max-w-2xl space-y-2">
@@ -910,14 +1032,20 @@ export default function Projects() {
             </div>
 
             <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
+              key={activeFilter + "-more"}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.35, ease: easeOut }}
               className="grid gap-4 md:grid-cols-2"
             >
-              {moreProjects.map((project) => (
-                <motion.div key={project.title} variants={staggerItem}>
+              {filteredMore.map((project) => (
+                <motion.div
+                  key={project.title}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, ease: easeOut }}
+                >
                   <ProjectMiniCard project={project} />
                 </motion.div>
               ))}
