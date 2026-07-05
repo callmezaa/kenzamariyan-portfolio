@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ExternalLink, Sparkle, FileText, AlertTriangle, Award, Lock, Github, ChevronDown } from "lucide-react";
+import { ExternalLink, Sparkle, FileText, AlertTriangle, Award, Lock, Github, ChevronDown, Play, X } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { projects, type Project, type ProjectType } from "../data/projects";
 import { codeSnippets } from "../data/codeSnippets";
@@ -201,6 +201,7 @@ function ProjectPreview({ type }: { type: ProjectType }) {
   const [salesCount, setSalesCount] = useState(1280);
   const [orderPulse, setOrderPulse] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [showAiVideo, setShowAiVideo] = useState(false);
 
   // Auto-update stats to simulate real-time POS transaction intake
   useEffect(() => {
@@ -255,24 +256,85 @@ function ProjectPreview({ type }: { type: ProjectType }) {
     );
   }
 
-  // AI showcase — mockup + interactive screenshot carousel
+  // AI showcase — mockup with play overlay → inline expandable cinematic video
   if (type === "ai") {
-    const tabs = [
-      { label: "Home", src: "/image/contract-chill/screenshot/homesection.png", width: 1636, height: 799 },
-      { label: "Login", src: "/image/contract-chill/screenshot/loginpage.png", width: 1920, height: 1080 },
-      { label: "Analyze", src: "/image/contract-chill/screenshot/analyzersection.png", width: 1566, height: 805 },
-      { label: "Dashboard", src: "/image/contract-chill/screenshot/dashboardpage.png", width: 1872, height: 807 },
-      { label: "Generate", src: "/image/contract-chill/screenshot/generatepage.png", width: 1881, height: 813 },
-    ];
+    if (showAiVideo) {
+      return (
+        <motion.div
+          layout
+          className="relative mx-auto w-full max-w-[520px] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow select-none"
+        >
+          {/* Video Player */}
+          <div className="relative w-full bg-black">
+            <video
+              src="/animation/contract-chill/animation_contractchill_h264.mp4"
+              autoPlay
+              controls
+              playsInline
+              className="w-full h-auto max-h-[65vh] object-contain"
+            />
+          </div>
+
+          {/* Bottom bar */}
+          <div className="flex items-center justify-between border-t border-zinc-800 bg-zinc-900/80 px-4 py-3">
+            <span className="text-[11px] font-medium text-zinc-400">
+              ContractChill — Product Motion
+            </span>
+            <button
+              onClick={() => setShowAiVideo(false)}
+              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all cursor-pointer"
+            >
+              <X size={14} />
+              Close
+            </button>
+          </div>
+        </motion.div>
+      );
+    }
 
     return (
-      <ScreenshotShowcase
-        mockupSrc="/image/contract-chill/screenshot/mockup.png"
-        mockupWidth={1920}
-        mockupHeight={1080}
-        tabs={tabs}
-        alt="ContractChill — AI Contract Analyzer"
-      />
+      <div className="relative mx-auto w-full max-w-[520px] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-[1.03] select-none group">
+        {/* Hero Mockup Render with Play Overlay */}
+        <div className="relative w-full bg-zinc-900">
+          <Image
+            src="/image/contract-chill/screenshot/mockup.png"
+            alt="ContractChill — AI Contract Analyzer"
+            width={1920}
+            height={1080}
+            className="w-full h-auto"
+            sizes="520px"
+            priority
+          />
+
+          {/* Dark overlay + play button */}
+          <button
+            onClick={() => setShowAiVideo(true)}
+            className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-300 cursor-pointer"
+          >
+            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-all duration-300">
+              <Play size={28} className="ml-1" />
+            </span>
+          </button>
+
+          {/* Always-visible subtle play badge */}
+          <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1.5 text-[10px] font-medium text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <Play size={12} />
+            Watch product film
+          </div>
+        </div>
+
+        {/* Carousel Flow Video */}
+        <div className="relative w-full bg-zinc-950 border-t border-zinc-800">
+          <video
+            src="/animation/contract-chill/contractchill-carousel-flow.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-auto"
+          />
+        </div>
+      </div>
     );
   }
 
