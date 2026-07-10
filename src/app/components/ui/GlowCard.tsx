@@ -43,6 +43,7 @@ export default function GlowCard({
     >
       {/* Background Radial Glow */}
       <motion.div
+        aria-hidden="true"
         className="pointer-events-none absolute -inset-px rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
         style={{
           background: `radial-gradient(${radialSize}px circle at var(--gx) var(--gy), ${glowColor}, transparent 80%)`,
@@ -53,6 +54,7 @@ export default function GlowCard({
 
       {/* Light border glow accent */}
       <motion.div
+        aria-hidden="true"
         className="pointer-events-none absolute -inset-px rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
         style={{
           background: `radial-gradient(${radialSize / 1.5}px circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.08), transparent 80%)`,

@@ -86,20 +86,20 @@ export default function About() {
           </motion.p>
           <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-75 hover:opacity-100 transition-opacity duration-500">
             <span className="flex items-center gap-3 opacity-75 hover:opacity-100 transition-opacity" title="React & Next.js">
-              <SiReact size={20} />
-              <SiNextdotjs size={20} />
+              <SiReact size={20} aria-hidden="true" />
+              <SiNextdotjs size={20} aria-hidden="true" />
             </span>
-            <SiGo size={20} className="opacity-75 hover:opacity-100 transition-opacity" title="Go (Gin & Fiber)" />
+            <SiGo size={20} className="opacity-75 hover:opacity-100 transition-opacity" title="Go (Gin & Fiber)" aria-hidden="true" />
             <span className="flex items-center gap-3 opacity-75 hover:opacity-100 transition-opacity" title="Python (FastAPI)">
-              <SiPython size={20} />
-              <SiFastapi size={20} />
+              <SiPython size={20} aria-hidden="true" />
+              <SiFastapi size={20} aria-hidden="true" />
             </span>
-            <SiPostgresql size={20} className="opacity-75 hover:opacity-100 transition-opacity" title="PostgreSQL" />
+            <SiPostgresql size={20} className="opacity-75 hover:opacity-100 transition-opacity" title="PostgreSQL" aria-hidden="true" />
             <span className="flex items-center gap-3 opacity-75 hover:opacity-100 transition-opacity" title="Docker & GCP">
-              <SiDocker size={20} />
-              <SiGooglecloud size={20} />
+              <SiDocker size={20} aria-hidden="true" />
+              <SiGooglecloud size={20} aria-hidden="true" />
             </span>
-            <SiTypescript size={20} className="opacity-75 hover:opacity-100 transition-opacity" title="TypeScript" />
+            <SiTypescript size={20} className="opacity-75 hover:opacity-100 transition-opacity" title="TypeScript" aria-hidden="true" />
           </div>
         </motion.div>
       </div>

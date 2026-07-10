@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Sparkle, Terminal, Palette, Braces, Cpu } from "lucide-react";
+import { ExternalLink, Sparkle, SwatchBook, Github } from "lucide-react";
 import GlowCard from "./ui/GlowCard";
 import { seqHeader, seqLabel, seqTitle, seqDesc } from "../utils/animations";
 import { useReducedVariants } from "../utils/useReducedAnimation";
@@ -15,45 +15,20 @@ interface Experiment {
   accent: string;
   glowColor: string;
   href?: string;
+  githubUrl?: string;
   comingSoon?: boolean;
 }
 
 const experiments: Experiment[] = [
   {
-    title: "Pixel Sort",
-    desc: "An experimental image processor that sorts pixels by brightness, hue, or saturation — creating glitch-like generative art from any uploaded image.",
-    tags: ["Canvas API", "Web Workers", "TypeScript"],
-    icon: Palette,
-    accent: "#a78bfa",
-    glowColor: "rgba(167, 139, 250, 0.08)",
-    href: "#",
-  },
-  {
-    title: "Prompt Lab",
-    desc: "A sandbox for crafting and comparing LLM prompts side-by-side. Test temperature, top-p, and system prompt variations in real time.",
-    tags: ["Next.js", "AI SDK", "Streaming"],
-    icon: Terminal,
-    accent: "#34d399",
-    glowColor: "rgba(52, 211, 153, 0.08)",
-    href: "#",
-  },
-  {
-    title: "Algo·Scope",
-    desc: "Watch sorting algorithms race in real time. Merge sort, quick sort, heap sort — visualized with smooth bar animations and step counters.",
-    tags: ["React", "Framer Motion", "Algorithms"],
-    icon: Braces,
-    accent: "#f472b6",
-    glowColor: "rgba(244, 114, 182, 0.08)",
-    href: "#",
-  },
-  {
-    title: "Dot Grid",
-    desc: "A cellular automata toy inspired by Game of Life. Click to toggle cells, randomize the grid, or watch emergent patterns unfold over time.",
-    tags: ["Canvas API", "React", "Simulation"],
-    icon: Cpu,
-    accent: "#38bdf8",
-    glowColor: "rgba(56, 189, 248, 0.08)",
-    comingSoon: true,
+    title: "Palette Studio",
+    desc: "Extract dominant colors from any image — explore harmonies, gradients, contrast ratios, and 3D visualizations. A premium color toolkit for designers.",
+    tags: ["Next.js", "Three.js", "TypeScript"],
+    icon: SwatchBook,
+    accent: "#f59e0b",
+    glowColor: "rgba(245, 158, 11, 0.08)",
+    href: "https://pallete-studio-ten.vercel.app",
+    githubUrl: "https://github.com/callmezaa/Pallete-studio",
   },
 ];
 
@@ -103,7 +78,7 @@ function ExperimentCard({ exp, index }: { exp: Experiment; index: number }) {
               borderColor: `${exp.accent}20`,
             }}
           >
-            <Icon size={16} style={{ color: exp.accent }} />
+            <Icon size={16} style={{ color: exp.accent }} aria-hidden="true" />
           </span>
           {exp.comingSoon && (
             <span className="shrink-0 rounded-full border border-white/5 bg-white/[0.03] px-2.5 py-0.5 text-[9px] font-medium text-zinc-500">
@@ -138,19 +113,32 @@ function ExperimentCard({ exp, index }: { exp: Experiment; index: number }) {
 
         <div className="flex items-center justify-between pt-2 border-t border-white/5">
           {exp.href && !exp.comingSoon ? (
-            <a
-              href={exp.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-press inline-flex items-center gap-1.5 text-[11px] font-semibold transition-colors"
-              style={{ color: exp.accent }}
-            >
-              <span>Live Demo</span>
-              <ExternalLink size={12} />
+            <div className="flex items-center gap-3">
+              <a
+                href={exp.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-press inline-flex items-center gap-1.5 text-[11px] font-semibold transition-colors"
+                style={{ color: exp.accent }}
+              >
+                <span>Live Demo</span>
+              <ExternalLink size={12} aria-hidden="true" />
             </a>
+            {exp.githubUrl && (
+              <a
+                href={exp.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-press inline-flex items-center gap-1.5 text-[11px] font-medium text-zinc-500 transition-colors hover:text-white"
+              >
+                <Github size={12} aria-hidden="true" />
+                  <span>Source</span>
+                </a>
+              )}
+            </div>
           ) : (
             <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-zinc-600">
-              <Sparkle size={12} /> On the workbench
+              <Sparkle size={12} aria-hidden="true" /> On the workbench
             </span>
           )}
         </div>

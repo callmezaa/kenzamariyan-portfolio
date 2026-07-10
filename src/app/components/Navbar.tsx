@@ -216,7 +216,7 @@ export default function Navbar() {
                     aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
                     className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                   >
-                    {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+                {theme === "dark" ? <Sun size={14} aria-hidden="true" /> : <Moon size={14} aria-hidden="true" />}
                     <span>{theme === "dark" ? "Light" : "Dark"} Mode</span>
                   </button>
                 </div>
@@ -229,7 +229,7 @@ export default function Navbar() {
                     className="flex items-center gap-2 text-zinc-300 hover:text-white"
                     onClick={closeMenu}
                   >
-                    <FaGithub size={18} />
+              <FaGithub size={18} aria-hidden="true" />
                     <span className="text-xs">GitHub</span>
                   </a>
                   <a
@@ -239,7 +239,7 @@ export default function Navbar() {
                     className="flex items-center gap-2 text-zinc-300 hover:text-white"
                     onClick={closeMenu}
                   >
-                    <FaLinkedin size={18} />
+              <FaLinkedin size={18} aria-hidden="true" />
                     <span className="text-xs">LinkedIn</span>
                   </a>
                 </div>

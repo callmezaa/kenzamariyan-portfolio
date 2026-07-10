@@ -106,16 +106,17 @@ export default function CodeBlock({ code, filename, highlightLines = [] }: CodeB
         </div>
         <button
           onClick={handleCopy}
+          aria-label="Copy code"
           className="flex items-center gap-1.5 rounded-md px-2 py-1 text-[10px] font-medium text-zinc-500 hover:text-zinc-300 hover:bg-white/5 transition-colors cursor-pointer"
         >
           {copied ? (
             <>
-              <Check size={12} className="text-emerald-400" />
+              <Check size={12} className="text-emerald-400" aria-hidden="true" />
               <span className="text-emerald-400">Copied</span>
             </>
           ) : (
             <>
-              <Copy size={12} />
+              <Copy size={12} aria-hidden="true" />
               <span>Copy</span>
             </>
           )}

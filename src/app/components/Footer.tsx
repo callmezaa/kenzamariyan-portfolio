@@ -80,7 +80,7 @@ export default function Footer() {
               <li><FooterLink href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" external>LinkedIn</FooterLink></li>
               <li>
                 <FooterLink href="https://calendly.com/kenzamariyan32/15-minute-discovery-call" external>
-                  <Calendar size={14} />
+                  <Calendar size={14} aria-hidden="true" />
                   <span>Book a Call</span>
                 </FooterLink>
               </li>

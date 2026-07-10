@@ -202,6 +202,7 @@ function ProjectPreview({ type }: { type: ProjectType }) {
   const [orderPulse, setOrderPulse] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [showAiVideo, setShowAiVideo] = useState(false);
+  const [showInterviewVideo, setShowInterviewVideo] = useState(false);
 
   // Auto-update stats to simulate real-time POS transaction intake
   useEffect(() => {
@@ -284,7 +285,7 @@ function ProjectPreview({ type }: { type: ProjectType }) {
               onClick={() => setShowAiVideo(false)}
               className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all cursor-pointer"
             >
-              <X size={14} />
+              <X size={14} aria-hidden="true" />
               Close
             </button>
           </div>
@@ -312,13 +313,13 @@ function ProjectPreview({ type }: { type: ProjectType }) {
             className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-300 cursor-pointer"
           >
             <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-all duration-300">
-              <Play size={28} className="ml-1" />
+              <Play size={28} className="ml-1" aria-hidden="true" />
             </span>
           </button>
 
           {/* Always-visible subtle play badge */}
           <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1.5 text-[10px] font-medium text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <Play size={12} />
+            <Play size={12} aria-hidden="true" />
             Watch product film
           </div>
         </div>
@@ -447,22 +448,83 @@ function ProjectPreview({ type }: { type: ProjectType }) {
 
   // InterviewOS showcase — mockup + interactive screenshot carousel
   if (type === "interviewos") {
-    const tabs = [
-      { label: "Home", src: "/image/interviewOS/homesection.png", width: 1911, height: 849 },
-      { label: "Features", src: "/image/interviewOS/featuressection.png", width: 1894, height: 859 },
-      { label: "Login", src: "/image/interviewOS/loginpage.png", width: 1918, height: 853 },
-      { label: "Dashboard", src: "/image/interviewOS/dashboardpage.png", width: 1906, height: 861 },
-      { label: "Room", src: "/image/interviewOS/interviewroom.png", width: 1917, height: 858 },
-    ];
+    if (showInterviewVideo) {
+      return (
+        <motion.div
+          layout
+          className="relative mx-auto w-full max-w-[520px] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow select-none"
+        >
+          {/* Video Player */}
+          <div className="relative w-full bg-black">
+            <video
+              src="/animation/interviewos/animation_interviewos.mp4"
+              autoPlay
+              controls
+              playsInline
+              className="w-full h-auto max-h-[65vh] object-contain"
+            />
+          </div>
+
+          {/* Bottom bar */}
+          <div className="flex items-center justify-between border-t border-zinc-800 bg-zinc-900/80 px-4 py-3">
+            <span className="text-[11px] font-medium text-zinc-400">
+              InterviewOS — Product Motion
+            </span>
+            <button
+              onClick={() => setShowInterviewVideo(false)}
+              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all cursor-pointer"
+            >
+              <X size={14} aria-hidden="true" />
+              Close
+            </button>
+          </div>
+        </motion.div>
+      );
+    }
 
     return (
-      <ScreenshotShowcase
-        mockupSrc="/image/interviewOS/mockup.png"
-        mockupWidth={1024}
-        mockupHeight={1024}
-        tabs={tabs}
-        alt="InterviewOS — AI-Powered Interview Platform"
-      />
+      <div className="relative mx-auto w-full max-w-[520px] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-[1.03] select-none group">
+        {/* Hero Mockup Render with Play Overlay */}
+        <div className="relative w-full bg-zinc-900">
+          <Image
+            src="/image/interviewOS/mockup.png"
+            alt="InterviewOS — AI-Powered Interview Platform"
+            width={1024}
+            height={1024}
+            className="w-full h-auto"
+            sizes="520px"
+            priority
+          />
+
+          {/* Dark overlay + play button */}
+          <button
+            onClick={() => setShowInterviewVideo(true)}
+            className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-300 cursor-pointer"
+          >
+            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-all duration-300">
+              <Play size={28} className="ml-1" aria-hidden="true" />
+            </span>
+          </button>
+
+          {/* Always-visible subtle play badge */}
+          <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1.5 text-[10px] font-medium text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <Play size={12} aria-hidden="true" />
+            Watch product film
+          </div>
+        </div>
+
+        {/* Carousel Flow Video */}
+        <div className="relative w-full bg-zinc-950 border-t border-zinc-800">
+          <video
+            src="/animation/interviewos/interviewos-carousel-flow.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-auto"
+          />
+        </div>
+      </div>
     );
   }
 
@@ -472,9 +534,9 @@ function ProjectPreview({ type }: { type: ProjectType }) {
       <div className="relative mx-auto w-full max-w-[520px] aspect-[3/2] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 product-shadow transition-all duration-300 hover:scale-105 select-none">
         <div className="flex items-center gap-1.5 border-b border-zinc-800 bg-zinc-900 px-3.5 py-2">
           <div className="flex gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-red-500/60" />
-            <span className="h-1.5 w-1.5 rounded-full bg-yellow-500/60" />
-            <span className="h-1.5 w-1.5 rounded-full bg-green-500/60" />
+            <span className="h-1.5 w-1.5 rounded-full bg-red-500/60" aria-hidden="true" />
+            <span className="h-1.5 w-1.5 rounded-full bg-yellow-500/60" aria-hidden="true" />
+            <span className="h-1.5 w-1.5 rounded-full bg-green-500/60" aria-hidden="true" />
           </div>
           <div className="flex h-3.5 flex-1 items-center rounded border border-zinc-850 bg-zinc-950 px-2 font-mono text-[4.5px] text-zinc-500">
             assetra.marketplace
@@ -484,7 +546,7 @@ function ProjectPreview({ type }: { type: ProjectType }) {
           {/* Left: Document viewer */}
           <div className="flex-1 space-y-1.5 rounded border border-zinc-800 bg-zinc-950 p-2">
             <div className="flex items-center gap-1 border-b border-zinc-800 pb-1 text-[4px] text-zinc-500">
-              <FileText size={8} /> asset-details.md
+              <FileText size={8} aria-hidden="true" /> asset-details.md
             </div>
             {[60, 90, 75, 85, 50, 70].map((w, i) => (
               <div key={i} className={`h-1 rounded-full bg-zinc-800`} style={{ width: `${w}%` }} />
@@ -531,7 +593,7 @@ function ProjectPreview({ type }: { type: ProjectType }) {
                   </div>
                 ))}
                 <div className="flex items-center gap-1 rounded-full bg-blue-500/10 px-2 py-0.5 text-[4px] text-blue-400">
-                  <Sparkle size={7} /> NexBot AI online
+                  <Sparkle size={7} aria-hidden="true" /> NexBot AI online
                 </div>
               </div>
               <div className="flex justify-around border-t border-zinc-800 pt-1.5 text-[5px] text-zinc-500">
@@ -600,9 +662,9 @@ function ProjectPreview({ type }: { type: ProjectType }) {
       {/* Window Controls Header */}
       <div className="flex items-center gap-1.5 border-b border-zinc-800 bg-zinc-900 px-3.5 py-2">
         <div className="flex gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-red-500/60" />
-          <span className="h-1.5 w-1.5 rounded-full bg-yellow-500/60" />
-          <span className="h-1.5 w-1.5 rounded-full bg-green-500/60" />
+          <span className="h-1.5 w-1.5 rounded-full bg-red-500/60" aria-hidden="true" />
+          <span className="h-1.5 w-1.5 rounded-full bg-yellow-500/60" aria-hidden="true" />
+          <span className="h-1.5 w-1.5 rounded-full bg-green-500/60" aria-hidden="true" />
         </div>
         <div className="flex h-3.5 flex-1 items-center rounded border border-zinc-850 bg-zinc-950 px-2 font-mono text-[4.5px] text-zinc-500">
           {isDashboard ? "admin.gotani.com/dashboard" : "kpjmi.or.id/portal"}
@@ -704,7 +766,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               </span>
               {project.badge === "Hackathon" && (
                 <span className="inline-flex items-center gap-1 rounded-full border border-indigo-500/15 bg-indigo-500/10 px-2.5 py-0.5 text-[10px] font-medium text-indigo-400">
-                  <Award size={12} /> Hackathon
+                  <Award size={12} aria-hidden="true" /> Hackathon
                 </span>
               )}
               {project.badge === "Enterprise App" && (
@@ -720,7 +782,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <div className="flex flex-wrap gap-4 py-1.5">
             {project.metrics.map((metric) => (
               <div key={metric} className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: project.accent.color }} />
+                <span className="h-1.5 w-1.5 rounded-full" aria-hidden="true" style={{ backgroundColor: project.accent.color }} />
                 <span className="text-xs font-semibold text-white font-mono">{metric}</span>
               </div>
             ))}
@@ -747,7 +809,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className="inline-flex"
               >
-                <ChevronDown size={14} />
+                <ChevronDown size={14} aria-hidden="true" />
               </motion.span>
               {detailsOpen ? "Hide Details" : "Show Case Details"}
             </button>
@@ -792,7 +854,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   className="inline-flex"
                 >
-                  <ChevronDown size={14} />
+                  <ChevronDown size={14} aria-hidden="true" />
                 </motion.span>
                 {codeOpen ? "Hide Code" : "Show Code"}
               </button>
@@ -834,7 +896,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 rel="noopener noreferrer"
               >
                 Source Code
-                <ExternalLink size={14} />
+                <ExternalLink size={14} aria-hidden="true" />
               </Button>
               {project.demoUrl ? (
                 <Button
@@ -844,11 +906,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   rel="noopener noreferrer"
                 >
                   Live Demo
-                  <ExternalLink size={14} />
+                  <ExternalLink size={14} aria-hidden="true" />
                 </Button>
               ) : (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-white/5 bg-white/2 px-4 py-2 text-xs font-semibold text-zinc-500 cursor-default select-none">
-                  <Lock size={12} /> Private Production
+                  <Lock size={12} aria-hidden="true" /> Private Production
                 </span>
               )}
             </div>
@@ -897,7 +959,7 @@ function ProjectMiniCard({ project }: { project: Project }) {
               className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md"
               style={{ backgroundColor: `${project.accent.color}18` }}
             >
-              <Icon size={13} style={{ color: project.accent.color }} />
+              <Icon size={13} aria-hidden="true" style={{ color: project.accent.color }} />
             </span>
             <div className="min-w-0">
               <h3 className="text-sm font-semibold text-white font-display leading-snug truncate">{project.title}</h3>
@@ -936,7 +998,7 @@ function ProjectMiniCard({ project }: { project: Project }) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[10px] font-medium text-zinc-400 hover:text-white transition-colors"
             >
-              <Github size={11} /> Source
+              <Github size={11} aria-hidden="true" /> Source
             </a>
             {project.demoUrl ? (
               <a
@@ -945,11 +1007,11 @@ function ProjectMiniCard({ project }: { project: Project }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-[10px] font-medium text-zinc-400 hover:text-white transition-colors"
               >
-                <ExternalLink size={11} /> Live
+                <ExternalLink size={11} aria-hidden="true" /> Live
               </a>
             ) : (
               <span className="inline-flex items-center gap-1 text-[10px] font-medium text-zinc-600">
-                <Lock size={11} /> Private
+                <Lock size={11} aria-hidden="true" /> Private
               </span>
             )}
           </div>
@@ -1126,7 +1188,7 @@ export default function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Github size={14} />
+                <Github size={14} aria-hidden="true" />
                 <span>View All on GitHub</span>
               </Button>
             </motion.div>

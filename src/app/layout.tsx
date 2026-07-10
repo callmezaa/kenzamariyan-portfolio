@@ -76,6 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${inter.variable} ${plusJakartaSans.variable} scroll-smooth`}
       data-theme="dark"
+      style={{ colorScheme: "dark" }}
     >
       <head>
         <meta name="theme-color" content="#030303" id="theme-color-meta" />

@@ -156,9 +156,9 @@ export default function Contact() {
               <GlowCard glowColor="rgba(16, 185, 129, 0.08)" radialSize={200} className="p-4 bg-zinc-950/40 border-white/10 hover:border-white/20">
                 <div className="flex items-center gap-4">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-black text-emerald-400 border border-white/10">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    <span className="relative flex h-2 w-2" aria-hidden="true">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" aria-hidden="true" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" aria-hidden="true" />
                     </span>
                   </div>
                   <div>
@@ -172,7 +172,7 @@ export default function Contact() {
               <GlowCard glowColor="rgba(99, 102, 241, 0.08)" radialSize={200} className="p-4 bg-zinc-950/40 border-white/10 hover:border-white/20">
                 <div className="flex items-center gap-4">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-black text-indigo-400 border border-white/10">
-                    <Mail size={16} />
+                    <Mail size={16} aria-hidden="true" />
                   </div>
                   <div>
                     <h4 className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider font-display">Email Inbox</h4>
@@ -199,7 +199,7 @@ export default function Contact() {
                 title={HAS_CALENDLY ? "Book a 15-min discovery call" : "Configure NEXT_PUBLIC_CALENDLY_URL in .env.local"}
                 className="btn-press group inline-flex w-full items-center justify-center gap-3 rounded-lg border border-indigo-500/20 bg-indigo-600/10 px-6 py-4 text-sm font-semibold text-white hover:bg-indigo-600/20 hover:border-indigo-500/30 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
-                <Calendar size={18} className="text-indigo-400 group-hover:scale-110 transition-transform" />
+                <Calendar size={18} className="text-indigo-400 group-hover:scale-110 transition-transform" aria-hidden="true" />
                 <span>Schedule a 15-min Discovery Call</span>
                 <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-full font-mono font-medium">Book now</span>
               </button>
@@ -266,7 +266,8 @@ export default function Contact() {
                           disabled={status === "loading"}
                           required
                           maxLength={80}
-                          placeholder="John Doe"
+                          placeholder="John Doe…"
+                          autoComplete="name"
                           aria-invalid={touched.name && fieldErrors.name ? true : undefined}
                           className={`
                             w-full rounded-md border bg-white/5 px-4 py-3
@@ -300,7 +301,8 @@ export default function Contact() {
                           disabled={status === "loading"}
                           required
                           maxLength={120}
-                          placeholder="john@example.com"
+                          placeholder="john@example.com…"
+                          autoComplete="email"
                           aria-invalid={touched.email && fieldErrors.email ? true : undefined}
                           className={`
                             w-full rounded-md border bg-white/5 px-4 py-3
@@ -335,7 +337,7 @@ export default function Contact() {
                         disabled={status === "loading"}
                         required
                         maxLength={2000}
-                        placeholder="Detail your requirements here..."
+                          placeholder="Detail your requirements here…"
                         aria-invalid={touched.message && fieldErrors.message ? true : undefined}
                         className={`
                           w-full rounded-md border bg-white/5 px-4 py-3
@@ -397,6 +399,7 @@ export default function Contact() {
               exit={{ opacity: 0 }}
               onClick={handleCloseScheduler}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              style={{ overscrollBehavior: "contain" }}
             />
             
             {/* Modal box */}

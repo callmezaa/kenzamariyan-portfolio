@@ -79,7 +79,7 @@ export default function Hero() {
   }
 
   return (
-    <section id="home" className="relative overflow-hidden bg-canvas pt-36 pb-20 min-h-screen flex flex-col justify-between">
+    <section id="home" className="relative overflow-hidden bg-canvas pt-36 pb-20 min-h-screen flex flex-col justify-between" style={{ touchAction: "manipulation" }}>
       {/* Background Layers */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
         {/* Base gradient - subtle warm dark */}
@@ -108,7 +108,7 @@ export default function Hero() {
               transition={{ duration: 0.5, ease: easeOut }}
               className="inline-flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-3.5 py-1.5 text-xs font-medium tracking-tight text-primary-on-dark"
             >
-              <Sparkle size={10} className="text-primary-on-dark" />
+              <Sparkle size={10} className="text-primary-on-dark" aria-hidden="true" />
               <span>Full-Stack · Mobile · AI</span>
             </motion.div>
 
@@ -153,9 +153,9 @@ export default function Hero() {
                 href="#projects"
                 className="group inline-flex items-center gap-2.5 rounded-full border border-indigo-500/10 bg-indigo-500/5 px-4 py-2 text-xs transition-all duration-300 hover:bg-indigo-500/10 hover:border-indigo-500/20"
               >
-                <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-indigo-500" />
+                <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" aria-hidden="true" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-indigo-500" aria-hidden="true" />
                 </span>
                 <span className="flex items-baseline gap-1.5">
                   <span className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">Now building</span>
@@ -239,9 +239,9 @@ export default function Hero() {
                 transition={{ delay: 0.25 + headlineWords.length * 0.03 + 0.4, duration: 0.4, ease: easeOut }}
                 className="mt-4 lg:mt-5 flex items-center gap-1.5 lg:gap-2 rounded-full border border-white/10 bg-black/80 backdrop-blur-md px-3 py-1.5 lg:px-4 lg:py-2 shadow-xl"
               >
-                <span className="relative flex h-1.5 w-1.5 lg:h-2 lg:w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex h-1.5 w-1.5 lg:h-2 lg:w-2 rounded-full bg-emerald-500" />
+                <span className="relative flex h-1.5 w-1.5 lg:h-2 lg:w-2" aria-hidden="true">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" aria-hidden="true" />
+                  <span className="relative inline-flex h-1.5 w-1.5 lg:h-2 lg:w-2 rounded-full bg-emerald-500" aria-hidden="true" />
                 </span>
                 <span className="text-[10px] lg:text-[11px] font-semibold text-zinc-200 tracking-wide whitespace-nowrap">
                   Open for contracts & full-time roles

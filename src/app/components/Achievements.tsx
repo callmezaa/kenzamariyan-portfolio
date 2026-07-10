@@ -108,6 +108,19 @@ const certificates: Certificate[] = [
     color: "#06b6d4",
     glowColor: "rgba(6, 182, 212, 0.08)",
   },
+  {
+    title: "Front-End & Back-End Development",
+    issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+    year: "2026",
+    description:
+      "Indonesian national certification in full-stack web development — covering frontend frameworks, backend APIs, database integration, and production deployment workflows.",
+    files: [
+      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Front-End  Back-End Development - Nasional-1.png",
+      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Front-End  Back-End Development - Nasional-2.png",
+    ],
+    color: "#8b5cf6",
+    glowColor: "rgba(139, 92, 246, 0.08)",
+  },
 ];
 
 function CertificatePreview({ cert }: { cert: Certificate }) {
@@ -129,22 +142,26 @@ function CertificatePreview({ cert }: { cert: Certificate }) {
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
+            aria-label="Previous image"
             className="absolute left-1 top-1/2 -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/50 text-white/70 opacity-0 transition-opacity duration-200 hover:bg-black/70 hover:text-white group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none"
           >
-            <ChevronLeft size={14} />
+            <ChevronLeft size={14} aria-hidden="true" />
           </button>
           <button
             onClick={() => setPage((p) => Math.min(cert.files.length - 1, p + 1))}
             disabled={page === cert.files.length - 1}
+            aria-label="Next image"
             className="absolute right-1 top-1/2 -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/50 text-white/70 opacity-0 transition-opacity duration-200 hover:bg-black/70 hover:text-white group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none"
           >
-            <ChevronRight size={14} />
+            <ChevronRight size={14} aria-hidden="true" />
           </button>
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5">
             {cert.files.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setPage(i)}
+                aria-label={`Go to image ${i + 1}`}
+                aria-current={i === page ? "true" : undefined}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
                   i === page ? "w-4 bg-white" : "w-1.5 bg-white/30 hover:bg-white/50"
                 }`}
@@ -228,7 +245,7 @@ export default function Achievements() {
                     rel="noopener noreferrer"
                     className="btn-press inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
                   >
-                    <ExternalLink size={12} />
+                    <ExternalLink size={12} aria-hidden="true" />
                     <span>View Certificate</span>
                   </a>
                 </div>

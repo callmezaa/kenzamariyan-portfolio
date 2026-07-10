@@ -49,7 +49,7 @@ export default function CopyEmail({ email, className = "" }: CopyEmailProps) {
               transition={{ duration: 0.2 }}
               className="absolute inset-0 flex items-center justify-center text-emerald-400"
             >
-              <Check size={14} />
+              <Check size={14} aria-hidden="true" />
             </motion.span>
           ) : (
             <motion.span
@@ -60,7 +60,7 @@ export default function CopyEmail({ email, className = "" }: CopyEmailProps) {
               transition={{ duration: 0.2 }}
               className="absolute inset-0 flex items-center justify-center text-zinc-500"
             >
-              <Copy size={14} />
+              <Copy size={14} aria-hidden="true" />
             </motion.span>
           )}
         </AnimatePresence>

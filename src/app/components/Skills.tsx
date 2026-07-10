@@ -104,17 +104,17 @@ export default function Skills() {
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Frontend Architecture</h3>
                   <div className="flex gap-1.5">
-                    <SiReact className="text-zinc-500 hover:text-indigo-400 transition-colors" size={16} />
-                    <SiNextdotjs className="text-zinc-500 hover:text-white transition-colors" size={16} />
-                    <SiTypescript className="text-zinc-500 hover:text-blue-400 transition-colors" size={16} />
-                    <SiTailwindcss className="text-zinc-500 hover:text-cyan-400 transition-colors" size={16} />
+                    <SiReact className="text-zinc-500 hover:text-indigo-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiNextdotjs className="text-zinc-500 hover:text-white transition-colors" size={16} aria-hidden="true" />
+                    <SiTypescript className="text-zinc-500 hover:text-blue-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiTailwindcss className="text-zinc-500 hover:text-cyan-400 transition-colors" size={16} aria-hidden="true" />
                   </div>
                 </div>
                 <p className="body-small">
                   Engineering lightning-fast web layers utilizing modular components, server component boundaries, and strict TypeScript types.
                 </p>
                 <div className="pt-1.5 flex items-center gap-1.5 text-[10px] text-zinc-500 font-medium">
-                  <Sparkle size={10} className="text-indigo-400/80 shrink-0" />
+                  <Sparkle size={10} className="text-indigo-400/80 shrink-0" aria-hidden="true" />
                   <span>Impact:</span>
                   <span>Reduces page load times, boosting SEO ranking and user retention.</span>
                 </div>
@@ -157,16 +157,16 @@ export default function Skills() {
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Mobile Platform</h3>
                   <div className="flex gap-1.5">
-                    <SiReact className="text-zinc-500 hover:text-emerald-400 transition-colors" size={16} />
-                    <SiTypescript className="text-zinc-500 hover:text-blue-400 transition-colors" size={16} />
-                    <SiFirebase className="text-zinc-500 hover:text-amber-500 transition-colors" size={16} />
+                    <SiReact className="text-zinc-500 hover:text-emerald-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiTypescript className="text-zinc-500 hover:text-blue-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiFirebase className="text-zinc-500 hover:text-amber-500 transition-colors" size={16} aria-hidden="true" />
                   </div>
                 </div>
                 <p className="body-small">
                   Building cross-platform mobile apps using React Native and Expo. Experienced in offline-first architectures, real-time messaging, e-commerce flows, and AI-powered productivity tools.
                 </p>
                 <div className="pt-1.5 flex items-center gap-1.5 text-[10px] text-zinc-500 font-medium">
-                  <Sparkle size={10} className="text-emerald-400/80 shrink-0" />
+                  <Sparkle size={10} className="text-emerald-400/80 shrink-0" aria-hidden="true" />
                   <span>Impact:</span>
                   <span>Shipping React Native apps across POS, e-commerce, messaging, and productivity domains.</span>
                 </div>
@@ -208,17 +208,17 @@ export default function Skills() {
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Backend & Database</h3>
                   <div className="flex gap-1.5">
-                    <SiGo className="text-zinc-500 hover:text-cyan-400 transition-colors" size={16} />
-                    <SiExpress className="text-zinc-500 hover:text-green-400 transition-colors" size={16} />
-                    <SiPostgresql className="text-zinc-500 hover:text-blue-400 transition-colors" size={16} />
-                    <SiRedis className="text-zinc-500 hover:text-red-400 transition-colors" size={16} />
+                    <SiGo className="text-zinc-500 hover:text-cyan-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiExpress className="text-zinc-500 hover:text-green-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiPostgresql className="text-zinc-500 hover:text-blue-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiRedis className="text-zinc-500 hover:text-red-400 transition-colors" size={16} aria-hidden="true" />
                   </div>
                 </div>
                 <p className="body-small">
                   Building REST APIs and real-time backends with Node.js/Express, Go (Gin & Fiber), and FastAPI. Using PostgreSQL, Firestore, Redis, and Prisma for data and caching layers.
                 </p>
                 <div className="pt-1.5 flex items-center gap-1.5 text-[10px] text-zinc-500 font-medium">
-                  <Sparkle size={10} className="text-cyan-400/80 shrink-0" />
+                  <Sparkle size={10} className="text-cyan-400/80 shrink-0" aria-hidden="true" />
                   <span>Impact:</span>
                   <span>Delivering full-stack systems with Go, Python, and Node.js across 6 production projects.</span>
                 </div>
@@ -255,17 +255,17 @@ export default function Skills() {
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Infrastructure & AI</h3>
                   <div className="flex gap-1.5">
-                    <SiDocker className="text-zinc-500 hover:text-blue-400 transition-colors" size={16} />
-                    <SiGooglecloud className="text-zinc-500 hover:text-red-400 transition-colors" size={16} />
-                    <SiPrisma className="text-zinc-500 hover:text-green-400 transition-colors" size={16} />
-                    <SiSupabase className="text-zinc-500 hover:text-emerald-400 transition-colors" size={16} />
+                    <SiDocker className="text-zinc-500 hover:text-blue-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiGooglecloud className="text-zinc-500 hover:text-red-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiPrisma className="text-zinc-500 hover:text-green-400 transition-colors" size={16} aria-hidden="true" />
+                    <SiSupabase className="text-zinc-500 hover:text-emerald-400 transition-colors" size={16} aria-hidden="true" />
                   </div>
                 </div>
                 <p className="body-small">
                   Containerizing apps with Docker, deploying on Google Cloud Run, integrating AI via Google Gemini & OpenAI APIs. CI/CD pipelines, Prisma ORM, and Supabase for backend-as-a-service.
                 </p>
                 <div className="pt-1.5 flex items-center gap-1.5 text-[10px] text-zinc-500 font-medium">
-                  <Sparkle size={10} className="text-amber-400/80 shrink-0" />
+                  <Sparkle size={10} className="text-amber-400/80 shrink-0" aria-hidden="true" />
                   <span>Impact:</span>
                   <span>Shipping production apps with Docker, Cloud Run, and AI-powered features users love.</span>
                 </div>
@@ -274,7 +274,7 @@ export default function Skills() {
               {/* Interactive Widget: AI Integration Demo */}
               <div className="mt-8 rounded-lg border border-white/5 bg-black/60 p-4 font-mono text-[9px] text-zinc-500 space-y-1.5">
                 <div className="text-[10px] font-semibold text-indigo-300 flex items-center gap-1.5 mb-1">
-                  <Sparkle size={10} /> AI Integration
+                  <Sparkle size={10} aria-hidden="true" /> AI Integration
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-zinc-600">&gt;</span>

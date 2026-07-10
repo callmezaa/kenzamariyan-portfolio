@@ -90,7 +90,7 @@ export default function Experience() {
                   <div className="md:col-span-3 space-y-2">
                     <div className="flex items-center gap-2">
                       <span className={`flex h-6 w-6 items-center justify-center rounded-md ${cfg.bg} ${cfg.border} border`}>
-                        <Icon size={13} className={cfg.text} />
+                        <Icon size={13} className={cfg.text} aria-hidden="true" />
                       </span>
                       <span className="font-mono text-xs font-semibold text-zinc-400">{exp.year}</span>
                     </div>
