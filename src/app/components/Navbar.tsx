@@ -121,11 +121,17 @@ export default function Navbar() {
           </button>
         </div>
 
-        <button type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((o) => !o)}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-hairline text-ink-muted hover:text-ink transition-colors md:hidden">
-          {menuOpen ? <X size={15} /> : <Menu size={15} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button onClick={toggle} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-hairline text-ink-muted hover:text-ink hover:border-ink transition-all cursor-pointer">
+            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
+          <button type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-hairline text-ink-muted hover:text-ink transition-colors">
+            {menuOpen ? <X size={15} /> : <Menu size={15} />}
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
@@ -146,12 +152,6 @@ export default function Navbar() {
                   </button>
                 </motion.div>
               ))}
-              <div className="h-px bg-hairline my-2" />
-              <button onClick={toggle}
-                className="flex items-center justify-center gap-2 rounded-full border border-hairline px-4 py-2 micro-cap text-ink-muted hover:text-ink transition-colors cursor-pointer w-full">
-                {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-                <span>{theme === "dark" ? "Light" : "Dark"} Mode</span>
-              </button>
               <div className="flex items-center justify-around py-2">
                 <a href="https://github.com/callmezaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
                   <FaGithub size={18} /><span className="micro-cap">GitHub</span>
