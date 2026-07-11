@@ -1,25 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Navbar from "./components/Navbar";
 import KeyboardNav from "./components/KeyboardNav";
-import ScrollToTop from "./components/ScrollToTop";
-import FloatingDock from "./components/FloatingDock";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeProvider";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-plus-jakarta-sans",
-  display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://portfolio-amber-ten-22.vercel.app"),
@@ -74,12 +58,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${plusJakartaSans.variable} scroll-smooth`}
+      className="scroll-smooth"
       data-theme="dark"
       style={{ colorScheme: "dark" }}
     >
       <head>
-        <meta name="theme-color" content="#030303" id="theme-color-meta" />
+        <meta name="theme-color" content="#000000" id="theme-color-meta" />
         <script dangerouslySetInnerHTML={{
           __html: `
             (function(){
@@ -91,16 +75,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               }
               var meta = document.getElementById("theme-color-meta");
               if (meta) {
-                meta.setAttribute("content", document.documentElement.getAttribute("data-theme") === "dark" ? "#030303" : "#f5f5f5");
+                meta.setAttribute("content", document.documentElement.getAttribute("data-theme") === "dark" ? "#000000" : "#ffffff");
               }
             })();
           `,
         }} />
       </head>
-      <body className="bg-surface-black font-sans text-body-muted antialiased">
+      <body className="bg-canvas font-din text-ink-muted antialiased">
         <a
           href="#main-content"
-          className="fixed -top-full left-4 z-[100] rounded-b-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 focus:top-0 focus:outline-2 focus:outline-offset-0 focus:outline-primary-focus"
+          className="fixed -top-full left-4 z-[100] rounded-b-md bg-ink px-4 py-2.5 text-sm font-semibold text-canvas transition-all duration-200 focus:top-0 focus:outline-2 focus:outline-offset-0 focus:outline-ink"
         >
           Skip to main content
         </a>
@@ -109,8 +93,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           {children}
           <Footer />
-          <ScrollToTop />
-          <FloatingDock />
         </ThemeProvider>
       </body>
     </html>

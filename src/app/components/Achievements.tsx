@@ -2,11 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
-import GlowCard from "./ui/GlowCard";
-import { seqHeader, seqLabel, seqTitle, seqDesc, staggerContainer, staggerItem } from "../utils/animations";
-import { useReducedVariants } from "../utils/useReducedAnimation";
 
 interface Certificate {
   title: string;
@@ -14,8 +11,6 @@ interface Certificate {
   year: string;
   description: string;
   files: string[];
-  color: string;
-  glowColor: string;
 }
 
 const certificates: Certificate[] = [
@@ -23,236 +18,193 @@ const certificates: Certificate[] = [
     title: "Certified Programmer — Software Development",
     issuer: "BNSP (Badan Nasional Sertifikasi Profesi)",
     year: "2026",
-    description:
-      "Indonesian national professional certification validating competency in software development — including programming fundamentals, system design, and application architecture.",
+    description: "Indonesian national professional certification validating competency in software development — including programming fundamentals, system design, and application architecture.",
     files: ["/image/Achievement/BNSP Certified Programmer - Software Development-1.png"],
-    color: "#10b981",
-    glowColor: "rgba(16, 185, 129, 0.08)",
   },
   {
     title: "AI Professional Certificate",
     issuer: "Google",
     year: "2026",
-    description:
-      "Comprehensive certification in artificial intelligence — covering ML workflows, Google AI tools, prompt engineering, and responsible AI deployment practices.",
+    description: "Comprehensive certification in artificial intelligence — covering ML workflows, Google AI tools, prompt engineering, and responsible AI deployment practices.",
     files: ["/image/Achievement/Google AI Professional Certificate-1.png"],
-    color: "#3b82f6",
-    glowColor: "rgba(59, 130, 246, 0.08)",
   },
   {
     title: "CMS For Developer II",
     issuer: "HubSpot Academy",
     year: "2026",
-    description:
-      "Advanced HubSpot CMS development certification — custom modules, serverless functions, HubDB integration, and marketplace app publishing.",
+    description: "Advanced HubSpot CMS development certification — custom modules, serverless functions, HubDB integration, and marketplace app publishing.",
     files: ["/image/Achievement/HubSpot CMS For Developer II.png"],
-    color: "#f97316",
-    glowColor: "rgba(249, 115, 22, 0.08)",
   },
   {
     title: "Certified Full-Stack Developer",
     issuer: "micro1",
     year: "2026",
-    description:
-      "Industry-validated full-stack engineering certification assessing proficiency across frontend, backend, database, and cloud deployment technologies.",
+    description: "Industry-validated full-stack engineering certification assessing proficiency across frontend, backend, database, and cloud deployment technologies.",
     files: ["/image/Achievement/micro1 Certified Full-Stack Developer.jpg"],
-    color: "#a855f7",
-    glowColor: "rgba(168, 85, 247, 0.08)",
   },
   {
     title: "Top 100 — JuaraVibeCoding",
     issuer: "JuaraVibeCoding",
     year: "2026",
-    description:
-      "Recognized among the top 100 participants in a national coding competition, demonstrating strong algorithmic problem-solving and software engineering skills.",
+    description: "Recognized among the top 100 participants in a national coding competition, demonstrating strong algorithmic problem-solving and software engineering skills.",
     files: ["/image/Achievement/Top 100 JuaraVibeCoding Certificate of Achievement-1.png"],
-    color: "#f59e0b",
-    glowColor: "rgba(245, 158, 11, 0.08)",
   },
   {
     title: "Programming Fundamental",
     issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
     year: "2026",
-    description:
-      "Indonesian national certification in core programming concepts — algorithms, data structures, and object-oriented programming with practical assessments.",
+    description: "Indonesian national certification in core programming concepts — algorithms, data structures, and object-oriented programming with practical assessments.",
     files: [
       "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Programming Fundamental Nasional-1.png",
       "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Programming Fundamental Nasional-2.png",
     ],
-    color: "#06b6d4",
-    glowColor: "rgba(6, 182, 212, 0.08)",
   },
   {
     title: "Intermediate Assistant Web Developer",
     issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
     year: "2026",
-    description:
-      "Indonesian national certification in intermediate web development — frontend frameworks, REST API integration, and relational database management.",
+    description: "Indonesian national certification in intermediate web development — frontend frameworks, REST API integration, and relational database management.",
     files: [
       "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Intermediate Assistant Web Developer Nasional-1.png",
       "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Intermediate Assistant Web Developer Nasional-2.png",
     ],
-    color: "#06b6d4",
-    glowColor: "rgba(6, 182, 212, 0.08)",
   },
   {
     title: "Fundamental of Assistant Web Developer",
     issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
     year: "2026",
-    description:
-      "Indonesian national certification in foundational web development — HTML, CSS, JavaScript, responsive design, and basic front-end engineering.",
+    description: "Indonesian national certification in foundational web development — HTML, CSS, JavaScript, responsive design, and basic front-end engineering.",
     files: [
       "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Fundamental of Assistant Web Developer Nasional-1.png",
       "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Fundamental of Assistant Web Developer Nasional-2.png",
     ],
-    color: "#06b6d4",
-    glowColor: "rgba(6, 182, 212, 0.08)",
   },
   {
     title: "Front-End & Back-End Development",
     issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
     year: "2026",
-    description:
-      "Indonesian national certification in full-stack web development — covering frontend frameworks, backend APIs, database integration, and production deployment workflows.",
+    description: "Indonesian national certification in full-stack web development — covering frontend frameworks, backend APIs, database integration, and production deployment workflows.",
     files: [
       "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Front-End  Back-End Development - Nasional-1.png",
       "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Front-End  Back-End Development - Nasional-2.png",
     ],
-    color: "#8b5cf6",
-    glowColor: "rgba(139, 92, 246, 0.08)",
   },
 ];
 
-function CertificatePreview({ cert }: { cert: Certificate }) {
+function CertificatePreview({ cert, files }: { cert: Certificate; files: string[] }) {
   const [page, setPage] = useState(0);
-  const multi = cert.files.length > 1;
+  const multi = files.length > 1;
 
   return (
-    <div className="relative w-full aspect-[16/10] overflow-hidden rounded-lg bg-zinc-900/50 group">
+    <div className="relative w-full aspect-[16/10] overflow-hidden rounded-sm bg-canvas-card group">
       <Image
-        src={cert.files[page]}
+        src={files[page]}
         alt={cert.title}
         fill
-        className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+        className="object-contain p-2"
         sizes="(max-width: 768px) 100vw, 33vw"
       />
-
       {multi && (
         <>
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            aria-label="Previous image"
-            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/50 text-white/70 opacity-0 transition-opacity duration-200 hover:bg-black/70 hover:text-white group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none"
+            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-canvas/50 text-ink-muted opacity-0 transition-opacity group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none cursor-pointer"
           >
-            <ChevronLeft size={14} aria-hidden="true" />
+            <ChevronLeft size={14} />
           </button>
           <button
-            onClick={() => setPage((p) => Math.min(cert.files.length - 1, p + 1))}
-            disabled={page === cert.files.length - 1}
-            aria-label="Next image"
-            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/50 text-white/70 opacity-0 transition-opacity duration-200 hover:bg-black/70 hover:text-white group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none"
+            onClick={() => setPage((p) => Math.min(files.length - 1, p + 1))}
+            disabled={page === files.length - 1}
+            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-canvas/50 text-ink-muted opacity-0 transition-opacity group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none cursor-pointer"
           >
-            <ChevronRight size={14} aria-hidden="true" />
+            <ChevronRight size={14} />
           </button>
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5">
-            {cert.files.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setPage(i)}
-                aria-label={`Go to image ${i + 1}`}
-                aria-current={i === page ? "true" : undefined}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === page ? "w-4 bg-white" : "w-1.5 bg-white/30 hover:bg-white/50"
-                }`}
-              />
-            ))}
-          </div>
         </>
       )}
-
-      <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-white/5 pointer-events-none" />
+      <div className="absolute inset-0 rounded-sm ring-1 ring-inset ring-hairline pointer-events-none" />
     </div>
   );
 }
 
 export default function Achievements() {
-  const { staggerContainer: container, staggerItem: item } = useReducedVariants();
+  const [showAll, setShowAll] = useState(false);
+  const visible = showAll ? certificates : certificates.slice(0, 3);
+  const hidden = certificates.length - 3;
 
   return (
-    <section id="achievements" className="relative bg-canvas py-24 md:py-28 border-b border-white/5">
-      <div className="relative mx-auto max-w-6xl px-6 md:px-8">
-        {/* Section Header */}
-        <motion.div
-          variants={seqHeader}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mb-16 max-w-2xl space-y-3"
-        >
-          <motion.p variants={seqLabel} className="text-xs font-semibold uppercase tracking-widest text-primary">
-            Credentials
-          </motion.p>
-          <motion.h2 variants={seqTitle} className="display-lg tracking-tight text-white">
-            Certifications & Recognition
-          </motion.h2>
-          <motion.p variants={seqDesc} className="body-base">
-            Professional certifications and awards from national boards, industry leaders, and competitive events.
-          </motion.p>
-        </motion.div>
+    <section id="achievements" className="bg-canvas py-24 md:py-28 border-b border-hairline">
+      <div className="mx-auto max-w-6xl px-6 md:px-8">
+        <div className="mb-12 max-w-2xl space-y-3">
+          <p className="micro-cap text-ink-muted">Credentials</p>
+          <h2 className="display-xl">Certifications & Recognition</h2>
+        </div>
 
-        {/* Certificate Cards */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid gap-5 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {certificates.map((cert) => (
-            <motion.div key={cert.title} variants={item}>
-              <GlowCard
-                glowColor={cert.glowColor}
-                radialSize={250}
-                className="p-5 bg-surface-tile-1 border-white/10 hover:border-white/20 h-full flex flex-col"
-              >
-                {/* Certificate Preview */}
-                <CertificatePreview cert={cert} />
-
-                {/* Meta */}
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {visible.map((cert, i) => (
+            <motion.div
+              key={cert.title}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={i < 3 ? { opacity: 1, y: 0 } : undefined}
+              animate={i >= 3 ? { opacity: 1, y: 0 } : undefined}
+              viewport={i < 3 ? { once: true } : undefined}
+              transition={{ duration: 0.3, ease: "easeOut", delay: i < 3 ? i * 0.05 : (i - 3) * 0.03 }}
+            >
+              <div className="p-5 border border-hairline rounded-sm bg-canvas-card h-full flex flex-col">
+                <CertificatePreview cert={cert} files={cert.files} />
                 <div className="mt-4 space-y-1.5 flex-1">
-                  <h3 className="text-sm font-semibold text-white font-display tracking-tight leading-snug">
-                    {cert.title}
-                  </h3>
-                  <div className="flex items-center gap-2 text-[10px]">
-                    <span className="font-medium text-zinc-400">{cert.issuer}</span>
-                    <span className="text-zinc-600">·</span>
-                    <span
-                      className="font-semibold"
-                      style={{ color: cert.color }}
-                    >
-                      {cert.year}
-                    </span>
+                  <h3 className="body-md font-bold text-ink">{cert.title}</h3>
+                  <div className="flex items-center gap-2 caption text-ink-muted">
+                    <span>{cert.issuer}</span>
+                    <span className="text-hairline">·</span>
+                    <span>{cert.year}</span>
                   </div>
-                  <p className="body-small pt-0.5 leading-relaxed">{cert.description}</p>
                 </div>
-
-                {/* Action */}
-                <div className="pt-4 mt-auto border-t border-white/5">
+                <div className="pt-4 mt-auto border-t border-hairline">
                   <a
                     href={cert.files[0]}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-press inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+                    className="button-cap text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1"
                   >
-                    <ExternalLink size={12} aria-hidden="true" />
-                    <span>View Certificate</span>
+                    View Certificate <ExternalLink size={12} />
                   </a>
                 </div>
-              </GlowCard>
+              </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
+
+        {!showAll && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-10 text-center"
+          >
+            <button
+              onClick={() => setShowAll(true)}
+              className="inline-flex items-center gap-2 rounded-pill border border-hairline px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
+            >
+              View All (+{hidden})
+            </button>
+          </motion.div>
+        )}
+
+        {showAll && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-10 text-center"
+          >
+            <button
+              onClick={() => setShowAll(false)}
+              className="inline-flex items-center gap-2 rounded-pill border border-hairline px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
+            >
+              Show Less
+            </button>
+          </motion.div>
+        )}
       </div>
     </section>
   );

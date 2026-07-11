@@ -4,9 +4,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Check, AlertTriangle, X, Calendar } from "lucide-react";
 import Button from "./ui/Button";
-import GlowCard from "./ui/GlowCard";
 import CopyEmail from "./ui/CopyEmail";
-import { easeOut, seqHeader, seqLabel, seqTitle, seqDesc, seqContent } from "../utils/animations";
+import { easeOut } from "../utils/animations";
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "";
 const HAS_CALENDLY = !!process.env.NEXT_PUBLIC_CALENDLY_URL;
@@ -132,55 +131,55 @@ export default function Contact() {
           
           {/* LEFT COLUMN: Info & Scheduler Trigger */}
           <motion.div
-            variants={seqHeader}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: easeOut }}
             className="lg:col-span-5 w-full space-y-8"
           >
             <div className="space-y-4">
-              <motion.p variants={seqLabel} className="text-xs font-semibold uppercase tracking-widest text-primary">Get In Touch</motion.p>
-              <motion.h2 variants={seqTitle} className="display-lg tracking-tight text-white leading-tight">
+              <p className="micro-cap text-ink-muted">Get In Touch</p>
+              <h2 className="display-xl leading-tight">
                 Let&rsquo;s Build
                 <br />
                 Something Elite
-              </motion.h2>
-              <motion.p variants={seqDesc} className="body-base">
+              </h2>
+              <p className="body-lg">
                 Have an active product requirement, need an engineer to scale operations, or want to audit your UI architecture? Reach out below.
-              </motion.p>
+              </p>
             </div>
 
             {/* Info Stacks */}
-            <motion.div variants={seqContent} className="space-y-4 pt-2">
+            <div className="space-y-4 pt-2">
               {/* Availability */}
-              <GlowCard glowColor="rgba(16, 185, 129, 0.08)" radialSize={200} className="p-4 bg-zinc-950/40 border-white/10 hover:border-white/20">
+              <div className="p-4 border border-hairline rounded-sm bg-canvas-card">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-black text-emerald-400 border border-white/10">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-hairline text-ink-muted">
                     <span className="relative flex h-2 w-2" aria-hidden="true">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" aria-hidden="true" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" aria-hidden="true" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ink-muted opacity-75" aria-hidden="true" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-ink" aria-hidden="true" />
                     </span>
                   </div>
                   <div>
-                    <h4 className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider font-display">Availability</h4>
-                    <p className="text-xs text-zinc-200 font-semibold">Open for contracts & full-time roles</p>
+                    <h4 className="micro-cap text-ink-muted">Availability</h4>
+                    <p className="body-md text-ink font-semibold">Open for contracts & full-time roles</p>
                   </div>
                 </div>
-              </GlowCard>
+              </div>
 
               {/* Email */}
-              <GlowCard glowColor="rgba(99, 102, 241, 0.08)" radialSize={200} className="p-4 bg-zinc-950/40 border-white/10 hover:border-white/20">
+              <div className="p-4 border border-hairline rounded-sm bg-canvas-card">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-black text-indigo-400 border border-white/10">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-hairline text-ink-muted">
                     <Mail size={16} aria-hidden="true" />
                   </div>
                   <div>
-                    <h4 className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider font-display">Email Inbox</h4>
+                    <h4 className="micro-cap text-ink-muted">Email Inbox</h4>
                     <CopyEmail email="kenzamariyan32@gmail.com" />
                   </div>
                 </div>
-              </GlowCard>
-            </motion.div>
+              </div>
+            </div>
           </motion.div>
 
           {/* RIGHT COLUMN: Contact Form */}
@@ -197,14 +196,14 @@ export default function Contact() {
                 onClick={() => setShowScheduler(true)}
                 disabled={!HAS_CALENDLY}
                 title={HAS_CALENDLY ? "Book a 15-min discovery call" : "Configure NEXT_PUBLIC_CALENDLY_URL in .env.local"}
-                className="btn-press group inline-flex w-full items-center justify-center gap-3 rounded-lg border border-indigo-500/20 bg-indigo-600/10 px-6 py-4 text-sm font-semibold text-white hover:bg-indigo-600/20 hover:border-indigo-500/30 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="inline-flex w-full items-center justify-center gap-3 rounded-sm border border-hairline bg-canvas-card px-6 py-4 button-cap text-ink cursor-pointer hover:bg-hairline disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
-                <Calendar size={18} className="text-indigo-400 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                <Calendar size={18} aria-hidden="true" />
                 <span>Schedule a 15-min Discovery Call</span>
-                <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-full font-mono font-medium">Book now</span>
+                <span className="caption text-ink-muted px-2.5 py-1 rounded-sm border border-hairline">Book now</span>
               </button>
             </div>
-            <div className="rounded-lg border border-white/10 bg-surface-tile-1 p-6 md:p-8">
+            <div className="rounded-sm border border-hairline bg-canvas-card p-6 md:p-8">
               <AnimatePresence mode="wait">
                 {status === "success" ? (
                   <motion.div
@@ -253,7 +252,7 @@ export default function Contact() {
                     <div className="grid gap-6 sm:grid-cols-2">
                       {/* Name */}
                       <div className="space-y-2">
-                        <label htmlFor="name" className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider font-display">
+                        <label htmlFor="name" className="micro-cap text-ink-muted">
                           Your Name
                         </label>
                         <input
@@ -274,7 +273,7 @@ export default function Contact() {
                             text-base text-white placeholder-zinc-600 outline-hidden
                             transition focus:ring-0
                             disabled:opacity-50
-                            ${touched.name && fieldErrors.name ? "border-red-500/60 focus:border-red-500" : "border-white/5 focus:border-indigo-500"}
+                            ${touched.name && fieldErrors.name ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink"}
                           `}
                         />
                         <div className="flex justify-end min-h-[18px]">
@@ -288,7 +287,7 @@ export default function Contact() {
 
                       {/* Email */}
                       <div className="space-y-2">
-                        <label htmlFor="email" className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider font-display">
+                        <label htmlFor="email" className="micro-cap text-ink-muted">
                           Email Address
                         </label>
                         <input
@@ -309,7 +308,7 @@ export default function Contact() {
                             text-base text-white placeholder-zinc-600 outline-hidden
                             transition focus:ring-0
                             disabled:opacity-50
-                            ${touched.email && fieldErrors.email ? "border-red-500/60 focus:border-red-500" : "border-white/5 focus:border-indigo-500"}
+                            ${touched.email && fieldErrors.email ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink"}
                           `}
                         />
                         <div className="flex justify-end min-h-[18px]">
@@ -324,7 +323,7 @@ export default function Contact() {
 
                     {/* Message */}
                     <div className="space-y-2">
-                      <label htmlFor="message" className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider font-display">
+                      <label htmlFor="message" className="micro-cap text-ink-muted">
                         Your Message
                       </label>
                       <textarea
@@ -344,7 +343,7 @@ export default function Contact() {
                           text-base text-white placeholder-zinc-600 outline-hidden resize-none
                           transition focus:ring-0
                           disabled:opacity-50
-                          ${touched.message && fieldErrors.message ? "border-red-500/60 focus:border-red-500" : "border-white/5 focus:border-indigo-500"}
+                            ${touched.message && fieldErrors.message ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink"}
                         `}
                       />
                       <div className="flex justify-end min-h-[18px]">
@@ -407,7 +406,7 @@ export default function Contact() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative w-full max-w-4xl h-full max-h-[85dvh] min-h-[500px] overflow-hidden rounded-lg border border-white/10 bg-surface-tile-1 shadow-2xl z-10 flex flex-col"
+              className="relative w-full max-w-4xl h-full max-h-[85dvh] min-h-[500px] overflow-hidden rounded-sm border border-hairline bg-canvas z-10 flex flex-col"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-zinc-950/50">
