@@ -116,23 +116,23 @@ function CertificatePreview({ cert, files }: { cert: Certificate; files: string[
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-canvas/50 text-ink-muted opacity-0 transition-opacity group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none cursor-pointer"
+            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 md:h-7 md:w-7 items-center justify-center rounded-full bg-canvas/50 text-ink-muted md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:pointer-events-none cursor-pointer"
           >
             <ChevronLeft size={14} />
           </button>
           <button
             onClick={() => setPage((p) => Math.min(files.length - 1, p + 1))}
             disabled={page === files.length - 1}
-            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-canvas/50 text-ink-muted opacity-0 transition-opacity group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none cursor-pointer"
+            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 md:h-7 md:w-7 items-center justify-center rounded-full bg-canvas/50 text-ink-muted md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:pointer-events-none cursor-pointer"
           >
             <ChevronRight size={14} />
           </button>
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 md:gap-1.5 z-10 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
             {files.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setPage(i)}
-                className={`w-1.5 h-1.5 rounded-full transition-all cursor-pointer ${i === page ? "bg-ink w-3" : "bg-hairline"}`}
+                className={`w-2 h-2 md:w-1.5 md:h-1.5 rounded-full transition-all cursor-pointer ${i === page ? "bg-ink w-4 md:w-3" : "bg-hairline"}`}
               />
             ))}
           </div>

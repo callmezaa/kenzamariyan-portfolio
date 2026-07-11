@@ -86,7 +86,7 @@ export default function Footer() {
           <p suppressHydrationWarning>
             Copyright © {currentYear} Ken Zamariyan. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 md:gap-6">
             <VisitorCounter />
             <span className="hover:text-ink transition-colors cursor-default">Built with Next.js & React</span>
             <span className="hover:text-ink transition-colors cursor-default">Designed in Jakarta, ID</span>

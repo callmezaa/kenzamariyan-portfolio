@@ -89,7 +89,7 @@ export default function Hero() {
               exit={{ opacity: 0, y: 16, scale: 0.97 }}
               transition={{ duration: 0.25, ease: easeOut }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-xs border border-hairline bg-canvas p-6 rounded-sm"
+              className="relative w-full max-w-sm border border-hairline bg-canvas p-6 rounded-sm"
             >
               <button
                 onClick={() => setModalOpen(false)}

@@ -27,7 +27,7 @@ export default function About() {
   return (
     <section id="about" className="bg-canvas py-24 md:py-28 border-b border-hairline">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="grid items-center gap-14 md:grid-cols-2 md:gap-20">
+        <div className="grid items-center gap-10 md:grid-cols-2 md:gap-14 lg:gap-20">
           <motion.div
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5, ease: easeOut }}
@@ -61,7 +61,7 @@ export default function About() {
           className="mt-20 pt-10 border-t border-hairline"
         >
           <p className="micro-cap text-ink-muted text-center mb-6">Technology Arsenal</p>
-          <div className="flex flex-wrap justify-center gap-px">
+          <div className="flex flex-wrap justify-center gap-0.5">
             {techStack.map((tech, i) => (
               <motion.div
                 key={tech.name}

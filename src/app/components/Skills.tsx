@@ -78,9 +78,9 @@ export default function Skills() {
                 className="p-6 md:p-8 border border-hairline rounded-sm bg-canvas-card hover:shadow-md transition-shadow duration-300"
               >
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <h3 className="button-cap text-ink">{cat.title}</h3>
-                    <div className="flex gap-1.5">
+                    <div className="flex flex-wrap gap-1.5">
                       {cat.icons.map((item) => (
                         <span key={item.label} className="flex items-center gap-1 rounded-sm border border-hairline px-2 py-1 caption text-ink-muted">
                           <item.icon size={12} />

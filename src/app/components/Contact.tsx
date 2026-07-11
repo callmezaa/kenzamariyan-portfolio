@@ -132,7 +132,7 @@ export default function Contact() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="flex flex-col lg:grid lg:grid-cols-12 gap-16 items-start"
+          className="flex flex-col lg:grid lg:grid-cols-12 gap-10 lg:gap-16 items-start"
         >
           {/* LEFT COLUMN: Info & Scheduler Trigger */}
           <motion.div variants={staggerItem} className="lg:col-span-5 w-full space-y-8">
@@ -424,7 +424,7 @@ export default function Contact() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative w-full max-w-4xl h-full max-h-[85dvh] min-h-[500px] overflow-hidden rounded-sm border border-hairline bg-canvas z-10 flex flex-col"
+              className="relative w-full max-w-4xl h-full max-h-[85dvh] min-h-[350px] sm:min-h-[500px] overflow-hidden rounded-sm border border-hairline bg-canvas z-10 flex flex-col"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-zinc-950/50">

@@ -132,7 +132,7 @@ export default function Navbar() {
         {menuOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute left-4 right-4 top-20 border border-hairline bg-canvas p-6 md:hidden z-30">
+            className="absolute left-4 right-4 top-20 border border-hairline bg-canvas p-6 md:hidden z-30 overflow-y-auto max-h-[calc(100dvh-6rem)]">
             <div className="flex flex-col gap-3">
               {sections.map((item, index) => (
                 <motion.div key={item} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }}>
