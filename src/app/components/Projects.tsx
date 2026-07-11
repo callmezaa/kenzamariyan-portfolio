@@ -64,7 +64,7 @@ export default function Projects() {
         </motion.div>
 
         {view === "grid" ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {visible.map((project, i) => (
               <motion.div
                 key={project.slug}
@@ -79,27 +79,27 @@ export default function Projects() {
                 >
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="block border border-hairline rounded-sm bg-canvas-card hover:shadow-lg transition-shadow duration-300"
+                    className="block"
                   >
-                    <div className="relative w-full aspect-[16/10] overflow-hidden rounded-t-sm bg-canvas">
+                    <div className="w-full rounded-sm border border-hairline bg-canvas overflow-hidden">
                       <motion.div
-                        className="absolute inset-0"
                         whileHover={{ scale: 1.03 }}
                         transition={{ duration: 0.4, ease: easeOut }}
                       >
                         <Image
                           src={projectImages[project.slug] || projectImages[project.slug]}
                           alt={project.title}
-                          fill
+                          width={1200}
+                          height={750}
+                          className="w-full h-auto block"
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover object-top"
                         />
                       </motion.div>
                     </div>
-                    <div className="p-5 space-y-2">
+                    <div className="mt-4 space-y-1.5">
                       <h3 className="body-md font-bold text-ink">{project.title}</h3>
                       <p className="caption text-ink-muted">{project.stack.slice(0, 3).join(" · ")}</p>
-                      <div className="flex items-center gap-2 caption text-ink-muted pt-1">
+                      <div className="flex items-center gap-2 caption text-ink-muted pt-0.5">
                         <span>{project.year}</span>
                         {project.badge && (
                           <>
@@ -132,13 +132,13 @@ export default function Projects() {
                     href={`/projects/${project.slug}`}
                     className="flex items-center gap-5 p-4 border border-hairline rounded-sm bg-canvas-card hover:bg-canvas-card/50 transition-colors duration-200"
                   >
-                    <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-sm bg-canvas">
+                    <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-sm bg-canvas border border-hairline">
                       <Image
                         src={projectImages[project.slug] || projectImages[project.slug]}
                         alt={project.title}
                         fill
                         sizes="80px"
-                        className="object-cover object-top"
+                        className="object-contain"
                       />
                     </div>
                     <div className="min-w-0 flex-1">
