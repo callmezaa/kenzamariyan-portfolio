@@ -136,6 +136,7 @@ export const projects: Project[] = [
     role: "Full-Stack Developer",
     year: "2026",
     sourceUrl: "https://github.com/callmezaa/monetra-financetrackerApp",
+    demoUrl: "https://monetra-financetracker-app.vercel.app/",
     type: "finance",
     featured: true,
     metrics: ["Go + React Full Stack", "AI Spending Insights", "JWT Auth", "Recurring Transactions"],
