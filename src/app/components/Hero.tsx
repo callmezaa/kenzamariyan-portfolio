@@ -29,7 +29,7 @@ export default function Hero() {
                 transition={{ duration: 0.5, ease: easeOut }}
                 className="display-xxl"
               >
-                9 products shipped across web, mobile, and AI — no fluff.
+                Products shipped. Problems solved. No fluff.
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 12 }}
@@ -37,9 +37,7 @@ export default function Hero() {
                 transition={{ delay: 0.2, duration: 0.4, ease: easeOut }}
                 className="body-lg max-w-xl"
               >
-                From AI contract analyzers and e-commerce marketplaces to
-                offline-first mobile POS systems — I build production apps across
-                web, mobile, and AI with React, Next.js, Node.js, and cloud infrastructure.
+                Full-stack engineering across web, mobile, and AI.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
