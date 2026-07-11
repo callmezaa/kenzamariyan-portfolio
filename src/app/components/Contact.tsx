@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Check, AlertTriangle, X, Calendar } from "lucide-react";
+import { Mail, Check, AlertTriangle, X, Calendar, Loader2 } from "lucide-react";
 import Button from "./ui/Button";
 import CopyEmail from "./ui/CopyEmail";
-import { easeOut } from "../utils/animations";
+import { staggerContainer, staggerItem, easeOut } from "../utils/animations";
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "";
 const HAS_CALENDLY = !!process.env.NEXT_PUBLIC_CALENDLY_URL;
@@ -40,7 +40,7 @@ export default function Contact() {
     name: "",
     email: "",
     message: "",
-    company: "", // Honeypot
+    company: "",
   });
 
   const [touched, setTouched] = useState<Record<FormFields, boolean>>({ name: false, email: false, message: false });
@@ -127,16 +127,15 @@ export default function Contact() {
       className="relative bg-canvas py-24 md:py-28 border-b border-white/5"
     >
       <div className="relative mx-auto max-w-6xl px-6 md:px-8">
-        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-16 items-start">
-          
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="flex flex-col lg:grid lg:grid-cols-12 gap-16 items-start"
+        >
           {/* LEFT COLUMN: Info & Scheduler Trigger */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: easeOut }}
-            className="lg:col-span-5 w-full space-y-8"
-          >
+          <motion.div variants={staggerItem} className="lg:col-span-5 w-full space-y-8">
             <div className="space-y-4">
               <p className="micro-cap text-ink-muted">Get In Touch</p>
               <h2 className="display-xl leading-tight">
@@ -152,7 +151,11 @@ export default function Contact() {
             {/* Info Stacks */}
             <div className="space-y-4 pt-2">
               {/* Availability */}
-              <div className="p-4 border border-hairline rounded-sm bg-canvas-card">
+              <motion.div
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.25, ease: easeOut }}
+                className="p-4 border border-hairline rounded-sm bg-canvas-card hover:shadow-sm transition-shadow duration-300"
+              >
                 <div className="flex items-center gap-4">
                   <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-hairline text-ink-muted">
                     <span className="relative flex h-2 w-2" aria-hidden="true">
@@ -165,10 +168,14 @@ export default function Contact() {
                     <p className="body-md text-ink font-semibold">Open for contracts & full-time roles</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Email */}
-              <div className="p-4 border border-hairline rounded-sm bg-canvas-card">
+              <motion.div
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.25, ease: easeOut }}
+                className="p-4 border border-hairline rounded-sm bg-canvas-card hover:shadow-sm transition-shadow duration-300"
+              >
                 <div className="flex items-center gap-4">
                   <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-hairline text-ink-muted">
                     <Mail size={16} aria-hidden="true" />
@@ -178,30 +185,26 @@ export default function Contact() {
                     <CopyEmail email="kenzamariyan32@gmail.com" />
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
           {/* RIGHT COLUMN: Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: easeOut }}
-            className="lg:col-span-7 w-full"
-          >
+          <motion.div variants={staggerItem} className="lg:col-span-7 w-full">
             {/* Calendly - prominent above form */}
             <div className="mb-6">
-              <button
+              <motion.button
                 onClick={() => setShowScheduler(true)}
                 disabled={!HAS_CALENDLY}
+                whileHover={{ y: -2 }}
+                transition={{ duration: 0.25, ease: easeOut }}
                 title={HAS_CALENDLY ? "Book a 15-min discovery call" : "Configure NEXT_PUBLIC_CALENDLY_URL in .env.local"}
-                className="inline-flex w-full items-center justify-center gap-3 rounded-sm border border-hairline bg-canvas-card px-6 py-4 button-cap text-ink cursor-pointer hover:bg-hairline disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="inline-flex w-full items-center justify-center gap-3 rounded-sm border border-hairline bg-canvas-card px-6 py-4 button-cap text-ink cursor-pointer hover:bg-hairline hover:shadow-sm disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
                 <Calendar size={18} aria-hidden="true" />
                 <span>Schedule a 15-min Discovery Call</span>
                 <span className="caption text-ink-muted px-2.5 py-1 rounded-sm border border-hairline">Book now</span>
-              </button>
+              </motion.button>
             </div>
             <div className="rounded-sm border border-hairline bg-canvas-card p-6 md:p-8">
               <AnimatePresence mode="wait">
@@ -213,15 +216,25 @@ export default function Contact() {
                     exit={{ opacity: 0 }}
                     className="flex flex-col items-center justify-center text-center py-16 space-y-5"
                   >
-                    <div className="h-12 w-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center">
+                    <motion.div
+                      initial={{ scale: 0, rotate: -15 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
+                      className="h-12 w-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center"
+                    >
                       <Check size={24} className="text-emerald-400" />
-                    </div>
-                    <div className="space-y-2">
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                      className="space-y-2"
+                    >
                       <h3 className="text-lg font-bold text-white font-display">Message Dispatched</h3>
                       <p className="body-small max-w-sm mx-auto">
                         Thank you for reaching out. I have received your operational parameters and will respond within 24 hours.
                       </p>
-                    </div>
+                    </motion.div>
                     <button
                       onClick={() => setStatus("idle")}
                       className="text-xs text-primary-on-dark hover:text-white font-medium underline underline-offset-4 cursor-pointer"
@@ -273,7 +286,7 @@ export default function Contact() {
                             text-base text-white placeholder-zinc-600 outline-hidden
                             transition focus:ring-0
                             disabled:opacity-50
-                            ${touched.name && fieldErrors.name ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink"}
+                            ${touched.name && fieldErrors.name ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink focus:ring-1 focus:ring-inset focus:ring-ink/20"}
                           `}
                         />
                         <div className="flex justify-end min-h-[18px]">
@@ -308,7 +321,7 @@ export default function Contact() {
                             text-base text-white placeholder-zinc-600 outline-hidden
                             transition focus:ring-0
                             disabled:opacity-50
-                            ${touched.email && fieldErrors.email ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink"}
+                            ${touched.email && fieldErrors.email ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink focus:ring-1 focus:ring-inset focus:ring-ink/20"}
                           `}
                         />
                         <div className="flex justify-end min-h-[18px]">
@@ -343,7 +356,7 @@ export default function Contact() {
                           text-base text-white placeholder-zinc-600 outline-hidden resize-none
                           transition focus:ring-0
                           disabled:opacity-50
-                            ${touched.message && fieldErrors.message ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink"}
+                            ${touched.message && fieldErrors.message ? "border-red-500/60 focus:border-red-500" : "border-hairline focus:border-ink focus:ring-1 focus:ring-inset focus:ring-ink/20"}
                         `}
                       />
                       <div className="flex justify-end min-h-[18px]">
@@ -373,9 +386,15 @@ export default function Contact() {
                       <Button
                         type="submit"
                         disabled={status === "loading"}
-                        className="btn-press cursor-pointer"
                       >
-                        {status === "loading" ? "Dispatching..." : "Send Message"}
+                        {status === "loading" ? (
+                          <span className="inline-flex items-center gap-2">
+                            <Loader2 size={14} className="animate-spin" />
+                            Sending...
+                          </span>
+                        ) : (
+                          "Send Message"
+                        )}
                       </Button>
                     </div>
                   </motion.form>
@@ -383,8 +402,7 @@ export default function Contact() {
               </AnimatePresence>
             </div>
           </motion.div>
-          
-        </div>
+        </motion.div>
       </div>
 
       {/* Real Calendly Scheduler Modal */}

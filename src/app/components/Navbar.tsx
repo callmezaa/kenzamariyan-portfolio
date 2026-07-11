@@ -8,12 +8,13 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useTheme } from "./ThemeProvider";
 
-const sections = ["home", "about", "skills", "projects", "contact"];
+const sections = ["home", "projects", "about", "skills", "achievements", "contact"];
 
 export default function Navbar() {
   const { theme, toggle } = useTheme();
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const navHeight = useRef(80);
 
@@ -24,6 +25,13 @@ export default function Navbar() {
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -72,7 +80,9 @@ export default function Navbar() {
   const capitalize = (s: string) => (s === "playground" ? "Playground" : s.charAt(0).toUpperCase() + s.slice(1));
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-4">
+    <header ref={headerRef} className={`fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-4 transition-all duration-300 ${
+      scrolled ? "bg-canvas/80 backdrop-blur-sm border-b border-hairline" : "bg-transparent"
+    }`}>
       <nav className="mx-auto max-w-6xl flex items-center justify-between">
         <Link href="#home" onClick={closeMenu} className="flex items-center gap-2 shrink-0">
           <Image src="/image/brand/logo-white.svg" alt="Ken Zamariyan" width={28} height={28} className="shrink-0" priority />
@@ -84,13 +94,16 @@ export default function Navbar() {
             <button
               key={item}
               onClick={() => scrollToSection(item)}
-              className={`micro-cap px-2.5 py-1.5 rounded-sm transition-colors cursor-pointer ${
+              className={`relative micro-cap px-2.5 py-1.5 rounded-sm transition-all duration-200 cursor-pointer hover:-translate-y-0.5 ${
                 active === item
                   ? "text-ink"
                   : "text-ink-muted hover:text-ink"
               }`}
             >
               {capitalize(item)}
+              {active === item && (
+                <motion.div layoutId="underline" className="absolute -bottom-px left-2 right-2 h-0.5 bg-ink rounded-full" />
+              )}
             </button>
           ))}
         </div>

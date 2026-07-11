@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import { easeOut } from "../utils/animations";
 
 interface Certificate {
   title: string;
@@ -97,13 +98,19 @@ function CertificatePreview({ cert, files }: { cert: Certificate; files: string[
 
   return (
     <div className="relative w-full aspect-[16/10] overflow-hidden rounded-sm bg-canvas-card group">
-      <Image
-        src={files[page]}
-        alt={cert.title}
-        fill
-        className="object-contain p-2"
-        sizes="(max-width: 768px) 100vw, 33vw"
-      />
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        transition={{ duration: 0.3, ease: easeOut }}
+        className="relative w-full h-full"
+      >
+        <Image
+          src={files[page]}
+          alt={cert.title}
+          fill
+          className="object-contain p-2"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+      </motion.div>
       {multi && (
         <>
           <button
@@ -120,6 +127,15 @@ function CertificatePreview({ cert, files }: { cert: Certificate; files: string[
           >
             <ChevronRight size={14} />
           </button>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+            {files.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i)}
+                className={`w-1.5 h-1.5 rounded-full transition-all cursor-pointer ${i === page ? "bg-ink w-3" : "bg-hairline"}`}
+              />
+            ))}
+          </div>
         </>
       )}
       <div className="absolute inset-0 rounded-sm ring-1 ring-inset ring-hairline pointer-events-none" />
@@ -141,70 +157,58 @@ export default function Achievements() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {visible.map((cert, i) => (
-            <motion.div
-              key={cert.title}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={i < 3 ? { opacity: 1, y: 0 } : undefined}
-              animate={i >= 3 ? { opacity: 1, y: 0 } : undefined}
-              viewport={i < 3 ? { once: true } : undefined}
-              transition={{ duration: 0.3, ease: "easeOut", delay: i < 3 ? i * 0.05 : (i - 3) * 0.03 }}
-            >
-              <div className="p-5 border border-hairline rounded-sm bg-canvas-card h-full flex flex-col">
-                <CertificatePreview cert={cert} files={cert.files} />
-                <div className="mt-4 space-y-1.5 flex-1">
-                  <h3 className="body-md font-bold text-ink">{cert.title}</h3>
-                  <div className="flex items-center gap-2 caption text-ink-muted">
-                    <span>{cert.issuer}</span>
-                    <span className="text-hairline">·</span>
-                    <span>{cert.year}</span>
+          <AnimatePresence>
+            {visible.map((cert, i) => (
+              <motion.div
+                key={cert.title}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
+                transition={{ duration: 0.3, ease: easeOut, delay: i * 0.03 }}
+              >
+                <motion.div
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.25, ease: easeOut }}
+                  className="p-5 border border-hairline rounded-sm bg-canvas-card h-full flex flex-col hover:shadow-md transition-shadow duration-300"
+                >
+                  <CertificatePreview cert={cert} files={cert.files} />
+                  <div className="mt-4 space-y-1.5 flex-1">
+                    <h3 className="body-md font-bold text-ink">{cert.title}</h3>
+                    <div className="flex items-center gap-2 caption text-ink-muted">
+                      <span>{cert.issuer}</span>
+                      <span className="text-hairline">·</span>
+                      <span>{cert.year}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="pt-4 mt-auto border-t border-hairline">
-                  <a
-                    href={cert.files[0]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="button-cap text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1"
-                  >
-                    View Certificate <ExternalLink size={12} />
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                  <div className="pt-4 mt-auto border-t border-hairline">
+                    <a
+                      href={cert.files[0]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="button-cap text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1"
+                    >
+                      View Certificate <ExternalLink size={12} />
+                    </a>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
-        {!showAll && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mt-10 text-center"
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-10 text-center"
+        >
+          <button
+            onClick={() => setShowAll((v) => !v)}
+            className="inline-flex items-center gap-2 rounded-pill border border-hairline px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
           >
-            <button
-              onClick={() => setShowAll(true)}
-              className="inline-flex items-center gap-2 rounded-pill border border-hairline px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
-            >
-              View All (+{hidden})
-            </button>
-          </motion.div>
-        )}
-
-        {showAll && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-10 text-center"
-          >
-            <button
-              onClick={() => setShowAll(false)}
-              className="inline-flex items-center gap-2 rounded-pill border border-hairline px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
-            >
-              Show Less
-            </button>
-          </motion.div>
-        )}
+            {showAll ? "Show Less" : `View All (+${hidden})`}
+          </button>
+        </motion.div>
       </div>
     </section>
   );

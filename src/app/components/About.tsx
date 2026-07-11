@@ -11,10 +11,22 @@ const infoItems = [
   { icon: Briefcase, label: "Open to Freelance & Collaboration", desc: "Available for contracts & partnerships" },
 ];
 
+const techStack = [
+  { name: "React", icon: SiReact },
+  { name: "Next.js", icon: SiNextdotjs },
+  { name: "Go", icon: SiGo },
+  { name: "Python", icon: SiPython },
+  { name: "FastAPI", icon: SiFastapi },
+  { name: "PostgreSQL", icon: SiPostgresql },
+  { name: "Docker", icon: SiDocker },
+  { name: "Google Cloud", icon: SiGooglecloud },
+  { name: "TypeScript", icon: SiTypescript },
+];
+
 export default function About() {
   return (
-    <section id="about" className="relative bg-canvas py-24 md:py-28 border-b border-hairline">
-      <div className="relative mx-auto max-w-6xl px-6 md:px-8">
+    <section id="about" className="bg-canvas py-24 md:py-28 border-b border-hairline">
+      <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="grid items-center gap-14 md:grid-cols-2 md:gap-20">
           <motion.div
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
@@ -49,13 +61,25 @@ export default function About() {
           className="mt-20 pt-10 border-t border-hairline"
         >
           <p className="micro-cap text-ink-muted text-center mb-6">Technology Arsenal</p>
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 text-ink-muted">
-            <span className="flex items-center gap-3"><SiReact size={20} /><SiNextdotjs size={20} /></span>
-            <SiGo size={20} />
-            <span className="flex items-center gap-3"><SiPython size={20} /><SiFastapi size={20} /></span>
-            <SiPostgresql size={20} />
-            <span className="flex items-center gap-3"><SiDocker size={20} /><SiGooglecloud size={20} /></span>
-            <SiTypescript size={20} />
+          <div className="flex flex-wrap justify-center gap-px">
+            {techStack.map((tech, i) => (
+              <motion.div
+                key={tech.name}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, ease: easeOut, delay: i * 0.03 }}
+              >
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2, ease: easeOut }}
+                  className="flex flex-col items-center justify-center gap-1 w-[72px] h-[72px] border border-hairline bg-canvas-card hover:bg-canvas hover:shadow-md transition-colors duration-200"
+                >
+                  <tech.icon size={20} className="text-ink-muted" />
+                  <span className="caption text-ink-muted leading-none">{tech.name}</span>
+                </motion.div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
