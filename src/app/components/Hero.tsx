@@ -1,20 +1,90 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Linkedin, Mail, MessageCircle, X } from "lucide-react";
-import Button from "./ui/Button";
+import { Download, Linkedin, Mail, MessageCircle, X, Send } from "lucide-react";
 import { easeOut } from "../utils/animations";
 
 const contactLinks = [
-  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/ken-zamariyan-10b140318/" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/ken-zamariyan" },
   { icon: Mail, label: "Email", href: "mailto:kenzamariyan32@gmail.com" },
   { icon: MessageCircle, label: "WhatsApp", href: "https://wa.me/6285878221758" },
 ];
 
+function CVModal({ onClose }: { onClose: () => void }) {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-canvas/80 p-4 backdrop-blur-sm"
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 8 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 8 }}
+        transition={{ duration: 0.25, ease: easeOut }}
+        onClick={(e) => e.stopPropagation()}
+        className="flex w-full max-w-3xl flex-col overflow-hidden rounded-sm border border-hairline bg-canvas-card"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-hairline px-5 py-3">
+          <h3 className="button-cap text-ink">Curriculum Vitae</h3>
+          <button
+            onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-sm text-ink-muted hover:text-ink transition-colors cursor-pointer"
+            aria-label="Close"
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        {/* PDF Preview */}
+        <div className="relative min-h-[50vh] md:min-h-[70vh]">
+          {!loaded && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-hairline border-t-ink" />
+            </div>
+          )}
+          <iframe
+            src="/Ken_Zamariyan_FullStack_Developer.pdf"
+            className="h-full w-full"
+            style={{ minHeight: "50vh" }}
+            onLoad={() => setLoaded(true)}
+          />
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-end border-t border-hairline px-5 py-3">
+          <a
+            href="/Ken_Zamariyan_FullStack_Developer.pdf"
+            download
+            className="button-cap inline-flex items-center gap-2 rounded-sm border border-hairline px-4 py-2 text-ink-muted hover:border-ink hover:text-ink transition-colors"
+          >
+            <Download size={12} /> Download PDF
+          </a>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Hero() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [cvModalOpen, setCvModalOpen] = useState(false);
 
   return (
     <>
@@ -45,13 +115,23 @@ export default function Hero() {
                 transition={{ delay: 0.35, duration: 0.4, ease: easeOut }}
                 className="flex flex-wrap gap-3"
               >
-                <Button variant="filled" onClick={() => setModalOpen(true)}>
-                  Discuss a Project
-                </Button>
-                <Button variant="ghost" href="/Ken_Zamariyan_FullStack_Developer.pdf" download target="_blank" rel="noopener noreferrer">
-                  <Download size={16} />
+                {/* Get in Touch */}
+                <button
+                  onClick={() => setModalOpen(true)}
+                  className="group inline-flex cursor-pointer items-center gap-2 rounded-[32px] border border-hairline px-6 py-3 button-cap text-ink-muted transition-all duration-200 hover:border-ink hover:text-ink active:scale-[0.98]"
+                >
+                  <Send size={14} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
+                  Get in Touch
+                </button>
+
+                {/* Download CV */}
+                <button
+                  onClick={() => setCvModalOpen(true)}
+                  className="group inline-flex cursor-pointer items-center gap-2 rounded-[32px] border border-hairline px-6 py-3 button-cap text-ink-muted transition-all duration-200 hover:border-ink hover:text-ink active:scale-[0.98]"
+                >
+                  <Download size={16} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
                   Download CV
-                </Button>
+                </button>
               </motion.div>
             </div>
             <div className="lg:col-span-5 w-full flex justify-center lg:justify-end">
@@ -71,6 +151,7 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* Contact Modal */}
       <AnimatePresence>
         {modalOpen && (
           <motion.div
@@ -96,7 +177,7 @@ export default function Hero() {
                 <X size={12} />
               </button>
 
-              <h3 className="body-md font-bold text-ink mb-1">Let&rsquo;s Discuss Your Project</h3>
+              <h3 className="body-md font-bold text-ink mb-1">Get in Touch</h3>
               <p className="body-md text-ink-muted mb-6">Reach me through any of these channels.</p>
 
               <div className="space-y-2">
@@ -118,6 +199,11 @@ export default function Hero() {
             </motion.div>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      {/* CV Preview Modal */}
+      <AnimatePresence>
+        {cvModalOpen && <CVModal onClose={() => setCvModalOpen(false)} />}
       </AnimatePresence>
     </>
   );
