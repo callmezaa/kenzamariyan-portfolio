@@ -11,12 +11,12 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-hairline bg-canvas px-6 py-8">
+    <footer className="px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <p className="caption text-ink-muted">
+        <p className="body-small text-ink-tertiary">
           &copy; 2026 Ken Zamariyan. All rights reserved.
         </p>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {socials.map((s) => (
             <a
               key={s.label}
@@ -24,7 +24,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="flex h-8 w-8 items-center justify-center rounded-sm text-ink-muted transition-colors hover:bg-hairline/50 hover:text-ink"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-ink-muted transition-all hover:bg-white/10 hover:text-ink"
             >
               <s.icon size={14} />
             </a>

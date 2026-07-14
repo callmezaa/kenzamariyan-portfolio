@@ -42,10 +42,10 @@ export default function TechArsenal() {
           <button
             key={cat}
             onClick={() => handleCategoryChange(cat)}
-            className={`rounded-sm border px-4 py-1.5 text-sm transition-colors duration-200 ${
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
               activeCategory === cat
-                ? "border-ink text-ink"
-                : "border-hairline text-ink-muted hover:border-ink/50"
+                ? "bg-white/10 text-ink"
+                : "text-ink-muted hover:text-ink hover:bg-white/5"
             }`}
           >
             {cat}
@@ -142,7 +142,7 @@ function TechCard({
             scale: isHovered ? 1.05 : 1,
           }}
           transition={{ duration: 0.2, ease: easeOut }}
-          className="flex min-w-[100px] flex-col items-center gap-1.5 rounded-sm border border-hairline bg-canvas-card p-4"
+          className="flex min-w-[100px] flex-col items-center gap-1.5 rounded-[12px] bg-canvas-glass backdrop-blur-sm shadow-lg shadow-black/20 p-4 border border-white/5"
           style={{
             boxShadow: isHovered
               ? `0 0 24px ${brandColor}40, 0 4px 12px rgba(0,0,0,0.2)`
