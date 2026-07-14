@@ -1,11 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { GeistSans, GeistMono } from "geist/font";
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Geist } from "next/font/google";
 import Navbar from "./components/Navbar";
 import KeyboardNav from "./components/KeyboardNav";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -66,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className="scroll-smooth"
+      className={cn("scroll-smooth", "font-sans", geist.variable)}
       data-theme="light"
       style={{ colorScheme: "light" }}
     >

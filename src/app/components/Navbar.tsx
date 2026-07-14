@@ -8,7 +8,7 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useTheme } from "./ThemeProvider";
 
-const sections = ["home", "projects", "about", "skills", "achievements", "contact"];
+const sections = ["home", "projects", "about", "skills", "experience", "achievements", "contact"];
 
 export default function Navbar() {
   const { theme, toggle } = useTheme();
