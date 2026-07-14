@@ -98,7 +98,7 @@ function CertificatePreview({ cert, files }: { cert: Certificate; files: string[
   const multi = files.length > 1;
 
   return (
-    <div className="relative w-full aspect-[16/10] overflow-hidden rounded-sm bg-canvas-card group">
+    <div className="relative w-full aspect-[16/10] overflow-hidden rounded-t-[14px] bg-canvas-card group">
       <motion.div
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.3, ease: easeOut }}
@@ -139,7 +139,6 @@ function CertificatePreview({ cert, files }: { cert: Certificate; files: string[
           </div>
         </>
       )}
-      <div className="absolute inset-0 rounded-sm ring-1 ring-inset ring-hairline pointer-events-none" />
     </div>
   );
 }
@@ -193,7 +192,7 @@ function CertificateModal({
         exit={{ opacity: 0, scale: 0.95, y: 8 }}
         transition={{ duration: 0.25, ease: easeOut }}
         onClick={(e) => e.stopPropagation()}
-        className="flex w-full max-w-3xl flex-col overflow-hidden rounded-sm border border-hairline bg-canvas-card"
+        className="flex w-full max-w-3xl flex-col overflow-hidden rounded-[20px] border border-white/10 bg-canvas-glass backdrop-blur-xl shadow-2xl shadow-black/80"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-hairline px-4 py-2.5 md:px-5 md:py-3">
@@ -271,7 +270,7 @@ function CertificateModal({
               <a
                 href={cert.files[page]}
                 download
-                className="button-cap inline-flex items-center justify-center gap-2 rounded-sm border border-hairline px-4 py-2 text-ink-muted hover:border-ink hover:text-ink transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-4 py-2 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors"
               >
                 <Download size={12} /> Download
               </a>
@@ -280,7 +279,7 @@ function CertificateModal({
                   href={cert.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="button-cap inline-flex items-center justify-center gap-2 rounded-sm border border-hairline px-4 py-2 text-ink-muted hover:border-ink hover:text-ink transition-colors"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-4 py-2 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors"
                 >
                   <ExternalLink size={12} /> View Original
                 </a>
@@ -300,7 +299,7 @@ export default function Achievements() {
   const hidden = certificates.length - 3;
 
   return (
-    <section id="achievements" className="bg-canvas py-24 md:py-28 border-b border-hairline">
+    <section id="achievements" className="bg-canvas py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="mb-12 max-w-2xl space-y-3">
           <p className="micro-cap text-ink-muted">Credentials</p>
@@ -319,24 +318,24 @@ export default function Achievements() {
               >
                 <motion.div
                   whileHover={{ y: -3 }}
-                  transition={{ duration: 0.25, ease: easeOut }}
-                  className="p-5 border border-hairline rounded-sm bg-canvas-card h-full flex flex-col hover:shadow-md transition-shadow duration-300"
+                  transition={{ duration: 0.3, ease: easeOut }}
+                  className="rounded-[14px] overflow-hidden shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/50 bg-canvas-card h-full flex flex-col transition-shadow duration-300"
                 >
                   <CertificatePreview cert={cert} files={cert.files} />
-                  <div className="mt-4 space-y-1.5 flex-1">
-                    <h3 className="body-md font-bold text-ink">{cert.title}</h3>
-                    <div className="flex items-center gap-2 caption text-ink-muted">
+                  <div className="p-5 space-y-2 flex-1">
+                    <h3 className="body-base font-semibold text-ink">{cert.title}</h3>
+                    <div className="flex items-center gap-2 body-small text-ink-tertiary">
                       <span>{cert.issuer}</span>
                       <span className="text-hairline">·</span>
                       <span>{cert.year}</span>
                     </div>
                   </div>
-                  <div className="pt-4 mt-auto border-t border-hairline">
+                  <div className="px-5 pb-5">
                     <button
                       onClick={() => setModalIndex(i)}
-                      className="button-cap text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1 cursor-pointer"
+                      className="mono-sm text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1.5 cursor-pointer group"
                     >
-                      View Details <Eye size={12} />
+                      View Details <Eye size={12} className="transition-transform group-hover:translate-x-0.5" />
                     </button>
                   </div>
                 </motion.div>
