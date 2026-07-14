@@ -1,9 +1,17 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { GeistSans, GeistMono } from "geist/font";
+import { JetBrains_Mono } from "next/font/google";
 import Navbar from "./components/Navbar";
 import KeyboardNav from "./components/KeyboardNav";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeProvider";
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://portfolio-amber-ten-22.vercel.app"),
@@ -81,7 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `,
         }} />
       </head>
-      <body className="bg-canvas font-din text-ink-muted antialiased">
+      <body className={`${GeistSans.variable} ${GeistMono.variable} ${jetbrainsMono.variable} bg-canvas font-sans text-ink-muted antialiased`}>
         <a
           href="#main-content"
           className="fixed -top-full left-4 z-[100] rounded-b-md bg-ink px-4 py-2.5 text-sm font-semibold text-canvas transition-all duration-200 focus:top-0 focus:outline-2 focus:outline-offset-0 focus:outline-ink"
