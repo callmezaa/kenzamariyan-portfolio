@@ -71,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       style={{ colorScheme: "dark" }}
     >
       <head>
-        <meta name="theme-color" content="#000000" id="theme-color-meta" />
+        <meta name="theme-color" content="#0a0a0a" id="theme-color-meta" />
         <script dangerouslySetInnerHTML={{
           __html: `
             (function(){
@@ -83,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               }
               var meta = document.getElementById("theme-color-meta");
               if (meta) {
-                meta.setAttribute("content", document.documentElement.getAttribute("data-theme") === "dark" ? "#000000" : "#ffffff");
+                meta.setAttribute("content", document.documentElement.getAttribute("data-theme") === "dark" ? "#0a0a0a" : "#f5f5f0");
               }
             })();
           `,
