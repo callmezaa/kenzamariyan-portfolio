@@ -28,7 +28,7 @@ export default function Projects() {
   const remaining = projects.length - showcase.length;
 
   return (
-    <section id="projects" className="bg-canvas py-24 md:py-28 border-b border-hairline">
+    <section id="projects" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -44,8 +44,8 @@ export default function Projects() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setView("grid")}
-              className={`flex h-8 w-8 items-center justify-center rounded-sm border transition-colors cursor-pointer ${
-                view === "grid" ? "border-ink text-ink" : "border-hairline text-ink-muted hover:text-ink hover:border-ink"
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all cursor-pointer ${
+                view === "grid" ? "bg-white/10 text-ink" : "text-ink-muted hover:text-ink hover:bg-white/5"
               }`}
               aria-label="Grid view"
             >
@@ -53,8 +53,8 @@ export default function Projects() {
             </button>
             <button
               onClick={() => setView("list")}
-              className={`flex h-8 w-8 items-center justify-center rounded-sm border transition-colors cursor-pointer ${
-                view === "list" ? "border-ink text-ink" : "border-hairline text-ink-muted hover:text-ink hover:border-ink"
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all cursor-pointer ${
+                view === "list" ? "bg-white/10 text-ink" : "text-ink-muted hover:text-ink hover:bg-white/5"
               }`}
               aria-label="List view"
             >
@@ -73,44 +73,33 @@ export default function Projects() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, ease: easeOut, delay: i * 0.05 }}
               >
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.3, ease: easeOut }}
-                >
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="block"
-                  >
-                    <div className="w-full rounded-sm border border-hairline bg-canvas overflow-hidden">
-                      <motion.div
-                        whileHover={{ scale: 1.03 }}
-                        transition={{ duration: 0.4, ease: easeOut }}
-                      >
-                        <Image
-                          src={projectImages[project.slug] || projectImages[project.slug]}
-                          alt={project.title}
-                          width={1200}
-                          height={750}
-                          className="w-full h-auto block"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      </motion.div>
+                <Link href={`/projects/${project.slug}`} className="block group">
+                  <div className="rounded-[14px] overflow-hidden shadow-lg shadow-black/40 transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/60 group-hover:-translate-y-2">
+                    <div className="overflow-hidden">
+                      <Image
+                        src={projectImages[project.slug] || projectImages[project.slug]}
+                        alt={project.title}
+                        width={1200}
+                        height={750}
+                        className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
                     </div>
-                    <div className="mt-4 space-y-1.5">
-                      <h3 className="body-md font-bold text-ink">{project.title}</h3>
-                      <p className="caption text-ink-muted">{project.stack.slice(0, 3).join(" · ")}</p>
-                      <div className="flex items-center gap-2 caption text-ink-muted pt-0.5">
-                        <span>{project.year}</span>
-                        {project.badge && (
-                          <>
-                            <span className="text-hairline">·</span>
-                            <span className="micro-cap px-1.5 py-0.5 rounded-sm border border-hairline text-ink-muted">{project.badge}</span>
-                          </>
-                        )}
-                      </div>
+                  </div>
+                  <div className="mt-5 space-y-2">
+                    <h3 className="display-lg">{project.title}</h3>
+                    <p className="body-small text-ink-muted">{project.stack.slice(0, 3).join(" · ")}</p>
+                    <div className="flex items-center gap-2 body-small text-ink-tertiary">
+                      <span>{project.year}</span>
+                      {project.badge && (
+                        <>
+                          <span className="text-hairline">·</span>
+                          <span className="mono-sm px-3 py-0.5 rounded-full bg-white/5 text-ink-muted">{project.badge}</span>
+                        </>
+                      )}
                     </div>
-                  </Link>
-                </motion.div>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -130,9 +119,9 @@ export default function Projects() {
                 >
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="flex items-center gap-5 p-4 border border-hairline rounded-sm bg-canvas-card hover:bg-canvas-card/50 transition-colors duration-200"
+                    className="flex items-center gap-5 p-4 rounded-[12px] bg-canvas-glass shadow hover:bg-canvas-glass/70 transition-colors duration-200"
                   >
-                    <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-sm bg-canvas border border-hairline">
+                    <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-sm bg-canvas">
                       <Image
                         src={projectImages[project.slug] || projectImages[project.slug]}
                         alt={project.title}
@@ -162,14 +151,14 @@ export default function Projects() {
           {!showAll ? (
             <button
               onClick={() => setShowAll(true)}
-              className="inline-flex items-center gap-2 rounded-pill border border-hairline px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
             >
               View All (+{remaining})
             </button>
           ) : (
             <button
               onClick={() => setShowAll(false)}
-              className="inline-flex items-center gap-2 rounded-pill border border-hairline px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
             >
               Show Less
             </button>
