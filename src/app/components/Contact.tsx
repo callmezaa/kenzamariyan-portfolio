@@ -37,13 +37,13 @@ function ContactModal({ onClose }: { onClose: () => void }) {
         exit={{ opacity: 0, scale: 0.95, y: 8 }}
         transition={{ duration: 0.25, ease: easeOut }}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-sm rounded-sm border border-hairline bg-canvas-card"
+        className="w-full max-w-sm rounded-[20px] border border-white/10 bg-canvas-glass backdrop-blur-xl shadow-2xl shadow-black/80"
       >
-        <div className="flex items-center justify-between border-b border-hairline px-5 py-3">
+        <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
           <h3 className="button-cap text-ink">Let&rsquo;s Connect</h3>
           <button
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-sm text-ink-muted hover:text-ink transition-colors cursor-pointer"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink transition-colors cursor-pointer"
             aria-label="Close"
           >
             <X size={16} />
@@ -56,9 +56,9 @@ function ContactModal({ onClose }: { onClose: () => void }) {
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-3 rounded-sm px-3 py-3 text-ink-muted hover:text-ink transition-colors"
+              className="group flex items-center gap-3 rounded-[12px] px-3 py-3 text-ink-muted hover:bg-white/5 transition-colors"
             >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-hairline text-ink-muted group-hover:text-ink transition-colors">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] text-ink-muted group-hover:text-ink transition-colors">
                 <item.icon size={14} />
               </div>
               <span className="caption flex-1 truncate">{item.label}</span>
@@ -75,9 +75,9 @@ export default function Contact() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <section id="contact" className="border-b border-hairline bg-canvas py-24 md:py-28">
+    <section id="contact" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="rounded-sm border border-hairline bg-canvas-card p-8 md:p-12">
+        <div className="rounded-[20px] bg-canvas-glass backdrop-blur-xl shadow-lg shadow-black/30 p-8 md:p-12">
           <div className="flex flex-col items-start gap-10 lg:grid lg:grid-cols-12 lg:gap-16">
             {/* Left: Text */}
             <div className="w-full space-y-6 lg:col-span-5">
@@ -138,7 +138,7 @@ export default function Contact() {
             >
               <button
                 onClick={() => setShowModal(true)}
-                className="group inline-flex w-full cursor-pointer items-center gap-4 rounded-sm border border-hairline bg-canvas p-4 transition-all duration-300 hover:shadow-md"
+                className="group inline-flex w-full cursor-pointer items-center gap-4 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 p-4 transition-all duration-300 hover:shadow-md"
               >
                 <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-1 ring-hairline">
                   <Image
