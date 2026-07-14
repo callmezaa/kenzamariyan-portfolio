@@ -67,19 +67,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       className="scroll-smooth"
-      data-theme="dark"
-      style={{ colorScheme: "dark" }}
+      data-theme="light"
+      style={{ colorScheme: "light" }}
     >
       <head>
-        <meta name="theme-color" content="#0a0a0a" id="theme-color-meta" />
+        <meta name="theme-color" content="#f5f5f0" id="theme-color-meta" />
         <script dangerouslySetInnerHTML={{
           __html: `
             (function(){
               var t = localStorage.getItem("theme");
               if (t === "light" || t === "dark") {
                 document.documentElement.setAttribute("data-theme", t);
-              } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-                document.documentElement.setAttribute("data-theme", "light");
+              } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                document.documentElement.setAttribute("data-theme", "dark");
               }
               var meta = document.getElementById("theme-color-meta");
               if (meta) {
