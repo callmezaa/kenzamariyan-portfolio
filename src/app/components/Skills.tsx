@@ -9,9 +9,9 @@ export default function Skills() {
     <section id="skills" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="mb-16 max-w-2xl space-y-3">
-          <p className="micro-cap text-ink-muted">Capabilities</p>
+          <p className="label text-ink-muted">Capabilities</p>
           <h2 className="display-xl">Expertise Ecosystem</h2>
-          <p className="body-lg">
+          <p className="body-base">
             A comprehensive mapping of my engineering domains, showcasing the
             technical depth and workflows I use to launch digital products.
           </p>

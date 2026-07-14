@@ -190,7 +190,7 @@ function TechCard({
             />
           </div>
 
-          <span className="caption leading-none text-ink-muted text-center">
+          <span className="body-small leading-none text-ink-muted text-center">
             {tech.name}
           </span>
         </motion.div>
@@ -204,14 +204,14 @@ function TechCard({
               transition={{ duration: 0.2, ease: easeOut }}
             >
               <div
-                className="space-y-2 rounded-sm border border-hairline border-t-0 bg-canvas-card p-3"
+                className="space-y-2 rounded-sm border border-white/10 border-t-0 bg-canvas-card p-3"
                 style={{
                   boxShadow: `inset 0 1px 0 ${brandColor}20`,
                 }}
               >
-                <p className="caption text-ink-muted">{tech.description}</p>
+                <p className="body-small text-ink-muted">{tech.description}</p>
                 <div className="flex items-center gap-2">
-                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-hairline">
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
                     <div
                       className="h-full rounded-full"
                       style={{
@@ -222,7 +222,7 @@ function TechCard({
                     />
                   </div>
                   <span
-                    className="micro-cap"
+                    className="label"
                     style={{ color: brandColor }}
                   >
                     {tech.mastery}%

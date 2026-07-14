@@ -38,7 +38,7 @@ export default function Projects() {
           className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4"
         >
           <div className="space-y-3">
-            <p className="micro-cap text-ink-muted">Selected Work</p>
+            <p className="label text-ink-muted">Selected Work</p>
             <h2 className="display-xl">Projects That Ship</h2>
           </div>
           <div className="flex items-center gap-2">
@@ -121,7 +121,7 @@ export default function Projects() {
                     href={`/projects/${project.slug}`}
                     className="flex items-center gap-5 p-4 rounded-[12px] bg-canvas-glass shadow hover:bg-canvas-glass/70 transition-colors duration-200"
                   >
-                    <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-sm bg-canvas">
+                    <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-[12px] bg-canvas">
                       <Image
                         src={projectImages[project.slug] || projectImages[project.slug]}
                         alt={project.title}
@@ -131,10 +131,10 @@ export default function Projects() {
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="body-md font-bold text-ink truncate">{project.title}</h3>
-                      <p className="caption text-ink-muted truncate">{project.stack.slice(0, 3).join(" · ")}</p>
+                      <h3 className="body-base font-bold text-ink truncate">{project.title}</h3>
+                      <p className="body-small text-ink-muted truncate">{project.stack.slice(0, 3).join(" · ")}</p>
                     </div>
-                    <span className="caption text-ink-muted shrink-0 hidden sm:inline">{project.year}</span>
+                    <span className="body-small text-ink-muted shrink-0 hidden sm:inline">{project.year}</span>
                   </Link>
                 </motion.div>
               </motion.div>

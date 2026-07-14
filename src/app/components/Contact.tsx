@@ -43,7 +43,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
           <h3 className="button-cap text-ink">Let&rsquo;s Connect</h3>
           <button
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink transition-colors cursor-pointer"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-ink-muted hover:text-ink hover:bg-white/10 transition-colors cursor-pointer"
             aria-label="Close"
           >
             <X size={16} />
@@ -61,7 +61,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] text-ink-muted group-hover:text-ink transition-colors">
                 <item.icon size={14} />
               </div>
-              <span className="caption flex-1 truncate">{item.label}</span>
+              <span className="body-small flex-1 truncate">{item.label}</span>
               <ChevronRight size={14} className="text-ink-muted/30 group-hover:text-ink-muted transition-colors" />
             </a>
           ))}
@@ -86,7 +86,7 @@ export default function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, ease: easeOut }}
-                className="micro-cap text-ink-muted"
+                className="label text-ink-muted"
               >
                 Get In Touch
               </motion.p>
@@ -120,7 +120,7 @@ export default function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, ease: easeOut, delay: 0.2 }}
-                className="body-lg"
+                className="body-base"
               >
                 Have an active product requirement, need an engineer to scale
                 operations, or want to audit your UI architecture? Reach out
@@ -140,7 +140,7 @@ export default function Contact() {
                 onClick={() => setShowModal(true)}
                 className="group inline-flex w-full cursor-pointer items-center gap-4 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 p-4 transition-all duration-300 hover:shadow-md"
               >
-                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-1 ring-hairline">
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
                   <Image
                     src="/image/profile/profile-image.jpeg"
                     alt="Ken Zamariyan"
@@ -151,8 +151,8 @@ export default function Contact() {
                 </div>
                 <div className="flex flex-1 items-center justify-between">
                   <div className="text-left">
-                    <p className="body-md font-bold text-ink">Get in Touch</p>
-                    <p className="caption text-ink-muted">
+                    <p className="body-base font-bold text-ink">Get in Touch</p>
+                    <p className="body-small text-ink-muted">
                       Let&rsquo;s start a conversation
                     </p>
                   </div>

@@ -153,10 +153,10 @@ export default function Navbar() {
               ))}
               <div className="flex items-center justify-around py-2">
                 <a href="https://github.com/callmezaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
-                  <FaGithub size={18} /><span className="micro-cap">GitHub</span>
+                  <FaGithub size={18} /><span className="label">GitHub</span>
                 </a>
                 <a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
-                  <FaLinkedin size={18} /><span className="micro-cap">LinkedIn</span>
+                  <FaLinkedin size={18} /><span className="label">LinkedIn</span>
                 </a>
               </div>
 

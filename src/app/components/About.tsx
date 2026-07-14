@@ -21,9 +21,9 @@ export default function About() {
             viewport={{ once: true }} transition={{ duration: 0.5, ease: easeOut }}
             className="space-y-6 md:col-span-7"
           >
-            <p className="micro-cap text-ink-muted">About Me</p>
+            <p className="label text-ink-muted">About Me</p>
             <h2 className="display-xl">Building reliable digital products with clarity and purpose.</h2>
-            <p className="body-lg">Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under 15 seconds to offline-first mobile POS serving 1,500+ cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.</p>
+            <p className="body-base">Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under 15 seconds to offline-first mobile POS serving 1,500+ cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.</p>
           </motion.div>
           <div className="space-y-8 md:col-span-5">
             {infoItems.map((item, i) => (
@@ -48,7 +48,7 @@ export default function About() {
           viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-20 pt-10 border-t border-white/5"
         >
-          <p className="micro-cap text-ink-muted text-center mb-6">Technology Arsenal</p>
+          <p className="label text-ink-muted text-center mb-6">Technology Arsenal</p>
           <TechArsenal />
         </motion.div>
       </div>

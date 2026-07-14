@@ -195,23 +195,23 @@ function CertificateModal({
         className="flex w-full max-w-3xl flex-col overflow-hidden rounded-[20px] border border-white/10 bg-canvas-glass backdrop-blur-xl shadow-2xl shadow-black/80"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-hairline px-4 py-2.5 md:px-5 md:py-3">
+        <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5 md:px-5 md:py-3">
           <div className="flex items-center gap-2">
             <button
               onClick={onPrev}
               disabled={isFirst}
-              className="flex h-8 w-8 items-center justify-center rounded-sm text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none transition-colors cursor-pointer"
               aria-label="Previous certificate"
             >
               <ChevronLeft size={16} />
             </button>
-            <span className="caption text-ink-muted">
+            <span className="body-small text-ink-muted">
               {currentIndex + 1} / {total}
             </span>
             <button
               onClick={onNext}
               disabled={isLast}
-              className="flex h-8 w-8 items-center justify-center rounded-sm text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none transition-colors cursor-pointer"
               aria-label="Next certificate"
             >
               <ChevronRight size={16} />
@@ -219,7 +219,7 @@ function CertificateModal({
           </div>
           <button
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-sm text-ink-muted hover:text-ink transition-colors cursor-pointer"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <X size={16} />
@@ -246,7 +246,7 @@ function CertificateModal({
                   <button
                     key={i}
                     onClick={() => setPage(i)}
-                    className={`h-1.5 w-1.5 md:h-2 md:w-2 rounded-full transition-all cursor-pointer ${i === page ? "w-3 md:w-4 bg-ink" : "bg-hairline"}`}
+                    className={`h-1.5 w-1.5 md:h-2 md:w-2 rounded-full transition-all cursor-pointer ${i === page ? "w-3 md:w-4 bg-ink" : "bg-white/10"}`}
                   />
                 ))}
               </div>
@@ -254,19 +254,19 @@ function CertificateModal({
           </div>
 
           {/* Info section */}
-          <div className="flex w-full flex-col border-t border-hairline md:w-72 md:shrink-0 md:border-t-0 md:border-l">
+          <div className="flex w-full flex-col border-t border-white/10 md:w-72 md:shrink-0 md:border-t-0 md:border-l">
             <div className="flex flex-1 flex-col gap-3 p-4 md:p-5">
               <div className="space-y-1">
-                <h3 className="body-sm md:body-md font-bold text-ink leading-snug">{cert.title}</h3>
-                <p className="caption text-ink-muted leading-snug">
-                  {cert.issuer} <span className="text-hairline">·</span> {cert.year}
+                <h3 className="body-small md:body-base font-bold text-ink leading-snug">{cert.title}</h3>
+                <p className="body-small text-ink-muted leading-snug">
+                  {cert.issuer} <span className="text-white/10">·</span> {cert.year}
                 </p>
               </div>
-              <p className="caption text-ink-muted leading-relaxed">
+              <p className="body-small text-ink-muted leading-relaxed">
                 {cert.description}
               </p>
             </div>
-            <div className="flex flex-col gap-2 border-t border-hairline p-4 md:p-5">
+            <div className="flex flex-col gap-2 border-t border-white/10 p-4 md:p-5">
               <a
                 href={cert.files[page]}
                 download
@@ -302,7 +302,7 @@ export default function Achievements() {
     <section id="achievements" className="bg-canvas py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="mb-12 max-w-2xl space-y-3">
-          <p className="micro-cap text-ink-muted">Credentials</p>
+          <p className="label text-ink-muted">Credentials</p>
           <h2 className="display-xl">Certifications & Recognition</h2>
         </div>
 
@@ -352,7 +352,7 @@ export default function Achievements() {
         >
           <button
             onClick={() => setShowAll((v) => !v)}
-            className="inline-flex items-center gap-2 rounded-pill border border-hairline px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
           >
             {showAll ? "Show Less" : `View All (+${hidden})`}
           </button>

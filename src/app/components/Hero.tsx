@@ -174,8 +174,8 @@ export default function Hero() {
                 <X size={12} />
               </button>
 
-              <h3 className="body-md font-bold text-ink mb-1">Get in Touch</h3>
-              <p className="body-md text-ink-muted mb-6">Reach me through any of these channels.</p>
+              <h3 className="body-base font-bold text-ink mb-1">Get in Touch</h3>
+              <p className="body-base text-ink-muted mb-6">Reach me through any of these channels.</p>
 
               <div className="space-y-2">
                 {contactLinks.map((link) => (
@@ -189,7 +189,7 @@ export default function Hero() {
                     <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-ink-muted">
                       <link.icon size={15} />
                     </div>
-                    <span className="body-md font-bold text-ink">{link.label}</span>
+                    <span className="body-base font-bold text-ink">{link.label}</span>
                   </a>
                 ))}
               </div>

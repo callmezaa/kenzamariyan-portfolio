@@ -134,7 +134,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       <div className="mx-auto max-w-4xl px-6 md:px-8 pb-24">
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-2 micro-cap text-ink-muted hover:text-ink transition-colors mb-8"
+          className="inline-flex items-center gap-2 label text-ink-muted hover:text-ink transition-colors mb-8"
         >
           <ArrowLeft size={14} />
           Back to Projects
@@ -150,7 +150,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             {heroScreenshots ? (
               <div className="grid grid-cols-3 gap-2 md:gap-4">
                 {heroScreenshots.map((ss) => (
-                  <div key={ss.label} className="rounded-sm border border-hairline bg-canvas-card overflow-hidden">
+                  <div key={ss.label} className="rounded-sm border border-white/10 bg-canvas-card overflow-hidden">
                     <Image
                       src={ss.src}
                       alt={ss.label}
@@ -164,7 +164,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 ))}
               </div>
             ) : (
-              <div className="relative w-full rounded-sm border border-hairline bg-canvas-card overflow-hidden">
+              <div className="relative w-full rounded-sm border border-white/10 bg-canvas-card overflow-hidden">
                 <Image
                   src={heroSrc}
                   alt={project.title}
@@ -180,31 +180,31 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             <div className="space-y-3">
               <div className="flex flex-wrap items-center gap-3">
                 {project.badge && (
-                  <span className="micro-cap px-2.5 py-1 rounded-sm border border-hairline text-ink-muted">{project.badge}</span>
+                  <span className="label px-2.5 py-1 rounded-sm border border-white/10 text-ink-muted">{project.badge}</span>
                 )}
-                <span className="caption text-ink-muted">{project.year}</span>
-                <span className="caption text-ink-muted">·</span>
-                <span className="caption text-ink-muted">{project.role}</span>
+                <span className="body-small text-ink-muted">{project.year}</span>
+                <span className="body-small text-ink-muted">·</span>
+                <span className="body-small text-ink-muted">{project.role}</span>
               </div>
               <h1 className="display-xl">{project.title}</h1>
-              <p className="body-lg">{project.summary}</p>
+              <p className="body-base">{project.summary}</p>
             </div>
           </div>
 
           <div className="space-y-12">
             <section className="space-y-3">
               <h2 className="button-cap text-ink">Challenge</h2>
-              <p className="body-lg text-ink-muted">{project.challenge}</p>
+              <p className="body-base text-ink-muted">{project.challenge}</p>
             </section>
 
             <section className="space-y-3">
               <h2 className="button-cap text-ink">Solution</h2>
-              <p className="body-lg text-ink-muted">{project.solution}</p>
+              <p className="body-base text-ink-muted">{project.solution}</p>
             </section>
 
             <section className="space-y-3">
               <h2 className="button-cap text-ink">Impact</h2>
-              <p className="body-lg text-ink-muted">{project.impact}</p>
+              <p className="body-base text-ink-muted">{project.impact}</p>
             </section>
           </div>
 
@@ -217,7 +217,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     key={ss.label}
                     whileHover={{ y: -3 }}
                     transition={{ duration: 0.25, ease: easeOut }}
-                    className="rounded-sm border border-hairline bg-canvas-card overflow-hidden hover:shadow-md transition-shadow duration-300"
+                    className="rounded-sm border border-white/10 bg-canvas-card overflow-hidden hover:shadow-md transition-shadow duration-300"
                   >
                     <Image
                       src={ss.src}
@@ -235,13 +235,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
           <div className="flex flex-wrap gap-2">
             {project.stack.map((tech) => (
-              <span key={tech} className="micro-cap px-3 py-1.5 rounded-sm border border-hairline text-ink-muted">
+              <span key={tech} className="label px-3 py-1.5 rounded-sm border border-white/10 text-ink-muted">
                 {tech}
               </span>
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-3 pt-4 border-t border-hairline">
+          <div className="flex flex-wrap gap-3 pt-4 border-t border-white/10">
             <a
               href={project.sourceUrl}
               target="_blank"
