@@ -10,6 +10,7 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { appleSpring } from "../utils/animations";
+import { Button } from "@/components/ui/button";
 
 const filters: { label: string; value: ExperienceType | "all" }[] = [
   { label: "All", value: "all" },
@@ -54,17 +55,15 @@ export default function Experience() {
           className="mb-8 flex flex-wrap gap-2"
         >
           {filters.map((f) => (
-            <button
+            <Button
               key={f.value}
               onClick={() => setActiveFilter(f.value)}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 cursor-pointer ${
-                activeFilter === f.value
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              }`}
+              variant={activeFilter === f.value ? "default" : "secondary"}
+              size="sm"
+              className="rounded-full"
             >
               {f.label}
-            </button>
+            </Button>
           ))}
         </motion.div>
 

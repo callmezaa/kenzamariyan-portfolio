@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { LayoutGrid, List } from "lucide-react";
 import { projects } from "../data/projects";
 import { easeOut } from "../utils/animations";
+import { Button } from "@/components/ui/button";
 
 const showcase = projects.filter((p) => ["contract-chill", "interviewos", "assetra"].includes(p.slug));
 
@@ -42,24 +43,28 @@ export default function Projects() {
             <h2 className="display-xl">Projects That Ship</h2>
           </div>
           <div className="flex items-center gap-2">
-            <button
+            <Button
               onClick={() => setView("grid")}
-              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all cursor-pointer ${
-                view === "grid" ? "bg-white/10 text-ink" : "text-ink-muted hover:text-ink hover:bg-white/5"
+              variant="ghost"
+              size="icon-sm"
+              className={`rounded-full transition-all ${
+                view === "grid" ? "text-ink bg-white/10" : "text-ink-muted hover:text-ink hover:bg-white/5"
               }`}
               aria-label="Grid view"
             >
               <LayoutGrid size={14} />
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setView("list")}
-              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all cursor-pointer ${
-                view === "list" ? "bg-white/10 text-ink" : "text-ink-muted hover:text-ink hover:bg-white/5"
+              variant="ghost"
+              size="icon-sm"
+              className={`rounded-full transition-all ${
+                view === "list" ? "text-ink bg-white/10" : "text-ink-muted hover:text-ink hover:bg-white/5"
               }`}
               aria-label="List view"
             >
               <List size={14} />
-            </button>
+            </Button>
           </div>
         </motion.div>
 
@@ -149,19 +154,23 @@ export default function Projects() {
           className="mt-10 text-center"
         >
           {!showAll ? (
-            <button
+            <Button
               onClick={() => setShowAll(true)}
-              className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
+              variant="outline"
+              size="lg"
+              className="rounded-full"
             >
               View All (+{remaining})
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               onClick={() => setShowAll(false)}
-              className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
+              variant="outline"
+              size="lg"
+              className="rounded-full"
             >
               Show Less
-            </button>
+            </Button>
           )}
         </motion.div>
       </div>

@@ -8,6 +8,7 @@ import { ArrowLeft, ExternalLink, Github, ChevronLeft, ChevronRight } from "luci
 import type { Project } from "../data/projects";
 import { techDescriptions } from "../data/projects";
 import { easeOut } from "../utils/animations";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const projectImages: Record<string, string> = {
@@ -236,25 +237,15 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 <p className="body-base text-muted-foreground">{project.impact}</p>
               </section>
               <div className="flex flex-wrap gap-3 pt-4 border-t border-border">
-                <a
-                  href={project.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-pill border border-foreground/20 px-5 py-2.5 button-cap text-foreground hover:bg-muted transition-colors"
-                >
+                <Button variant="outline" className="rounded-full" nativeButton={false} render={<a href={project.sourceUrl} target="_blank" rel="noopener noreferrer" />}>
                   <Github size={16} />
                   Source Code
-                </a>
+                </Button>
                 {project.demoUrl && (
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-pill border border-foreground bg-foreground px-5 py-2.5 button-cap text-background hover:opacity-90 transition-opacity"
-                  >
+                  <Button className="rounded-full" nativeButton={false} render={<a href={project.demoUrl} target="_blank" rel="noopener noreferrer" />}>
                     <ExternalLink size={16} />
                     Live Demo
-                  </a>
+                  </Button>
                 )}
               </div>
             </TabsContent>
@@ -292,13 +283,15 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                   {allScreenshots.length > 1 && (
                     <div className="flex items-center justify-center gap-4 mt-5 md:hidden">
-                      <button
+                      <Button
                         onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
                         disabled={activeIndex === 0}
-                        className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+                        variant="outline"
+                        size="icon-sm"
+                        className="rounded-full"
                       >
                         <ChevronLeft size={16} />
-                      </button>
+                      </Button>
                       <div className="flex gap-1.5">
                         {allScreenshots.map((_, i) => (
                           <button
@@ -312,13 +305,15 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                           />
                         ))}
                       </div>
-                      <button
+                      <Button
                         onClick={() => scrollTo(Math.min(allScreenshots.length - 1, activeIndex + 1))}
                         disabled={activeIndex === allScreenshots.length - 1}
-                        className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+                        variant="outline"
+                        size="icon-sm"
+                        className="rounded-full"
                       >
                         <ChevronRight size={16} />
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </>

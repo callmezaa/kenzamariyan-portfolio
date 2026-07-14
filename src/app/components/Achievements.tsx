@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, ChevronLeft, ChevronRight, X, Download, Eye } from "lucide-react";
 import { easeOut } from "../utils/animations";
+import { Button } from "@/components/ui/button";
 
 interface Certificate {
   title: string;
@@ -114,20 +115,24 @@ function CertificatePreview({ cert, files }: { cert: Certificate; files: string[
       </motion.div>
       {multi && (
         <>
-          <button
+          <Button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 md:h-7 md:w-7 items-center justify-center rounded-full bg-canvas/50 text-ink-muted md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:pointer-events-none cursor-pointer"
+            variant="ghost"
+            size="icon-sm"
+            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 rounded-full bg-canvas/50 text-ink-muted md:opacity-0 md:group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none"
           >
             <ChevronLeft size={14} />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setPage((p) => Math.min(files.length - 1, p + 1))}
             disabled={page === files.length - 1}
-            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 md:h-7 md:w-7 items-center justify-center rounded-full bg-canvas/50 text-ink-muted md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:pointer-events-none cursor-pointer"
+            variant="ghost"
+            size="icon-sm"
+            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 rounded-full bg-canvas/50 text-ink-muted md:opacity-0 md:group-hover:opacity-100 disabled:opacity-0 disabled:pointer-events-none"
           >
             <ChevronRight size={14} />
-          </button>
+          </Button>
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 md:gap-1.5 z-10 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
             {files.map((_, i) => (
               <button
@@ -197,33 +202,39 @@ function CertificateModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5 md:px-5 md:py-3">
           <div className="flex items-center gap-2">
-            <button
+            <Button
               onClick={onPrev}
               disabled={isFirst}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none transition-colors cursor-pointer"
+              variant="ghost"
+              size="icon-sm"
+              className="rounded-full text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none"
               aria-label="Previous certificate"
             >
               <ChevronLeft size={16} />
-            </button>
+            </Button>
             <span className="body-small text-ink-muted">
               {currentIndex + 1} / {total}
             </span>
-            <button
+            <Button
               onClick={onNext}
               disabled={isLast}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none transition-colors cursor-pointer"
+              variant="ghost"
+              size="icon-sm"
+              className="rounded-full text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none"
               aria-label="Next certificate"
             >
               <ChevronRight size={16} />
-            </button>
+            </Button>
           </div>
-          <button
+          <Button
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-ink-muted hover:text-ink transition-colors cursor-pointer"
+            variant="ghost"
+            size="icon-sm"
+            className="rounded-full text-ink-muted hover:text-ink"
             aria-label="Close modal"
           >
             <X size={16} />
-          </button>
+          </Button>
         </div>
 
         {/* Body */}
@@ -267,22 +278,13 @@ function CertificateModal({
               </p>
             </div>
             <div className="flex flex-col gap-2 border-t border-white/10 p-4 md:p-5">
-              <a
-                href={cert.files[page]}
-                download
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-4 py-2 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors"
-              >
+              <Button variant="outline" size="lg" className="rounded-full" nativeButton={false} render={<a href={cert.files[page]} download />}>
                 <Download size={12} /> Download
-              </a>
+              </Button>
               {cert.url && (
-                <a
-                  href={cert.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-4 py-2 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors"
-                >
+                <Button variant="outline" size="lg" className="rounded-full" nativeButton={false} render={<a href={cert.url} target="_blank" rel="noopener noreferrer" />}>
                   <ExternalLink size={12} /> View Original
-                </a>
+                </Button>
               )}
             </div>
           </div>
@@ -331,12 +333,14 @@ export default function Achievements() {
                     </div>
                   </div>
                   <div className="px-5 pb-5">
-                    <button
+                    <Button
                       onClick={() => setModalIndex(i)}
-                      className="mono-sm text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1.5 cursor-pointer group"
+                      variant="ghost"
+                      size="sm"
+                      className="text-ink-muted group"
                     >
                       View Details <Eye size={12} className="transition-transform group-hover:translate-x-0.5" />
-                    </button>
+                    </Button>
                   </div>
                 </motion.div>
               </motion.div>
@@ -350,12 +354,14 @@ export default function Achievements() {
           viewport={{ once: true }}
           className="mt-10 text-center"
         >
-          <button
+          <Button
             onClick={() => setShowAll((v) => !v)}
-            className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-6 py-3 button-cap text-ink-muted hover:text-ink hover:border-ink transition-colors cursor-pointer"
+            variant="outline"
+            size="lg"
+            className="rounded-full"
           >
             {showAll ? "Show Less" : `View All (+${hidden})`}
-          </button>
+          </Button>
         </motion.div>
       </div>
 

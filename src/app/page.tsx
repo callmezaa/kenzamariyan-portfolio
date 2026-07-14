@@ -4,6 +4,7 @@ import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Experience from "./components/Experience";
 import Achievements from "./components/Achievements";
+import CodeShowcase from "./components/CodeShowcase";
 import Contact from "./components/Contact";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <Skills />
       <Experience />
       <Achievements />
+      <CodeShowcase />
       <Contact />
     </main>
   );

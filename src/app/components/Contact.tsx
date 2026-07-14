@@ -1,25 +1,69 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { Mail, MessageCircle, Briefcase, Code2, ChevronRight, X } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Send, Loader2, Check } from "lucide-react";
 import { easeOut } from "../utils/animations";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
-const contacts = [
-  { icon: Mail, label: "kenzamariyan32@gmail.com", href: "mailto:kenzamariyan32@gmail.com" },
-  { icon: MessageCircle, label: "085878221758", href: "https://wa.me/6285878221758" },
-  { icon: Briefcase, label: "Ken Zamariyan", href: "https://www.linkedin.com/in/ken-zamariyan" },
-  { icon: Code2, label: "callmezaa", href: "https://github.com/callmezaa" },
-];
+const formSchema = z.object({
+  name: z.string().min(1, "Name is required").max(80, "Name is too long"),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("Please enter a valid email"),
+  message: z
+    .string()
+    .min(1, "Message is required")
+    .max(2000, "Message is too long"),
+  company: z.string().optional(),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export default function Contact() {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { name: "", email: "", message: "", company: "" },
+  });
+
+  const onSubmit = useCallback(
+    async (data: FormData) => {
+      if (data.company) return;
+      setStatus("loading");
+      setErrorMessage("");
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.error || "Failed to send");
+        setStatus("success");
+        reset();
+      } catch (e) {
+        setStatus("error");
+        setErrorMessage(e instanceof Error ? e.message : "Something went wrong");
+      }
+    },
+    [reset],
+  );
+
   return (
     <section id="contact" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
@@ -74,7 +118,7 @@ export default function Contact() {
               </motion.p>
             </div>
 
-            {/* Right: Photo + Button */}
+            {/* Right: Form */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -82,63 +126,110 @@ export default function Contact() {
               transition={{ duration: 0.4, ease: easeOut, delay: 0.15 }}
               className="w-full lg:col-span-7 lg:pl-8 lg:self-center"
             >
-              <Dialog>
-                <DialogTrigger
-                  render={
-                    <button className="group inline-flex w-full cursor-pointer items-center gap-4 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 p-4 transition-all duration-300 hover:shadow-md" />
-                  }
-                >
-                  <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
-                    <Image
-                      src="/image/profile/profile-image.jpeg"
-                      alt="Ken Zamariyan"
-                      fill
-                      className="object-cover"
-                      sizes="48px"
-                    />
+              {status === "success" ? (
+                <div className="flex flex-col items-center gap-4 py-10 text-center animate-in fade-in duration-300">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-foreground/10">
+                    <Check size={24} className="text-foreground" />
                   </div>
-                  <div className="flex flex-1 items-center justify-between">
-                    <div className="text-left">
-                      <p className="body-base font-bold text-ink">Get in Touch</p>
-                      <p className="body-small text-ink-muted">
-                        Let&rsquo;s start a conversation
+                  <div className="space-y-1">
+                    <p className="body-base font-bold text-ink">Message sent!</p>
+                    <p className="body-small text-ink-muted">
+                      I&rsquo;ll get back to you soon.
+                    </p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setStatus("idle")}
+                  >
+                    Send another
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                  <input
+                    type="text"
+                    {...register("company")}
+                    className="hidden"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      id="name"
+                      placeholder="Your name"
+                      disabled={status === "loading"}
+                      aria-invalid={errors.name ? true : undefined}
+                      {...register("name")}
+                    />
+                    {errors.name && (
+                      <p className="text-xs text-destructive">
+                        {errors.name.message}
                       </p>
-                    </div>
-                    <ChevronRight
-                      size={16}
-                      className="text-ink-muted transition-colors group-hover:text-ink"
+                    )}
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="your@email.com"
+                      disabled={status === "loading"}
+                      aria-invalid={errors.email ? true : undefined}
+                      {...register("email")}
                     />
+                    {errors.email && (
+                      <p className="text-xs text-destructive">
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
-                </DialogTrigger>
-                <DialogContent
-                  showCloseButton={false}
-                  className="rounded-[20px] bg-popover/80 backdrop-blur-xl p-0 shadow-2xl shadow-black/20 border-0 sm:max-w-sm"
-                >
-                  <div className="flex items-center justify-between border-b border-border px-5 py-3">
-                    <DialogTitle className="button-cap text-foreground">Let&rsquo;s Connect</DialogTitle>
-                    <DialogClose className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer">
-                      <X size={16} />
-                    </DialogClose>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea
+                      id="message"
+                      placeholder="What are you building?"
+                      rows={4}
+                      disabled={status === "loading"}
+                      aria-invalid={errors.message ? true : undefined}
+                      {...register("message")}
+                    />
+                    {errors.message && (
+                      <p className="text-xs text-destructive">
+                        {errors.message.message}
+                      </p>
+                    )}
                   </div>
-                  <div className="p-2">
-                    {contacts.map((item) => (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-center gap-3 rounded-[12px] px-3 py-3 text-muted-foreground hover:bg-muted transition-colors"
-                      >
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] text-muted-foreground group-hover:text-foreground transition-colors">
-                          <item.icon size={14} />
-                        </div>
-                        <span className="body-small flex-1 truncate">{item.label}</span>
-                        <ChevronRight size={14} className="text-muted-foreground/30 group-hover:text-muted-foreground transition-colors" />
-                      </a>
-                    ))}
-                  </div>
-                </DialogContent>
-              </Dialog>
+
+                  <Button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="w-full"
+                  >
+                    {status === "loading" ? (
+                      <>
+                        <Loader2 size={14} className="animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={14} />
+                        Send Message
+                      </>
+                    )}
+                  </Button>
+
+                  {status === "error" && (
+                    <p className="text-xs text-destructive text-center">
+                      {errorMessage}
+                    </p>
+                  )}
+                </form>
+              )}
             </motion.div>
           </div>
         </div>

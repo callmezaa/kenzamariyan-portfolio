@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const contactLinks = [
   { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/ken-zamariyan" },
@@ -55,7 +56,7 @@ export default function Hero() {
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <button className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-7 py-3.5 button-cap text-ink-muted transition-all duration-200 hover:bg-white/10 hover:border-white/20 hover:text-ink active:scale-[0.98]" />
+                      <Button variant="outline" size="lg" className="rounded-full group" />
                     }
                   >
                     <Send size={14} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
@@ -67,7 +68,7 @@ export default function Hero() {
                   >
                     <div className="flex items-center justify-between border-b border-border px-5 py-3">
                       <DialogTitle className="body-base font-bold text-foreground">Get in Touch</DialogTitle>
-                      <DialogClose className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer">
+                      <DialogClose render={<Button variant="ghost" size="icon-sm" className="rounded-full" />}>
                         <X size={16} />
                       </DialogClose>
                     </div>
@@ -94,7 +95,7 @@ export default function Hero() {
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <button className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 px-7 py-3.5 button-cap text-ink-muted transition-all duration-200 hover:bg-white/10 hover:border-white/20 hover:text-ink active:scale-[0.98]" />
+                      <Button variant="outline" size="lg" className="rounded-full group" />
                     }
                   >
                     <Download size={14} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
@@ -106,7 +107,7 @@ export default function Hero() {
                   >
                     <div className="flex items-center justify-between border-b border-border px-5 py-3">
                       <DialogTitle className="button-cap text-foreground">Curriculum Vitae</DialogTitle>
-                      <DialogClose className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer">
+                      <DialogClose render={<Button variant="ghost" size="icon-sm" className="rounded-full" />}>
                         <X size={16} />
                       </DialogClose>
                     </div>

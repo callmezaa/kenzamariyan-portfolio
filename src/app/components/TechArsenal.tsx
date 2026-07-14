@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { techArsenal, categories, type Category } from "../data/techArsenal";
+import { Button } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardTrigger,
@@ -27,17 +28,15 @@ export default function TechArsenal() {
     <div className="space-y-6">
       <div className="flex flex-wrap justify-center gap-2">
         {categories.map((cat) => (
-          <button
+          <Button
             key={cat}
             onClick={() => handleCategoryChange(cat)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 cursor-pointer ${
-              activeCategory === cat
-                ? "bg-muted text-foreground"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-            }`}
+            variant={activeCategory === cat ? "secondary" : "ghost"}
+            size="sm"
+            className="rounded-full"
           >
             {cat}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -46,8 +45,7 @@ export default function TechArsenal() {
           <HoverCard key={tech.name}>
             <HoverCardTrigger
               render={
-                <button
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-3 py-1.5 text-sm text-foreground hover:bg-muted hover:-translate-y-0.5 transition-all duration-200 cursor-pointer animate-in fade-in duration-300"
+                <Button variant="outline" size="sm" className="rounded-full animate-in fade-in duration-300"
                   style={{
                     animationDelay: `${i * 30}ms`,
                     animationFillMode: "backwards",

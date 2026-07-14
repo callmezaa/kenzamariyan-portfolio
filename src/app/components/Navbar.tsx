@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useTheme } from "./ThemeProvider";
+import { Button } from "@/components/ui/button";
 
 const sections = ["home", "projects", "about", "skills", "experience", "achievements", "contact"];
 
@@ -93,43 +94,45 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-0.5">
           {sections.map((item) => (
-            <button
+            <Button
               key={item}
               onClick={() => scrollToSection(item)}
-              className={`relative px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
+              variant="ghost"
+              size="sm"
+              className={`rounded-full ${
                 active === item
-                  ? "bg-white/10 text-ink"
+                  ? "text-ink bg-white/10"
                   : "text-ink-muted hover:text-ink hover:bg-white/5"
               }`}
             >
               {capitalize(item)}
-            </button>
+            </Button>
           ))}
         </div>
 
         <div className="hidden md:flex items-center gap-1 rounded-full border border-hairline/50 px-3 py-1">
-          <a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-full text-ink-muted hover:text-ink hover:bg-white/5 transition-all" aria-label="GitHub">
+          <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5" nativeButton={false} render={<a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" />}>
             <FaGithub size={16} />
-          </a>
-          <a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-full text-ink-muted hover:text-ink hover:bg-white/5 transition-all" aria-label="LinkedIn">
+          </Button>
+          <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5" nativeButton={false} render={<a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" />}>
             <FaLinkedin size={16} />
-          </a>
-          <button onClick={toggle} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-ink-muted hover:text-ink hover:bg-white/5 transition-all cursor-pointer">
+          </Button>
+          <Button onClick={toggle} variant="ghost" size="icon-sm" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5">
             {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-          </button>
+          </Button>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <button onClick={toggle} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-ink-muted hover:text-ink hover:bg-white/5 transition-all cursor-pointer">
+          <Button onClick={toggle} variant="ghost" size="icon-sm" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5">
             {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-          </button>
-          <button type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
+          </Button>
+          <Button type="button" variant="ghost" size="icon-sm" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-ink-muted hover:text-ink hover:bg-white/5 transition-all">
+            className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5">
             {menuOpen ? <X size={15} /> : <Menu size={15} />}
-          </button>
+          </Button>
         </div>
       </nav>
 
@@ -141,14 +144,15 @@ export default function Navbar() {
             <div className="flex flex-col gap-3">
               {sections.map((item, index) => (
                 <motion.div key={item} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }}>
-                  <button onClick={() => scrollToSection(item)}
-                    className={`flex h-11 w-full items-center justify-between rounded-full px-4 text-sm font-medium transition-all cursor-pointer ${
+                  <Button onClick={() => scrollToSection(item)}
+                    variant="ghost"
+                    className={`flex h-11 w-full items-center justify-between rounded-full px-4 text-sm font-medium ${
                       active === item
                         ? "bg-white/10 text-ink"
                         : "text-ink-muted hover:text-ink hover:bg-white/5"
                     }`}>
                     {capitalize(item)}
-                  </button>
+                  </Button>
                 </motion.div>
               ))}
               <div className="flex items-center justify-around py-2">
