@@ -80,8 +80,10 @@ export default function Navbar() {
   const capitalize = (s: string) => (s === "playground" ? "Playground" : s.charAt(0).toUpperCase() + s.slice(1));
 
   return (
-    <header ref={headerRef} className={`fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-4 transition-all duration-300 ${
-      scrolled ? "bg-canvas/80 backdrop-blur-sm border-b border-hairline" : "bg-transparent"
+    <header ref={headerRef} className={`fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-3 transition-all duration-500 ${
+      scrolled
+        ? "bg-canvas-glass backdrop-blur-xl shadow-lg shadow-black/20"
+        : "bg-transparent"
     }`}>
       <nav className="mx-auto max-w-6xl flex items-center justify-between">
         <Link href="#home" onClick={closeMenu} className="flex items-center gap-2 shrink-0">
@@ -94,41 +96,38 @@ export default function Navbar() {
             <button
               key={item}
               onClick={() => scrollToSection(item)}
-              className={`relative micro-cap px-2.5 py-1.5 rounded-sm transition-all duration-200 cursor-pointer hover:-translate-y-0.5 ${
+              className={`relative px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
                 active === item
-                  ? "text-ink"
-                  : "text-ink-muted hover:text-ink"
+                  ? "bg-white/10 text-ink"
+                  : "text-ink-muted hover:text-ink hover:bg-white/5"
               }`}
             >
               {capitalize(item)}
-              {active === item && (
-                <motion.div layoutId="underline" className="absolute -bottom-px left-2 right-2 h-0.5 bg-ink rounded-full" />
-              )}
             </button>
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
-          <a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" className="text-ink-muted hover:text-ink transition-colors" aria-label="GitHub">
-            <FaGithub size={18} />
+        <div className="hidden md:flex items-center gap-1 rounded-full border border-hairline/50 px-3 py-1">
+          <a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-full text-ink-muted hover:text-ink hover:bg-white/5 transition-all" aria-label="GitHub">
+            <FaGithub size={16} />
           </a>
-          <a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" className="text-ink-muted hover:text-ink transition-colors" aria-label="LinkedIn">
-            <FaLinkedin size={18} />
+          <a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-full text-ink-muted hover:text-ink hover:bg-white/5 transition-all" aria-label="LinkedIn">
+            <FaLinkedin size={16} />
           </a>
           <button onClick={toggle} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-hairline text-ink-muted hover:text-ink hover:border-ink transition-all cursor-pointer">
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-ink-muted hover:text-ink hover:bg-white/5 transition-all cursor-pointer">
             {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
           </button>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
           <button onClick={toggle} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-hairline text-ink-muted hover:text-ink hover:border-ink transition-all cursor-pointer">
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-ink-muted hover:text-ink hover:bg-white/5 transition-all cursor-pointer">
             {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
           </button>
           <button type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-hairline text-ink-muted hover:text-ink transition-colors">
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-ink-muted hover:text-ink hover:bg-white/5 transition-all">
             {menuOpen ? <X size={15} /> : <Menu size={15} />}
           </button>
         </div>
@@ -138,15 +137,15 @@ export default function Navbar() {
         {menuOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute left-4 right-4 top-20 border border-hairline bg-canvas p-6 md:hidden z-30 overflow-y-auto max-h-[calc(100dvh-6rem)]">
+            className="absolute left-4 right-4 top-20 bg-canvas-glass backdrop-blur-xl rounded-[20px] shadow-lg shadow-black/20 p-6 md:hidden z-30 overflow-y-auto max-h-[calc(100dvh-6rem)]">
             <div className="flex flex-col gap-3">
               {sections.map((item, index) => (
                 <motion.div key={item} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }}>
                   <button onClick={() => scrollToSection(item)}
-                    className={`micro-cap flex h-11 w-full items-center justify-between rounded-lg px-4 transition-all cursor-pointer ${
+                    className={`flex h-11 w-full items-center justify-between rounded-full px-4 text-sm font-medium transition-all cursor-pointer ${
                       active === item
-                        ? "bg-canvas-card text-ink"
-                        : "text-ink-muted hover:bg-canvas-card hover:text-ink"
+                        ? "bg-white/10 text-ink"
+                        : "text-ink-muted hover:text-ink hover:bg-white/5"
                     }`}>
                     {capitalize(item)}
                   </button>
