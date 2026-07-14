@@ -1,11 +1,14 @@
 "use client";
 
+import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Project } from "../data/projects";
+import { techDescriptions } from "../data/projects";
 import { easeOut } from "../utils/animations";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const projectImages: Record<string, string> = {
   "contract-chill": "/image/contract-chill/screenshot/homesection.png",
@@ -123,18 +126,39 @@ interface ProjectDetailProps {
 }
 
 export default function ProjectDetail({ project }: ProjectDetailProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const heroSrc = projectImages[project.slug] || projectImages[project.slug];
   const gallery = screenshots[project.slug];
   const isMobileApp = MOBILE_APPS.includes(project.slug);
   const heroScreenshots = isMobileApp && gallery ? gallery.slice(0, 3) : null;
   const galleryScreenshots = isMobileApp && gallery ? gallery.slice(3) : gallery;
+  const allScreenshots = galleryScreenshots ?? [];
+
+  const scrollTo = useCallback((index: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+    const child = container.children[index] as HTMLElement;
+    if (child) {
+      child.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+      setActiveIndex(index);
+    }
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const idx = Math.round(container.scrollLeft / container.clientWidth);
+    if (idx !== activeIndex) setActiveIndex(idx);
+  }, [activeIndex]);
 
   return (
     <div className="min-h-screen bg-canvas pt-28 md:pt-36">
       <div className="mx-auto max-w-4xl px-6 md:px-8 pb-24">
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-2 label text-ink-muted hover:text-ink transition-colors mb-8"
+          className="inline-flex items-center gap-2 label text-muted-foreground hover:text-foreground transition-colors mb-8"
         >
           <ArrowLeft size={14} />
           Back to Projects
@@ -144,13 +168,14 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: easeOut }}
-          className="space-y-16"
+          className="space-y-10"
         >
-          <div className="space-y-6">
+          {/* Hero Image */}
+          <div className="space-y-3">
             {heroScreenshots ? (
               <div className="grid grid-cols-3 gap-2 md:gap-4">
                 {heroScreenshots.map((ss) => (
-                  <div key={ss.label} className="rounded-sm border border-white/10 bg-canvas-card overflow-hidden">
+                  <div key={ss.label} className="rounded-sm border border-border bg-canvas-card overflow-hidden">
                     <Image
                       src={ss.src}
                       alt={ss.label}
@@ -164,7 +189,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 ))}
               </div>
             ) : (
-              <div className="relative w-full rounded-sm border border-white/10 bg-canvas-card overflow-hidden">
+              <div className="relative w-full rounded-sm border border-border bg-canvas-card overflow-hidden">
                 <Image
                   src={heroSrc}
                   alt={project.title}
@@ -177,92 +202,142 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               </div>
             )}
 
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-3">
-                {project.badge && (
-                  <span className="label px-2.5 py-1 rounded-sm border border-white/10 text-ink-muted">{project.badge}</span>
-                )}
-                <span className="body-small text-ink-muted">{project.year}</span>
-                <span className="body-small text-ink-muted">·</span>
-                <span className="body-small text-ink-muted">{project.role}</span>
-              </div>
-              <h1 className="display-xl">{project.title}</h1>
-              <p className="body-base">{project.summary}</p>
+            <div className="flex flex-wrap items-center gap-3">
+              {project.badge && (
+                <span className="label px-2.5 py-1 rounded-sm border border-border text-muted-foreground">{project.badge}</span>
+              )}
+              <span className="body-small text-muted-foreground">{project.year}</span>
+              <span className="body-small text-muted-foreground">·</span>
+              <span className="body-small text-muted-foreground">{project.role}</span>
             </div>
+            <h1 className="display-xl">{project.title}</h1>
+            <p className="body-base text-muted-foreground">{project.summary}</p>
           </div>
 
-          <div className="space-y-12">
-            <section className="space-y-3">
-              <h2 className="button-cap text-ink">Challenge</h2>
-              <p className="body-base text-ink-muted">{project.challenge}</p>
-            </section>
+          {/* Tabs */}
+          <Tabs defaultValue="overview" className="w-full">
+            <TabsList className="w-full justify-center md:w-auto">
+              <TabsTrigger value="overview" className="flex-1 md:flex-none px-5">Overview</TabsTrigger>
+              <TabsTrigger value="screenshots" className="flex-1 md:flex-none px-5">Screenshots</TabsTrigger>
+              <TabsTrigger value="tech-stack" className="flex-1 md:flex-none px-5">Tech Stack</TabsTrigger>
+            </TabsList>
 
-            <section className="space-y-3">
-              <h2 className="button-cap text-ink">Solution</h2>
-              <p className="body-base text-ink-muted">{project.solution}</p>
-            </section>
-
-            <section className="space-y-3">
-              <h2 className="button-cap text-ink">Impact</h2>
-              <p className="body-base text-ink-muted">{project.impact}</p>
-            </section>
-          </div>
-
-          {galleryScreenshots && galleryScreenshots.length > 0 && (
-            <section className="space-y-5">
-              <h2 className="button-cap text-ink">Screenshots</h2>
-              <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-3">
-                {galleryScreenshots.map((ss) => (
-                  <motion.div
-                    key={ss.label}
-                    whileHover={{ y: -3 }}
-                    transition={{ duration: 0.25, ease: easeOut }}
-                    className="rounded-sm border border-white/10 bg-canvas-card overflow-hidden hover:shadow-md transition-shadow duration-300"
+            <TabsContent value="overview" className="pt-6 space-y-10">
+              <section className="space-y-3">
+                <h2 className="button-cap text-foreground">Challenge</h2>
+                <p className="body-base text-muted-foreground">{project.challenge}</p>
+              </section>
+              <section className="space-y-3">
+                <h2 className="button-cap text-foreground">Solution</h2>
+                <p className="body-base text-muted-foreground">{project.solution}</p>
+              </section>
+              <section className="space-y-3">
+                <h2 className="button-cap text-foreground">Impact</h2>
+                <p className="body-base text-muted-foreground">{project.impact}</p>
+              </section>
+              <div className="flex flex-wrap gap-3 pt-4 border-t border-border">
+                <a
+                  href={project.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-pill border border-foreground/20 px-5 py-2.5 button-cap text-foreground hover:bg-muted transition-colors"
+                >
+                  <Github size={16} />
+                  Source Code
+                </a>
+                {project.demoUrl && (
+                  <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-pill border border-foreground bg-foreground px-5 py-2.5 button-cap text-background hover:opacity-90 transition-opacity"
                   >
-                    <Image
-                      src={ss.src}
-                      alt={ss.label}
-                      width={400}
-                      height={711}
-                      className="w-full h-auto block"
-                      sizes="(max-width: 768px) 50vw, 33vw"
-                    />
-                  </motion.div>
+                    <ExternalLink size={16} />
+                    Live Demo
+                  </a>
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="screenshots" className="pt-6">
+              {allScreenshots.length === 0 ? (
+                <p className="body-base text-muted-foreground text-center py-12">No screenshots available.</p>
+              ) : (
+                <>
+                  <div
+                    ref={containerRef}
+                    onScroll={handleScroll}
+                    className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar
+                               md:grid md:grid-cols-2 md:overflow-visible md:snap-none md:gap-4"
+                  >
+                    {allScreenshots.map((ss, i) => (
+                      <div
+                        key={ss.label}
+                        className="snap-start shrink-0 w-[85vw] md:w-auto
+                                   rounded-[14px] overflow-hidden border border-border
+                                   bg-canvas-card hover:shadow-md transition-shadow duration-300"
+                      >
+                        <Image
+                          src={ss.src}
+                          alt={ss.label}
+                          width={400}
+                          height={isMobileApp ? 711 : 280}
+                          className="w-full h-auto block"
+                          loading={i < 2 ? "eager" : "lazy"}
+                          sizes="(max-width: 768px) 85vw, (max-width: 1024px) 50vw, 400px"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {allScreenshots.length > 1 && (
+                    <div className="flex items-center justify-center gap-4 mt-5 md:hidden">
+                      <button
+                        onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
+                        disabled={activeIndex === 0}
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+                      >
+                        <ChevronLeft size={16} />
+                      </button>
+                      <div className="flex gap-1.5">
+                        {allScreenshots.map((_, i) => (
+                          <button
+                            key={i}
+                            onClick={() => scrollTo(i)}
+                            className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
+                              i === activeIndex
+                                ? "bg-foreground w-4"
+                                : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <button
+                        onClick={() => scrollTo(Math.min(allScreenshots.length - 1, activeIndex + 1))}
+                        disabled={activeIndex === allScreenshots.length - 1}
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+                      >
+                        <ChevronRight size={16} />
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </TabsContent>
+
+            <TabsContent value="tech-stack" className="pt-6">
+              <div className="divide-y divide-border rounded-[14px] border border-border overflow-hidden">
+                {project.stack.map((tech) => (
+                  <div key={tech} className="px-4 py-3 md:px-5 md:py-3.5 flex items-baseline gap-3">
+                    <span className="body-base font-bold text-foreground shrink-0">{tech}</span>
+                    {techDescriptions[tech] && (
+                      <span className="body-small text-muted-foreground">{techDescriptions[tech]}</span>
+                    )}
+                  </div>
                 ))}
               </div>
-            </section>
-          )}
-
-          <div className="flex flex-wrap gap-2">
-            {project.stack.map((tech) => (
-              <span key={tech} className="label px-3 py-1.5 rounded-sm border border-white/10 text-ink-muted">
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-3 pt-4 border-t border-white/10">
-            <a
-              href={project.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-pill border border-ink px-5 py-2.5 button-cap text-ink hover:bg-canvas-card transition-colors"
-            >
-              <Github size={16} />
-              Source Code
-            </a>
-            {project.demoUrl && (
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-pill border border-ink bg-ink px-5 py-2.5 button-cap text-canvas hover:opacity-90 transition-opacity"
-              >
-                <ExternalLink size={16} />
-                Live Demo
-              </a>
-            )}
-          </div>
+            </TabsContent>
+          </Tabs>
         </motion.div>
       </div>
     </div>

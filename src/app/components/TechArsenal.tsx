@@ -1,26 +1,15 @@
 "use client";
 
-import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { techArsenal, categories, type TechItem, type Category } from "../data/techArsenal";
-import { easeOut } from "../utils/animations";
+import { useState, useMemo, useCallback } from "react";
+import { techArsenal, categories, type Category } from "../data/techArsenal";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+} from "@/components/ui/hover-card";
 
 export default function TechArsenal() {
   const [activeCategory, setActiveCategory] = useState<Category>("All");
-  const [expanded, setExpanded] = useState<string | null>(null);
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const checkTheme = () =>
-      setIsDark(document.documentElement.getAttribute("data-theme") !== "light");
-    checkTheme();
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-    return () => observer.disconnect();
-  }, []);
 
   const filtered = useMemo(
     () =>
@@ -32,7 +21,6 @@ export default function TechArsenal() {
 
   const handleCategoryChange = useCallback((cat: Category) => {
     setActiveCategory(cat);
-    setExpanded(null);
   }, []);
 
   return (
@@ -42,10 +30,10 @@ export default function TechArsenal() {
           <button
             key={cat}
             onClick={() => handleCategoryChange(cat)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 cursor-pointer ${
               activeCategory === cat
-                ? "bg-white/10 text-ink"
-                : "text-ink-muted hover:text-ink hover:bg-white/5"
+                ? "bg-muted text-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
             }`}
           >
             {cat}
@@ -53,186 +41,52 @@ export default function TechArsenal() {
         ))}
       </div>
 
-      <div className="flex flex-wrap justify-center gap-3">
-        <AnimatePresence mode="popLayout">
-          {filtered.map((tech, i) => (
-            <TechCard
-              key={tech.name}
-              tech={tech}
-              index={i}
-              isExpanded={expanded === tech.name}
-              isDark={isDark}
-              onClick={() =>
-                setExpanded((prev) => (prev === tech.name ? null : tech.name))
+      <div className="flex flex-wrap justify-center gap-2" key={activeCategory}>
+        {filtered.map((tech, i) => (
+          <HoverCard key={tech.name}>
+            <HoverCardTrigger
+              render={
+                <button
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-3 py-1.5 text-sm text-foreground hover:bg-muted hover:-translate-y-0.5 transition-all duration-200 cursor-pointer animate-in fade-in duration-300"
+                  style={{
+                    animationDelay: `${i * 30}ms`,
+                    animationFillMode: "backwards",
+                  }}
+                />
               }
-            />
-          ))}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-}
-
-function TechCard({
-  tech,
-  index,
-  isExpanded,
-  isDark,
-  onClick,
-}: {
-  tech: TechItem;
-  index: number;
-  isExpanded: boolean;
-  isDark: boolean;
-  onClick: () => void;
-}) {
-  const [rotate, setRotate] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const brandColor =
-    tech.brandColorDark && isDark ? tech.brandColorDark : tech.brandColor;
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      setRotate({
-        x: ((y - centerY) / centerY) * -8,
-        y: ((x - centerX) / centerX) * 8,
-      });
-    },
-    [],
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    setRotate({ x: 0, y: 0 });
-    setIsHovered(false);
-  }, []);
-
-  const r = 20;
-  const circumference = 2 * Math.PI * r;
-  const offset = circumference - (tech.mastery / 100) * circumference;
-
-  return (
-    <motion.div
-      ref={cardRef}
-      layout
-      initial={{ opacity: 0, scale: 0.85 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.85 }}
-      transition={{ duration: 0.3, delay: index * 0.04, ease: easeOut }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      onClick={onClick}
-      className="relative cursor-pointer"
-      style={{ perspective: "400px" }}
-    >
-      <motion.div
-        animate={{ rotateX: rotate.x, rotateY: rotate.y }}
-        transition={{ type: "spring", stiffness: 150, damping: 15 }}
-      >
-        <motion.div
-          animate={{
-            y: isHovered ? -4 : 0,
-            scale: isHovered ? 1.05 : 1,
-          }}
-          transition={{ duration: 0.2, ease: easeOut }}
-          className="flex min-w-[100px] flex-col items-center gap-1.5 rounded-[12px] bg-canvas-glass backdrop-blur-sm shadow-lg shadow-black/20 p-4 border border-white/5"
-          style={{
-            boxShadow: isHovered
-              ? `0 0 24px ${brandColor}40, 0 4px 12px rgba(0,0,0,0.2)`
-              : "0 0 0 transparent",
-            transition: "box-shadow 0.25s ease-out",
-          }}
-        >
-          <div className="relative flex h-12 w-12 items-center justify-center">
-            <svg
-              className="absolute inset-0 h-full w-full -rotate-90"
-              viewBox="0 0 48 48"
             >
-              <circle
-                cx="24"
-                cy="24"
-                r={r}
-                fill="none"
-                stroke="var(--theme-hairline)"
-                strokeWidth="2.5"
-              />
-              <circle
-                cx="24"
-                cy="24"
-                r={r}
-                fill="none"
-                stroke={brandColor}
-                strokeWidth="2.5"
-                strokeDasharray={circumference}
-                strokeDashoffset={isHovered ? offset : circumference}
-                strokeLinecap="round"
-                style={{
-                  transition:
-                    "stroke-dashoffset 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
-                  filter: isHovered ? `drop-shadow(0 0 3px ${brandColor}80)` : undefined,
-                }}
-              />
-            </svg>
-            <tech.icon
-              size={24}
-              style={{
-                color: isHovered ? brandColor : undefined,
-                transition: "color 0.2s ease-out",
-                filter: isHovered ? `drop-shadow(0 0 4px ${brandColor}40)` : undefined,
-              }}
-            />
-          </div>
-
-          <span className="body-small leading-none text-ink-muted text-center">
-            {tech.name}
-          </span>
-        </motion.div>
-
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ opacity: 0, y: -8, height: 0 }}
-              animate={{ opacity: 1, y: 0, height: "auto" }}
-              exit={{ opacity: 0, y: -8, height: 0 }}
-              transition={{ duration: 0.2, ease: easeOut }}
+              <tech.icon size={14} />
+              <span>{tech.name}</span>
+            </HoverCardTrigger>
+            <HoverCardContent
+              side="top"
+              align="center"
+              sideOffset={8}
+              className="w-64 rounded-xl p-4"
             >
-              <div
-                className="space-y-2 rounded-sm border border-white/10 border-t-0 bg-canvas-card p-3"
-                style={{
-                  boxShadow: `inset 0 1px 0 ${brandColor}20`,
-                }}
-              >
-                <p className="body-small text-ink-muted">{tech.description}</p>
-                <div className="flex items-center gap-2">
-                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2.5">
+                  <tech.icon size={18} className="text-foreground" />
+                  <span className="body-base font-bold text-foreground">{tech.name}</span>
+                </div>
+                <p className="body-small text-muted-foreground leading-relaxed">{tech.description}</p>
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="label text-muted-foreground">Mastery</span>
+                    <span className="mono-sm text-foreground">{tech.mastery}%</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-muted overflow-hidden">
                     <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: `${tech.mastery}%`,
-                        background: brandColor,
-                        transition: "width 0.4s ease-out",
-                      }}
+                      className="h-full rounded-full bg-foreground/80 transition-all duration-500"
+                      style={{ width: `${tech.mastery}%` }}
                     />
                   </div>
-                  <span
-                    className="label"
-                    style={{ color: brandColor }}
-                  >
-                    {tech.mastery}%
-                  </span>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </motion.div>
+            </HoverCardContent>
+          </HoverCard>
+        ))}
+      </div>
+    </div>
   );
 }

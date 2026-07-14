@@ -123,6 +123,14 @@ body {
   background: var(--theme-scrollbar-thumb-hover);
 }
 
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .display-hero {
   font-family: var(--font-sans);
   font-size: clamp(44px, 6vw, 72px);

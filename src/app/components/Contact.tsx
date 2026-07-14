@@ -1,10 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { Mail, MessageCircle, Briefcase, Code2, X, ChevronRight } from "lucide-react";
+import { Mail, MessageCircle, Briefcase, Code2, ChevronRight, X } from "lucide-react";
 import { easeOut } from "../utils/animations";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 const contacts = [
   { icon: Mail, label: "kenzamariyan32@gmail.com", href: "mailto:kenzamariyan32@gmail.com" },
@@ -13,67 +19,7 @@ const contacts = [
   { icon: Code2, label: "callmezaa", href: "https://github.com/callmezaa" },
 ];
 
-function ContactModal({ onClose }: { onClose: () => void }) {
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [onClose]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-canvas/80 p-4 backdrop-blur-sm"
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 8 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 8 }}
-        transition={{ duration: 0.25, ease: easeOut }}
-        onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-sm rounded-[20px] border border-white/10 bg-canvas-glass backdrop-blur-xl shadow-2xl shadow-black/80"
-      >
-        <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
-          <h3 className="button-cap text-ink">Let&rsquo;s Connect</h3>
-          <button
-            onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-ink-muted hover:text-ink hover:bg-white/10 transition-colors cursor-pointer"
-            aria-label="Close"
-          >
-            <X size={16} />
-          </button>
-        </div>
-        <div className="p-2">
-          {contacts.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-3 rounded-[12px] px-3 py-3 text-ink-muted hover:bg-white/5 transition-colors"
-            >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] text-ink-muted group-hover:text-ink transition-colors">
-                <item.icon size={14} />
-              </div>
-              <span className="body-small flex-1 truncate">{item.label}</span>
-              <ChevronRight size={14} className="text-ink-muted/30 group-hover:text-ink-muted transition-colors" />
-            </a>
-          ))}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
 export default function Contact() {
-  const [showModal, setShowModal] = useState(false);
-
   return (
     <section id="contact" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
@@ -136,40 +82,67 @@ export default function Contact() {
               transition={{ duration: 0.4, ease: easeOut, delay: 0.15 }}
               className="w-full lg:col-span-7 lg:pl-8 lg:self-center"
             >
-              <button
-                onClick={() => setShowModal(true)}
-                className="group inline-flex w-full cursor-pointer items-center gap-4 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 p-4 transition-all duration-300 hover:shadow-md"
-              >
-                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
-                  <Image
-                    src="/image/profile/profile-image.jpeg"
-                    alt="Ken Zamariyan"
-                    fill
-                    className="object-cover"
-                    sizes="48px"
-                  />
-                </div>
-                <div className="flex flex-1 items-center justify-between">
-                  <div className="text-left">
-                    <p className="body-base font-bold text-ink">Get in Touch</p>
-                    <p className="body-small text-ink-muted">
-                      Let&rsquo;s start a conversation
-                    </p>
+              <Dialog>
+                <DialogTrigger
+                  render={
+                    <button className="group inline-flex w-full cursor-pointer items-center gap-4 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 p-4 transition-all duration-300 hover:shadow-md" />
+                  }
+                >
+                  <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
+                    <Image
+                      src="/image/profile/profile-image.jpeg"
+                      alt="Ken Zamariyan"
+                      fill
+                      className="object-cover"
+                      sizes="48px"
+                    />
                   </div>
-                  <ChevronRight
-                    size={16}
-                    className="text-ink-muted transition-colors group-hover:text-ink"
-                  />
-                </div>
-              </button>
+                  <div className="flex flex-1 items-center justify-between">
+                    <div className="text-left">
+                      <p className="body-base font-bold text-ink">Get in Touch</p>
+                      <p className="body-small text-ink-muted">
+                        Let&rsquo;s start a conversation
+                      </p>
+                    </div>
+                    <ChevronRight
+                      size={16}
+                      className="text-ink-muted transition-colors group-hover:text-ink"
+                    />
+                  </div>
+                </DialogTrigger>
+                <DialogContent
+                  showCloseButton={false}
+                  className="rounded-[20px] bg-popover/80 backdrop-blur-xl p-0 shadow-2xl shadow-black/20 border-0 sm:max-w-sm"
+                >
+                  <div className="flex items-center justify-between border-b border-border px-5 py-3">
+                    <DialogTitle className="button-cap text-foreground">Let&rsquo;s Connect</DialogTitle>
+                    <DialogClose className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer">
+                      <X size={16} />
+                    </DialogClose>
+                  </div>
+                  <div className="p-2">
+                    {contacts.map((item) => (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center gap-3 rounded-[12px] px-3 py-3 text-muted-foreground hover:bg-muted transition-colors"
+                      >
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] text-muted-foreground group-hover:text-foreground transition-colors">
+                          <item.icon size={14} />
+                        </div>
+                        <span className="body-small flex-1 truncate">{item.label}</span>
+                        <ChevronRight size={14} className="text-muted-foreground/30 group-hover:text-muted-foreground transition-colors" />
+                      </a>
+                    ))}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </motion.div>
           </div>
         </div>
       </div>
-
-      <AnimatePresence>
-        {showModal && <ContactModal onClose={() => setShowModal(false)} />}
-      </AnimatePresence>
     </section>
   );
 }
