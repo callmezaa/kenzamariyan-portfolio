@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { skillsData } from "../data/skillsData";
 import { staggerContainer, staggerItem, easeOut } from "../utils/animations";
 import { Tooltip } from "@/components/motion/tooltip";
+import { AnimatedNumber } from "@/components/motion/animated-number";
 
 export default function Skills() {
   return (
@@ -85,13 +86,21 @@ function SkillRow({
             {skill.name}
           </span>
         </Tooltip>
-        <div className="mt-1 h-[3px] overflow-hidden rounded-full bg-white/10">
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: `${skill.mastery}%` }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: easeOut, delay: index * 0.05 }}
-            className="h-full rounded-full bg-ink"
+        <div className="mt-1 flex items-center gap-2">
+          <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/10">
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: `${skill.mastery}%` }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: easeOut, delay: index * 0.05 }}
+              className="h-full rounded-full bg-ink"
+            />
+          </div>
+          <AnimatedNumber
+            value={skill.mastery}
+            duration={0.6}
+            format={(n) => `${Math.round(n)}%`}
+            className="mono-sm text-ink-muted"
           />
         </div>
       </div>
