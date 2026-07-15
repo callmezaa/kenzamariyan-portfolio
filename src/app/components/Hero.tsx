@@ -14,6 +14,11 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { ShaderBackground } from "@/components/motion/shader-background";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { Marquee } from "@/components/motion/marquee";
+import { MagneticButton } from "@/components/motion/button/magnetic";
+import { Loader } from "@/components/motion/loader";
 
 const contactLinks = [
   { icon: SiLinkedin, label: "LinkedIn",  href: "https://www.linkedin.com/in/ken-zamariyan", color: "#0A66C2" },
@@ -39,18 +44,26 @@ export default function Hero() {
   return (
     <>
       <section id="home" className="relative bg-canvas min-h-screen flex flex-col pt-32 md:pt-40 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.02)_0%,transparent_50%)] pointer-events-none" />
+        <ShaderBackground
+          variant="mesh-gradient"
+          className="absolute inset-0"
+          colors={["#0a0a0f", "#1a1a2e", "#16213e", "#0f3460"]}
+          distortion={0.6}
+          swirl={0.3}
+          speed={0.3}
+        />
         <div className="relative mx-auto max-w-6xl px-6 md:px-8 w-full">
           <div className="flex flex-col lg:grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7 w-full space-y-8 text-center lg:text-left">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={appleSpring}
+              <TextReveal
+                as="h1"
+                text={["Products shipped.", "Problems solved.", "No fluff."]}
                 className="display-hero"
-              >
-                Products shipped. Problems solved. No fluff.
-              </motion.h1>
+                split="word"
+                stagger={0.08}
+                blur={8}
+                yOffset="20%"
+              />
               <motion.p
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -69,7 +82,7 @@ export default function Hero() {
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <Button variant="default" size="lg" className="rounded-full shadow-sm" suppressHydrationWarning />
+                      <MagneticButton variant="primary" size="md" strength={0.3} className="rounded-full shadow-sm" />
                     }
                   >
                     <Send data-icon="inline-start" />
@@ -111,7 +124,7 @@ export default function Hero() {
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <Button variant="outline" size="lg" className="rounded-full" suppressHydrationWarning />
+                      <MagneticButton variant="outline" size="md" strength={0.3} className="rounded-full" />
                     }
                   >
                     <Download data-icon="inline-start" />
@@ -130,7 +143,7 @@ export default function Hero() {
                     <div className="relative min-h-[50vh] md:min-h-[70vh]">
                       {!cvLoaded && (
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="h-6 w-6 animate-spin rounded-full border-2 border-ink/10 border-t-ink" />
+                          <Loader variant="spinner" size={24} />
                         </div>
                       )}
                       <iframe
@@ -178,19 +191,15 @@ export default function Hero() {
           </div>
 
           {/* Tech Stack Marquee */}
-          <div className="mt-16 md:mt-24 pb-8 overflow-hidden">
-            <motion.div
-              className="flex gap-12 w-max"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
-            >
-              {[...techStack, ...techStack].map((tech, i) => (
-                <div key={`${tech.name}-${i}`} className="flex items-center gap-2 shrink-0">
+          <div className="mt-16 md:mt-24 pb-8">
+            <Marquee speed={25} fade={true}>
+              {techStack.map((tech) => (
+                <div key={tech.name} className="flex items-center gap-2 mx-4 shrink-0">
                   <tech.icon size={16} className="text-ink-muted/30" />
                   <span className="mono-sm text-ink-muted/30 whitespace-nowrap">{tech.name}</span>
                 </div>
               ))}
-            </motion.div>
+            </Marquee>
           </div>
         </div>
 
