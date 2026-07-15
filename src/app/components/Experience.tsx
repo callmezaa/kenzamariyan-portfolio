@@ -3,12 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { experiences, type ExperienceType } from "../data/experience";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion";
+import { BouncyAccordion } from "@/components/motion/bouncy-accordion";
+import { Briefcase, GraduationCap, Building } from "lucide-react";
 import { appleSpring } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 
@@ -18,12 +14,6 @@ const filters: { label: string; value: ExperienceType | "all" }[] = [
   { label: "Education", value: "education" },
   { label: "Organization", value: "organization" },
 ];
-
-const typeColors: Record<ExperienceType, string> = {
-  work: "bg-primary/10 text-primary",
-  education: "bg-chart-2/10 text-chart-2",
-  organization: "bg-chart-3/10 text-chart-3",
-};
 
 export default function Experience() {
   const [activeFilter, setActiveFilter] = useState<ExperienceType | "all">("all");
@@ -73,42 +63,35 @@ export default function Experience() {
           animate={{ opacity: 1, y: 0 }}
           transition={appleSpring}
         >
-          <Accordion className="rounded-xl border bg-card shadow-sm">
-            {filtered.map((exp) => (
-              <AccordionItem key={`${exp.title}-${exp.year}`} value={`${exp.title}-${exp.year}`}>
-                <AccordionTrigger className="px-5 py-4 hover:no-underline hover:bg-muted/50 data-open:border-b">
-                  <div className="flex flex-1 flex-col items-start gap-1 text-left sm:flex-row sm:items-center sm:gap-4">
-                    <span className="mono-sm text-muted-foreground shrink-0">{exp.year}</span>
-                    <span className="text-foreground font-medium">{exp.title}</span>
-                    <span className="body-small text-muted-foreground">{exp.place}</span>
-                    <span className={`ml-auto rounded-full px-2 py-0.5 text-[10px] font-medium ${typeColors[exp.type]}`}>
+          <BouncyAccordion
+            items={filtered.map((exp) => ({
+              id: `${exp.title}-${exp.year}`,
+              title: `${exp.year} · ${exp.title}`,
+              description: (
+                <div className="space-y-3 py-2">
+                  <div className="flex items-center gap-2 body-small text-ink-muted">
+                    <span>{exp.place}</span>
+                    <span>·</span>
+                    <span>{exp.location}</span>
+                    <span className="ml-auto rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium">
                       {exp.type}
                     </span>
                   </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-5">
-                  <div className="space-y-4 py-2">
-                    <div className="flex items-center gap-2 body-small text-muted-foreground">
-                      <span>{exp.location}</span>
-                    </div>
-                    <p className="body-base text-muted-foreground leading-relaxed">
-                      {exp.description}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {exp.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="mono-sm rounded-full bg-muted px-2.5 py-1 text-muted-foreground"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                  <p className="body-base text-ink-muted leading-relaxed">{exp.description}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {exp.tags.map((tag) => (
+                      <span key={tag} className="mono-sm rounded-full bg-white/5 px-2.5 py-1 text-ink-muted">{tag}</span>
+                    ))}
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                </div>
+              ),
+              icon: exp.type === "work" ? <Briefcase className="h-4 w-4" /> :
+                    exp.type === "education" ? <GraduationCap className="h-4 w-4" /> :
+                    <Building className="h-4 w-4" />,
+            }))}
+            defaultValue={null}
+            collapsible
+          />
         </motion.div>
       </div>
     </section>
