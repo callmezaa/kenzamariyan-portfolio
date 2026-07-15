@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { skillsData } from "../data/skillsData";
 import { staggerContainer, staggerItem, easeOut } from "../utils/animations";
+import { Tooltip } from "@/components/motion/tooltip";
 
 export default function Skills() {
   return (
@@ -79,9 +80,11 @@ function SkillRow({
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <span className="mono-sm text-ink-muted transition-colors duration-200 group-hover:text-ink">
-          {skill.name}
-        </span>
+        <Tooltip content={`${skill.mastery}%`} side="right" delay={300}>
+          <span className="mono-sm text-ink-muted transition-colors duration-200 group-hover:text-ink">
+            {skill.name}
+          </span>
+        </Tooltip>
         <div className="mt-1 h-[3px] overflow-hidden rounded-full bg-white/10">
           <motion.div
             initial={{ width: 0 }}
