@@ -6,6 +6,9 @@ import Navbar from "./components/Navbar";
 import KeyboardNav from "./components/KeyboardNav";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { ScrollProgress } from "@/components/motion/scroll-progress";
+import { CommandPalette } from "@/components/motion/command-palette";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -69,7 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={cn("scroll-smooth", "font-sans", geist.variable)}
+      className={cn("font-sans", geist.variable)}
       data-theme="light"
       style={{ colorScheme: "light" }}
     >
@@ -102,8 +105,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <KeyboardNav />
           <Navbar />
-          {children}
-          <Footer />
+          <SmoothScroll>
+            {children}
+            <Footer />
+          </SmoothScroll>
+          <ScrollProgress variant="bar" position="bottom" height={3} />
+          <CommandPalette />
         </ThemeProvider>
       </body>
     </html>

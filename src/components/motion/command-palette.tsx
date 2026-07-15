@@ -28,7 +28,7 @@ export type CommandItem = {
 };
 
 export interface CommandPaletteProps {
-  items: CommandItem[];
+  items?: CommandItem[];
   /** Opens with Cmd/Ctrl + this key. Default: "k" */
   shortcut?: string;
   placeholder?: string;
@@ -59,7 +59,7 @@ const PANEL_SPRING = {
 } as const;
 
 export function CommandPalette({
-  items,
+  items = [],
   shortcut = "k",
   placeholder = "Type a command or search…",
   emptyMessage = "No results found.",
