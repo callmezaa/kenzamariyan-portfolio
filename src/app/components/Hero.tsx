@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Download, Linkedin, Mail, MessageCircle, Send, X } from "lucide-react";
+import { Download, Send, X, ChevronDown } from "lucide-react";
+import { SiLinkedin, SiGithub, SiGmail, SiWhatsapp, SiReact, SiTypescript, SiGo, SiNextdotjs, SiTailwindcss, SiPostgresql, SiDocker, SiPython } from "react-icons/si";
 import { appleSpring } from "../utils/animations";
 import {
   Dialog,
@@ -15,13 +16,25 @@ import {
 import { Button } from "@/components/ui/button";
 
 const contactLinks = [
-  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/ken-zamariyan" },
-  { icon: Mail, label: "Email", href: "mailto:kenzamariyan32@gmail.com" },
-  { icon: MessageCircle, label: "WhatsApp", href: "https://wa.me/6285878221758" },
+  { icon: SiLinkedin, label: "LinkedIn",  href: "https://www.linkedin.com/in/ken-zamariyan", color: "#0A66C2" },
+  { icon: SiGithub,   label: "GitHub",    href: "https://github.com/callmezaa",              color: "#181717" },
+  { icon: SiGmail,    label: "Email",     href: "mailto:kenzamariyan32@gmail.com",            color: "#EA4335" },
+  { icon: SiWhatsapp, label: "WhatsApp",  href: "https://wa.me/6285878221758",                color: "#25D366" },
 ];
 
 export default function Hero() {
   const [cvLoaded, setCvLoaded] = useState(false);
+
+  const techStack = [
+    { icon: SiReact, name: "React" },
+    { icon: SiTypescript, name: "TypeScript" },
+    { icon: SiGo, name: "Go" },
+    { icon: SiNextdotjs, name: "Next.js" },
+    { icon: SiTailwindcss, name: "Tailwind" },
+    { icon: SiPostgresql, name: "PostgreSQL" },
+    { icon: SiDocker, name: "Docker" },
+    { icon: SiPython, name: "Python" },
+  ];
 
   return (
     <>
@@ -29,7 +42,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.02)_0%,transparent_50%)] pointer-events-none" />
         <div className="relative mx-auto max-w-6xl px-6 md:px-8 w-full">
           <div className="flex flex-col lg:grid lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-7 w-full space-y-8">
+            <div className="lg:col-span-7 w-full space-y-8 text-center lg:text-left">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -42,7 +55,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...appleSpring, delay: 0.15 }}
-                className="body-base text-ink-muted max-w-xl"
+                className="body-base text-ink-muted max-w-xl mx-auto lg:mx-0"
               >
                 Full-stack engineering across web, mobile, and AI.
               </motion.p>
@@ -50,16 +63,16 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...appleSpring, delay: 0.3 }}
-                className="flex flex-wrap gap-3"
+                className="flex flex-wrap gap-3 justify-center lg:justify-start"
               >
                 {/* Get in Touch Dialog */}
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <Button variant="outline" size="lg" className="rounded-full group" />
+                      <Button variant="default" size="lg" className="rounded-full shadow-sm" suppressHydrationWarning />
                     }
                   >
-                    <Send size={14} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
+                    <Send data-icon="inline-start" />
                     Get in Touch
                   </DialogTrigger>
                   <DialogContent
@@ -79,11 +92,14 @@ export default function Hero() {
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-3 rounded-full border border-border bg-muted/50 p-3 text-foreground hover:bg-muted transition-colors"
+                        className="flex items-center gap-3 rounded-full bg-muted/50 p-3 text-foreground hover:bg-muted transition-colors"
+                      >
+                        <div
+                          className="flex h-8 w-8 items-center justify-center rounded-full text-white"
+                          style={{ backgroundColor: link.color }}
                         >
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground">
-                            <link.icon size={15} />
-                          </div>
+                          <link.icon size={14} />
+                        </div>
                           <span className="body-base font-bold text-foreground">{link.label}</span>
                         </a>
                       ))}
@@ -95,10 +111,10 @@ export default function Hero() {
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <Button variant="outline" size="lg" className="rounded-full group" />
+                      <Button variant="outline" size="lg" className="rounded-full" suppressHydrationWarning />
                     }
                   >
-                    <Download size={14} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
+                    <Download data-icon="inline-start" />
                     Download CV
                   </DialogTrigger>
                   <DialogContent
@@ -137,21 +153,55 @@ export default function Hero() {
                 </Dialog>
               </motion.div>
             </div>
-            <div className="lg:col-span-5 w-full flex justify-center lg:justify-end">
+            <div className="lg:col-span-5 w-full flex flex-col items-center lg:items-end">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.02 }}
                 transition={{ ...appleSpring, delay: 0.2 }}
               >
-                <div className="relative h-[180px] w-[180px] lg:h-[220px] lg:w-[220px] overflow-hidden rounded-[16px] shadow-lg shadow-black/50">
+                <div className="relative h-[180px] w-[180px] lg:h-[220px] lg:w-[220px] overflow-hidden rounded-[16px] shadow-lg shadow-black/50 ring-1 ring-black/10 dark:ring-white/10">
                   <Image src="/image/profile/profile-image.jpeg" alt="Ken Zamariyan" fill priority
                     sizes="(max-width: 1024px) 180px, 220px" className="object-cover object-[center_60%]" />
                 </div>
               </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...appleSpring, delay: 0.35 }}
+                className="mt-2.5"
+              >
+                <p className="body-base font-semibold text-ink text-center">Ken Zamariyan</p>
+                <p className="body-small text-ink-muted/70 text-center">Full-Stack Developer</p>
+              </motion.div>
             </div>
           </div>
+
+          {/* Tech Stack Marquee */}
+          <div className="mt-16 md:mt-24 pb-8 overflow-hidden">
+            <motion.div
+              className="flex gap-12 w-max"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
+            >
+              {[...techStack, ...techStack].map((tech, i) => (
+                <div key={`${tech.name}-${i}`} className="flex items-center gap-2 shrink-0">
+                  <tech.icon size={16} className="text-ink-muted/30" />
+                  <span className="mono-sm text-ink-muted/30 whitespace-nowrap">{tech.name}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        >
+          <ChevronDown size={18} className="text-ink-muted/40" />
+        </motion.div>
       </section>
     </>
   );

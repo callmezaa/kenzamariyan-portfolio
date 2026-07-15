@@ -78,19 +78,28 @@ export default function Projects() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, ease: easeOut, delay: i * 0.05 }}
               >
-                <Link href={`/projects/${project.slug}`} className="block group">
-                  <div className="rounded-[14px] overflow-hidden shadow-lg shadow-black/40 transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/60 group-hover:-translate-y-2">
+                <Link href={`/projects/${project.slug}`} className="block">
+                  <motion.div
+                    whileHover={{ y: -3 }}
+                    transition={{ duration: 0.3, ease: easeOut }}
+                    className="rounded-[14px] overflow-hidden shadow-lg shadow-black/40 hover:shadow-xl hover:shadow-black/60 transition-shadow duration-300"
+                  >
                     <div className="overflow-hidden">
-                      <Image
-                        src={projectImages[project.slug] || projectImages[project.slug]}
-                        alt={project.title}
-                        width={1200}
-                        height={750}
-                        className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.3, ease: easeOut }}
+                      >
+                        <Image
+                          src={projectImages[project.slug] || projectImages[project.slug]}
+                          alt={project.title}
+                          width={1200}
+                          height={750}
+                          className="w-full h-auto"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      </motion.div>
                     </div>
-                  </div>
+                  </motion.div>
                   <div className="mt-5 space-y-2">
                     <h3 className="display-lg">{project.title}</h3>
                     <p className="body-small text-ink-muted">{project.stack.slice(0, 3).join(" · ")}</p>
@@ -111,38 +120,51 @@ export default function Projects() {
         ) : (
           <div className="space-y-3">
             {visible.map((project, i) => (
-              <motion.div
-                key={project.slug}
-                initial={{ opacity: 0, x: -8 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, ease: easeOut, delay: i * 0.03 }}
-              >
                 <motion.div
-                  whileHover={{ x: 3 }}
-                  transition={{ duration: 0.2, ease: easeOut }}
+                  key={project.slug}
+                  initial={{ opacity: 0, x: -8 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, ease: easeOut, delay: i * 0.03 }}
+                >
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.3, ease: easeOut }}
                 >
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="flex items-center gap-5 p-4 rounded-[12px] bg-canvas-glass shadow hover:bg-canvas-glass/70 transition-colors duration-200"
+                    className="flex items-center gap-5 p-4 rounded-[14px] bg-canvas-glass shadow-lg shadow-black/40 hover:shadow-xl hover:shadow-black/60 transition-shadow duration-300"
                   >
-                    <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-[12px] bg-canvas">
-                      <Image
-                        src={projectImages[project.slug] || projectImages[project.slug]}
-                        alt={project.title}
-                        fill
-                        sizes="80px"
-                        className="object-contain"
-                      />
+                    <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-[10px] bg-canvas">
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.3, ease: easeOut }}
+                        className="w-full h-full"
+                      >
+                        <Image
+                          src={projectImages[project.slug] || projectImages[project.slug]}
+                          alt={project.title}
+                          fill
+                          sizes="80px"
+                          className="object-contain"
+                        />
+                      </motion.div>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="body-base font-bold text-ink truncate">{project.title}</h3>
-                      <p className="body-small text-ink-muted truncate">{project.stack.slice(0, 3).join(" · ")}</p>
+                      <h3 className="body-base font-semibold text-ink">{project.title}</h3>
+                      <p className="body-small text-ink-muted mt-0.5">{project.stack.slice(0, 3).join(" · ")}</p>
                     </div>
-                    <span className="body-small text-ink-muted shrink-0 hidden sm:inline">{project.year}</span>
+                    <div className="flex items-center gap-3 shrink-0">
+                      {project.badge && (
+                        <span className="mono-sm px-3 py-0.5 rounded-full bg-white/5 text-ink-muted hidden sm:inline">
+                          {project.badge}
+                        </span>
+                      )}
+                      <span className="body-small text-ink-tertiary">{project.year}</span>
+                    </div>
                   </Link>
                 </motion.div>
-              </motion.div>
+                </motion.div>
             ))}
           </div>
         )}

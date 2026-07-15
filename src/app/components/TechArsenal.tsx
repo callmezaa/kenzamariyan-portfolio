@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { motion } from "framer-motion";
 import { techArsenal, categories, type Category } from "../data/techArsenal";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,23 +41,31 @@ export default function TechArsenal() {
         ))}
       </div>
 
-      <div className="flex flex-wrap justify-center gap-2" key={activeCategory}>
-        {filtered.map((tech, i) => (
-          <HoverCard key={tech.name}>
-            <HoverCardTrigger
-              render={
-                <Button variant="outline" size="sm" className="rounded-full animate-in fade-in duration-300"
-                  style={{
-                    animationDelay: `${i * 30}ms`,
-                    animationFillMode: "backwards",
-                  }}
-                />
-              }
-            >
-              <tech.icon size={14} />
-              <span>{tech.name}</span>
-            </HoverCardTrigger>
-            <HoverCardContent
+      <motion.div
+        className="flex flex-wrap justify-center gap-2"
+        key={activeCategory}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.03 } } }}
+        initial="hidden"
+        animate="visible"
+      >
+        {filtered.map((tech) => (
+          <motion.div
+            key={tech.name}
+            variants={{
+              hidden: { opacity: 0, y: 8 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <HoverCard>
+              <HoverCardTrigger
+                render={
+                  <Button variant="outline" size="sm" className="rounded-full" />
+                }
+              >
+                <tech.icon size={14} />
+                <span>{tech.name}</span>
+              </HoverCardTrigger>
+              <HoverCardContent
               side="top"
               align="center"
               sideOffset={8}
@@ -82,9 +91,10 @@ export default function TechArsenal() {
                 </div>
               </div>
             </HoverCardContent>
-          </HoverCard>
+            </HoverCard>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

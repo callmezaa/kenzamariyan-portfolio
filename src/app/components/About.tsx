@@ -6,9 +6,9 @@ import { easeOut } from "../utils/animations";
 import TechArsenal from "./TechArsenal";
 
 const infoItems = [
-  { icon: Calendar, label: "4+ Years Experience", desc: "Full-stack & mobile product engineering" },
-  { icon: MapPin, label: "Based in Indonesia", desc: "Remote-friendly, global timezone" },
-  { icon: Briefcase, label: "Open to Freelance & Collaboration", desc: "Available for contracts & partnerships" },
+  { icon: Calendar, label: "4+ Years Experience", desc: "Full-stack & mobile product engineering", color: "#3B82F6" },
+  { icon: MapPin, label: "Based in Indonesia", desc: "Remote-friendly, global timezone", color: "#22C55E" },
+  { icon: Briefcase, label: "Open to Freelance & Collaboration", desc: "Available for contracts & partnerships", color: "#F59E0B" },
 ];
 
 export default function About() {
@@ -22,17 +22,23 @@ export default function About() {
             className="space-y-6 md:col-span-7"
           >
             <p className="label text-ink-muted">About Me</p>
-            <h2 className="display-xl">Building reliable digital products with clarity and purpose.</h2>
-            <p className="body-base">Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under 15 seconds to offline-first mobile POS serving 1,500+ cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.</p>
+            <h2 className="display-xl text-balance">Building reliable digital products with clarity and purpose.</h2>
+            <p className="body-base">Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under{" "}
+              <strong className="font-semibold text-ink tabular-nums">15 seconds</strong>
+              {" "}to offline-first mobile POS serving{" "}
+              <strong className="font-semibold text-ink tabular-nums">1,500+</strong>
+              {" "}cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.</p>
           </motion.div>
           <div className="space-y-8 md:col-span-5">
             {infoItems.map((item, i) => (
               <motion.div key={item.label}
+                whileHover={{ y: -2, transition: { duration: 0.3, ease: easeOut } }}
                 initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.4, ease: easeOut, delay: i * 0.1 }}
-                className="flex items-start gap-4 rounded-[14px] bg-canvas-card shadow-lg shadow-black/30 p-5"
+                className="flex items-start gap-4 rounded-[14px] bg-canvas-card shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/50 p-5 transition-shadow duration-300"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5 text-ink-muted">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5"
+                  style={{ color: item.color }}>
                   <item.icon size={18} />
                 </div>
                 <div>
