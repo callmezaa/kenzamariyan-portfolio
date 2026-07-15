@@ -14,10 +14,8 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ShaderBackground } from "@/components/motion/shader-background";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { Marquee } from "@/components/motion/marquee";
-import { MagneticButton } from "@/components/motion/button/magnetic";
 import { Loader } from "@/components/motion/loader";
 
 const contactLinks = [
@@ -44,14 +42,7 @@ export default function Hero() {
   return (
     <>
       <section id="home" className="relative bg-canvas min-h-screen flex flex-col pt-32 md:pt-40 overflow-hidden">
-        <ShaderBackground
-          variant="mesh-gradient"
-          className="absolute inset-0"
-          colors={["#0a0a0f", "#1a1a2e", "#16213e", "#0f3460"]}
-          distortion={0.6}
-          swirl={0.3}
-          speed={0.3}
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.015)_0%,transparent_60%)] pointer-events-none" />
         <div className="relative mx-auto max-w-6xl px-6 md:px-8 w-full">
           <div className="flex flex-col lg:grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7 w-full space-y-8 text-center lg:text-left">
@@ -82,7 +73,7 @@ export default function Hero() {
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <MagneticButton variant="primary" size="md" strength={0.3} className="rounded-full shadow-sm" />
+                      <Button variant="default" size="lg" className="rounded-full shadow-sm" suppressHydrationWarning />
                     }
                   >
                     <Send data-icon="inline-start" />
@@ -124,7 +115,7 @@ export default function Hero() {
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <MagneticButton variant="outline" size="md" strength={0.3} className="rounded-full" />
+                      <Button variant="outline" size="lg" className="rounded-full" suppressHydrationWarning />
                     }
                   >
                     <Download data-icon="inline-start" />
@@ -166,7 +157,7 @@ export default function Hero() {
                 </Dialog>
               </motion.div>
             </div>
-            <div className="lg:col-span-5 w-full flex flex-col items-center lg:items-end">
+            <div className="lg:col-span-5 w-full flex flex-col items-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -182,7 +173,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...appleSpring, delay: 0.35 }}
-                className="mt-2.5"
+                className="mt-2.5 w-full"
               >
                 <p className="body-base font-semibold text-ink text-center">Ken Zamariyan</p>
                 <p className="body-small text-ink-muted/70 text-center">Full-Stack Developer</p>

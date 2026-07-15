@@ -12,8 +12,8 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="px-6 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <p className="body-small text-ink-tertiary">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 md:flex-row md:justify-between">
+        <p className="body-small text-ink-tertiary text-center md:text-left">
           &copy; 2026 Ken Zamariyan. All rights reserved.
         </p>
         <div className="flex items-center gap-2">
