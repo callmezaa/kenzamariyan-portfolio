@@ -8,6 +8,7 @@ import { LayoutGrid, List } from "lucide-react";
 import { projects } from "../data/projects";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
+import { TiltCard } from "@/components/motion/tilt-card";
 
 const showcase = projects.filter((p) => ["contract-chill", "interviewos", "assetra"].includes(p.slug));
 
@@ -78,42 +79,33 @@ export default function Projects() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, ease: easeOut, delay: i * 0.05 }}
               >
-                <Link href={`/projects/${project.slug}`} className="block">
-                  <motion.div
-                    whileHover={{ y: -3 }}
-                    transition={{ duration: 0.3, ease: easeOut }}
-                    className="rounded-[14px] overflow-hidden shadow-lg shadow-black/40 hover:shadow-xl hover:shadow-black/60 transition-shadow duration-300"
-                  >
+                <TiltCard max={8} glare={true} className="rounded-[14px] overflow-hidden shadow-lg shadow-black/40 hover:shadow-xl hover:shadow-black/60 transition-shadow duration-300">
+                  <Link href={`/projects/${project.slug}`} className="block">
                     <div className="overflow-hidden">
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ duration: 0.3, ease: easeOut }}
-                      >
-                        <Image
-                          src={projectImages[project.slug] || projectImages[project.slug]}
-                          alt={project.title}
-                          width={1200}
-                          height={750}
-                          className="w-full h-auto"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      </motion.div>
+                      <Image
+                        src={projectImages[project.slug] || projectImages[project.slug]}
+                        alt={project.title}
+                        width={1200}
+                        height={750}
+                        className="w-full h-auto"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
                     </div>
-                  </motion.div>
-                  <div className="mt-5 space-y-2">
-                    <h3 className="display-lg">{project.title}</h3>
-                    <p className="body-small text-ink-muted">{project.stack.slice(0, 3).join(" · ")}</p>
-                    <div className="flex items-center gap-2 body-small text-ink-tertiary">
-                      <span>{project.year}</span>
-                      {project.badge && (
-                        <>
-                          <span className="text-hairline">·</span>
-                          <span className="mono-sm px-3 py-0.5 rounded-full bg-white/5 text-ink-muted">{project.badge}</span>
-                        </>
-                      )}
+                    <div className="mt-5 space-y-2 px-2 pb-2">
+                      <h3 className="display-lg">{project.title}</h3>
+                      <p className="body-small text-ink-muted">{project.stack.slice(0, 3).join(" · ")}</p>
+                      <div className="flex items-center gap-2 body-small text-ink-tertiary">
+                        <span>{project.year}</span>
+                        {project.badge && (
+                          <>
+                            <span className="text-hairline">·</span>
+                            <span className="mono-sm px-3 py-0.5 rounded-full bg-white/5 text-ink-muted">{project.badge}</span>
+                          </>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
