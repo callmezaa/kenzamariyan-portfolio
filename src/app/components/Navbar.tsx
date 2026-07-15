@@ -3,16 +3,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useTheme } from "./ThemeProvider";
 import { Button } from "@/components/ui/button";
+import { Drawer } from "@/components/motion/drawer";
+import { ThemeToggle } from "@/components/motion/theme-toggle";
+import { Tooltip } from "@/components/motion/tooltip";
 
 const sections = ["home", "projects", "about", "skills", "experience", "achievements", "contact"];
 
 export default function Navbar() {
-  const { theme, toggle } = useTheme();
+  const { theme } = useTheme();
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -54,16 +57,6 @@ export default function Navbar() {
 
     return () => observers.forEach((o) => o.disconnect());
   }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (!document.documentElement.style.getPropertyValue("--scrollbar-width")) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.documentElement.style.setProperty("--scrollbar-width", `${scrollbarWidth}px`);
-    }
-    document.body.classList.toggle("scroll-lock", menuOpen);
-    return () => document.body.classList.remove("scroll-lock");
-  }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -111,23 +104,23 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-1 rounded-full border border-hairline/50 px-3 py-1">
-          <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5" nativeButton={false} render={<a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" />}>
-            <FaGithub size={16} />
-          </Button>
-          <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5" nativeButton={false} render={<a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" />}>
-            <FaLinkedin size={16} />
-          </Button>
-          <Button onClick={toggle} variant="ghost" size="icon-sm" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5">
-            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-          </Button>
+          <Tooltip content="GitHub" side="bottom">
+            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5" nativeButton={false} render={<a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" />}>
+              <FaGithub size={16} />
+            </Button>
+          </Tooltip>
+          <Tooltip content="LinkedIn" side="bottom">
+            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5" nativeButton={false} render={<a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" />}>
+              <FaLinkedin size={16} />
+            </Button>
+          </Tooltip>
+          <Tooltip content={theme === "dark" ? "Light mode" : "Dark mode"} side="bottom">
+            <ThemeToggle variant="rectangle" start="bottom-up" iconClassName="h-4 w-4" className="rounded-full p-1.5" />
+          </Tooltip>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <Button onClick={toggle} variant="ghost" size="icon-sm" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5">
-            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-          </Button>
+          <ThemeToggle variant="rectangle" start="bottom-up" iconClassName="h-4 w-4" className="rounded-full p-1.5" />
           <Button type="button" variant="ghost" size="icon-sm" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
             className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5">
@@ -136,38 +129,37 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute left-4 right-4 top-20 bg-canvas-glass backdrop-blur-xl rounded-[20px] shadow-lg shadow-black/20 p-6 md:hidden z-30 overflow-y-auto max-h-[calc(100dvh-6rem)]">
-            <div className="flex flex-col gap-3">
-              {sections.map((item, index) => (
-                <motion.div key={item} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }}>
-                  <Button onClick={() => scrollToSection(item)}
-                    variant="ghost"
-                    className={`flex h-11 w-full items-center justify-between rounded-full px-4 text-sm font-medium ${
-                      active === item
-                        ? "bg-white/10 text-ink"
-                        : "text-ink-muted hover:text-ink hover:bg-white/5"
-                    }`}>
-                    {capitalize(item)}
-                  </Button>
-                </motion.div>
-              ))}
-              <div className="flex items-center justify-around py-2">
-                <a href="https://github.com/callmezaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
-                  <FaGithub size={18} /><span className="label">GitHub</span>
-                </a>
-                <a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
-                  <FaLinkedin size={18} /><span className="label">LinkedIn</span>
-                </a>
-              </div>
-
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Drawer
+        open={menuOpen}
+        onOpenChange={setMenuOpen}
+        side="right"
+        className="w-72 p-6 gap-4"
+        ariaLabel="Navigation menu"
+      >
+        <div className="flex flex-col gap-2">
+          {sections.map((item) => (
+            <button
+              key={item}
+              onClick={() => scrollToSection(item)}
+              className={`flex h-11 items-center rounded-full px-4 text-sm font-medium transition-colors ${
+                active === item
+                  ? "bg-white/10 text-ink"
+                  : "text-ink-muted hover:text-ink hover:bg-white/5"
+              }`}
+            >
+              {capitalize(item)}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center gap-4 pt-3 border-t border-white/10">
+          <a href="https://github.com/callmezaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
+            <FaGithub size={18} /><span className="label">GitHub</span>
+          </a>
+          <a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
+            <FaLinkedin size={18} /><span className="label">LinkedIn</span>
+          </a>
+        </div>
+      </Drawer>
     </header>
   );
 }
