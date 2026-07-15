@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback, createContext, useContext } from "react";
+import { ThemeProvider as NextThemesProvider, useTheme as useNextTheme } from "next-themes";
 
 type Theme = "dark" | "light";
 
@@ -20,46 +21,39 @@ export function useTheme() {
   return useContext(ThemeContext);
 }
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
-  const stored = localStorage.getItem("theme") as Theme | null;
-  if (stored === "light" || stored === "dark") return stored;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+function ThemeInner({ children }: { children: React.ReactNode }) {
+  const { theme, setTheme } = useNextTheme();
+  const typedTheme = (theme as Theme) || "dark";
+
+  const toggle = useCallback(() => {
+    setTheme(typedTheme === "dark" ? "light" : "dark");
+  }, [typedTheme, setTheme]);
+
+  useEffect(() => {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute("content", typedTheme === "dark" ? "#0a0a0a" : "#f5f5f0");
+    }
+  }, [typedTheme]);
+
+  return (
+    <ThemeContext.Provider value={{ theme: typedTheme, toggle, setTheme: setTheme as (t: Theme) => void }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
-
-  useEffect(() => {
-    setThemeState(getInitialTheme());
-  }, []);
-
-  const apply = useCallback((t: Theme) => {
-    document.documentElement.setAttribute("data-theme", t);
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", t === "dark" ? "#0a0a0a" : "#f5f5f0");
-  }, []);
-
-  useEffect(() => {
-    apply(theme);
-  }, [theme, apply]);
-
-  const setTheme = useCallback((t: Theme) => {
-    setThemeState(t);
-    localStorage.setItem("theme", t);
-  }, []);
-
-  const toggle = useCallback(() => {
-    setThemeState((prev) => {
-      const next = prev === "dark" ? "light" : "dark";
-      localStorage.setItem("theme", next);
-      return next;
-    });
-  }, []);
-
   return (
-    <ThemeContext.Provider value={{ theme, toggle, setTheme }}>
-      {children}
-    </ThemeContext.Provider>
+    <NextThemesProvider
+      attribute="data-theme"
+      defaultTheme="dark"
+      enableSystem={false}
+      disableTransitionOnChange
+    >
+      <ThemeInner>
+        {children}
+      </ThemeInner>
+    </NextThemesProvider>
   );
 }

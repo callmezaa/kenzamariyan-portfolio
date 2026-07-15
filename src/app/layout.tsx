@@ -78,22 +78,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <meta name="theme-color" content="#f5f5f0" id="theme-color-meta" />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            (function(){
-              var t = localStorage.getItem("theme");
-              if (t === "light" || t === "dark") {
-                document.documentElement.setAttribute("data-theme", t);
-              } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-                document.documentElement.setAttribute("data-theme", "dark");
-              }
-              var meta = document.getElementById("theme-color-meta");
-              if (meta) {
-                meta.setAttribute("content", document.documentElement.getAttribute("data-theme") === "dark" ? "#0a0a0a" : "#f5f5f0");
-              }
-            })();
-          `,
-        }} />
       </head>
       <body className={`${GeistSans.variable} ${GeistMono.variable} ${jetbrainsMono.variable} bg-canvas font-sans text-ink-muted antialiased`}>
         <a
