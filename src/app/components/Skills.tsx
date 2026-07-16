@@ -1,23 +1,76 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { skillsData } from "../data/skillsData";
 import { staggerContainer, staggerItem, easeOut } from "../utils/animations";
 import { Tooltip } from "@/components/motion/tooltip";
 import { AnimatedNumber } from "@/components/motion/animated-number";
+import { Button } from "@/components/ui/button";
+
+const TABS = ["All", ...skillsData.map((c) => c.title)];
 
 export default function Skills() {
+  const [activeTab, setActiveTab] = useState("All");
+  const reduceMotion = useReducedMotion();
+
+  const visible =
+    activeTab === "All"
+      ? skillsData
+      : skillsData.filter((c) => c.title === activeTab);
+
   return (
     <section id="skills" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="mb-16 max-w-2xl space-y-3">
+        <div className="mb-10 max-w-2xl space-y-3">
           <p className="label text-ink-muted">Capabilities</p>
-          <h2 className="display-xl">Expertise Ecosystem</h2>
+          <h2 className="display-xl text-balance">What I can deliver for you</h2>
           <p className="body-base">
-            A comprehensive mapping of my engineering domains, showcasing the
-            technical depth and workflows I use to launch digital products.
+            Grouped by outcome, not just tools — the engineering domains I use
+            to launch reliable digital products.
           </p>
         </div>
+
+        {/* Interactive tab filter */}
+        <div
+          role="tablist"
+          aria-label="Skill categories"
+          className="mb-10 flex flex-wrap gap-1.5 rounded-full bg-surface-soft p-1"
+        >
+          {TABS.map((tab) => {
+            const active = activeTab === tab;
+            return (
+              <button
+                key={tab}
+                role="tab"
+                aria-selected={active}
+                aria-pressed={active}
+                onClick={() => setActiveTab(tab)}
+                className="relative rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
+              >
+                {active && (
+                  <motion.span
+                    layoutId="skill-tab"
+                    className="absolute inset-0 rounded-full bg-canvas-card shadow-1"
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { type: "spring", stiffness: 380, damping: 30, mass: 0.7 }
+                    }
+                  />
+                )}
+                <span
+                  className={`relative z-10 ${
+                    active ? "text-ink" : "text-ink-muted hover:text-ink"
+                  }`}
+                >
+                  {tab}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -25,9 +78,11 @@ export default function Skills() {
           viewport={{ once: true }}
           className="grid gap-6 md:grid-cols-2"
         >
-          {skillsData.map((cat) => (
-            <SkillCard key={cat.title} category={cat} />
-          ))}
+          <AnimatePresence mode="popLayout">
+            {visible.map((cat) => (
+              <SkillCard key={cat.title} category={cat} />
+            ))}
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>
@@ -36,16 +91,27 @@ export default function Skills() {
 
 function SkillCard({ category }: { category: (typeof skillsData)[number] }) {
   return (
-    <motion.div variants={staggerItem} className="h-full">
+    <motion.div
+      variants={staggerItem}
+      layout
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.3, ease: easeOut }}
+      className="h-full"
+    >
       <motion.div
         whileHover={{ y: -2 }}
         transition={{ duration: 0.3, ease: easeOut }}
-        className="flex h-full rounded-[14px] bg-canvas-glass backdrop-blur-sm shadow-lg shadow-black/30 p-6 transition-shadow duration-300 hover:shadow-xl"
+        className="flex h-full rounded-[14px] bg-canvas-glass backdrop-blur-sm shadow-1 p-6 transition-shadow duration-300 hover:shadow-2"
       >
         <div className="flex w-full flex-col gap-5">
-          <h3 className="button-cap text-ink">{category.title}</h3>
+          <div>
+            <h3 className="button-cap text-ink">{category.title}</h3>
+            <p className="body-small text-ink-muted mt-1">{category.tagline}</p>
+          </div>
 
-          <div className="h-px bg-white/5" />
+          <div className="h-px bg-hairline" />
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-2">
             {category.skills.map((skill, i) => (
@@ -67,7 +133,7 @@ function SkillRow({
 }) {
   return (
     <div className="group flex cursor-default items-center gap-2 py-1">
-      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-white/5 p-1">
+      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-surface-soft p-1">
         {skill.icon ? (
           <skill.icon
             size={12}
@@ -81,13 +147,17 @@ function SkillRow({
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <Tooltip content={`${skill.mastery}%`} side="right" delay={300}>
+        <Tooltip
+          content={`${skill.mastery}% · ${skill.years} yr${skill.years > 1 ? "s" : ""} experience`}
+          side="right"
+          delay={300}
+        >
           <span className="mono-sm text-ink-muted transition-colors duration-200 group-hover:text-ink">
             {skill.name}
           </span>
         </Tooltip>
         <div className="mt-1 flex items-center gap-2">
-          <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/10">
+          <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-surface-hover">
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: `${skill.mastery}%` }}
@@ -96,6 +166,7 @@ function SkillRow({
               className="h-full rounded-full bg-ink"
             />
           </div>
+          <span className="mono-sm text-ink-tertiary">{skill.years} yr</span>
           <AnimatedNumber
             value={skill.mastery}
             duration={0.6}

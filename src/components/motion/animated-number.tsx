@@ -12,6 +12,8 @@ export interface AnimatedNumberProps {
   format?: (n: number) => string;
   className?: string;
   startOnView?: boolean;
+  suffix?: string;
+  prefix?: string;
 }
 
 export function AnimatedNumber({
@@ -20,6 +22,8 @@ export function AnimatedNumber({
   format = (n) => Math.round(n).toLocaleString(),
   className,
   startOnView = true,
+  suffix = "",
+  prefix = "",
 }: AnimatedNumberProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
@@ -45,7 +49,7 @@ export function AnimatedNumber({
 
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>
-      {format(display)}
+      {prefix}{format(display)}{suffix}
     </span>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { ExternalLink, ChevronLeft, ChevronRight, X, Download, Eye } from "lucide-react";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ const certificates: Certificate[] = [
     year: "2026",
     description: "Indonesian national professional certification validating competency in software development — including programming fundamentals, system design, and application architecture.",
     files: ["/image/Achievement/BNSP Certified Programmer - Software Development-1.png"],
+    url: "https://lisensi.bnsp.go.id/",
   },
   {
     title: "AI Professional Certificate",
@@ -30,6 +31,7 @@ const certificates: Certificate[] = [
     year: "2026",
     description: "Comprehensive certification in artificial intelligence — covering ML workflows, Google AI tools, prompt engineering, and responsible AI deployment practices.",
     files: ["/image/Achievement/Google AI Professional Certificate-1.png"],
+    url: "https://www.credly.com/",
   },
   {
     title: "CMS For Developer II",
@@ -37,6 +39,7 @@ const certificates: Certificate[] = [
     year: "2026",
     description: "Advanced HubSpot CMS development certification — custom modules, serverless functions, HubDB integration, and marketplace app publishing.",
     files: ["/image/Achievement/HubSpot CMS For Developer II.png"],
+    url: "https://academy.hubspot.com/certification-results",
   },
   {
     title: "Certified Full-Stack Developer",
@@ -44,6 +47,7 @@ const certificates: Certificate[] = [
     year: "2026",
     description: "Industry-validated full-stack engineering certification assessing proficiency across frontend, backend, database, and cloud deployment technologies.",
     files: ["/image/Achievement/micro1 Certified Full-Stack Developer.jpg"],
+    url: "https://micro1.ai/",
   },
   {
     title: "Top 100 — JuaraVibeCoding",
@@ -51,6 +55,7 @@ const certificates: Certificate[] = [
     year: "2026",
     description: "Recognized among the top 100 participants in a national coding competition, demonstrating strong algorithmic problem-solving and software engineering skills.",
     files: ["/image/Achievement/Top 100 JuaraVibeCoding Certificate of Achievement-1.png"],
+    url: "https://juaravibecoding.com/",
   },
   {
     title: "Programming Fundamental",
@@ -138,7 +143,7 @@ function CertificatePreview({ cert, files }: { cert: Certificate; files: string[
               <button
                 key={i}
                 onClick={() => setPage(i)}
-                className={`w-2 h-2 md:w-1.5 md:h-1.5 rounded-full transition-all cursor-pointer ${i === page ? "bg-ink w-4 md:w-3" : "bg-hairline"}`}
+                className={`w-2 h-2 md:w-1.5 md:h-1.5 rounded-full transition-colors cursor-pointer ${i === page ? "bg-ink w-4 md:w-3" : "bg-hairline"}`}
               />
             ))}
           </div>
@@ -167,19 +172,43 @@ function CertificateModal({
   const multi = cert.files.length > 1;
   const isFirst = currentIndex === 0;
   const isLast = currentIndex === total - 1;
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setPage(0);
-  }, [currentIndex]);
-
-  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const panel = panelRef.current;
+    const initial = panel?.querySelector<HTMLElement>(
+      'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])',
+    );
+    initial?.focus();
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
       if (e.key === "ArrowLeft" && !isFirst) onPrev();
       if (e.key === "ArrowRight" && !isLast) onNext();
+      if (e.key === "Tab" && panel) {
+        const focusables = panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    return () => {
+      window.removeEventListener("keydown", handler);
+      previouslyFocused?.focus?.();
+    };
   }, [onClose, onPrev, onNext, isFirst, isLast]);
 
   return (
@@ -192,15 +221,19 @@ function CertificateModal({
       className="fixed inset-0 z-50 flex items-center justify-center bg-canvas/80 p-4 backdrop-blur-sm"
     >
       <motion.div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="certificate-modal-title"
         initial={{ opacity: 0, scale: 0.95, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 8 }}
         transition={{ duration: 0.25, ease: easeOut }}
         onClick={(e) => e.stopPropagation()}
-        className="flex w-full max-w-3xl flex-col overflow-hidden rounded-[20px] border border-white/10 bg-canvas-glass backdrop-blur-xl shadow-2xl shadow-black/80"
+        className="flex w-full max-w-3xl flex-col overflow-hidden rounded-[20px] border border-hairline bg-canvas-glass backdrop-blur-xl shadow-3"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5 md:px-5 md:py-3">
+        <div className="flex items-center justify-between border-b border-hairline px-4 py-2.5 md:px-5 md:py-3">
           <div className="flex items-center gap-2">
             <Button
               onClick={onPrev}
@@ -257,7 +290,8 @@ function CertificateModal({
                   <button
                     key={i}
                     onClick={() => setPage(i)}
-                    className={`h-1.5 w-1.5 md:h-2 md:w-2 rounded-full transition-all cursor-pointer ${i === page ? "w-3 md:w-4 bg-ink" : "bg-white/10"}`}
+                    className={`h-1.5 w-1.5 md:h-2 md:w-2 rounded-full transition-colors cursor-pointer ${i === page ? "w-3 md:w-4 bg-ink" : "bg-surface-active"}`}
+                    aria-label={`Go to page ${i + 1}`}
                   />
                 ))}
               </div>
@@ -265,19 +299,19 @@ function CertificateModal({
           </div>
 
           {/* Info section */}
-          <div className="flex w-full flex-col border-t border-white/10 md:w-72 md:shrink-0 md:border-t-0 md:border-l">
+          <div className="flex w-full flex-col border-t border-hairline md:w-72 md:shrink-0 md:border-t-0 md:border-l">
             <div className="flex flex-1 flex-col gap-3 p-4 md:p-5">
               <div className="space-y-1">
-                <h3 className="body-small md:body-base font-bold text-ink leading-snug">{cert.title}</h3>
+                <h3 id="certificate-modal-title" className="body-small md:body-base font-bold text-ink leading-snug">{cert.title}</h3>
                 <p className="body-small text-ink-muted leading-snug">
-                  {cert.issuer} <span className="text-white/10">·</span> {cert.year}
+                  {cert.issuer} <span className="text-hairline">·</span> {cert.year}
                 </p>
               </div>
               <p className="body-small text-ink-muted leading-relaxed">
                 {cert.description}
               </p>
             </div>
-            <div className="flex flex-col gap-2 border-t border-white/10 p-4 md:p-5">
+            <div className="flex flex-col gap-2 border-t border-hairline p-4 md:p-5">
               <Button variant="outline" size="lg" className="rounded-full" nativeButton={false} render={<a href={cert.files[page]} download />}>
                 <Download size={12} /> Download
               </Button>
@@ -300,12 +334,22 @@ export default function Achievements() {
   const visible = showAll ? certificates : certificates.slice(0, 3);
   const hidden = certificates.length - 3;
 
+  const handleModalClose = useCallback(() => setModalIndex(null), []);
+  const handleModalPrev = useCallback(
+    () => setModalIndex((i) => (i ?? 0) - 1),
+    [],
+  );
+  const handleModalNext = useCallback(
+    () => setModalIndex((i) => (i ?? 0) + 1),
+    [],
+  );
+
   return (
     <section id="achievements" className="bg-canvas py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="mb-12 max-w-2xl space-y-3">
           <p className="label text-ink-muted">Credentials</p>
-          <h2 className="display-xl">Certifications & Recognition</h2>
+          <h2 className="display-xl text-balance">Certifications & Recognition</h2>
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -321,12 +365,19 @@ export default function Achievements() {
                 <motion.div
                   whileHover={{ y: -3 }}
                   transition={{ duration: 0.3, ease: easeOut }}
-                  className="rounded-[14px] overflow-hidden shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/50 bg-canvas-card h-full flex flex-col transition-shadow duration-300"
+                  className="rounded-[14px] overflow-hidden shadow-1 hover:shadow-2 bg-canvas-card h-full flex flex-col transition-shadow duration-300"
                 >
                   <CertificatePreview cert={cert} files={cert.files} />
                   <div className="p-5 space-y-2 flex-1">
-                    <h3 className="body-base font-semibold text-ink">{cert.title}</h3>
-                    <div className="flex items-center gap-2 body-small text-ink-tertiary">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="body-base font-semibold text-ink">{cert.title}</h3>
+                      {cert.url && (
+                        <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-surface-soft px-2 py-0.5 mono-sm text-ink-tertiary">
+                          <ExternalLink size={10} /> Verifiable
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 body-small text-ink-muted">
                       <span>{cert.issuer}</span>
                       <span className="text-hairline">·</span>
                       <span>{cert.year}</span>
@@ -368,12 +419,13 @@ export default function Achievements() {
       <AnimatePresence>
         {modalIndex !== null && (
           <CertificateModal
+            key={modalIndex}
             cert={certificates[modalIndex]}
             currentIndex={modalIndex}
             total={certificates.length}
-            onClose={() => setModalIndex(null)}
-            onPrev={() => setModalIndex((i) => i! - 1)}
-            onNext={() => setModalIndex((i) => i! + 1)}
+            onClose={handleModalClose}
+            onPrev={handleModalPrev}
+            onNext={handleModalNext}
           />
         )}
       </AnimatePresence>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { LayoutGrid, List } from "lucide-react";
 import { projects } from "../data/projects";
 import { easeOut } from "../utils/animations";
@@ -41,15 +41,16 @@ export default function Projects() {
         >
           <div className="space-y-3">
             <p className="label text-ink-muted">Selected Work</p>
-            <h2 className="display-xl">Projects That Ship</h2>
+            <h2 className="display-xl text-balance">Projects That Ship</h2>
           </div>
           <div className="flex items-center gap-2">
             <Button
               onClick={() => setView("grid")}
               variant="ghost"
               size="icon-sm"
-              className={`rounded-full transition-all ${
-                view === "grid" ? "text-ink bg-white/10" : "text-ink-muted hover:text-ink hover:bg-white/5"
+              aria-pressed={view === "grid"}
+              className={`rounded-full transition-colors ${
+                view === "grid" ? "text-ink bg-surface-active" : "text-ink-muted hover:text-ink hover:bg-surface-hover"
               }`}
               aria-label="Grid view"
             >
@@ -59,8 +60,9 @@ export default function Projects() {
               onClick={() => setView("list")}
               variant="ghost"
               size="icon-sm"
-              className={`rounded-full transition-all ${
-                view === "list" ? "text-ink bg-white/10" : "text-ink-muted hover:text-ink hover:bg-white/5"
+              aria-pressed={view === "list"}
+              className={`rounded-full transition-colors ${
+                view === "list" ? "text-ink bg-surface-active" : "text-ink-muted hover:text-ink hover:bg-surface-hover"
               }`}
               aria-label="List view"
             >
@@ -78,10 +80,11 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, ease: easeOut, delay: i * 0.05 }}
+                className="h-full"
               >
-                <TiltCard max={8} glare={true} className="rounded-[14px] overflow-hidden shadow-lg shadow-black/40 hover:shadow-xl hover:shadow-black/60 transition-shadow duration-300">
-                  <Link href={`/projects/${project.slug}`} className="block">
-                    <div className="overflow-hidden">
+                <TiltCard max={8} glare={true} className="h-full rounded-[14px] overflow-hidden shadow-1 hover:shadow-2 transition-shadow duration-300">
+                  <Link href={`/projects/${project.slug}`} className="flex flex-col h-full">
+                    <div className="relative overflow-hidden">
                       <Image
                         src={projectImages[project.slug] || projectImages[project.slug]}
                         alt={project.title}
@@ -90,16 +93,30 @@ export default function Projects() {
                         className="w-full h-auto"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
+                      {project.featured && (
+                        <span className="absolute left-3 top-3 rounded-full bg-foreground/90 px-2.5 py-1 label text-background backdrop-blur-sm">
+                          Featured
+                        </span>
+                      )}
                     </div>
-                    <div className="mt-5 space-y-2 px-2 pb-2">
+                    <div className="mt-5 space-y-2 px-2 pb-2 flex-1 flex flex-col">
                       <h3 className="display-lg">{project.title}</h3>
                       <p className="body-small text-ink-muted">{project.stack.slice(0, 3).join(" · ")}</p>
-                      <div className="flex items-center gap-2 body-small text-ink-tertiary">
+                      {project.metrics.length > 0 && (
+                        <div className="flex flex-wrap gap-x-2 gap-y-1">
+                          {project.metrics.slice(0, 3).map((m) => (
+                            <span key={m} className="mono-sm text-ink-tertiary">
+                              {m}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2 body-small text-ink-muted mt-auto pt-1">
                         <span>{project.year}</span>
                         {project.badge && (
                           <>
                             <span className="text-hairline">·</span>
-                            <span className="mono-sm px-3 py-0.5 rounded-full bg-white/5 text-ink-muted">{project.badge}</span>
+                            <span className="mono-sm px-3 py-0.5 rounded-full bg-surface-soft text-ink-muted">{project.badge}</span>
                           </>
                         )}
                       </div>
@@ -125,7 +142,7 @@ export default function Projects() {
                 >
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="flex items-center gap-5 p-4 rounded-[14px] bg-canvas-glass shadow-lg shadow-black/40 hover:shadow-xl hover:shadow-black/60 transition-shadow duration-300"
+                    className="flex items-center gap-5 p-4 rounded-[14px] bg-canvas-glass shadow-1 hover:shadow-2 transition-shadow duration-300"
                   >
                     <div className="relative w-20 h-14 shrink-0 overflow-hidden rounded-[10px] bg-canvas">
                       <motion.div
@@ -141,18 +158,29 @@ export default function Projects() {
                           className="object-contain"
                         />
                       </motion.div>
+                      {project.featured && (
+                        <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-foreground ring-2 ring-canvas-glass" aria-label="Featured project" />
+                      )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="body-base font-semibold text-ink">{project.title}</h3>
-                      <p className="body-small text-ink-muted mt-0.5">{project.stack.slice(0, 3).join(" · ")}</p>
+                      <div className="flex items-center gap-2">
+                        <h3 className="body-base font-semibold text-ink truncate">{project.title}</h3>
+                        {project.featured && (
+                          <span className="label shrink-0 text-ink-tertiary">Featured</span>
+                        )}
+                      </div>
+                      <p className="body-small text-ink-muted mt-0.5 truncate">{project.stack.slice(0, 3).join(" · ")}</p>
+                      {project.metrics.length > 0 && (
+                        <p className="mono-sm text-ink-tertiary mt-1 truncate">{project.metrics.slice(0, 2).join(" · ")}</p>
+                      )}
                     </div>
                     <div className="flex items-center gap-3 shrink-0">
                       {project.badge && (
-                        <span className="mono-sm px-3 py-0.5 rounded-full bg-white/5 text-ink-muted hidden sm:inline">
+                        <span className="mono-sm px-3 py-0.5 rounded-full bg-surface-soft text-ink-muted hidden sm:inline">
                           {project.badge}
                         </span>
                       )}
-                      <span className="body-small text-ink-tertiary">{project.year}</span>
+                      <span className="body-small text-ink-muted">{project.year}</span>
                     </div>
                   </Link>
                 </motion.div>

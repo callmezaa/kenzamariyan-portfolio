@@ -71,4 +71,14 @@ export const experiences: Experience[] = [
     tags: ["Algorithms", "Database", "OOP", "Software Engineering"],
     type: "education",
   },
+  {
+    year: "2023 - Present",
+    title: "Core Contributor",
+    place: "Komunitas Developer Indonesia",
+    location: "Remote",
+    description:
+      "Mentoring junior developers and sharing open-source projects on web and mobile engineering. Organized weekly code-review sessions and published reusable component libraries adopted by the community.",
+    tags: ["Mentoring", "Open Source", "React", "Community"],
+    type: "organization",
+  },
 ];
