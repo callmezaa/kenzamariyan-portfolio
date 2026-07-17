@@ -132,7 +132,6 @@ export const techArsenal: TechItem[] = [
 ];
 
 export const categories = [
-  "All",
   "Frontend",
   "Backend",
   "Mobile",

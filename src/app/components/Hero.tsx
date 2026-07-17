@@ -65,12 +65,6 @@ export default function Hero() {
     { icon: SiPython, name: "Python" },
   ];
 
-  const stats = [
-    { value: "15+", label: "Projects" },
-    { value: "4 yrs", label: "Experience" },
-    { value: "8", label: "Tech Stacks" },
-  ];
-
   return (
     <>
       <section id="home" className="relative bg-canvas min-h-dvh flex flex-col pt-32 md:pt-40 overflow-hidden">
@@ -225,28 +219,6 @@ export default function Hero() {
               >
                 <p className="body-base font-semibold text-ink text-center">Ken Zamariyan</p>
                 <p className="body-small text-ink-muted text-center">Full-Stack Developer</p>
-                <div className="mt-2 flex items-center justify-center gap-1.5">
-                  <span className="relative flex h-2 w-2">
-                    {reduceMotion ? null : (
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                    )}
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                  </span>
-                  <span className="body-small text-ink-muted">Available for freelance</span>
-                </div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...appleSpring, delay: 0.45 }}
-                className="mt-4 flex items-center justify-center gap-6"
-              >
-                {stats.map((stat) => (
-                  <div key={stat.label} className="text-center">
-                    <p className="body-base font-semibold text-ink tabular-nums">{stat.value}</p>
-                    <p className="body-small text-ink-muted">{stat.label}</p>
-                  </div>
-                ))}
               </motion.div>
             </div>
           </div>

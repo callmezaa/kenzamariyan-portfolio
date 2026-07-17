@@ -205,3 +205,16 @@ export const projects: Project[] = [
     },
   },
 ];
+
+export const PROJECT_CATEGORIES: Record<string, Project[]> = {
+  All: projects,
+  "Web App": projects.filter((p) =>
+    ["contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
+  ),
+  Mobile: projects.filter((p) =>
+    ["gotani-pos", "nextalk"].includes(p.slug)
+  ),
+  Playground: [],
+};
+
+export const CATEGORY_TABS = ["All", "Web App", "Mobile", "Playground"] as const;

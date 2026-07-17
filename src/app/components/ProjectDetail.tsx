@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ArrowLeft, ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Project } from "../data/projects";
 import { techDescriptions } from "../data/projects";
@@ -155,7 +155,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   }, [activeIndex]);
 
   return (
-    <div className="min-h-screen bg-canvas pt-28 md:pt-36">
+    <div className="min-h-dvh bg-canvas pt-28 md:pt-36">
       <div className="mx-auto max-w-4xl px-6 md:px-8 pb-24">
         <Link
           href="/#projects"
@@ -211,7 +211,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               <span className="body-small text-muted-foreground">·</span>
               <span className="body-small text-muted-foreground">{project.role}</span>
             </div>
-            <h1 className="display-xl">{project.title}</h1>
+            <h1 className="display-xl text-balance">{project.title}</h1>
             <p className="body-base text-muted-foreground">{project.summary}</p>
           </div>
 
@@ -297,7 +297,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                           <button
                             key={i}
                             onClick={() => scrollTo(i)}
-                            className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
+                            aria-label={`Go to screenshot ${i + 1}`}
+                            aria-current={i === activeIndex ? "true" : undefined}
+                            className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${
                               i === activeIndex
                                 ? "bg-foreground w-4"
                                 : "bg-muted-foreground/30 hover:bg-muted-foreground/60"

@@ -2,6 +2,22 @@ const KV_KEY = "visitor_count";
 
 let fallbackCount = 4283;
 
+let cachedCount: number | null = null;
+let cachedAt = 0;
+const CACHE_TTL = 5000;
+
+function getCached(): number | null {
+  if (cachedCount !== null && Date.now() - cachedAt < CACHE_TTL) {
+    return cachedCount;
+  }
+  return null;
+}
+
+function setCached(value: number) {
+  cachedCount = value;
+  cachedAt = Date.now();
+}
+
 function getClient() {
   const { REDIS_URL, KV_URL, UPSTASH_REDIS_REST_URL } = process.env;
   const url = UPSTASH_REDIS_REST_URL || KV_URL || REDIS_URL;
@@ -59,8 +75,13 @@ async function redisIncr(): Promise<number | null> {
 }
 
 export async function getVisitorCount(): Promise<number> {
+  const cached = getCached();
+  if (cached !== null) return cached;
   const redis = await redisGet();
-  if (redis !== null) return redis;
+  if (redis !== null) {
+    setCached(redis);
+    return redis;
+  }
   return fallbackCount;
 }
 
@@ -68,8 +89,10 @@ export async function incrementVisitor(): Promise<number> {
   const count = await redisIncr();
   if (count !== null) {
     fallbackCount = count;
+    setCached(count);
     return count;
   }
   fallbackCount += 1;
+  setCached(fallbackCount);
   return fallbackCount;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -81,7 +81,7 @@ export default function Contact() {
       />
       <section id="contact" className="bg-canvas-alt py-24 md:py-28">
         <div className="mx-auto max-w-6xl px-6 md:px-8">
-          <div className="rounded-[20px] bg-canvas-glass backdrop-blur-xl shadow-lg shadow-black/30 p-8 md:p-12">
+            <div className="rounded-[20px] bg-canvas-glass backdrop-blur-xl shadow-1 p-8 md:p-12">
             <div className="flex flex-col items-start gap-10 lg:grid lg:grid-cols-12 lg:gap-16">
               {/* Left: Text */}
               <div className="w-full space-y-6 lg:col-span-5">
@@ -100,7 +100,7 @@ export default function Contact() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, ease: easeOut }}
-                    className="display-xl leading-tight text-ink"
+                    className="display-xl leading-tight text-balance text-ink"
                   >
                     Let&rsquo;s Build
                   </motion.h2>
@@ -109,7 +109,7 @@ export default function Contact() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, ease: easeOut, delay: 0.1 }}
-                    className="display-xl leading-tight text-ink"
+                    className="display-xl leading-tight text-balance text-ink"
                   >
                     Something Elite
                     <motion.span
@@ -153,13 +153,14 @@ export default function Contact() {
                     <Label htmlFor="name">Name</Label>
                     <Input
                       id="name"
-                      placeholder="Your name"
+                      placeholder="Your name…"
                       disabled={status === "loading"}
                       aria-invalid={errors.name ? true : undefined}
+                      aria-describedby={errors.name ? "name-error" : undefined}
                       {...register("name")}
                     />
                     {errors.name && (
-                      <p className="text-xs text-destructive">
+                      <p id="name-error" role="alert" className="text-xs text-destructive">
                         {errors.name.message}
                       </p>
                     )}
@@ -170,13 +171,14 @@ export default function Contact() {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder="your@email.com…"
                       disabled={status === "loading"}
                       aria-invalid={errors.email ? true : undefined}
+                      aria-describedby={errors.email ? "email-error" : undefined}
                       {...register("email")}
                     />
                     {errors.email && (
-                      <p className="text-xs text-destructive">
+                      <p id="email-error" role="alert" className="text-xs text-destructive">
                         {errors.email.message}
                       </p>
                     )}
@@ -186,14 +188,15 @@ export default function Contact() {
                     <Label htmlFor="message">Message</Label>
                     <Textarea
                       id="message"
-                      placeholder="What are you building?"
+                      placeholder="What are you building?…"
                       rows={4}
                       disabled={status === "loading"}
                       aria-invalid={errors.message ? true : undefined}
+                      aria-describedby={errors.message ? "message-error" : undefined}
                       {...register("message")}
                     />
                     {errors.message && (
-                      <p className="text-xs text-destructive">
+                      <p id="message-error" role="alert" className="text-xs text-destructive">
                         {errors.message.message}
                       </p>
                     )}
@@ -213,7 +216,7 @@ export default function Contact() {
                   </StatefulButton>
 
                   {status === "error" && (
-                    <p className="text-xs text-destructive text-center">
+                    <p role="alert" className="text-xs text-destructive text-center">
                       {errorMessage}
                     </p>
                   )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState } from "react";
 import { motion } from "motion/react";
 import { techArsenal, categories, type Category } from "../data/techArsenal";
 import { Button } from "@/components/ui/button";
@@ -11,34 +11,14 @@ import {
 } from "@/components/ui/hover-card";
 
 const categoryCounts = categories.reduce<Record<string, number>>((acc, cat) => {
-  acc[cat] = cat === "All" ? techArsenal.length : techArsenal.filter((t) => t.category === cat).length;
+  acc[cat] = techArsenal.filter((t) => t.category === cat).length;
   return acc;
 }, {});
 
 export default function TechArsenal() {
-  const [activeCategory, setActiveCategory] = useState<Category>("All");
+  const [activeCategory, setActiveCategory] = useState<Category>("Frontend");
 
-  const filtered = useMemo(
-    () =>
-      activeCategory === "All"
-        ? techArsenal
-        : techArsenal.filter((t) => t.category === activeCategory),
-    [activeCategory],
-  );
-
-  const grouped = useMemo(() => {
-    if (activeCategory !== "All") return null;
-    return categories
-      .filter((c) => c !== "All")
-      .map((cat) => ({
-        cat,
-        items: techArsenal.filter((t) => t.category === cat),
-      }));
-  }, [activeCategory]);
-
-  const handleCategoryChange = useCallback((cat: Category) => {
-    setActiveCategory(cat);
-  }, []);
+  const filtered = techArsenal.filter((t) => t.category === activeCategory);
 
   return (
     <div className="space-y-6">
@@ -46,7 +26,7 @@ export default function TechArsenal() {
         {categories.map((cat) => (
           <Button
             key={cat}
-            onClick={() => handleCategoryChange(cat)}
+            onClick={() => setActiveCategory(cat)}
             variant={activeCategory === cat ? "secondary" : "ghost"}
             size="sm"
             aria-pressed={activeCategory === cat}
@@ -58,38 +38,17 @@ export default function TechArsenal() {
         ))}
       </div>
 
-      {grouped ? (
-        <div className="space-y-6">
-          {grouped.map((group) => (
-            <div key={group.cat} className="space-y-3">
-              <p className="label text-ink-tertiary text-center">{group.cat}</p>
-              <motion.div
-                className="flex flex-wrap justify-center gap-2"
-                key={group.cat}
-                variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.03 } } }}
-                initial="hidden"
-                animate="visible"
-              >
-                {group.items.map((tech) => (
-                  <TechChip key={tech.name} tech={tech} />
-                ))}
-              </motion.div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <motion.div
-          className="flex flex-wrap justify-center gap-2"
-          key={activeCategory}
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.03 } } }}
-          initial="hidden"
-          animate="visible"
-        >
-          {filtered.map((tech) => (
-            <TechChip key={tech.name} tech={tech} />
-          ))}
-        </motion.div>
-      )}
+      <motion.div
+        className="flex flex-wrap justify-center gap-2"
+        key={activeCategory}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.03 } } }}
+        initial="hidden"
+        animate="visible"
+      >
+        {filtered.map((tech) => (
+          <TechChip key={tech.name} tech={tech} />
+        ))}
+      </motion.div>
     </div>
   );
 }

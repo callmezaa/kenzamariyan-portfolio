@@ -73,9 +73,9 @@ export default function Navbar() {
   const capitalize = (s: string) => (s === "playground" ? "Playground" : s.charAt(0).toUpperCase() + s.slice(1));
 
   return (
-    <header ref={headerRef} className={`fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-3 transition-all duration-500 ${
+    <header ref={headerRef} className={`fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-3 transition-[background-color,box-shadow,backdrop-filter] duration-500 ${
       scrolled
-        ? "bg-canvas-glass backdrop-blur-xl shadow-lg shadow-black/20"
+        ? "bg-canvas-glass backdrop-blur-xl shadow-1"
         : "bg-transparent"
     }`}>
       <nav className="mx-auto max-w-6xl flex items-center justify-between">
@@ -91,10 +91,11 @@ export default function Navbar() {
               onClick={() => scrollToSection(item)}
               variant="ghost"
               size="sm"
+              aria-current={active === item ? "page" : undefined}
               className={`rounded-full ${
                 active === item
-                  ? "text-ink bg-white/10"
-                  : "text-ink-muted hover:text-ink hover:bg-white/5"
+                  ? "text-ink bg-surface-active"
+                  : "text-ink-muted hover:text-ink hover:bg-surface-hover"
               }`}
             >
               {capitalize(item)}
@@ -104,12 +105,12 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-1 rounded-full border border-hairline/50 px-3 py-1">
           <Tooltip content="GitHub" side="bottom">
-            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5" nativeButton={false} render={<a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" />}>
+            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-surface-hover" nativeButton={false} render={<a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" />}>
               <FaGithub size={16} />
             </Button>
           </Tooltip>
           <Tooltip content="LinkedIn" side="bottom">
-            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5" nativeButton={false} render={<a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" />}>
+            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-surface-hover" nativeButton={false} render={<a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" />}>
               <FaLinkedin size={16} />
             </Button>
           </Tooltip>
@@ -122,7 +123,7 @@ export default function Navbar() {
           <ThemeToggle variant="rectangle" start="bottom-up" iconClassName="h-4 w-4" className="rounded-full p-1.5" />
           <Button type="button" variant="ghost" size="icon-sm" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
-            className="rounded-full text-ink-muted hover:text-ink hover:bg-white/5">
+            className="rounded-full text-ink-muted hover:text-ink hover:bg-surface-hover">
             {menuOpen ? <X size={15} /> : <Menu size={15} />}
           </Button>
         </div>
@@ -137,20 +138,22 @@ export default function Navbar() {
       >
         <div className="flex flex-col gap-2">
           {sections.map((item) => (
-            <button
+            <Button
               key={item}
               onClick={() => scrollToSection(item)}
-              className={`flex h-11 items-center rounded-full px-4 text-sm font-medium transition-colors ${
+              variant="ghost"
+              aria-current={active === item ? "page" : undefined}
+              className={`flex h-11 items-center justify-start rounded-full px-4 text-sm font-medium ${
                 active === item
-                  ? "bg-white/10 text-ink"
-                  : "text-ink-muted hover:text-ink hover:bg-white/5"
+                  ? "bg-surface-active text-ink"
+                  : "text-ink-muted hover:text-ink hover:bg-surface-hover"
               }`}
             >
               {capitalize(item)}
-            </button>
+            </Button>
           ))}
         </div>
-        <div className="flex items-center gap-4 pt-3 border-t border-white/10">
+        <div className="flex items-center gap-4 pt-3 border-t border-hairline">
           <a href="https://github.com/callmezaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
             <FaGithub size={18} /><span className="label">GitHub</span>
           </a>

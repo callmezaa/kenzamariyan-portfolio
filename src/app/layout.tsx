@@ -2,13 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { GeistSans, GeistMono } from "geist/font";
 import { JetBrains_Mono, Geist } from "next/font/google";
-import Navbar from "./components/Navbar";
-import KeyboardNav from "./components/KeyboardNav";
-import Footer from "./components/Footer";
-import { ThemeProvider } from "./components/ThemeProvider";
-import { SmoothScroll } from "@/components/motion/smooth-scroll";
-import { ScrollProgress } from "@/components/motion/scroll-progress";
-import { CommandMenu } from "./components/CommandMenu";
+import LayoutClient from "./components/LayoutClient";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -75,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={cn("font-sans", geist.variable)}
       data-theme="light"
       style={{ colorScheme: "light" }}
+      suppressHydrationWarning
     >
       <head>
         <meta name="theme-color" content="#f5f5f0" id="theme-color-meta" />
@@ -82,20 +77,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${GeistSans.variable} ${GeistMono.variable} ${jetbrainsMono.variable} bg-canvas font-sans text-ink-muted antialiased`}>
         <a
           href="#main-content"
-          className="fixed -top-full left-4 z-[100] rounded-b-md bg-ink px-4 py-2.5 text-sm font-semibold text-canvas transition-all duration-200 focus:top-0 focus:outline-2 focus:outline-offset-0 focus:outline-ink"
+          className="fixed -top-full left-4 z-[100] rounded-b-md bg-ink px-4 py-2.5 text-sm font-semibold text-canvas transition-[top,outline-offset] duration-200 focus:top-0 focus:outline-2 focus:outline-offset-0 focus:outline-ink"
         >
           Skip to main content
         </a>
-        <ThemeProvider>
-          <KeyboardNav />
-          <Navbar />
-          <SmoothScroll>
-            {children}
-            <Footer />
-          </SmoothScroll>
-          <ScrollProgress variant="bar" position="bottom" height={3} />
-          <CommandMenu />
-        </ThemeProvider>
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   );

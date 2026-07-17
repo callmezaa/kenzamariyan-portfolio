@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { SiGithub } from "react-icons/si";
 import { skillsData } from "../data/skillsData";
 import { staggerContainer, staggerItem, easeOut } from "../utils/animations";
 import { Tooltip } from "@/components/motion/tooltip";
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import { Button } from "@/components/ui/button";
+import GitHubSection from "./GitHubSection";
 
 const TABS = ["All", ...skillsData.map((c) => c.title)];
 
@@ -83,6 +85,31 @@ export default function Skills() {
               <SkillCard key={cat.title} category={cat} />
             ))}
           </AnimatePresence>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, ease: easeOut }}
+          className="mt-14"
+        >
+          <div className="rounded-[14px] bg-canvas-glass backdrop-blur-sm shadow-1 p-6 md:p-8">
+            <div className="flex items-center justify-between mb-4">
+              <p className="label text-ink-muted">Open Source</p>
+              <motion.a
+                href="https://github.com/callmezaa"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02 }}
+                className="inline-flex items-center gap-2 rounded-full border border-hairline px-4 py-1.5 body-small text-ink-muted hover:text-ink hover:border-ink/20 transition-colors"
+              >
+                <SiGithub size={14} />
+                View GitHub
+              </motion.a>
+            </div>
+            <GitHubSection />
+          </div>
         </motion.div>
       </div>
     </section>

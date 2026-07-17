@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "motion/react";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 

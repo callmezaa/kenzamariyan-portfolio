@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 md:flex-row md:justify-between">
-        <p className="body-small text-ink-tertiary text-center md:text-left">
+        <p className="body-small text-ink-muted text-center md:text-left">
           &copy; 2026 Ken Zamariyan. All rights reserved.
         </p>
         <div className="flex items-center gap-2">
@@ -24,7 +24,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-ink-muted transition-all hover:bg-white/10 hover:text-ink"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-soft text-ink-muted transition-colors hover:bg-surface-active hover:text-ink"
             >
               <s.icon size={14} />
             </a>

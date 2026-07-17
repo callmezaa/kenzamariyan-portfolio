@@ -64,7 +64,7 @@ export default function VisitorCounter() {
   }
 
   return (
-    <div className="inline-flex items-center gap-2 text-zinc-600">
+    <div className="inline-flex items-center gap-2 text-ink-muted" aria-live="polite">
       <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400/60 opacity-75" aria-hidden="true" />
         <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-indigo-400" aria-hidden="true" />

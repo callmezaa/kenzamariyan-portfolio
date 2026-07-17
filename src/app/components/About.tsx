@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Calendar, MapPin, Briefcase } from "lucide-react";
+import { Calendar, MapPin, Briefcase, Clock, Globe, Sparkles } from "lucide-react";
 import { easeOut } from "../utils/animations";
 import { projects } from "../data/projects";
 import { techArsenal } from "../data/techArsenal";
@@ -9,21 +10,22 @@ import { AnimatedNumber } from "@/components/motion/animated-number";
 import TechArsenal from "./TechArsenal";
 
 const infoItems = [
-  { icon: Calendar, label: "4+ Years Experience", desc: "Full-stack & mobile product engineering", metric: "Since 2020", color: "#3B82F6" },
-  { icon: MapPin, label: "Based in Indonesia", desc: "Remote-friendly, global timezone", metric: "GMT+7", color: "#22C55E" },
-  { icon: Briefcase, label: "Open to Freelance & Collaboration", desc: "Available for contracts & partnerships", metric: "Hiring", color: "#F59E0B" },
+  { icon: Calendar, label: "4+ Years Experience", desc: "Full-stack & mobile product engineering", badgeIcon: Clock, color: "#3B82F6" },
+  { icon: MapPin, label: "Based in Indonesia", desc: "Remote-friendly, global timezone", badgeIcon: Globe, color: "#22C55E" },
+  { icon: Briefcase, label: "Open to Freelance & Collaboration", desc: "Available for contracts & partnerships", badgeIcon: Sparkles, color: "#F59E0B" },
 ];
 
 const formatThousands = (n: number) => Math.round(n).toLocaleString();
 
 export default function About() {
+  const [hoveredStat, setHoveredStat] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
 
   const stats = [
-    { value: projects.length, label: "Projects Shipped", suffix: "+" },
-    { value: 4, label: "Years Experience" },
-    { value: techArsenal.length, label: "Technologies" },
-    { value: 1500, label: "Users Served", suffix: "+", format: formatThousands },
+    { value: projects.length, label: "Projects Shipped", suffix: "+", reveal: "contracts · mobile · AI" },
+    { value: 4, label: "Years Experience", reveal: "since 2020" },
+    { value: techArsenal.length, label: "Technologies", reveal: "react → go" },
+    { value: 1500, label: "Users Served", suffix: "+", format: formatThousands, reveal: "served worldwide" },
   ];
 
   return (
@@ -59,7 +61,9 @@ export default function About() {
                   <p className="body-base font-semibold text-ink">{item.label}</p>
                   <p className="body-small text-ink-muted mt-0.5">{item.desc}</p>
                 </div>
-                <span className="shrink-0 rounded-full bg-surface-soft px-2.5 py-1 mono-sm text-ink-muted">{item.metric}</span>
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-soft text-ink-tertiary">
+                  <item.badgeIcon size={14} />
+                </span>
               </motion.div>
             ))}
           </div>
@@ -74,15 +78,32 @@ export default function About() {
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
+              onMouseEnter={() => setHoveredStat(i)}
+              onMouseLeave={() => setHoveredStat(null)}
               initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, ease: easeOut, delay: reduceMotion ? 0 : 0.15 + i * 0.08 }}
-              className="flex flex-col items-center gap-1 bg-canvas-card px-4 py-7 text-center"
+              className="relative flex flex-col items-center gap-1 bg-canvas-card px-4 py-7 text-center cursor-default"
             >
               <p className="display-lg font-semibold text-ink tabular-nums">
                 <AnimatedNumber value={stat.value} suffix={stat.suffix} format={stat.format} duration={1.2} />
               </p>
-              <p className="body-small text-ink-muted text-balance">{stat.label}</p>
+              <div className="relative h-5 overflow-hidden">
+                <motion.p
+                  animate={{ y: hoveredStat === i ? -20 : 0, opacity: hoveredStat === i ? 0 : 1 }}
+                  transition={{ duration: 0.2, ease: easeOut }}
+                  className="body-small text-ink-muted text-balance"
+                >
+                  {stat.label}
+                </motion.p>
+                <motion.p
+                  animate={{ y: hoveredStat === i ? 0 : 20, opacity: hoveredStat === i ? 1 : 0 }}
+                  transition={{ duration: 0.2, ease: easeOut }}
+                  className="body-small text-ink-tertiary text-balance absolute inset-0"
+                >
+                  {stat.reveal}
+                </motion.p>
+              </div>
             </motion.div>
           ))}
         </motion.div>
