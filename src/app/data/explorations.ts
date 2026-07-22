@@ -37,6 +37,13 @@ export const explorations: Exploration[] = [
     tag: "Mobile",
   },
   {
+    slug: "mercato",
+    title: "Mercato E-Commerce",
+    caption: "React Native boutique storefront",
+    image: "/image/mercato/mockup.png",
+    tag: "Mobile",
+  },
+  {
     slug: "monetra",
     title: "Finance Dashboard",
     caption: "Go + React spending insights",
@@ -49,5 +56,12 @@ export const explorations: Exploration[] = [
     caption: "WebSocket chat with AI assistant",
     image: "/image/nextalkApp/mockup-v2.png",
     tag: "Realtime",
+  },
+  {
+    slug: "pallete-studio",
+    title: "Color Palette Studio",
+    caption: "Image-to-palette extraction toolkit",
+    image: "/image/PalleteStudio/mockup.png",
+    tag: "Playground",
   },
 ];

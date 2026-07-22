@@ -19,6 +19,7 @@ const projectImages: Record<string, string> = {
   monetra: "/image/monetra/homesection.png",
   mercato: "/image/mercato/mockup.png",
   nextalk: "/image/nextalkApp/mockup-v2.png",
+  "pallete-studio": "/image/PalleteStudio/mockup.png",
 };
 
 const screenshots: Record<string, { src: string; label: string }[]> = {
@@ -121,9 +122,16 @@ const screenshots: Record<string, { src: string; label: string }[]> = {
     { src: "/image/nextalkApp/callscreen.png", label: "Call" },
     { src: "/image/nextalkApp/profilescreen.png", label: "Profile" },
   ],
+  mercato: [
+    { src: "/image/mercato/1.png", label: "Onboarding" },
+    { src: "/image/mercato/2.png", label: "Products" },
+    { src: "/image/mercato/3.png", label: "Wishlist" },
+    { src: "/image/mercato/4.png", label: "E-Receipt" },
+    { src: "/image/mercato/5.png", label: "Profile" },
+  ],
 };
 
-const MOBILE_APPS = ["gotani-pos", "nextalk"];
+const MOBILE_APPS = ["gotani-pos", "mercato", "nextalk"];
 
 interface ProjectDetailProps {
   project: Project;

@@ -1,4 +1,4 @@
-export type ProjectType = "mobile" | "dashboard" | "company" | "ai" | "fullstack" | "messaging" | "marketplace" | "pos" | "finance" | "chat" | "interviewos";
+export type ProjectType = "mobile" | "dashboard" | "company" | "ai" | "fullstack" | "messaging" | "marketplace" | "pos" | "finance" | "chat" | "interviewos" | "playground";
 
 export interface Project {
   slug: string;
@@ -56,6 +56,14 @@ export const techDescriptions: Record<string, string> = {
   "Gorilla WebSocket": "WebSocket implementation for Go applications",
   Redis: "In-memory data store for caching and real-time state",
   Cloudinary: "Cloud-based media management and transformation service",
+  "Three.js": "WebGL library for 3D graphics rendering in the browser",
+  GSAP: "High-performance animation library for complex timeline-based motion",
+  Zustand: "Tiny, fast state-management library for React with persist middleware",
+  "React Navigation": "Routing and navigation library for React Native apps",
+  Axios: "Promise-based HTTP client for browser and Node.js",
+  Reanimated: "High-performance animation library for React Native",
+  Bcryptjs: "Password hashing library with bcrypt algorithm",
+  JWT: "JSON Web Tokens for stateless authentication",
 };
 
 export const projects: Project[] = [
@@ -158,6 +166,30 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "mercato",
+    title: "Mercato — E-Commerce Boutique",
+    summary:
+      "A flagship mobile e-commerce platform built with React Native, featuring a cinematic onboarding flow, boutique wishlist, skeleton shimmer loaders, and a beautifully rendered digital e-receipt system.",
+    challenge:
+      "Mobile e-commerce apps often feel generic and transactional — lacking the premium, boutique experience that modern consumers expect, with jarring native spinners and uninspired navigation flows.",
+    solution:
+      "Architected a full-stack mobile e-commerce app with React Native and Expo for the frontend, Express.js and PostgreSQL for the backend, and Prisma ORM for data modeling. Delivered zero-scroll cinematic onboarding, a 2-column boutique wishlist grid, breathing skeleton shimmer loaders, and a perforated ticket-style digital e-receipt — all wrapped in JWT-secured authentication.",
+    impact:
+      "Created a production-ready e-commerce platform with seamless onboarding-to-checkout flows, dynamic parallax transitions, safe-area-aware navigation, and a perceived-performance-first approach that eliminated all native loading spinners.",
+    stack: ["React Native", "Expo", "Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "Reanimated"],
+    role: "Full-Stack Mobile Developer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/mercato-ecommerceApp",
+    type: "mobile",
+    featured: true,
+    badge: "Mobile App",
+    metrics: ["React Native", "Express API", "PostgreSQL", "Prisma ORM"],
+    accent: {
+      glow: "rgba(239, 68, 68, 0.14)",
+      color: "#ef4444",
+    },
+  },
+  {
     slug: "monetra",
     title: "Monetra — Personal Finance Tracker",
     summary:
@@ -179,6 +211,31 @@ export const projects: Project[] = [
     accent: {
       glow: "rgba(251, 146, 60, 0.14)",
       color: "#fb923c",
+    },
+  },
+  {
+    slug: "pallete-studio",
+    title: "Palette Studio — Color Extraction Toolkit",
+    summary:
+      "A premium color toolkit that extracts dominant colors from any image, generates harmonies, checks WCAG contrast, visualizes palettes in 3D, and exports to CSS/Tailwind/JSON — all in a dark-first glassmorphic UI.",
+    challenge:
+      "Designers and developers lacked a single, beautiful tool that could extract a palette from an image, analyze its accessibility, visualize relationships, and export production-ready design tokens — without relying on multiple disjointed utilities.",
+    solution:
+      "Built a comprehensive color toolkit with custom median-cut quantization for extraction, a relationship map showing complementary/analogous/triadic harmonies, a Three.js 3D DNA helix visualization, a gradient physics playground, and a live UI preview system — all powered by Zustand state management and GSAP animations.",
+    impact:
+      "Delivered a fully self-contained color ecosystem with 15+ features including mood detection, pairwise WCAG contrast analysis, palette history with shareable links, and multi-format export (CSS variables, Tailwind config, JSON, SCSS, design tokens, PNG strip).",
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "Three.js", "GSAP", "Zustand"],
+    role: "Full-Stack Developer & UI Engineer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/Pallete-studio",
+    demoUrl: "https://pallete-studio-ten.vercel.app",
+    type: "playground",
+    featured: true,
+    badge: "Playground",
+    metrics: ["Color Extraction", "WCAG Contrast", "3D DNA Helix", "Export CSS/JSON"],
+    accent: {
+      glow: "rgba(236, 72, 153, 0.14)",
+      color: "#ec4899",
     },
   },
   {
@@ -212,9 +269,11 @@ export const PROJECT_CATEGORIES: Record<string, Project[]> = {
     ["contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
   ),
   Mobile: projects.filter((p) =>
-    ["gotani-pos", "nextalk"].includes(p.slug)
+    ["gotani-pos", "mercato", "nextalk"].includes(p.slug)
   ),
-  Playground: [],
+  Playground: projects.filter((p) =>
+    ["pallete-studio"].includes(p.slug)
+  ),
 };
 
 export const CATEGORY_TABS = ["All", "Web App", "Mobile", "Playground"] as const;
