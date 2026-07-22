@@ -6,8 +6,20 @@ import Image from "next/image";
 import { Download, Send, X, ChevronDown } from "lucide-react";
 import { SPRING_MOUSE } from "@/lib/ease";
 import { useHoverCapable } from "@/lib/hooks/use-hover-capable";
-import { SiLinkedin, SiGithub, SiGmail, SiWhatsapp, SiReact, SiTypescript, SiGo, SiNextdotjs, SiTailwindcss, SiPostgresql, SiDocker, SiPython } from "react-icons/si";
+import { SiReact, SiTypescript, SiGo, SiNextdotjs, SiTailwindcss, SiPostgresql, SiDocker, SiPython, SiExpress, SiNodedotjs, SiMongodb, SiGit, SiLinkedin, SiGithub, SiGmail, SiWhatsapp } from "react-icons/si";
 import { appleSpring } from "../utils/animations";
+
+const contactLinks = [
+  { icon: SiLinkedin, label: "LinkedIn",  href: "https://www.linkedin.com/in/ken-zamariyan", color: "#0A66C2" },
+  { icon: SiGithub,   label: "GitHub",    href: "https://github.com/callmezaa",              color: "#181717" },
+  { icon: SiGmail,    label: "Email",     href: "mailto:kenzamariyan32@gmail.com",            color: "#EA4335" },
+  { icon: SiWhatsapp, label: "WhatsApp",  href: "https://wa.me/6285878221758",                color: "#25D366" },
+];
+import {
+  CenterMorphModal,
+  CenterMorphModalTrigger,
+  CenterMorphModalContent,
+} from "@/components/motion/center-morph-modal";
 import {
   Dialog,
   DialogTrigger,
@@ -19,13 +31,7 @@ import { Button } from "@/components/ui/button";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { Marquee } from "@/components/motion/marquee";
 import { Loader } from "@/components/motion/loader";
-
-const contactLinks = [
-  { icon: SiLinkedin, label: "LinkedIn",  href: "https://www.linkedin.com/in/ken-zamariyan", color: "#0A66C2" },
-  { icon: SiGithub,   label: "GitHub",    href: "https://github.com/callmezaa",              color: "#181717" },
-  { icon: SiGmail,    label: "Email",     href: "mailto:kenzamariyan32@gmail.com",            color: "#EA4335" },
-  { icon: SiWhatsapp, label: "WhatsApp",  href: "https://wa.me/6285878221758",                color: "#25D366" },
-];
+import ContactForm from "./ContactForm";
 
 export default function Hero() {
   const [cvLoaded, setCvLoaded] = useState(false);
@@ -61,8 +67,12 @@ export default function Hero() {
     { icon: SiNextdotjs, name: "Next.js" },
     { icon: SiTailwindcss, name: "Tailwind" },
     { icon: SiPostgresql, name: "PostgreSQL" },
+    { icon: SiExpress, name: "Express" },
+    { icon: SiNodedotjs, name: "Node.js" },
+    { icon: SiMongodb, name: "MongoDB" },
     { icon: SiDocker, name: "Docker" },
     { icon: SiPython, name: "Python" },
+    { icon: SiGit, name: "Git" },
   ];
 
   return (
@@ -95,47 +105,43 @@ export default function Hero() {
                 transition={{ ...appleSpring, delay: 0.3 }}
                 className="flex flex-wrap gap-3 justify-center lg:justify-start"
               >
-                {/* Get in Touch Dialog */}
-                <Dialog>
-                  <DialogTrigger
-                    render={
-                      <Button variant="default" size="lg" className="rounded-full shadow-sm" suppressHydrationWarning />
-                    }
+                {/* Get in Touch Modal */}
+                <CenterMorphModal>
+                  <CenterMorphModalTrigger>
+                    <Button variant="default" size="lg" className="rounded-full shadow-sm" suppressHydrationWarning>
+                      <Send data-icon="inline-start" />
+                      Get in Touch
+                    </Button>
+                  </CenterMorphModalTrigger>
+                  <CenterMorphModalContent
+                    ariaLabel="Get in touch"
+                    className="max-w-sm"
                   >
-                    <Send data-icon="inline-start" />
-                    Get in Touch
-                  </DialogTrigger>
-                  <DialogContent
-                    showCloseButton={false}
-                    className="rounded-[20px] bg-popover/80 backdrop-blur-xl p-0 shadow-2 border-0 sm:max-w-sm"
-                  >
-                    <div className="flex items-center justify-between border-b border-border px-5 py-3">
-                      <DialogTitle className="body-base font-bold text-foreground">Get in Touch</DialogTitle>
-                      <DialogClose render={<Button variant="ghost" size="icon-sm" className="rounded-full" aria-label="Close" />}>
-                        <X size={16} />
-                      </DialogClose>
+                    <div className="px-5 pt-5 pb-3 space-y-1">
+                      <h2 className="body-base font-bold text-ink">Get in Touch</h2>
+                      <p className="body-small text-ink-muted">Reach me through any of these.</p>
                     </div>
-                    <div className="p-4 space-y-2">
+                    <div className="px-5 pb-5 space-y-2">
                       {contactLinks.map((link) => (
                         <a
                           key={link.label}
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                        className="flex items-center gap-3 rounded-full bg-muted/50 p-3 text-foreground hover:bg-muted transition-colors"
-                      >
-                        <div
-                          className="flex h-8 w-8 items-center justify-center rounded-full text-white"
-                          style={{ backgroundColor: link.color }}
+                          className="flex items-center gap-3 rounded-full bg-muted/50 p-3 text-foreground hover:bg-muted transition-colors"
                         >
-                          <link.icon size={14} />
-                        </div>
+                          <div
+                            className="flex h-8 w-8 items-center justify-center rounded-full text-white"
+                            style={{ backgroundColor: link.color }}
+                          >
+                            <link.icon size={14} />
+                          </div>
                           <span className="body-base font-bold text-foreground">{link.label}</span>
                         </a>
                       ))}
                     </div>
-                  </DialogContent>
-                </Dialog>
+                  </CenterMorphModalContent>
+                </CenterMorphModal>
 
                 {/* Download CV Dialog */}
                 <Dialog>

@@ -12,21 +12,24 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const projectImages: Record<string, string> = {
-  "contract-chill": "/image/contract-chill/screenshot/homesection.png",
+  "contract-chill": "/image/contract-chill/screenshot/homepage.png",
   interviewos: "/image/interviewOS/homesection.png",
   assetra: "/image/assetra/homesection.png",
-  "gotani-pos": "/image/GotaniApp/mockup.png",
+  "gotani-pos": "/image/GotaniApp/mockup-v2.png",
   monetra: "/image/monetra/homesection.png",
   mercato: "/image/mercato/mockup.png",
-  nextalk: "/image/nextalkApp/mockup.png",
+  nextalk: "/image/nextalkApp/mockup-v2.png",
 };
 
 const screenshots: Record<string, { src: string; label: string }[]> = {
   "contract-chill": [
-    { src: "/image/contract-chill/screenshot/startsection.png", label: "Start" },
-    { src: "/image/contract-chill/screenshot/featuressection.png", label: "Features" },
-    { src: "/image/contract-chill/screenshot/analyzersection.png", label: "Analyzer" },
-    { src: "/image/contract-chill/screenshot/generatepage.png", label: "Generate" },
+    { src: "/image/contract-chill/screenshot/homepage.png", label: "Homepage" },
+    { src: "/image/contract-chill/screenshot/analysizpage.png", label: "Analysis" },
+    { src: "/image/contract-chill/screenshot/howitsworkpage.png", label: "How It Works" },
+    { src: "/image/contract-chill/screenshot/contractgeneratorpage.png", label: "Contract Generator" },
+    { src: "/image/contract-chill/screenshot/CTApage.png", label: "CTA" },
+    { src: "/image/contract-chill/screenshot/historypage.png", label: "History" },
+    { src: "/image/contract-chill/screenshot/livedemopage.png", label: "Live Demo" },
     { src: "/image/contract-chill/screenshot/dashboardpage.png", label: "Dashboard" },
     { src: "/image/contract-chill/screenshot/loginpage.png", label: "Login" },
   ],

@@ -11,11 +11,11 @@ import { TiltCard } from "@/components/motion/tilt-card";
 
 const projectImages: Record<string, string> = {
   "contract-chill": "/image/contract-chill/screenshot/mockup.png",
-  interviewos: "/image/interviewOS/mockup.png",
-  assetra: "/image/assetra/mockup.png",
-  "gotani-pos": "/image/GotaniApp/mockup.png",
-  monetra: "/image/monetra/mockup.png",
-  nextalk: "/image/nextalkApp/mockup.png",
+  interviewos: "/image/interviewOS/mockup-v2.png",
+  assetra: "/image/assetra/mockup-v2.png",
+  "gotani-pos": "/image/GotaniApp/mockup-v2.png",
+  monetra: "/image/monetra/mockup-v2.png",
+  nextalk: "/image/nextalkApp/mockup-v2.png",
 };
 
 type ViewMode = "grid" | "list";
@@ -69,7 +69,7 @@ export default function AllProjects() {
         </div>
 
         {view === "grid" ? (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, i) => (
               <motion.div
                 key={project.slug}
@@ -77,26 +77,23 @@ export default function AllProjects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, ease: easeOut, delay: i * 0.05 }}
-                className="h-full"
               >
-                <TiltCard max={8} glare={true} className="h-full rounded-[14px] overflow-hidden shadow-1 hover:shadow-2 transition-shadow duration-300">
-                  <Link href={`/projects/${project.slug}`} className="flex flex-col h-full">
-                    <div className="relative overflow-hidden">
-                      <Image
-                        src={projectImages[project.slug]}
-                        alt={project.title}
-                        width={1200}
-                        height={750}
-                        className="w-full h-auto"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                    <div className="p-6 pt-5">
-                      <h3 className="display-lg">{project.title}</h3>
-                      <p className="body-small text-ink-muted mt-2">{project.stack.slice(0, 3).join(" · ")}</p>
-                    </div>
-                  </Link>
-                </TiltCard>
+                <Link href={`/projects/${project.slug}`} className="group block">
+                  <TiltCard max={8} glare={true} className="rounded-[14px] overflow-hidden shadow-1 group-hover:shadow-2 transition-shadow duration-300">
+                    <Image
+                      src={projectImages[project.slug]}
+                      alt={project.title}
+                      width={1200}
+                      height={750}
+                      className="w-full h-auto"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  </TiltCard>
+                  <div className="mt-3">
+                    <h3 className="body-base font-semibold text-ink group-hover:text-ink-muted transition-colors duration-200">{project.title}</h3>
+                    <p className="body-small text-ink-muted mt-1">{project.stack.slice(0, 3).join(" · ")}</p>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
