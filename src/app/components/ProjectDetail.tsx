@@ -520,6 +520,44 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                       </div>
                     ))}
                   </div>
+
+                  {allScreenshots.length > 1 && (
+                    <div className="flex items-center justify-center gap-4 mt-5 md:hidden">
+                      <Button
+                        onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
+                        disabled={activeIndex === 0}
+                        variant="outline"
+                        size="icon-sm"
+                        className="rounded-full"
+                      >
+                        <ChevronLeft size={16} />
+                      </Button>
+                      <div className="flex gap-1.5">
+                        {allScreenshots.map((_, i) => (
+                          <button
+                            key={i}
+                            onClick={() => scrollTo(i)}
+                            aria-label={`Go to screenshot ${i + 1}`}
+                            aria-current={i === activeIndex ? "true" : undefined}
+                            className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${
+                              i === activeIndex
+                                ? "bg-foreground w-4"
+                                : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <Button
+                        onClick={() => scrollTo(Math.min(allScreenshots.length - 1, activeIndex + 1))}
+                        disabled={activeIndex === allScreenshots.length - 1}
+                        variant="outline"
+                        size="icon-sm"
+                        className="rounded-full"
+                      >
+                        <ChevronRight size={16} />
+                      </Button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
