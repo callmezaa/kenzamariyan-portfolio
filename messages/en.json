@@ -1,0 +1,260 @@
+{
+  "hero": {
+    "headlines": ["Products shipped.", "Problems solved.", "No fluff."],
+    "subheadline": "Full-stack engineer building AI-powered products that ship in weeks, not months.",
+    "getInTouch": "Get in Touch",
+    "downloadCv": "Download CV",
+    "cvTitle": "Curriculum Vitae",
+    "downloadPdf": "Download PDF",
+    "reachMe": "Reach me through any of these.",
+    "scroll": "Scroll",
+    "name": "Ken Zamariyan",
+    "role": "Full-Stack Developer",
+    "modalTitle": "Get in Touch",
+    "contactLinks": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "email": "Email",
+      "whatsapp": "WhatsApp"
+    },
+    "techStack": {
+      "react": "React",
+      "typescript": "TypeScript",
+      "go": "Go",
+      "nextjs": "Next.js",
+      "tailwind": "Tailwind",
+      "postgresql": "PostgreSQL",
+      "express": "Express",
+      "nodejs": "Node.js",
+      "mongodb": "MongoDB",
+      "docker": "Docker",
+      "python": "Python",
+      "git": "Git"
+    }
+  },
+  "about": {
+    "label": "About Me",
+    "heading": "Building reliable digital products with clarity and purpose.",
+    "description": "Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under {time} to offline-first mobile POS serving {users} cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.",
+    "time": "15 seconds",
+    "users": "1,500+",
+    "infoItems": {
+      "experience": { "label": "4+ Years Experience", "desc": "Full-stack & mobile product engineering" },
+      "location": { "label": "Based in Indonesia", "desc": "Remote-friendly, global timezone" },
+      "freelance": { "label": "Open to Freelance & Collaboration", "desc": "Available for contracts & partnerships" }
+    },
+    "stats": {
+      "projects": { "label": "Projects Shipped", "reveal": "contracts · mobile · AI" },
+      "years": { "label": "Years Experience", "reveal": "since 2020" },
+      "technologies": { "label": "Technologies", "reveal": "react → go" },
+      "users": { "label": "Users Served", "reveal": "served worldwide" }
+    },
+    "techArsenalLabel": "Technology Arsenal"
+  },
+  "skills": {
+    "label": "Capabilities",
+    "heading": "What I can deliver for you",
+    "description": "Grouped by outcome, not just tools — the engineering domains I use to launch reliable digital products.",
+    "tabAll": "All",
+    "openSource": "Open Source",
+    "viewGithub": "View GitHub",
+    "years": "yr",
+    "yearsPlural": "yrs"
+  },
+  "projects": {
+    "label": "Selected Work",
+    "heading": "Projects That Ship",
+    "tabAll": "All",
+    "tabWebApp": "Web App",
+    "tabMobile": "Mobile",
+    "tabPlayground": "Playground",
+    "emptyTitle": "No projects yet in this category.",
+    "emptySubtitle": "Coming soon.",
+    "viewAll": "View All Projects"
+  },
+  "experience": {
+    "label": "Career",
+    "heading": "Experience & Education",
+    "filterAll": "All",
+    "filterWork": "Work",
+    "filterEducation": "Education",
+    "filterOrganization": "Organization",
+    "empty": "No entries in this category yet."
+  },
+  "achievements": {
+    "label": "Credentials",
+    "heading": "Certifications & Recognition",
+    "verifiable": "Verifiable",
+    "viewDetails": "View Details",
+    "showAll": "View All ({count})",
+    "showLess": "Show Less",
+    "download": "Download",
+    "viewOriginal": "View Original"
+  },
+  "exploration": {
+    "label": "Exploration",
+    "heading": "Things I've been building",
+    "description": "A visual log of interfaces and experiments — screenshots of products and prototypes I've designed and shipped."
+  },
+  "contact": {
+    "label": "Get In Touch",
+    "heading1": "Let's Build",
+    "heading2": "Something Elite",
+    "description": "Have an active product requirement, need an engineer to scale operations, or want to audit your UI architecture? Reach out below."
+  },
+  "contactForm": {
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name…",
+    "emailLabel": "Email",
+    "emailPlaceholder": "your@email.com…",
+    "messageLabel": "Message",
+    "messagePlaceholder": "What are you building?…",
+    "sendButton": "Send Message",
+    "sendingButton": "Sending...",
+    "successButton": "Sent!",
+    "errorButton": "Try again",
+    "toastSuccessTitle": "Message sent!",
+    "toastSuccessDesc": "I'll get back to you soon.",
+    "toastErrorTitle": "Failed to send",
+    "toastErrorDesc": "{message}",
+    "errors": {
+      "nameRequired": "Name is required",
+      "nameTooLong": "Name is too long",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "messageRequired": "Message is required",
+      "messageTooLong": "Message is too long"
+    }
+  },
+  "footer": {
+    "copyright": "{year} Ken Zamariyan. All rights reserved.",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+  "navbar": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "skills": "Skills",
+    "experience": "Experience",
+    "achievements": "Achievements",
+    "contact": "Contact",
+    "menuLabel": "Navigation menu",
+    "openMenu": "Open navigation",
+    "closeMenu": "Close navigation"
+  },
+  "commandMenu": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "skills": "Skills",
+    "experience": "Experience",
+    "achievements": "Achievements",
+    "contact": "Contact",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "Email",
+    "groupNavigate": "Navigate",
+    "groupLinks": "Links"
+  },
+  "projectDetail": {
+    "backToProjects": "Back to Projects",
+    "overview": "Overview",
+    "screenshots": "Screenshots",
+    "techStack": "Tech Stack",
+    "challenge": "Challenge",
+    "solution": "Solution",
+    "impact": "Impact",
+    "sourceCode": "Source Code",
+    "liveDemo": "Live Demo",
+    "noScreenshots": "No screenshots available."
+  },
+  "techArsenal": {
+    "mastery": "Mastery",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "mobile": "Mobile",
+      "aiInfra": "AI & Infra"
+    }
+  },
+  "common": {
+    "skipToContent": "Skip to main content",
+    "gitHub": "GitHub",
+    "linkedin": "LinkedIn",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go home"
+  },
+  "githubSection": {
+    "noData": "No contribution data available.",
+    "contributions": "contributions in the last year"
+  },
+  "visitor": {
+    "count": "visitors",
+    "offline": "offline",
+    "unavailable": "Visitor count unavailable"
+  },
+  "certificates": {
+    "bnsp": {
+      "title": "Certified Programmer — Software Development",
+      "issuer": "BNSP (Badan Nasional Sertifikasi Profesi)",
+      "year": "2026",
+      "description": "Indonesian national professional certification validating competency in software development — including programming fundamentals, system design, and application architecture."
+    },
+    "googleAi": {
+      "title": "AI Professional Certificate",
+      "issuer": "Google",
+      "year": "2026",
+      "description": "Comprehensive certification in artificial intelligence — covering ML workflows, Google AI tools, prompt engineering, and responsible AI deployment practices."
+    },
+    "hubspot": {
+      "title": "CMS For Developer II",
+      "issuer": "HubSpot Academy",
+      "year": "2026",
+      "description": "Advanced HubSpot CMS development certification — custom modules, serverless functions, HubDB integration, and marketplace app publishing."
+    },
+    "micro1": {
+      "title": "Certified Full-Stack Developer",
+      "issuer": "micro1",
+      "year": "2026",
+      "description": "Industry-validated full-stack engineering certification assessing proficiency across frontend, backend, database, and cloud deployment technologies."
+    },
+    "juaraVibeCoding": {
+      "title": "Top 100 — JuaraVibeCoding",
+      "issuer": "JuaraVibeCoding",
+      "year": "2026",
+      "description": "Recognized among the top 100 participants in a national coding competition, demonstrating strong algorithmic problem-solving and software engineering skills."
+    },
+    "programmingFundamental": {
+      "title": "Programming Fundamental",
+      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+      "year": "2026",
+      "description": "Indonesian national certification in core programming concepts — algorithms, data structures, and object-oriented programming with practical assessments."
+    },
+    "intermediateWeb": {
+      "title": "Intermediate Assistant Web Developer",
+      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+      "year": "2026",
+      "description": "Indonesian national certification in intermediate web development — frontend frameworks, REST API integration, and relational database management."
+    },
+    "fundamentalWeb": {
+      "title": "Fundamental of Assistant Web Developer",
+      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+      "year": "2026",
+      "description": "Indonesian national certification in foundational web development — HTML, CSS, JavaScript, responsive design, and basic front-end engineering."
+    },
+    "fullstackNasional": {
+      "title": "Front-End & Back-End Development",
+      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+      "year": "2026",
+      "description": "Indonesian national certification in full-stack web development — covering frontend frameworks, backend APIs, database integration, and production deployment workflows."
+    }
+  }
+}

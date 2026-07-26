@@ -1,0 +1,260 @@
+{
+  "hero": {
+    "headlines": ["Produk dikirim.", "Masalah dipecahkan.", "Tanpa basa-basi."],
+    "subheadline": "Full-stack engineer membangun produk bertenaga AI yang siap dikirim dalam hitungan minggu, bukan bulan.",
+    "getInTouch": "Hubungi Saya",
+    "downloadCv": "Unduh CV",
+    "cvTitle": "Curriculum Vitae",
+    "downloadPdf": "Unduh PDF",
+    "reachMe": "Hubungi saya melalui salah satu berikut.",
+    "scroll": "Gulir",
+    "name": "Ken Zamariyan",
+    "role": "Full-Stack Developer",
+    "modalTitle": "Hubungi Saya",
+    "contactLinks": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "email": "Email",
+      "whatsapp": "WhatsApp"
+    },
+    "techStack": {
+      "react": "React",
+      "typescript": "TypeScript",
+      "go": "Go",
+      "nextjs": "Next.js",
+      "tailwind": "Tailwind",
+      "postgresql": "PostgreSQL",
+      "express": "Express",
+      "nodejs": "Node.js",
+      "mongodb": "MongoDB",
+      "docker": "Docker",
+      "python": "Python",
+      "git": "Git"
+    }
+  },
+  "about": {
+    "label": "Tentang Saya",
+    "heading": "Membangun produk digital yang andal dengan jelas dan penuh tujuan.",
+    "description": "Mengirimkan aplikasi production di web, mobile, dan AI — dari AI analisis kontrak yang memproses dokumen dalam {time} hingga mobile POS offline yang melayani {users} anggota koperasi. TypeScript, Go, Python, dan PostgreSQL, end to end.",
+    "time": "15 detik",
+    "users": "1.500+",
+    "infoItems": {
+      "experience": { "label": "4+ Tahun Pengalaman", "desc": "Rekayasa produk full-stack & mobile" },
+      "location": { "label": "Berbasis di Indonesia", "desc": "Ramah remote, zona waktu global" },
+      "freelance": { "label": "Terbuka untuk Freelance & Kolaborasi", "desc": "Tersedia untuk kontrak & kemitraan" }
+    },
+    "stats": {
+      "projects": { "label": "Proyek Dikirim", "reveal": "kontrak · mobile · AI" },
+      "years": { "label": "Tahun Pengalaman", "reveal": "sejak 2020" },
+      "technologies": { "label": "Teknologi", "reveal": "react → go" },
+      "users": { "label": "Pengguna Dilayani", "reveal": "dilayani di seluruh dunia" }
+    },
+    "techArsenalLabel": "Persenjataan Teknologi"
+  },
+  "skills": {
+    "label": "Kemampuan",
+    "heading": "Yang bisa saya berikan untuk Anda",
+    "description": "Dikelompokkan berdasarkan hasil, bukan hanya alat — domain rekayasa yang saya gunakan untuk meluncurkan produk digital yang andal.",
+    "tabAll": "Semua",
+    "openSource": "Open Source",
+    "viewGithub": "Lihat GitHub",
+    "years": "thn",
+    "yearsPlural": "thn"
+  },
+  "projects": {
+    "label": "Karya Terpilih",
+    "heading": "Proyek Yang Dikirim",
+    "tabAll": "Semua",
+    "tabWebApp": "Web App",
+    "tabMobile": "Mobile",
+    "tabPlayground": "Playground",
+    "emptyTitle": "Belum ada proyek di kategori ini.",
+    "emptySubtitle": "Segera hadir.",
+    "viewAll": "Lihat Semua Proyek"
+  },
+  "experience": {
+    "label": "Karir",
+    "heading": "Pengalaman & Pendidikan",
+    "filterAll": "Semua",
+    "filterWork": "Kerja",
+    "filterEducation": "Pendidikan",
+    "filterOrganization": "Organisasi",
+    "empty": "Belum ada entri di kategori ini."
+  },
+  "achievements": {
+    "label": "Kredensial",
+    "heading": "Sertifikasi & Pengakuan",
+    "verifiable": "Dapat Diverifikasi",
+    "viewDetails": "Lihat Detail",
+    "showAll": "Lihat Semua ({count})",
+    "showLess": "Tampilkan Sedikit",
+    "download": "Unduh",
+    "viewOriginal": "Lihat Asli"
+  },
+  "exploration": {
+    "label": "Eksplorasi",
+    "heading": "Hal-hal yang sedang saya bangun",
+    "description": "Log visual dari antarmuka dan eksperimen — tangkapan layar produk dan prototipe yang saya desain dan kirim."
+  },
+  "contact": {
+    "label": "Hubungi Saya",
+    "heading1": "Mari Bangun",
+    "heading2": "Sesuatu yang Elite",
+    "description": "Punya kebutuhan produk aktif, butuh engineer untuk menskalakan operasi, atau ingin mengaudit arsitektur UI Anda? Hubungi saya di bawah."
+  },
+  "contactForm": {
+    "nameLabel": "Nama",
+    "namePlaceholder": "Nama Anda…",
+    "emailLabel": "Email",
+    "emailPlaceholder": "email@anda.com…",
+    "messageLabel": "Pesan",
+    "messagePlaceholder": "Apa yang sedang Anda bangun?…",
+    "sendButton": "Kirim Pesan",
+    "sendingButton": "Mengirim...",
+    "successButton": "Terkirim!",
+    "errorButton": "Coba lagi",
+    "toastSuccessTitle": "Pesan terkirim!",
+    "toastSuccessDesc": "Saya akan membalas Anda segera.",
+    "toastErrorTitle": "Gagal mengirim",
+    "toastErrorDesc": "{message}",
+    "errors": {
+      "nameRequired": "Nama wajib diisi",
+      "nameTooLong": "Nama terlalu panjang",
+      "emailRequired": "Email wajib diisi",
+      "emailInvalid": "Masukkan email yang valid",
+      "messageRequired": "Pesan wajib diisi",
+      "messageTooLong": "Pesan terlalu panjang"
+    }
+  },
+  "footer": {
+    "copyright": "{year} Ken Zamariyan. Hak cipta dilindungi.",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+  "navbar": {
+    "home": "Beranda",
+    "projects": "Proyek",
+    "about": "Tentang",
+    "skills": "Keahlian",
+    "experience": "Pengalaman",
+    "achievements": "Pencapaian",
+    "contact": "Kontak",
+    "menuLabel": "Menu navigasi",
+    "openMenu": "Buka navigasi",
+    "closeMenu": "Tutup navigasi"
+  },
+  "commandMenu": {
+    "home": "Beranda",
+    "projects": "Proyek",
+    "about": "Tentang",
+    "skills": "Keahlian",
+    "experience": "Pengalaman",
+    "achievements": "Pencapaian",
+    "contact": "Kontak",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "Email",
+    "groupNavigate": "Navigasi",
+    "groupLinks": "Tautan"
+  },
+  "projectDetail": {
+    "backToProjects": "Kembali ke Proyek",
+    "overview": "Gambaran",
+    "screenshots": "Tangkapan Layar",
+    "techStack": "Tech Stack",
+    "challenge": "Tantangan",
+    "solution": "Solusi",
+    "impact": "Dampak",
+    "sourceCode": "Kode Sumber",
+    "liveDemo": "Demo Langsung",
+    "noScreenshots": "Belum ada tangkapan layar."
+  },
+  "techArsenal": {
+    "mastery": "Penguasaan",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "mobile": "Mobile",
+      "aiInfra": "AI & Infra"
+    }
+  },
+  "common": {
+    "skipToContent": "Lompat ke konten utama",
+    "gitHub": "GitHub",
+    "linkedin": "LinkedIn",
+    "lightMode": "Mode terang",
+    "darkMode": "Mode gelap"
+  },
+  "notFound": {
+    "title": "Halaman tidak ditemukan",
+    "description": "Halaman yang Anda cari tidak ada atau telah dipindahkan.",
+    "goHome": "Ke beranda"
+  },
+  "githubSection": {
+    "noData": "Data kontribusi tidak tersedia.",
+    "contributions": "kontribusi dalam setahun terakhir"
+  },
+  "visitor": {
+    "count": "pengunjung",
+    "offline": "offline",
+    "unavailable": "Jumlah pengunjung tidak tersedia"
+  },
+  "certificates": {
+    "bnsp": {
+      "title": "Certified Programmer — Software Development",
+      "issuer": "BNSP (Badan Nasional Sertifikasi Profesi)",
+      "year": "2026",
+      "description": "Sertifikasi profesi nasional Indonesia yang memvalidasi kompetensi dalam pengembangan perangkat lunak — termasuk fundamental pemrograman, desain sistem, dan arsitektur aplikasi."
+    },
+    "googleAi": {
+      "title": "AI Professional Certificate",
+      "issuer": "Google",
+      "year": "2026",
+      "description": "Sertifikasi komprehensif dalam kecerdasan buatan — mencakup alur kerja ML, alat Google AI, prompt engineering, dan praktik penerapan AI yang bertanggung jawab."
+    },
+    "hubspot": {
+      "title": "CMS For Developer II",
+      "issuer": "HubSpot Academy",
+      "year": "2026",
+      "description": "Sertifikasi pengembangan CMS HubSpot tingkat lanjut — modul kustom, serverless functions, integrasi HubDB, dan penerapan aplikasi marketplace."
+    },
+    "micro1": {
+      "title": "Certified Full-Stack Developer",
+      "issuer": "micro1",
+      "year": "2026",
+      "description": "Sertifikasi full-stack engineering yang divalidasi industri, menilai kemahiran di seluruh teknologi frontend, backend, database, dan deployment cloud."
+    },
+    "juaraVibeCoding": {
+      "title": "Top 100 — JuaraVibeCoding",
+      "issuer": "JuaraVibeCoding",
+      "year": "2026",
+      "description": "Diakui di antara 100 peserta teratas dalam kompetisi coding nasional, menunjukkan kemampuan pemecahan masalah algoritmik dan rekayasa perangkat lunak yang kuat."
+    },
+    "programmingFundamental": {
+      "title": "Programming Fundamental",
+      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+      "year": "2026",
+      "description": "Sertifikasi nasional Indonesia dalam konsep pemrograman inti — algoritma, struktur data, dan pemrograman berorientasi objek dengan penilaian praktis."
+    },
+    "intermediateWeb": {
+      "title": "Intermediate Assistant Web Developer",
+      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+      "year": "2026",
+      "description": "Sertifikasi nasional Indonesia dalam pengembangan web tingkat menengah — framework frontend, integrasi REST API, dan manajemen database relasional."
+    },
+    "fundamentalWeb": {
+      "title": "Fundamental of Assistant Web Developer",
+      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+      "year": "2026",
+      "description": "Sertifikasi nasional Indonesia dalam pengembangan web dasar — HTML, CSS, JavaScript, desain responsif, dan rekayasa front-end dasar."
+    },
+    "fullstackNasional": {
+      "title": "Front-End & Back-End Development",
+      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
+      "year": "2026",
+      "description": "Sertifikasi nasional Indonesia dalam pengembangan web full-stack — mencakup framework frontend, API backend, integrasi database, dan alur kerja deployment produksi."
+    }
+  }
+}
