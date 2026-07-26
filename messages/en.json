@@ -35,7 +35,7 @@
   "about": {
     "label": "About Me",
     "heading": "Building reliable digital products with clarity and purpose.",
-    "description": "Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under {time} to offline-first mobile POS serving {users} cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.",
+    "description": "Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under <time>15 seconds</time> to offline-first mobile POS serving <users>1,500+</users> cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.",
     "time": "15 seconds",
     "users": "1,500+",
     "infoItems": {

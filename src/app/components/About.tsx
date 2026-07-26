@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
 import { Calendar, MapPin, Briefcase, Clock, Globe, Sparkles } from "lucide-react";
 import { easeOut } from "../utils/animations";
@@ -9,23 +10,24 @@ import { techArsenal } from "../data/techArsenal";
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import TechArsenal from "./TechArsenal";
 
-const infoItems = [
-  { icon: Calendar, label: "4+ Years Experience", desc: "Full-stack & mobile product engineering", badgeIcon: Clock, color: "#3B82F6" },
-  { icon: MapPin, label: "Based in Indonesia", desc: "Remote-friendly, global timezone", badgeIcon: Globe, color: "#22C55E" },
-  { icon: Briefcase, label: "Open to Freelance & Collaboration", desc: "Available for contracts & partnerships", badgeIcon: Sparkles, color: "#F59E0B" },
-];
-
 const formatThousands = (n: number) => Math.round(n).toLocaleString();
 
 export default function About() {
+  const t = useTranslations("about");
   const [hoveredStat, setHoveredStat] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
 
+  const infoItems = [
+    { icon: Calendar, label: t("infoItems.experience.label"), desc: t("infoItems.experience.desc"), badgeIcon: Clock, color: "#3B82F6" },
+    { icon: MapPin, label: t("infoItems.location.label"), desc: t("infoItems.location.desc"), badgeIcon: Globe, color: "#22C55E" },
+    { icon: Briefcase, label: t("infoItems.freelance.label"), desc: t("infoItems.freelance.desc"), badgeIcon: Sparkles, color: "#F59E0B" },
+  ];
+
   const stats = [
-    { value: projects.length, label: "Projects Shipped", suffix: "+", reveal: "contracts · mobile · AI" },
-    { value: 4, label: "Years Experience", reveal: "since 2020" },
-    { value: techArsenal.length, label: "Technologies", reveal: "react → go" },
-    { value: 1500, label: "Users Served", suffix: "+", format: formatThousands, reveal: "served worldwide" },
+    { value: projects.length, label: t("stats.projects.label"), suffix: "+", reveal: t("stats.projects.reveal") },
+    { value: 4, label: t("stats.years.label"), reveal: t("stats.years.reveal") },
+    { value: techArsenal.length, label: t("stats.technologies.label"), reveal: t("stats.technologies.reveal") },
+    { value: 1500, label: t("stats.users.label"), suffix: "+", format: formatThousands, reveal: t("stats.users.reveal") },
   ];
 
   return (
@@ -37,13 +39,12 @@ export default function About() {
             viewport={{ once: true }} transition={{ duration: 0.5, ease: easeOut }}
             className="space-y-6 md:col-span-7"
           >
-            <p className="label text-ink-muted">About Me</p>
-            <h2 className="display-xl text-balance">Building reliable digital products with clarity and purpose.</h2>
-            <p className="body-base">Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under{" "}
-              <strong className="font-semibold text-ink tabular-nums">15 seconds</strong>
-              {" "}to offline-first mobile POS serving{" "}
-              <strong className="font-semibold text-ink tabular-nums">1,500+</strong>
-              {" "}cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.</p>
+            <p className="label text-ink-muted">{t("label")}</p>
+            <h2 className="display-xl text-balance">{t("heading")}</h2>
+            <p className="body-base">{t.rich("description", {
+              time: (chunks) => <strong className="font-semibold text-ink tabular-nums">{chunks}</strong>,
+              users: (chunks) => <strong className="font-semibold text-ink tabular-nums">{chunks}</strong>
+            })}</p>
           </motion.div>
           <div className="space-y-8 md:col-span-5">
             {infoItems.map((item, i) => (
@@ -113,7 +114,7 @@ export default function About() {
           viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-20 pt-10 border-t border-hairline"
         >
-          <p className="label text-ink-muted text-center mb-6">Technology Arsenal</p>
+          <p className="label text-ink-muted text-center mb-6">{t("techArsenalLabel")}</p>
           <TechArsenal />
         </motion.div>
       </div>

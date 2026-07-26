@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import Image from "next/image";
 import { Download, Send, X, ChevronDown } from "lucide-react";
@@ -9,12 +10,6 @@ import { useHoverCapable } from "@/lib/hooks/use-hover-capable";
 import { SiReact, SiTypescript, SiGo, SiNextdotjs, SiTailwindcss, SiPostgresql, SiDocker, SiPython, SiExpress, SiNodedotjs, SiMongodb, SiGit, SiLinkedin, SiGithub, SiGmail, SiWhatsapp } from "react-icons/si";
 import { appleSpring } from "../utils/animations";
 
-const contactLinks = [
-  { icon: SiLinkedin, label: "LinkedIn",  href: "https://www.linkedin.com/in/ken-zamariyan", color: "#0A66C2" },
-  { icon: SiGithub,   label: "GitHub",    href: "https://github.com/callmezaa",              color: "#181717" },
-  { icon: SiGmail,    label: "Email",     href: "mailto:kenzamariyan32@gmail.com",            color: "#EA4335" },
-  { icon: SiWhatsapp, label: "WhatsApp",  href: "https://wa.me/6285878221758",                color: "#25D366" },
-];
 import {
   CenterMorphModal,
   CenterMorphModalTrigger,
@@ -34,9 +29,17 @@ import { Loader } from "@/components/motion/loader";
 import ContactForm from "./ContactForm";
 
 export default function Hero() {
+  const t = useTranslations("hero");
   const [cvLoaded, setCvLoaded] = useState(false);
   const reduceMotion = useReducedMotion();
   const canHover = useHoverCapable();
+
+  const contactLinks = [
+    { icon: SiLinkedin, label: t("contactLinks.linkedin"),  href: "https://www.linkedin.com/in/ken-zamariyan", color: "#0A66C2" },
+    { icon: SiGithub,   label: t("contactLinks.github"),    href: "https://github.com/callmezaa",              color: "#181717" },
+    { icon: SiGmail,    label: t("contactLinks.email"),     href: "mailto:kenzamariyan32@gmail.com",            color: "#EA4335" },
+    { icon: SiWhatsapp, label: t("contactLinks.whatsapp"),  href: "https://wa.me/6285878221758",                color: "#25D366" },
+  ];
 
   const avatarRef = useRef<HTMLDivElement>(null);
   const enabled = !reduceMotion && canHover;
@@ -61,18 +64,18 @@ export default function Hero() {
   };
 
   const techStack = [
-    { icon: SiReact, name: "React" },
-    { icon: SiTypescript, name: "TypeScript" },
-    { icon: SiGo, name: "Go" },
-    { icon: SiNextdotjs, name: "Next.js" },
-    { icon: SiTailwindcss, name: "Tailwind" },
-    { icon: SiPostgresql, name: "PostgreSQL" },
-    { icon: SiExpress, name: "Express" },
-    { icon: SiNodedotjs, name: "Node.js" },
-    { icon: SiMongodb, name: "MongoDB" },
-    { icon: SiDocker, name: "Docker" },
-    { icon: SiPython, name: "Python" },
-    { icon: SiGit, name: "Git" },
+    { icon: SiReact, name: t("techStack.react") },
+    { icon: SiTypescript, name: t("techStack.typescript") },
+    { icon: SiGo, name: t("techStack.go") },
+    { icon: SiNextdotjs, name: t("techStack.nextjs") },
+    { icon: SiTailwindcss, name: t("techStack.tailwind") },
+    { icon: SiPostgresql, name: t("techStack.postgresql") },
+    { icon: SiExpress, name: t("techStack.express") },
+    { icon: SiNodedotjs, name: t("techStack.nodejs") },
+    { icon: SiMongodb, name: t("techStack.mongodb") },
+    { icon: SiDocker, name: t("techStack.docker") },
+    { icon: SiPython, name: t("techStack.python") },
+    { icon: SiGit, name: t("techStack.git") },
   ];
 
   return (
@@ -84,7 +87,7 @@ export default function Hero() {
             <div className="lg:col-span-7 w-full space-y-8 text-center lg:text-left">
               <TextReveal
                 as="h1"
-                text={["Products shipped.", "Problems solved.", "No fluff."]}
+                text={[t("headlines.0"), t("headlines.1"), t("headlines.2")]}
                 className="display-hero"
                 split="word"
                 stagger={0.08}
@@ -97,7 +100,7 @@ export default function Hero() {
                 transition={{ ...appleSpring, delay: 0.15 }}
                 className="body-base text-ink-muted max-w-xl mx-auto lg:mx-0 text-wrap-pretty"
               >
-                Full-stack engineer building AI-powered products that ship in weeks, not months.
+                {t("subheadline")}
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
@@ -110,16 +113,16 @@ export default function Hero() {
                   <CenterMorphModalTrigger>
                     <Button variant="default" size="lg" className="rounded-full shadow-sm" suppressHydrationWarning>
                       <Send data-icon="inline-start" />
-                      Get in Touch
+                      {t("getInTouch")}
                     </Button>
                   </CenterMorphModalTrigger>
                   <CenterMorphModalContent
-                    ariaLabel="Get in touch"
+                    ariaLabel={t("getInTouch")}
                     className="max-w-sm"
                   >
                     <div className="px-5 pt-5 pb-3 space-y-1">
-                      <h2 className="body-base font-bold text-ink">Get in Touch</h2>
-                      <p className="body-small text-ink-muted">Reach me through any of these.</p>
+                      <h2 className="body-base font-bold text-ink">{t("modalTitle")}</h2>
+                      <p className="body-small text-ink-muted">{t("reachMe")}</p>
                     </div>
                     <div className="px-5 pb-5 space-y-2">
                       {contactLinks.map((link) => (
@@ -151,14 +154,14 @@ export default function Hero() {
                     }
                   >
                     <Download data-icon="inline-start" />
-                    Download CV
+                    {t("downloadCv")}
                   </DialogTrigger>
                   <DialogContent
                     showCloseButton={false}
                     className="rounded-[20px] bg-popover/80 backdrop-blur-xl p-0 shadow-2 border-0 sm:max-w-3xl overflow-y-auto max-h-[85vh]"
                   >
                     <div className="flex items-center justify-between border-b border-border px-5 py-3">
-                      <DialogTitle className="button-cap text-foreground">Curriculum Vitae</DialogTitle>
+                      <DialogTitle className="button-cap text-foreground">{t("cvTitle")}</DialogTitle>
                       <DialogClose render={<Button variant="ghost" size="icon-sm" className="rounded-full" aria-label="Close" />}>
                         <X size={16} />
                       </DialogClose>
@@ -182,7 +185,7 @@ export default function Hero() {
                         download
                         className="button-cap inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                       >
-                        <Download size={12} /> Download PDF
+                        <Download size={12} /> {t("downloadPdf")}
                       </a>
                     </div>
                   </DialogContent>
@@ -201,7 +204,7 @@ export default function Hero() {
                 className="relative"
               >
                 <div className="relative h-[180px] w-[180px] lg:h-[220px] lg:w-[220px] overflow-hidden rounded-[16px] shadow-2 outline outline-1 outline-white/10 dark:outline-black/10">
-                  <Image src="/image/profile/profile-image.jpeg" alt="Ken Zamariyan" fill priority
+                  <Image src="/image/profile/profile-image.jpeg" alt={t("name")} fill priority
                     sizes="(max-width: 1024px) 180px, 220px" className="object-cover object-[center_60%]" />
                   {enabled ? (
                     <motion.div aria-hidden style={{ background: glow }} className="pointer-events-none absolute inset-0 mix-blend-screen" />
@@ -223,8 +226,8 @@ export default function Hero() {
                 transition={{ ...appleSpring, delay: 0.35 }}
                 className="mt-2.5 w-full"
               >
-                <p className="body-base font-semibold text-ink text-center">Ken Zamariyan</p>
-                <p className="body-small text-ink-muted text-center">Full-Stack Developer</p>
+                <p className="body-base font-semibold text-ink text-center">{t("name")}</p>
+                <p className="body-small text-ink-muted text-center">{t("role")}</p>
               </motion.div>
             </div>
           </div>
@@ -249,7 +252,7 @@ export default function Hero() {
           transition={reduceMotion ? undefined : { repeat: Infinity, duration: 2, ease: "easeInOut" }}
           aria-hidden="true"
         >
-          <span className="label text-ink-muted/40">Scroll</span>
+          <span className="label text-ink-muted/40">{t("scroll")}</span>
           <ChevronDown size={18} className="text-ink-muted/40" />
         </motion.div>
       </section>

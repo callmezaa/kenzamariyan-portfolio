@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { SiGithub } from "react-icons/si";
 import { skillsData } from "../data/skillsData";
@@ -10,14 +11,15 @@ import { AnimatedNumber } from "@/components/motion/animated-number";
 import { Button } from "@/components/ui/button";
 import GitHubSection from "./GitHubSection";
 
-const TABS = ["All", ...skillsData.map((c) => c.title)];
-
 export default function Skills() {
+  const t = useTranslations("skills");
   const [activeTab, setActiveTab] = useState("All");
   const reduceMotion = useReducedMotion();
 
+  const TABS = [t("tabAll"), ...skillsData.map((c) => c.title)];
+
   const visible =
-    activeTab === "All"
+    activeTab === t("tabAll")
       ? skillsData
       : skillsData.filter((c) => c.title === activeTab);
 
@@ -25,12 +27,9 @@ export default function Skills() {
     <section id="skills" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="mb-10 max-w-2xl space-y-3">
-          <p className="label text-ink-muted">Capabilities</p>
-          <h2 className="display-xl text-balance">What I can deliver for you</h2>
-          <p className="body-base">
-            Grouped by outcome, not just tools — the engineering domains I use
-            to launch reliable digital products.
-          </p>
+          <p className="label text-ink-muted">{t("label")}</p>
+          <h2 className="display-xl text-balance">{t("heading")}</h2>
+          <p className="body-base">{t("description")}</p>
         </div>
 
         {/* Interactive tab filter */}
@@ -96,7 +95,7 @@ export default function Skills() {
         >
           <div className="rounded-[14px] bg-canvas-glass backdrop-blur-sm shadow-1 p-6 md:p-8">
             <div className="flex items-center justify-between mb-4">
-              <p className="label text-ink-muted">Open Source</p>
+              <p className="label text-ink-muted">{t("openSource")}</p>
               <motion.a
                 href="https://github.com/callmezaa"
                 target="_blank"
@@ -105,7 +104,7 @@ export default function Skills() {
                 className="inline-flex items-center gap-2 rounded-full border border-hairline px-4 py-1.5 body-small text-ink-muted hover:text-ink hover:border-ink/20 transition-colors"
               >
                 <SiGithub size={14} />
-                View GitHub
+                {t("viewGithub")}
               </motion.a>
             </div>
             <GitHubSection />
@@ -158,6 +157,8 @@ function SkillRow({
   skill: (typeof skillsData)[number]["skills"][number];
   index: number;
 }) {
+  const t = useTranslations("skills");
+  const yearsLabel = skill.years === 1 ? t("years") : t("yearsPlural");
   return (
     <div className="group flex cursor-default items-center gap-2 py-1">
       <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-surface-soft p-1">
@@ -175,7 +176,7 @@ function SkillRow({
       </div>
       <div className="min-w-0 flex-1">
         <Tooltip
-          content={`${skill.mastery}% · ${skill.years} yr${skill.years > 1 ? "s" : ""} experience`}
+          content={`${skill.mastery}% · ${skill.years} ${yearsLabel} experience`}
           side="right"
           delay={300}
         >
@@ -193,7 +194,7 @@ function SkillRow({
               className="h-full rounded-full bg-ink"
             />
           </div>
-          <span className="mono-sm text-ink-tertiary">{skill.years} yr</span>
+          <span className="mono-sm text-ink-tertiary">{skill.years} {yearsLabel}</span>
           <AnimatedNumber
             value={skill.mastery}
             duration={0.6}
