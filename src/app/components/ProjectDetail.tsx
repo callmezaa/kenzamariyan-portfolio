@@ -10,6 +10,7 @@ import type { Project } from "../data/projects";
 import { techDescriptions } from "../data/projects";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/motion/tabs";
 import MetricCards from "./project-detail/MetricCards";
 import ArchitectureSection from "./project-detail/ArchitectureSection";
 import AIPipelineSection from "./project-detail/AIPipelineSection";
@@ -277,20 +278,23 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             <>
               {/* Sticky Section Nav */}
               <nav className="sticky top-16 z-30 -mx-6 md:-mx-8 px-6 md:px-8 py-3 bg-canvas/80 backdrop-blur-lg border-b border-border">
-                <div className="flex gap-1 overflow-x-auto hide-scrollbar">
-                  {NAV_SECTIONS.map((section) => (
-                    <button
-                      key={section}
-                      onClick={() => scrollToSection(section)}
-                      className={`label px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors cursor-pointer ${
-                        activeSection === section
-                          ? "bg-foreground text-canvas"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                      }`}
-                    >
-                      {t(section)}
-                    </button>
-                  ))}
+                <div className="flex justify-center">
+                  <Tabs
+                    value={activeSection}
+                    onValueChange={(v) => {
+                      setActiveSection(v);
+                      scrollToSection(v);
+                    }}
+                    variant="pill"
+                  >
+                    <TabsList>
+                      {NAV_SECTIONS.map((section) => (
+                        <TabsTrigger key={section} value={section}>
+                          {t(section)}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </Tabs>
                 </div>
               </nav>
 
