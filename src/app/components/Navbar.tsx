@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 import { useTheme } from "./ThemeProvider";
 import { Button } from "@/components/ui/button";
 import { Drawer } from "@/components/motion/drawer";
@@ -12,15 +13,25 @@ import { ThemeToggle } from "@/components/motion/theme-toggle";
 import { Tooltip } from "@/components/motion/tooltip";
 import { LanguageToggle } from "./LanguageToggle";
 
-const sections = ["home", "projects", "about", "skills", "experience", "achievements", "contact"];
-
 export default function Navbar() {
+  const t = useTranslations("navbar");
+  const c = useTranslations("common");
   const { theme } = useTheme();
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const navHeight = useRef(80);
+
+  const sections = [
+    { id: "home", label: t("home") },
+    { id: "projects", label: t("projects") },
+    { id: "about", label: t("about") },
+    { id: "skills", label: t("skills") },
+    { id: "experience", label: t("experience") },
+    { id: "achievements", label: t("achievements") },
+    { id: "contact", label: t("contact") },
+  ];
 
   useEffect(() => {
     const measure = () => {
@@ -42,7 +53,7 @@ export default function Navbar() {
     const threshold = navHeight.current;
     const observers: IntersectionObserver[] = [];
 
-    sections.forEach((id) => {
+    sections.forEach(({ id }) => {
       const el = document.getElementById(id);
       if (!el) return;
       const observer = new IntersectionObserver(
@@ -71,8 +82,6 @@ export default function Navbar() {
     });
   };
 
-  const capitalize = (s: string) => (s === "playground" ? "Playground" : s.charAt(0).toUpperCase() + s.slice(1));
-
   return (
     <header ref={headerRef} className={`fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-3 transition-[background-color,box-shadow,backdrop-filter] duration-500 ${
       scrolled
@@ -86,37 +95,37 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-0.5">
-          {sections.map((item) => (
+          {sections.map(({ id, label }) => (
             <Button
-              key={item}
-              onClick={() => scrollToSection(item)}
+              key={id}
+              onClick={() => scrollToSection(id)}
               variant="ghost"
               size="sm"
-              aria-current={active === item ? "page" : undefined}
+              aria-current={active === id ? "page" : undefined}
               className={`rounded-full ${
-                active === item
+                active === id
                   ? "text-ink bg-surface-active"
                   : "text-ink-muted hover:text-ink hover:bg-surface-hover"
               }`}
             >
-              {capitalize(item)}
+              {label}
             </Button>
           ))}
         </div>
 
         <div className="hidden md:flex items-center gap-1 rounded-full border border-hairline/50 px-3 py-1">
-          <Tooltip content="GitHub" side="bottom">
-            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-surface-hover" nativeButton={false} render={<a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" />}>
+          <Tooltip content={c("gitHub")} side="bottom">
+            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-surface-hover" nativeButton={false} render={<a href="https://github.com/callmezaa" target="_blank" rel="me noopener noreferrer" aria-label={c("gitHub")} />}>
               <FaGithub size={16} />
             </Button>
           </Tooltip>
-          <Tooltip content="LinkedIn" side="bottom">
-            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-surface-hover" nativeButton={false} render={<a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" />}>
+          <Tooltip content={c("linkedin")} side="bottom">
+            <Button variant="ghost" size="icon-sm" className="rounded-full text-ink-muted hover:text-ink hover:bg-surface-hover" nativeButton={false} render={<a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="me noopener noreferrer" aria-label={c("linkedin")} />}>
               <FaLinkedin size={16} />
             </Button>
           </Tooltip>
           <LanguageToggle />
-          <Tooltip content={theme === "dark" ? "Light mode" : "Dark mode"} side="bottom">
+          <Tooltip content={theme === "dark" ? c("lightMode") : c("darkMode")} side="bottom">
             <ThemeToggle variant="rectangle" start="bottom-up" iconClassName="h-4 w-4" className="rounded-full p-1.5" />
           </Tooltip>
         </div>
@@ -124,7 +133,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 md:hidden">
           <LanguageToggle />
           <ThemeToggle variant="rectangle" start="bottom-up" iconClassName="h-4 w-4" className="rounded-full p-1.5" />
-          <Button type="button" variant="ghost" size="icon-sm" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
+          <Button type="button" variant="ghost" size="icon-sm" aria-label={menuOpen ? t("closeMenu") : t("openMenu")} aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
             className="rounded-full text-ink-muted hover:text-ink hover:bg-surface-hover">
             {menuOpen ? <X size={15} /> : <Menu size={15} />}
@@ -137,31 +146,31 @@ export default function Navbar() {
         onOpenChange={setMenuOpen}
         side="right"
         className="w-72 p-6 gap-4"
-        ariaLabel="Navigation menu"
+        ariaLabel={t("menuLabel")}
       >
         <div className="flex flex-col gap-2">
-          {sections.map((item) => (
+          {sections.map(({ id, label }) => (
             <Button
-              key={item}
-              onClick={() => scrollToSection(item)}
+              key={id}
+              onClick={() => scrollToSection(id)}
               variant="ghost"
-              aria-current={active === item ? "page" : undefined}
+              aria-current={active === id ? "page" : undefined}
               className={`flex h-11 items-center justify-start rounded-full px-4 text-sm font-medium ${
-                active === item
+                active === id
                   ? "bg-surface-active text-ink"
                   : "text-ink-muted hover:text-ink hover:bg-surface-hover"
               }`}
             >
-              {capitalize(item)}
+              {label}
             </Button>
           ))}
         </div>
         <div className="flex items-center gap-4 pt-3 border-t border-hairline">
           <a href="https://github.com/callmezaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
-            <FaGithub size={18} /><span className="label">GitHub</span>
+            <FaGithub size={18} /><span className="label">{c("gitHub")}</span>
           </a>
           <a href="https://www.linkedin.com/in/ken-zamariyan-10b140318/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-ink-muted hover:text-ink" onClick={closeMenu}>
-            <FaLinkedin size={18} /><span className="label">LinkedIn</span>
+            <FaLinkedin size={18} /><span className="label">{c("linkedin")}</span>
           </a>
         </div>
       </Drawer>

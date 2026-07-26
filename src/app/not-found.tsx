@@ -1,14 +1,17 @@
+import { getTranslations } from "next-intl/server";
 import { NotFoundGlitch } from "@/components/motion/not-found/glitch";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const t = await getTranslations("notFound");
+
   return (
     <main id="main-content">
       <NotFoundGlitch
         code="404"
-        title="Page not found"
-        description="The page you're looking for doesn't exist or has been moved."
+        title={t("title")}
+        description={t("description")}
         homeHref="/"
-        homeLabel="Go home"
+        homeLabel={t("goHome")}
       />
     </main>
   );

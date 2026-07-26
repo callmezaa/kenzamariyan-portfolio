@@ -1,20 +1,23 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Mail, MessageCircle, Briefcase, Code2 } from "lucide-react";
 
-const socials = [
-  { icon: Mail, href: "mailto:kenzamariyan32@gmail.com", label: "Email" },
-  { icon: MessageCircle, href: "https://wa.me/6285878221758", label: "WhatsApp" },
-  { icon: Briefcase, href: "https://www.linkedin.com/in/ken-zamariyan", label: "LinkedIn" },
-  { icon: Code2, href: "https://github.com/callmezaa", label: "GitHub" },
-];
-
 export default function Footer() {
+  const t = useTranslations("footer");
+
+  const socials = [
+    { icon: Mail, href: "mailto:kenzamariyan32@gmail.com", label: t("email") },
+    { icon: MessageCircle, href: "https://wa.me/6285878221758", label: t("whatsapp") },
+    { icon: Briefcase, href: "https://www.linkedin.com/in/ken-zamariyan", label: t("linkedin") },
+    { icon: Code2, href: "https://github.com/callmezaa", label: t("github") },
+  ];
+
   return (
     <footer className="px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 md:flex-row md:justify-between">
         <p className="body-small text-ink-muted text-center md:text-left">
-          &copy; 2026 Ken Zamariyan. All rights reserved.
+          {t("copyright", { year: "2026" })}
         </p>
         <div className="flex items-center gap-2">
           {socials.map((s) => (
