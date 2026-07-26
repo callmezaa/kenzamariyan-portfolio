@@ -18,7 +18,7 @@ export default function MetricCards({ metrics, accent }: MetricCardsProps) {
       viewport={{ once: true, amount: 0.3 }}
       className="grid grid-cols-2 md:grid-cols-4 gap-3"
     >
-      {metrics.map((metric) => {
+      {metrics.map((metric, i) => {
         const match = metric.match(/^([<>\d.]+)\s*(.*)$/);
         const number = match ? parseFloat(match[1].replace(/[<>]/g, "")) : null;
         const prefix = match && match[1].startsWith("<") ? "< " : undefined;
@@ -26,15 +26,14 @@ export default function MetricCards({ metrics, accent }: MetricCardsProps) {
 
         return (
           <motion.div
-            key={metric}
+            key={`${metric}-${i}`}
             variants={staggerItem}
             className="rounded-xl border border-border bg-canvas-card p-4 text-center space-y-1"
             style={{ boxShadow: `0 0 20px ${accent.glow}` }}
           >
             {number !== null ? (
-              <div className="display-lg text-foreground">
-                {prefix && <span className="text-muted-foreground body-small">{prefix}</span>}
-                <NumberTicker value={number} duration={0.8} stagger={0.05} />
+              <div className="display-lg" style={{ color: accent.color }}>
+                <NumberTicker value={number} prefix={prefix} duration={0.8} stagger={0.05} />
               </div>
             ) : (
               <div className="display-lg text-foreground">{metric.split(" ")[0]}</div>
