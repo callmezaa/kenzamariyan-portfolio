@@ -2,6 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { GeistSans, GeistMono } from "geist/font";
 import { JetBrains_Mono, Geist } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import LayoutClient from "./components/LayoutClient";
 import { cn } from "@/lib/utils";
 
@@ -62,10 +64,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={cn("font-sans", geist.variable)}
       data-theme="light"
       style={{ colorScheme: "light" }}
@@ -81,7 +86,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to main content
         </a>
-        <LayoutClient>{children}</LayoutClient>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <LayoutClient>{children}</LayoutClient>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

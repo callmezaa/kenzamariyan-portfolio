@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Drawer } from "@/components/motion/drawer";
 import { ThemeToggle } from "@/components/motion/theme-toggle";
 import { Tooltip } from "@/components/motion/tooltip";
+import { LanguageToggle } from "./LanguageToggle";
 
 const sections = ["home", "projects", "about", "skills", "experience", "achievements", "contact"];
 
@@ -114,12 +115,14 @@ export default function Navbar() {
               <FaLinkedin size={16} />
             </Button>
           </Tooltip>
+          <LanguageToggle />
           <Tooltip content={theme === "dark" ? "Light mode" : "Dark mode"} side="bottom">
             <ThemeToggle variant="rectangle" start="bottom-up" iconClassName="h-4 w-4" className="rounded-full p-1.5" />
           </Tooltip>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
+          <LanguageToggle />
           <ThemeToggle variant="rectangle" start="bottom-up" iconClassName="h-4 w-4" className="rounded-full p-1.5" />
           <Button type="button" variant="ghost" size="icon-sm" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
