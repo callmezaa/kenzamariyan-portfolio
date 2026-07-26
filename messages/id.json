@@ -97,7 +97,10 @@
   "exploration": {
     "label": "Eksplorasi",
     "heading": "Hal-hal yang sedang saya bangun",
-    "description": "Log visual dari antarmuka dan eksperimen — tangkapan layar produk dan prototipe yang saya desain dan kirim."
+    "description": "Log visual dari antarmuka dan eksperimen — tangkapan layar produk dan prototipe yang saya desain dan kirim.",
+    "prev": "Sebelumnya",
+    "next": "Berikutnya",
+    "close": "Tutup"
   },
   "contact": {
     "label": "Hubungi Saya",
@@ -188,7 +191,9 @@
     "gitHub": "GitHub",
     "linkedin": "LinkedIn",
     "lightMode": "Mode terang",
-    "darkMode": "Mode gelap"
+    "darkMode": "Mode gelap",
+    "switchToEn": "Ganti ke Bahasa Inggris",
+    "switchToId": "Ganti ke Bahasa Indonesia"
   },
   "notFound": {
     "title": "Halaman tidak ditemukan",

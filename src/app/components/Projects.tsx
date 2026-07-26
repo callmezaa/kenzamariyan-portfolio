@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useMemo } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
 import { LayoutGrid, List, ArrowRight } from "lucide-react";
-import { PROJECT_CATEGORIES, CATEGORY_TABS } from "../data/projects";
+import { getLocalizedProjects } from "@/i18n/data";
+import type { Locale } from "@/i18n/request";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
@@ -22,15 +23,34 @@ const projectImages: Record<string, string> = {
   "pallete-studio": "/image/PalleteStudio/mockup.png",
 };
 
+const CATEGORY_TABS = ["All", "Web App", "Mobile", "Playground"] as const;
+
 type ViewMode = "grid" | "list";
 
 export default function Projects() {
   const t = useTranslations("projects");
+  const locale = useLocale();
   const [view, setView] = useState<ViewMode>("grid");
   const [activeTab, setActiveTab] = useState<string>("All");
   const reduceMotion = useReducedMotion();
 
-  const visible = PROJECT_CATEGORIES[activeTab] ?? [];
+  const PROJECT_CATEGORIES = useMemo(() => {
+    const localized = getLocalizedProjects(locale as Locale);
+    return {
+      All: localized,
+      "Web App": localized.filter((p) =>
+        ["contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
+      ),
+      Mobile: localized.filter((p) =>
+        ["gotani-pos", "mercato", "nextalk"].includes(p.slug)
+      ),
+      Playground: localized.filter((p) =>
+        ["pallete-studio"].includes(p.slug)
+      ),
+    } as const;
+  }, [locale]);
+
+  const visible = PROJECT_CATEGORIES[activeTab as keyof typeof PROJECT_CATEGORIES] ?? [];
   const empty = visible.length === 0;
 
   return (

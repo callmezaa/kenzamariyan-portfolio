@@ -1,20 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useMemo } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { motion } from "motion/react";
-import { techArsenal, categories, type Category } from "../data/techArsenal";
+import { categories, type Category, type TechItem } from "../data/techArsenal";
+import { getLocalizedTechArsenal } from "@/i18n/data";
+import type { Locale } from "@/i18n/request";
 import { Button } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
 } from "@/components/ui/hover-card";
-
-const categoryCounts = categories.reduce<Record<string, number>>((acc, cat) => {
-  acc[cat] = techArsenal.filter((t) => t.category === cat).length;
-  return acc;
-}, {});
 
 const categoryLabelMap: Record<string, string> = {
   Frontend: "categories.frontend",
@@ -25,7 +22,14 @@ const categoryLabelMap: Record<string, string> = {
 
 export default function TechArsenal() {
   const t = useTranslations("techArsenal");
+  const locale = useLocale();
+  const techArsenal = useMemo(() => getLocalizedTechArsenal(locale as Locale), [locale]);
   const [activeCategory, setActiveCategory] = useState<Category>("Frontend");
+
+  const categoryCounts = useMemo(() => categories.reduce<Record<string, number>>((acc, cat) => {
+    acc[cat] = techArsenal.filter((t) => t.category === cat).length;
+    return acc;
+  }, {}), [techArsenal]);
 
   const filtered = techArsenal.filter((t) => t.category === activeCategory);
 
@@ -62,7 +66,7 @@ export default function TechArsenal() {
   );
 }
 
-function TechChip({ tech, masteryLabel }: { tech: (typeof techArsenal)[number]; masteryLabel: string }) {
+function TechChip({ tech, masteryLabel }: { tech: TechItem; masteryLabel: string }) {
   return (
     <motion.div
       variants={{

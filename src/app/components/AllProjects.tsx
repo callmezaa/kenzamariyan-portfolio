@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useMemo } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { motion } from "motion/react";
 import { LayoutGrid, List, ArrowLeft } from "lucide-react";
-import { projects } from "../data/projects";
+import { getLocalizedProjects } from "@/i18n/data";
+import type { Locale } from "@/i18n/request";
 import { easeOut } from "../utils/animations";
 import { TiltCard } from "@/components/motion/tilt-card";
 
@@ -26,6 +27,8 @@ type ViewMode = "grid" | "list";
 export default function AllProjects() {
   const t = useTranslations("projects");
   const pd = useTranslations("projectDetail");
+  const locale = useLocale();
+  const projects = useMemo(() => getLocalizedProjects(locale as Locale), [locale]);
   const [view, setView] = useState<ViewMode>("grid");
 
   return (

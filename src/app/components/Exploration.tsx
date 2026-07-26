@@ -1,28 +1,31 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { X } from "lucide-react";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
-import { explorations } from "../data/explorations";
+import { getLocalizedExplorations } from "@/i18n/data";
+import type { Locale } from "@/i18n/request";
 
 export default function Exploration() {
   const t = useTranslations("exploration");
+  const locale = useLocale();
+  const items = useMemo(() => getLocalizedExplorations(locale as Locale), [locale]);
   const [active, setActive] = useState<number | null>(null);
   const open = active !== null;
 
   const close = useCallback(() => setActive(null), []);
   const prev = useCallback(
-    () => setActive((i) => (i === null ? i : (i - 1 + explorations.length) % explorations.length)),
-    [],
+    () => setActive((i) => (i === null ? i : (i - 1 + items.length) % items.length)),
+    [items.length],
   );
   const next = useCallback(
-    () => setActive((i) => (i === null ? i : (i + 1) % explorations.length)),
-    [],
+    () => setActive((i) => (i === null ? i : (i + 1) % items.length)),
+    [items.length],
   );
 
   useEffect(() => {
@@ -52,7 +55,7 @@ export default function Exploration() {
         </motion.div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {explorations.map((item, i) => (
+          {items.map((item, i) => (
             <motion.div
               key={item.slug}
               initial={{ opacity: 0, y: 16 }}
@@ -111,7 +114,7 @@ export default function Exploration() {
             <motion.div
               role="dialog"
               aria-modal="true"
-              aria-label={explorations[active].title}
+              aria-label={items[active].title}
               initial={{ opacity: 0, scale: 0.95, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 8 }}
@@ -126,19 +129,19 @@ export default function Exploration() {
                     variant="ghost"
                     size="icon-sm"
                     className="rounded-full text-ink-muted hover:text-ink"
-                    aria-label="Previous"
+                    aria-label={t('prev')}
                   >
                     <span className="text-base leading-none">&larr;</span>
                   </Button>
                   <span className="body-small text-ink-muted">
-                    {active + 1} / {explorations.length}
+                    {active + 1} / {items.length}
                   </span>
                   <Button
                     onClick={next}
                     variant="ghost"
                     size="icon-sm"
                     className="rounded-full text-ink-muted hover:text-ink"
-                    aria-label="Next"
+                    aria-label={t('next')}
                   >
                     <span className="text-base leading-none">&rarr;</span>
                   </Button>
@@ -148,7 +151,7 @@ export default function Exploration() {
                   variant="ghost"
                   size="icon-sm"
                   className="rounded-full text-ink-muted hover:text-ink"
-                  aria-label="Close"
+                  aria-label={t('close')}
                 >
                   <X size={16} />
                 </Button>
@@ -157,8 +160,8 @@ export default function Exploration() {
               <div className="relative flex items-center justify-center bg-canvas p-4 md:p-6">
                 <div className="relative aspect-[4/3] w-full max-h-[70vh]">
                   <Image
-                    src={explorations[active].image}
-                    alt={explorations[active].title}
+                    src={items[active].image}
+                    alt={items[active].title}
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, 60vw"
@@ -169,14 +172,14 @@ export default function Exploration() {
 
               <div className="space-y-1 border-t border-hairline p-5">
                 <div className="flex items-center gap-2">
-                  <h3 className="body-base font-semibold text-ink">{explorations[active].title}</h3>
-                  {explorations[active].tag && (
+                  <h3 className="body-base font-semibold text-ink">{items[active].title}</h3>
+                  {items[active].tag && (
                     <span className="rounded-full bg-surface-soft px-2.5 py-0.5 label text-ink-tertiary">
-                      {explorations[active].tag}
+                      {items[active].tag}
                     </span>
                   )}
                 </div>
-                <p className="body-small text-ink-muted">{explorations[active].caption}</p>
+                <p className="body-small text-ink-muted">{items[active].caption}</p>
               </div>
             </motion.div>
           </motion.div>

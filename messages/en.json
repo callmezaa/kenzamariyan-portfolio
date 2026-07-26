@@ -97,7 +97,10 @@
   "exploration": {
     "label": "Exploration",
     "heading": "Things I've been building",
-    "description": "A visual log of interfaces and experiments — screenshots of products and prototypes I've designed and shipped."
+    "description": "A visual log of interfaces and experiments — screenshots of products and prototypes I've designed and shipped.",
+    "prev": "Previous",
+    "next": "Next",
+    "close": "Close"
   },
   "contact": {
     "label": "Get In Touch",
@@ -188,7 +191,9 @@
     "gitHub": "GitHub",
     "linkedin": "LinkedIn",
     "lightMode": "Light mode",
-    "darkMode": "Dark mode"
+    "darkMode": "Dark mode",
+    "switchToEn": "Switch to English",
+    "switchToId": "Switch to Indonesian"
   },
   "notFound": {
     "title": "Page not found",

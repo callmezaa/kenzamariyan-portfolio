@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useMemo } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { SiGithub } from "react-icons/si";
-import { skillsData } from "../data/skillsData";
+import { getLocalizedSkills } from "@/i18n/data";
+import type { Locale } from "@/i18n/request";
+import type { SkillCategory, SkillItem } from "../data/skillsData";
 import { staggerContainer, staggerItem, easeOut } from "../utils/animations";
 import { Tooltip } from "@/components/motion/tooltip";
 import { AnimatedNumber } from "@/components/motion/animated-number";
@@ -13,7 +15,9 @@ import GitHubSection from "./GitHubSection";
 
 export default function Skills() {
   const t = useTranslations("skills");
-  const TABS = [t("tabAll"), ...skillsData.map((c) => c.title)];
+  const locale = useLocale();
+  const skillsData = useMemo(() => getLocalizedSkills(locale as Locale), [locale]);
+  const TABS = useMemo(() => [t("tabAll"), ...skillsData.map((c) => c.title)], [t, skillsData]);
   const [activeTab, setActiveTab] = useState(TABS[0]);
   const reduceMotion = useReducedMotion();
 
@@ -114,7 +118,7 @@ export default function Skills() {
   );
 }
 
-function SkillCard({ category }: { category: (typeof skillsData)[number] }) {
+function SkillCard({ category }: { category: SkillCategory }) {
   return (
     <motion.div
       variants={staggerItem}
@@ -153,7 +157,7 @@ function SkillRow({
   skill,
   index,
 }: {
-  skill: (typeof skillsData)[number]["skills"][number];
+  skill: SkillItem;
   index: number;
 }) {
   const t = useTranslations("skills");

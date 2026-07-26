@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { GeistSans, GeistMono } from "geist/font";
 import { JetBrains_Mono, Geist } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import LayoutClient from "./components/LayoutClient";
 import { cn } from "@/lib/utils";
 
@@ -84,7 +84,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           href="#main-content"
           className="fixed -top-full left-4 z-[100] rounded-b-md bg-ink px-4 py-2.5 text-sm font-semibold text-canvas transition-[top,outline-offset] duration-200 focus:top-0 focus:outline-2 focus:outline-offset-0 focus:outline-ink"
         >
-          Skip to main content
+          {(await getTranslations("common"))("skipToContent")}
         </a>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <LayoutClient>{children}</LayoutClient>
