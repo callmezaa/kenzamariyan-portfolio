@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { easeOut } from "../utils/animations";
 
@@ -30,6 +31,7 @@ interface WeekData {
 }
 
 export default function GitHubSection() {
+  const t = useTranslations("githubSection");
   const [data, setData] = useState<{ total: number; weeks: WeekData[] } | null>(null);
   const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -132,7 +134,7 @@ export default function GitHubSection() {
         </div>
       ) : loaded ? (
         <div className="flex items-center justify-center h-[140px]">
-          <p className="body-small text-ink-tertiary">No contribution data available.</p>
+          <p className="body-small text-ink-tertiary">{t('noData')}</p>
         </div>
       ) : (
         <div className="flex items-center justify-center h-[140px]">
@@ -150,7 +152,7 @@ export default function GitHubSection() {
 
       {data && (
         <p className="body-small text-ink-muted mt-4">
-          <strong className="font-semibold text-ink tabular-nums">{data.total.toLocaleString()}</strong> contributions in the last year
+          <strong className="font-semibold text-ink tabular-nums">{data.total.toLocaleString()}</strong> {t('contributions')}
         </p>
       )}
     </div>

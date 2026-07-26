@@ -1,10 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { easeOut } from "../utils/animations";
 import ContactForm from "./ContactForm";
 
 export default function Contact() {
+  const t = useTranslations("contact");
   return (
     <section id="contact" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
@@ -19,7 +21,7 @@ export default function Contact() {
                 transition={{ duration: 0.3, ease: easeOut }}
                 className="label text-ink-muted"
               >
-                Get In Touch
+                {t('label')}
               </motion.p>
               <div className="space-y-1">
                 <motion.h2
@@ -29,7 +31,7 @@ export default function Contact() {
                   transition={{ duration: 0.4, ease: easeOut }}
                   className="display-xl leading-tight text-balance text-ink"
                 >
-                  Let&rsquo;s Build
+                  {t('heading1')}
                 </motion.h2>
                 <motion.h2
                   initial={{ opacity: 0, y: 12 }}
@@ -38,7 +40,7 @@ export default function Contact() {
                   transition={{ duration: 0.4, ease: easeOut, delay: 0.1 }}
                   className="display-xl leading-tight text-balance text-ink"
                 >
-                  Something Elite
+                  {t('heading2')}
                   <motion.span
                     animate={{ opacity: [1, 0] }}
                     transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }}
@@ -53,9 +55,7 @@ export default function Contact() {
                 transition={{ duration: 0.4, ease: easeOut, delay: 0.2 }}
                 className="body-base"
               >
-                Have an active product requirement, need an engineer to scale
-                operations, or want to audit your UI architecture? Reach out
-                below.
+                {t('description')}
               </motion.p>
             </div>
 

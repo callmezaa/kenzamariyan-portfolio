@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { techArsenal, categories, type Category } from "../data/techArsenal";
 import { Button } from "@/components/ui/button";
@@ -15,7 +16,15 @@ const categoryCounts = categories.reduce<Record<string, number>>((acc, cat) => {
   return acc;
 }, {});
 
+const categoryLabelMap: Record<string, string> = {
+  Frontend: "categories.frontend",
+  Backend: "categories.backend",
+  Mobile: "categories.mobile",
+  "AI & Infra": "categories.aiInfra",
+};
+
 export default function TechArsenal() {
+  const t = useTranslations("techArsenal");
   const [activeCategory, setActiveCategory] = useState<Category>("Frontend");
 
   const filtered = techArsenal.filter((t) => t.category === activeCategory);
@@ -32,7 +41,7 @@ export default function TechArsenal() {
             aria-pressed={activeCategory === cat}
             className="rounded-full"
           >
-            {cat}
+            {t(categoryLabelMap[cat])}
             <span className="ml-1.5 mono-sm text-ink-tertiary">{categoryCounts[cat]}</span>
           </Button>
         ))}
@@ -46,14 +55,14 @@ export default function TechArsenal() {
         animate="visible"
       >
         {filtered.map((tech) => (
-          <TechChip key={tech.name} tech={tech} />
+          <TechChip key={tech.name} tech={tech} masteryLabel={t('mastery')} />
         ))}
       </motion.div>
     </div>
   );
 }
 
-function TechChip({ tech }: { tech: (typeof techArsenal)[number] }) {
+function TechChip({ tech, masteryLabel }: { tech: (typeof techArsenal)[number]; masteryLabel: string }) {
   return (
     <motion.div
       variants={{
@@ -84,7 +93,7 @@ function TechChip({ tech }: { tech: (typeof techArsenal)[number] }) {
             <p className="body-small text-muted-foreground leading-relaxed">{tech.description}</p>
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="label text-muted-foreground">Mastery</span>
+                <span className="label text-muted-foreground">{masteryLabel}</span>
                 <span className="mono-sm text-foreground">{tech.mastery}%</span>
               </div>
               <div className="h-1.5 rounded-full bg-muted overflow-hidden">

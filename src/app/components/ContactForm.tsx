@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -13,27 +14,29 @@ import {
   useAnimatedToastStack,
 } from "@/components/motion/animated-toast-stack";
 
-const formSchema = z.object({
-  name: z.string().min(1, "Name is required").max(80, "Name is too long"),
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email"),
-  message: z
-    .string()
-    .min(1, "Message is required")
-    .max(2000, "Message is too long"),
-  company: z.string().optional(),
-});
-
-type FormData = z.infer<typeof formSchema>;
-
 interface ContactFormProps {
   onSuccess?: () => void;
   inline?: boolean;
 }
 
 export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
+  const t = useTranslations("contactForm");
+
+  const formSchema = z.object({
+    name: z.string().min(1, t('errors.nameRequired')).max(80, t('errors.nameTooLong')),
+    email: z
+      .string()
+      .min(1, t('errors.emailRequired'))
+      .email(t('errors.emailInvalid')),
+    message: z
+      .string()
+      .min(1, t('errors.messageRequired'))
+      .max(2000, t('errors.messageTooLong')),
+    company: z.string().optional(),
+  });
+
+  type FormData = z.infer<typeof formSchema>;
+
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const { toasts, showToast, dismissToast } = useAnimatedToastStack({ limit: 3 });
@@ -62,7 +65,7 @@ export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
       if (!res.ok) throw new Error(body.error || "Failed to send");
       setStatus("success");
       reset();
-      showToast({ status: "success", title: "Message sent!", description: "I'll get back to you soon." });
+      showToast({ status: "success", title: t('toastSuccessTitle'), description: t('toastSuccessDesc') });
       setTimeout(() => {
         setStatus("idle");
         onSuccess?.();
@@ -71,7 +74,7 @@ export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
       setStatus("error");
       const msg = e instanceof Error ? e.message : "Something went wrong";
       setErrorMessage(msg);
-      showToast({ status: "error", title: "Failed to send", description: msg });
+      showToast({ status: "error", title: t('toastErrorTitle'), description: t('toastErrorDesc', { message: msg }) });
     }
   }, [reset, showToast, onSuccess]);
 
@@ -96,10 +99,10 @@ export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
         />
 
         <div className="space-y-1.5">
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">{t('nameLabel')}</Label>
           <Input
             id="name"
-            placeholder="Your name…"
+            placeholder={t('namePlaceholder')}
             disabled={status === "loading"}
             aria-invalid={errors.name ? true : undefined}
             aria-describedby={errors.name ? "name-error" : undefined}
@@ -113,11 +116,11 @@ export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('emailLabel')}</Label>
           <Input
             id="email"
             type="email"
-            placeholder="your@email.com…"
+            placeholder={t('emailPlaceholder')}
             disabled={status === "loading"}
             aria-invalid={errors.email ? true : undefined}
             aria-describedby={errors.email ? "email-error" : undefined}
@@ -131,10 +134,10 @@ export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="message">Message</Label>
+          <Label htmlFor="message">{t('messageLabel')}</Label>
           <Textarea
             id="message"
-            placeholder="What are you building?…"
+            placeholder={t('messagePlaceholder')}
             rows={4}
             disabled={status === "loading"}
             aria-invalid={errors.message ? true : undefined}
@@ -154,11 +157,11 @@ export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
           variant="primary"
           size="md"
           className="w-full"
-          loadingText="Sending..."
-          successText="Sent!"
-          errorText="Try again"
+          loadingText={t('sendingButton')}
+          successText={t('successButton')}
+          errorText={t('errorButton')}
         >
-          Send Message
+          {t('sendButton')}
         </StatefulButton>
 
         {status === "error" && (

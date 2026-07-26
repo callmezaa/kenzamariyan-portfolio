@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { CloudOff } from "lucide-react";
 import CountUp from "./CountUp";
 import EmptyState from "./EmptyState";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function VisitorCounter() {
+  const t = useTranslations("visitor");
   const [count, setCount] = useState<number | null>(null);
   const [hasError, setHasError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -57,8 +59,8 @@ export default function VisitorCounter() {
     return (
       <EmptyState
         icon={<CloudOff size={11} />}
-        title="— offline"
-        description="Visitor count unavailable"
+        title={t('offline')}
+        description={t('unavailable')}
       />
     );
   }
@@ -70,7 +72,7 @@ export default function VisitorCounter() {
         <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-indigo-400" aria-hidden="true" />
       </span>
       <span className="text-[11px] font-medium">
-        <CountUp target={count} /> visitors
+        <CountUp target={count} /> {t('count')}
       </span>
     </div>
   );
