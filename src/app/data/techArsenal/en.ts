@@ -16,7 +16,7 @@ export interface TechItem {
   description: string;
 }
 
-export const techArsenal: TechItem[] = [
+export const techArsenalEn: TechItem[] = [
   {
     name: "React",
     icon: SiReact,
@@ -164,12 +164,3 @@ export const techArsenal: TechItem[] = [
     description: "Open-source BaaS platform",
   },
 ];
-
-export const categories = [
-  "Frontend",
-  "Backend",
-  "Mobile",
-  "AI & Infra",
-] as const;
-
-export type Category = (typeof categories)[number];

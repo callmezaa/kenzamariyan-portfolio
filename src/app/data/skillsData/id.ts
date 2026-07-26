@@ -6,25 +6,12 @@ import {
   SiFirebase, SiExpo, SiNodedotjs, SiFastapi,
   SiMongodb, SiGit,
 } from "react-icons/si";
+import type { SkillCategory } from "./en";
 
-export interface SkillItem {
-  name: string;
-  icon?: IconType;
-  brandColor?: string;
-  mastery: number;
-  years: number;
-}
-
-export interface SkillCategory {
-  title: string;
-  tagline: string;
-  skills: SkillItem[];
-}
-
-export const skillsData: SkillCategory[] = [
+export const skillsDataId: SkillCategory[] = [
   {
-    title: "Interfaces that convert",
-    tagline: "Production web apps with crisp UX and fast loads.",
+    title: "Antarmuka yang Konversi",
+    tagline: "Aplikasi web produksi dengan UX tajam dan muatan cepat.",
     skills: [
       { name: "React", icon: SiReact, brandColor: "#61DAFB", mastery: 95, years: 4 },
       { name: "Next.js", icon: SiNextdotjs, mastery: 90, years: 4 },
@@ -34,8 +21,8 @@ export const skillsData: SkillCategory[] = [
     ],
   },
   {
-    title: "Apps that work offline",
-    tagline: "Mobile products that stay reliable without signal.",
+    title: "Aplikasi yang Bekerja Offline",
+    tagline: "Produk mobile yang tetap andal tanpa sinyal.",
     skills: [
       { name: "React Native", icon: SiReact, brandColor: "#61DAFB", mastery: 85, years: 3 },
       { name: "Expo", icon: SiExpo, mastery: 80, years: 3 },
@@ -44,8 +31,8 @@ export const skillsData: SkillCategory[] = [
     ],
   },
   {
-    title: "Systems that scale",
-    tagline: "APIs and data layers built for real traffic.",
+    title: "Sistem yang Berskala",
+    tagline: "API dan lapisan data yang dibangun untuk lalu lintas nyata.",
     skills: [
       { name: "Go (Gin & Fiber)", icon: SiGo, brandColor: "#00ADD8", mastery: 85, years: 2 },
       { name: "Node.js", icon: SiNodedotjs, brandColor: "#5FA04E", mastery: 82, years: 4 },
@@ -58,8 +45,8 @@ export const skillsData: SkillCategory[] = [
     ],
   },
   {
-    title: "Ship & automate with AI",
-    tagline: "Containers, cloud, and AI wired into the workflow.",
+    title: "Kirim & Otomatiskan dengan AI",
+    tagline: "Kontainer, cloud, dan AI terintegrasi dalam alur kerja.",
     skills: [
       { name: "Docker", icon: SiDocker, brandColor: "#2496ED", mastery: 75, years: 3 },
       { name: "Google Cloud", icon: SiGooglecloud, brandColor: "#4285F4", mastery: 72, years: 2 },

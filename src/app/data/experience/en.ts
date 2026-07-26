@@ -10,7 +10,7 @@ export interface Experience {
   type: ExperienceType;
 }
 
-export const experiences: Experience[] = [
+export const experiencesEn: Experience[] = [
   {
     year: "2026",
     title: "Full-Stack Developer (Hackathon Project)",

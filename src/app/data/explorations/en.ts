@@ -6,8 +6,7 @@ export interface Exploration {
   tag?: string;
 }
 
-// Placeholder data — replace `image` paths with your own exploration shots.
-export const explorations: Exploration[] = [
+export const explorationsEn: Exploration[] = [
   {
     slug: "contract-chill",
     title: "AI Contract Analyzer",
