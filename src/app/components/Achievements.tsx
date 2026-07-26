@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useTranslations } from "next-intl";
 import { ExternalLink, ChevronLeft, ChevronRight, X, Download, Eye } from "lucide-react";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,8 @@ interface Certificate {
   files: string[];
   url?: string;
 }
+
+const CERT_KEYS = ["bnsp", "googleAi", "hubspot", "micro1", "juaraVibeCoding", "programmingFundamental", "intermediateWeb", "fundamentalWeb", "fullstackNasional"];
 
 const certificates: Certificate[] = [
   {
@@ -168,6 +171,8 @@ function CertificateModal({
   onPrev: () => void;
   onNext: () => void;
 }) {
+  const t = useTranslations("achievements");
+  const ct = useTranslations("certificates");
   const [page, setPage] = useState(0);
   const multi = cert.files.length > 1;
   const isFirst = currentIndex === 0;
@@ -313,11 +318,11 @@ function CertificateModal({
             </div>
             <div className="flex flex-col gap-2 border-t border-hairline p-4 md:p-5">
               <Button variant="outline" size="lg" className="rounded-full" nativeButton={false} render={<a href={cert.files[page]} download />}>
-                <Download size={12} /> Download
+                <Download size={12} /> {t("download")}
               </Button>
               {cert.url && (
                 <Button variant="outline" size="lg" className="rounded-full" nativeButton={false} render={<a href={cert.url} target="_blank" rel="noopener noreferrer" />}>
-                  <ExternalLink size={12} /> View Original
+                  <ExternalLink size={12} /> {t("viewOriginal")}
                 </Button>
               )}
             </div>
@@ -329,10 +334,19 @@ function CertificateModal({
 }
 
 export default function Achievements() {
+  const t = useTranslations("achievements");
+  const ct = useTranslations("certificates");
   const [showAll, setShowAll] = useState(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
-  const visible = showAll ? certificates : certificates.slice(0, 3);
-  const hidden = certificates.length - 3;
+
+  const certs = useMemo(() => certificates.map((cert, i) => ({
+    ...cert,
+    title: ct(`${CERT_KEYS[i]}.title`),
+    description: ct(`${CERT_KEYS[i]}.description`),
+  })), [ct]);
+
+  const visible = showAll ? certs : certs.slice(0, 3);
+  const hidden = certs.length - 3;
 
   const handleModalClose = useCallback(() => setModalIndex(null), []);
   const handleModalPrev = useCallback(
@@ -348,8 +362,8 @@ export default function Achievements() {
     <section id="achievements" className="bg-canvas py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="mb-12 max-w-2xl space-y-3">
-          <p className="label text-ink-muted">Credentials</p>
-          <h2 className="display-xl text-balance">Certifications & Recognition</h2>
+          <p className="label text-ink-muted">{t("label")}</p>
+          <h2 className="display-xl text-balance">{t("heading")}</h2>
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -373,7 +387,7 @@ export default function Achievements() {
                       <h3 className="body-base font-semibold text-ink">{cert.title}</h3>
                       {cert.url && (
                         <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-surface-soft px-2 py-0.5 mono-sm text-ink-tertiary">
-                          <ExternalLink size={10} /> Verifiable
+                          <ExternalLink size={10} /> {t("verifiable")}
                         </span>
                       )}
                     </div>
@@ -390,7 +404,7 @@ export default function Achievements() {
                       size="sm"
                       className="text-ink-muted group"
                     >
-                      View Details <Eye size={12} className="transition-transform group-hover:translate-x-0.5" />
+                      {t("viewDetails")} <Eye size={12} className="transition-transform group-hover:translate-x-0.5" />
                     </Button>
                   </div>
                 </motion.div>
@@ -411,7 +425,7 @@ export default function Achievements() {
             size="lg"
             className="rounded-full"
           >
-            {showAll ? "Show Less" : `View All (+${hidden})`}
+            {showAll ? t("showLess") : t("showAll", { count: hidden })}
           </Button>
         </motion.div>
       </div>
@@ -420,9 +434,9 @@ export default function Achievements() {
         {modalIndex !== null && (
           <CertificateModal
             key={modalIndex}
-            cert={certificates[modalIndex]}
+            cert={certs[modalIndex]}
             currentIndex={modalIndex}
-            total={certificates.length}
+            total={certs.length}
             onClose={handleModalClose}
             onPrev={handleModalPrev}
             onNext={handleModalNext}

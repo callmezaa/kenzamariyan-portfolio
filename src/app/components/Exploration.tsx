@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { TiltCard } from "@/components/motion/tilt-card";
 import { explorations } from "../data/explorations";
 
 export default function Exploration() {
+  const t = useTranslations("exploration");
   const [active, setActive] = useState<number | null>(null);
   const open = active !== null;
 
@@ -44,12 +46,9 @@ export default function Exploration() {
           transition={{ duration: 0.4, ease: easeOut }}
           className="mb-12 max-w-2xl space-y-3"
         >
-          <p className="label text-ink-muted">Exploration</p>
-          <h2 className="display-xl text-balance">Things I&rsquo;ve been building</h2>
-          <p className="body-base">
-            A visual log of interfaces and experiments — screenshots of products
-            and prototypes I&rsquo;ve designed and shipped.
-          </p>
+          <p className="label text-ink-muted">{t("label")}</p>
+          <h2 className="display-xl text-balance">{t("heading")}</h2>
+          <p className="body-base">{t("description")}</p>
         </motion.div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

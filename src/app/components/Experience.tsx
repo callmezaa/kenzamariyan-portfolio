@@ -2,21 +2,28 @@
 
 import { useState, useMemo } from "react";
 import { motion } from "motion/react";
-import { experiences, type ExperienceType } from "../data/experience";
+import { useTranslations, useLocale } from "next-intl";
+import { getLocalizedExperience } from "@/i18n/data";
+import type { ExperienceType } from "../data/experience";
+import type { Locale } from "@/i18n/request";
 import { BouncyAccordion } from "@/components/motion/bouncy-accordion";
 import { Briefcase, GraduationCap, Building } from "lucide-react";
 import { appleSpring } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 
-const filters: { label: string; value: ExperienceType | "all" }[] = [
-  { label: "All", value: "all" },
-  { label: "Work", value: "work" },
-  { label: "Education", value: "education" },
-  { label: "Organization", value: "organization" },
-];
-
 export default function Experience() {
+  const t = useTranslations("experience");
+  const locale = useLocale();
   const [activeFilter, setActiveFilter] = useState<ExperienceType | "all">("all");
+
+  const filters = useMemo(() => [
+    { label: t("filterAll"), value: "all" as const },
+    { label: t("filterWork"), value: "work" as const },
+    { label: t("filterEducation"), value: "education" as const },
+    { label: t("filterOrganization"), value: "organization" as const },
+  ], [t]);
+
+  const experiences = useMemo(() => getLocalizedExperience(locale as Locale), [locale]);
 
   const items = useMemo(() => {
     const filtered =
@@ -33,7 +40,7 @@ export default function Experience() {
             <span>·</span>
             <span>{exp.location}</span>
             <span className="ml-auto rounded-full bg-surface-active px-2 py-0.5 text-[10px] font-medium">
-              {exp.type}
+              {t(`filter${exp.type.charAt(0).toUpperCase() + exp.type.slice(1)}`)}
             </span>
           </div>
           <p className="body-base text-ink-muted leading-relaxed">{exp.description}</p>
@@ -48,7 +55,7 @@ export default function Experience() {
             exp.type === "education" ? <GraduationCap className="h-4 w-4" /> :
             <Building className="h-4 w-4" />,
     }));
-  }, [activeFilter]);
+  }, [activeFilter, t, experiences]);
 
   return (
     <section id="experience" className="bg-canvas-alt py-24 md:py-28">
@@ -60,8 +67,8 @@ export default function Experience() {
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12 space-y-3"
         >
-          <p className="label text-ink-muted">Career</p>
-          <h2 className="display-xl text-balance">Experience & Education</h2>
+          <p className="label text-ink-muted">{t("label")}</p>
+          <h2 className="display-xl text-balance">{t("heading")}</h2>
         </motion.div>
 
         <motion.div
@@ -99,7 +106,7 @@ export default function Experience() {
             />
           ) : (
             <p className="body-base text-ink-muted text-center py-8">
-              No entries in this category yet.
+              {t("empty")}
             </p>
           )}
         </motion.div>
