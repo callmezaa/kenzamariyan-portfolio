@@ -13,13 +13,12 @@ import GitHubSection from "./GitHubSection";
 
 export default function Skills() {
   const t = useTranslations("skills");
-  const [activeTab, setActiveTab] = useState("All");
+  const TABS = [t("tabAll"), ...skillsData.map((c) => c.title)];
+  const [activeTab, setActiveTab] = useState(TABS[0]);
   const reduceMotion = useReducedMotion();
 
-  const TABS = [t("tabAll"), ...skillsData.map((c) => c.title)];
-
   const visible =
-    activeTab === t("tabAll")
+    activeTab === TABS[0]
       ? skillsData
       : skillsData.filter((c) => c.title === activeTab);
 

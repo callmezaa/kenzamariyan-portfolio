@@ -35,7 +35,7 @@
   "about": {
     "label": "Tentang Saya",
     "heading": "Membangun produk digital yang andal dengan jelas dan penuh tujuan.",
-    "description": "Mengirimkan aplikasi production di web, mobile, dan AI — dari AI analisis kontrak yang memproses dokumen dalam {time} hingga mobile POS offline yang melayani {users} anggota koperasi. TypeScript, Go, Python, dan PostgreSQL, end to end.",
+    "description": "Mengirimkan aplikasi production di web, mobile, dan AI — dari AI analisis kontrak yang memproses dokumen dalam <time>15 detik</time> hingga mobile POS offline yang melayani <users>1.500+</users> anggota koperasi. TypeScript, Go, Python, dan PostgreSQL, end to end.",
     "time": "15 detik",
     "users": "1.500+",
     "infoItems": {
