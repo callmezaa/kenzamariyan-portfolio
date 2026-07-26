@@ -172,7 +172,6 @@ function CertificateModal({
   onNext: () => void;
 }) {
   const t = useTranslations("achievements");
-  const ct = useTranslations("certificates");
   const [page, setPage] = useState(0);
   const multi = cert.files.length > 1;
   const isFirst = currentIndex === 0;
