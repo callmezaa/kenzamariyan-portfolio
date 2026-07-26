@@ -25,6 +25,183 @@ export const projectsId: Project[] = [
       glow: "rgba(99, 102, 241, 0.14)",
       color: "#6366f1",
     },
+    architecture: {
+      monorepo: [
+        { name: "client/", tech: "React 19 + Vite 8 + TypeScript 6", description: "SPA with TanStack Query, Firebase Web SDK, i18next, PWA support, and custom motion component library" },
+        { name: "server/", tech: "Express 5 + Firebase Admin", description: "REST API with Multer uploads, rate limiting, Helmet/CORS security, Zod validation, and Gemini AI integration" },
+        { name: "shared/", tech: "@chill/shared types", description: "Shared TypeScript types (AnalysisResult, RedFlag, Persona, RiskLevel) used by both client and server" },
+      ],
+      decisions: [
+        { decision: "Express 5 over Next.js API Routes", reason: "Monorepo flexibility — independent scaling, shared types package, separation of concerns between SPA and API" },
+        { decision: "Firestore over PostgreSQL", reason: "Real-time sync for analysis history, serverless scaling, no migration overhead — ideal for rapid prototyping" },
+        { decision: "Docker multi-stage build", reason: "5-layer build produces minimal production image, ensures consistent dev/prod environments" },
+        { decision: "pdf-parse + Tesseract.js OCR fallback", reason: "Handles both digital and scanned PDFs seamlessly — OCR activates only when extracted text < 50 chars" },
+        { decision: "Gemini 2.5 Flash", reason: "Fast inference (<15s), structured JSON output capability, cost-effective for hackathon budget" },
+        { decision: "Firebase Auth", reason: "Google + Email/Password out of the box, zero server-side session management, integrates with Firestore" },
+        { decision: "npm workspaces", reason: "Monorepo without Lerna/Nx overhead, shared types across client/server with minimal config" },
+      ],
+      endpoints: [
+        { method: "POST", path: "/api/analyze", auth: true, rate: "5/hr", purpose: "Upload contract + AI analysis" },
+        { method: "POST", path: "/api/chat", auth: true, rate: "20/hr", purpose: "Follow-up Q&A on analyzed contract" },
+        { method: "POST", path: "/api/generate-script", auth: true, rate: "20/hr", purpose: "Generate negotiation script" },
+        { method: "POST", path: "/api/generate-contract", auth: true, rate: "20/hr", purpose: "Generate contract draft" },
+        { method: "POST", path: "/api/upload-photo", auth: true, rate: "None", purpose: "Upload profile photo" },
+      ],
+      dataFlow: [
+        "User uploads contract (PDF/DOCX/TXT) via Dashboard",
+        "Multer receives file (memory storage, 10MB limit)",
+        "Firebase Auth middleware verifies Bearer token",
+        "Rate limiter checks (5 req/hr per IP for analyze)",
+        "Text extraction: pdf-parse → if <50 chars → OCR fallback (Tesseract.js, 120s timeout)",
+        "Save file to /uploads/ with UUID filename",
+        "Gemini API call with persona prompt + contract text",
+        "JSON parsing with retry logic (2x on 503, 2s delay)",
+        "Return AnalysisResult + fileUrl to client",
+        "Client calculates risk score → renders analysis",
+        "Persist to Firestore: analyses/{docId}",
+      ],
+      deployment: [
+        "Stage 1 (deps): npm ci — install all workspace dependencies",
+        "Stage 2 (shared): tsc — compile @chill/shared types",
+        "Stage 3 (client): vite build — production React SPA",
+        "Stage 4 (server): tsc — compile Express API",
+        "Stage 5 (runner): node:20-alpine — non-root user (uid 1001), PORT 8080",
+        "Express serves client/dist/ as static files in production",
+        "Auto-deploy from GitHub push via Railway",
+      ],
+    },
+    aiPipeline: {
+      personas: [
+        { name: "Chill Friend", tone: "Casual, relatable, 'teman nongkrong'", example: "Gila sih bro, klausul ini bahaya banget — kamu bisa rugi gede kalau tanda tangan gini.", icon: "😎" },
+        { name: "Angry Lawyer", tone: "Fierce, protective, scolding", example: "WANPRESTASI! Klausul ini JELAS merugikan kamu. Jangan berani tanda tangan tanpa negosiasi!", icon: "⚖️" },
+        { name: "Corporate Mentor", tone: "Strategic, professional, balanced", example: "Pertimbangkan untuk menegosiasikan pasal ini — ada ruang untuk win-win solution.", icon: "👔" },
+        { name: "Freelancer Senior", tone: "Practical, street-smart, empathetic", example: "Gue dulu kena tipu gini juga. Ini yang harus kamu lakuin sebelum tanda tangan...", icon: "🧑‍💻" },
+      ],
+      riskFormula: { high: 35, medium: 15, cap: 100 },
+      extractionFlow: [
+        { step: "PDF Upload", detail: "pdf-parse extracts text from digital PDFs" },
+        { step: "OCR Fallback", detail: "If extracted text < 50 chars, Tesseract.js activates with ind+eng model, 120s timeout" },
+        { step: "TXT Support", detail: "Direct UTF-8 read for plain text files" },
+        { step: "Persona Routing", detail: "Contract text + persona prompt sent to Gemini 2.5 Flash" },
+        { step: "JSON Parsing", detail: "Regex extraction {…} from response, parse to AnalysisResult" },
+        { step: "Retry Logic", detail: "Up to 2 retries on 503 (Service Unavailable) with 2s delays" },
+      ],
+      outputSchema: [
+        { field: "summary", type: "string", description: "Brief contract overview in persona voice" },
+        { field: "redFlags[]", type: "RedFlag[]", description: "Risk flags with clause, risk level, explanation, suggested negotiation script" },
+        { field: "negotiationSuggestions", type: "string[]", description: "Strategic negotiation tips" },
+        { field: "clauses[]", type: "Clause[]", description: "6-8 key clause breakdowns with plain-language explanations" },
+        { field: "jargons[]", type: "Jargon[]", description: "3-5 legal term definitions translated to simple language" },
+        { field: "personaExplanation", type: "string", description: "Persona's concluding remark + legal disclaimer" },
+      ],
+    },
+    codeSnippets: [
+      {
+        title: "Gemini Service — Persona Prompt Construction",
+        language: "typescript",
+        code: `const personaPrompts = {
+  'Chill Friend': 'Lo adalah teman nongkrong yang lagi ngobrolin kontrak...',
+  'Angry Lawyer': 'Lo adalah pengacara galak yang lagi ngomelin klien...',
+  'Corporate Mentor': 'Lo adalah mentor korporat yang lagi advising...',
+  'Freelancer Senior': 'Lo adalah freelancer senior yang udah kena tipu...',
+};
+
+export async function analyzeContract(text: string, persona: Persona) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+  const prompt = personaPrompts[persona] + '\\n\\n' + OUTPUT_SCHEMA;
+  const result = await model.generateContent(prompt + '\\n\\n' + text);
+  return JSON.parse(result.response.text().match(/\\{[\\s\\S]*\\}/)?.[0]);
+}`,
+        reason: "Demonstrates structured AI integration with persona-based prompt engineering and robust JSON extraction",
+      },
+      {
+        title: "Auth Middleware — Firebase Token Verification",
+        language: "typescript",
+        code: `export const authMiddleware = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+  try {
+    const idToken = authHeader.split('Bearer ')[1];
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    req.user = { uid: decodedToken.uid, email: decodedToken.email! };
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid token' });
+  }
+};`,
+        reason: "Shows enterprise-grade authentication with Firebase Admin SDK — token extraction, verification, and user context injection",
+      },
+      {
+        title: "Risk Scoring Algorithm",
+        language: "typescript",
+        code: `const calculateRiskScore = (redFlags: RedFlag[]) => {
+  if (!redFlags || redFlags.length === 0) return 0;
+  const highRiskCount = redFlags.filter(f => f.risk === 'High').length;
+  const mediumRiskCount = redFlags.filter(f => f.risk === 'Medium').length;
+  let score = (highRiskCount * 35) + (mediumRiskCount * 15);
+  return Math.min(score, 100);
+};
+
+// Thresholds: 0-29% Safe (green) | 30-59% Moderate (amber) | 60-100% High Risk (red)`,
+        reason: "Client-side risk calculation — demonstrates weighted scoring algorithm with safety cap",
+      },
+      {
+        title: "Rate Limiting — Dual Limiter Configuration",
+        language: "typescript",
+        code: `const analyzeLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // 5 requests per hour per IP
+  message: { error: 'Too many analysis requests. Try again in an hour.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const chatLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 20, // 20 requests per hour per IP
+  message: { error: 'Too many requests. Please slow down.' },
+});
+
+// Apply per-route: router.post('/analyze', authMiddleware, analyzeLimiter, controller.analyze);`,
+        reason: "Protects Gemini API free tier from abuse — demonstrates production-aware rate limiting strategy",
+      },
+      {
+        title: "Error Handling — AppError + asyncHandler Pattern",
+        language: "typescript",
+        code: `export class AppError extends Error {
+  constructor(
+    public statusCode: number,
+    public message: string,
+    public code?: string
+  ) {
+    super(message);
+    this.name = 'AppError';
+  }
+}
+
+export const asyncHandler = (fn: AsyncFn) =>
+  (req: Request, res: Response, next: NextFunction) =>
+    Promise.resolve(fn(req, res, next)).catch(next);
+
+// Global handler in index.ts:
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      error: err.message,
+      code: err.code,
+    });
+  }
+  res.status(500).json({ error: 'Internal server error' });
+});`,
+        reason: "Clean error handling pattern — custom error class, async wrapper, and global handler for consistent API responses",
+      },
+    ],
   },
   {
     slug: "interviewos",
