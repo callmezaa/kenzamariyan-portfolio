@@ -68,6 +68,9 @@
     "tabWebApp": "Web App",
     "tabMobile": "Mobile",
     "tabPlayground": "Playground",
+    "viewMode": "View mode",
+    "gridView": "Grid view",
+    "listView": "List view",
     "emptyTitle": "No projects yet in this category.",
     "emptySubtitle": "Coming soon.",
     "viewAll": "View All Projects"

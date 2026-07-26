@@ -94,7 +94,7 @@ export default function Projects() {
             </div>
             <div
               role="group"
-              aria-label="View mode"
+              aria-label={t('viewMode')}
               className="flex rounded-full bg-surface-soft p-1"
             >
               <button
@@ -105,7 +105,7 @@ export default function Projects() {
                     ? "bg-canvas-card text-ink shadow-1"
                     : "text-ink-muted hover:text-ink"
                 }`}
-                aria-label="Grid view"
+                aria-label={t('gridView')}
               >
                 <LayoutGrid size={14} />
               </button>
@@ -117,7 +117,7 @@ export default function Projects() {
                     ? "bg-canvas-card text-ink shadow-1"
                     : "text-ink-muted hover:text-ink"
                 }`}
-                aria-label="List view"
+                aria-label={t('listView')}
               >
                 <List size={14} />
               </button>

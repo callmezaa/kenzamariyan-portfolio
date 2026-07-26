@@ -76,7 +76,7 @@ export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
       setErrorMessage(msg);
       showToast({ status: "error", title: t('toastErrorTitle'), description: t('toastErrorDesc', { message: msg }) });
     }
-  }, [reset, showToast, onSuccess]);
+  }, [reset, showToast, onSuccess, t]);
 
   return (
     <>

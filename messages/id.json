@@ -68,6 +68,9 @@
     "tabWebApp": "Web App",
     "tabMobile": "Mobile",
     "tabPlayground": "Playground",
+    "viewMode": "Mode tampilan",
+    "gridView": "Tampilan grid",
+    "listView": "Tampilan daftar",
     "emptyTitle": "Belum ada proyek di kategori ini.",
     "emptySubtitle": "Segera hadir.",
     "viewAll": "Lihat Semua Proyek"
