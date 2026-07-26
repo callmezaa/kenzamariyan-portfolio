@@ -1,10 +1,10 @@
 import { getRequestConfig } from "next-intl/server";
 import { cookies } from "next/headers";
 import { hasLocale } from "next-intl";
+import { locales, defaultLocale, type Locale } from "./locales";
 
-const locales = ["en", "id"] as const;
-export type Locale = (typeof locales)[number];
-export const defaultLocale: Locale = "en";
+export type { Locale } from "./locales";
+export { defaultLocale } from "./locales";
 
 export function getLocaleFromCookie(cookieValue: string | undefined): Locale {
   if (cookieValue && hasLocale(locales, cookieValue)) {
