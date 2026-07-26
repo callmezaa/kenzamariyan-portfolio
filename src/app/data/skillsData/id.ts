@@ -1,4 +1,3 @@
-import type { IconType } from "react-icons";
 import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
   SiGo, SiExpress, SiPostgresql, SiRedis,

@@ -25,7 +25,7 @@ export const experiencesId: Experience[] = [
     year: "2024",
     title: "Pengembang Mobile & Backend",
     place: "Platform Pertanian Gotani",
-    location: "Berbasis Proyek",
+    location: "Project-based",
     description:
       "Membangun aplikasi POS mobile untuk platform pertanian, mencakup UI mobile, integrasi Firebase, dan alur kerja berbasis transaksi.",
     tags: ["React Native", "Firebase", "Firestore", "Mobile Dev"],
@@ -35,7 +35,7 @@ export const experiencesId: Experience[] = [
     year: "2024",
     title: "Pengembang Frontend",
     place: "Dashboard Admin Gotani",
-    location: "Berbasis Proyek",
+    location: "Project-based",
     description:
       "Mengembangkan layar administrasi web untuk mengelola produk, pengguna, dan data transaksi dengan fokus pada kejelasan bagi operator non-teknis.",
     tags: ["React", "Vite", "Tailwind CSS", "REST API"],
@@ -45,7 +45,7 @@ export const experiencesId: Experience[] = [
     year: "2023",
     title: "Pengembang Web",
     place: "KPJMI - Koperasi Petani Jaya Makmur Indonesia",
-    location: "Magang",
+    location: "Internship",
     description:
       "Merancang dan mengembangkan website profil perusahaan dengan manajemen konten dinamis yang didukung MySQL.",
     tags: ["HTML", "CSS", "JavaScript", "MySQL", "PHP"],
@@ -58,7 +58,7 @@ export const experiencesId: Experience[] = [
     location: "Indonesia",
     description:
       "Mempelajari pengembangan perangkat lunak, sistem basis data, pemrograman berorientasi objek, dan komputasi mobile melalui proyek akademik praktis.",
-    tags: ["Algoritma", "Basis Data", "OOP", "Rekayasa Perangkat Lunak"],
+    tags: ["Algorithms", "Database", "OOP", "Software Engineering"],
     type: "education",
   },
   {
@@ -68,7 +68,7 @@ export const experiencesId: Experience[] = [
     location: "Remote",
     description:
       "Membimbing developer junior dan berbagi proyek open-source di bidang rekayasa web dan mobile. Menyelenggarakan sesi review kode mingguan dan menerbitkan library komponen yang dapat digunakan kembali yang diadopsi oleh komunitas.",
-    tags: ["Mentoring", "Open Source", "React", "Komunitas"],
+    tags: ["Mentoring", "Open Source", "React", "Community"],
     type: "organization",
   },
 ];

@@ -20,7 +20,7 @@ export const projectsId: Project[] = [
     type: "ai",
     featured: true,
     badge: "Hackathon",
-    metrics: ["< 15s Analisis", "4 Persona AI", "Dukungan PDF/DOCX", "Terdeploy di Cloud Run"],
+    metrics: ["< 15s Analysis", "4 AI Personas", "PDF/DOCX Support", "Cloud Run Deployed"],
     accent: {
       glow: "rgba(99, 102, 241, 0.14)",
       color: "#6366f1",
@@ -45,7 +45,7 @@ export const projectsId: Project[] = [
     type: "interviewos",
     featured: true,
     badge: "Open Source",
-    metrics: ["Panggilan Video WebRTC", "Editor Kode Kolaboratif", "Transkripsi Whisper", "Perekaman Layar"],
+    metrics: ["WebRTC Video Calls", "Collaborative Code Editor", "Whisper Transcription", "Screen Recording"],
     accent: {
       glow: "rgba(0, 102, 204, 0.14)",
       color: "#0066cc",
@@ -69,7 +69,7 @@ export const projectsId: Project[] = [
     demoUrl: "https://assetra-digital-product.vercel.app",
     type: "marketplace",
     featured: true,
-    metrics: ["Pembayaran Midtrans", "Chat Real-time", "Dompet Kreator", "Supabase RLS"],
+    metrics: ["Midtrans Payments", "Real-time Chat", "Creator Wallet", "Supabase RLS"],
     accent: {
       glow: "rgba(168, 85, 247, 0.14)",
       color: "#a855f7",
@@ -92,8 +92,8 @@ export const projectsId: Project[] = [
     sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
     type: "pos",
     featured: true,
-    badge: "Aplikasi Enterprise",
-    metrics: ["90% Reduksi Kesalahan", "Sinkronisasi Offline", "Waktu Entri 5 Detik"],
+    badge: "Enterprise App",
+    metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
     accent: {
       glow: "rgba(16, 185, 129, 0.14)",
       color: "#10b981",
@@ -116,7 +116,7 @@ export const projectsId: Project[] = [
     sourceUrl: "https://github.com/callmezaa/mercato-ecommerceApp",
     type: "mobile",
     featured: true,
-    badge: "Aplikasi Mobile",
+    badge: "Mobile App",
     metrics: ["React Native", "Express API", "PostgreSQL", "Prisma ORM"],
     accent: {
       glow: "rgba(239, 68, 68, 0.14)",
@@ -141,7 +141,7 @@ export const projectsId: Project[] = [
     demoUrl: "https://monetra-financetracker-app.vercel.app/",
     type: "finance",
     featured: true,
-    metrics: ["Full Stack Go + React", "Wawasan AI", "Autentikasi JWT", "Transaksi Berulang"],
+    metrics: ["Go + React Full Stack", "AI Spending Insights", "JWT Auth", "Recurring Transactions"],
     accent: {
       glow: "rgba(251, 146, 60, 0.14)",
       color: "#fb923c",
@@ -165,8 +165,8 @@ export const projectsId: Project[] = [
     demoUrl: "https://pallete-studio-ten.vercel.app",
     type: "playground",
     featured: true,
-    badge: "Taman Bermain",
-    metrics: ["Ekstraksi Warna", "Kontras WCAG", "Heliks DNA 3D", "Ekspor CSS/JSON"],
+    badge: "Playground",
+    metrics: ["Color Extraction", "WCAG Contrast", "3D DNA Helix", "Export CSS/JSON"],
     accent: {
       glow: "rgba(236, 72, 153, 0.14)",
       color: "#ec4899",
@@ -189,7 +189,7 @@ export const projectsId: Project[] = [
     sourceUrl: "https://github.com/callmezaa/nextalk-messagingApp",
     type: "chat",
     featured: true,
-    metrics: ["WebSocket Real-time", "Backend Go + Fiber", "Caching Redis", "Asisten Chat AI"],
+    metrics: ["Real-time WebSocket", "Go + Fiber Backend", "Redis Caching", "AI Chat Assistant"],
     accent: {
       glow: "rgba(59, 130, 246, 0.14)",
       color: "#3b82f6",

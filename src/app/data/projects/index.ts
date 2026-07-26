@@ -55,14 +55,14 @@ export const techDescriptions: Record<string, string> = {
 };
 
 export const PROJECT_CATEGORIES: Record<string, typeof projects> = {
-  All: projectsEn,
-  "Web App": projectsEn.filter((p) =>
+  All: projects,
+  "Web App": projects.filter((p) =>
     ["contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
   ),
-  Mobile: projectsEn.filter((p) =>
+  Mobile: projects.filter((p) =>
     ["gotani-pos", "mercato", "nextalk"].includes(p.slug)
   ),
-  Playground: projectsEn.filter((p) =>
+  Playground: projects.filter((p) =>
     ["pallete-studio"].includes(p.slug)
   ),
 };
