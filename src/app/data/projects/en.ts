@@ -27,6 +27,12 @@ export interface Project {
     dataFlow: string[];
     deployment: string[];
   };
+  diagram?: {
+    frontend: { label: string; tech: string };
+    backend: { label: string; tech: string };
+    arrow: { label?: string };
+    services: { name: string; description: string }[];
+  };
   aiPipeline?: {
     personas: { name: string; tone: string; example: string; icon: string }[];
     riskFormula: { high: number; medium: number; cap: number };
@@ -104,6 +110,15 @@ export const projectsEn: Project[] = [
         "Stage 5 (runner): node:20-alpine — non-root user (uid 1001), PORT 8080",
         "Express serves client/dist/ as static files in production",
         "Auto-deploy from GitHub push via Railway",
+      ],
+    },
+    diagram: {
+      frontend: { label: "FRONTEND (React SPA)", tech: "React 19 · Vite 8 · TanStack Query · Firebase Web SDK · i18next · PWA" },
+      backend: { label: "BACKEND (Express 5 API)", tech: "Multer · Rate Limiting · Helmet/CORS · Firebase Admin · Zod Validation" },
+      arrow: { label: "axios + Firebase ID Token" },
+      services: [
+        { name: "Gemini AI API", description: "gemini-2.5-flash · Structured JSON · Persona prompts" },
+        { name: "Firestore", description: "analyses/{docId} · userId, fileName, persona, result, fileUrl" },
       ],
     },
     aiPipeline: {

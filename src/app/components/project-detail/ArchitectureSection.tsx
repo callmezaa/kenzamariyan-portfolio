@@ -6,13 +6,32 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { staggerContainer, staggerItem } from "@/app/utils/animations";
 import { Server, Monitor, Package } from "lucide-react";
 
+interface DiagramLayer {
+  label: string;
+  tech: string;
+}
+
+interface DiagramService {
+  name: string;
+  description: string;
+}
+
+interface DiagramArrow {
+  label?: string;
+}
+
 interface ArchitectureProps {
   architecture: {
     monorepo: { name: string; tech: string; description: string }[];
     decisions: { decision: string; reason: string }[];
-    endpoints: { method: string; path: string; auth: boolean; rate: string; purpose: string }[];
     dataFlow: string[];
     deployment: string[];
+  };
+  diagram: {
+    frontend: DiagramLayer;
+    backend: DiagramLayer;
+    arrow: DiagramArrow;
+    services: DiagramService[];
   };
   accent: { glow: string; color: string };
 }
@@ -23,7 +42,7 @@ const ICONS: Record<string, React.ReactNode> = {
   "shared/": <Package size={16} />,
 };
 
-export default function ArchitectureSection({ architecture, accent }: ArchitectureProps) {
+export default function ArchitectureSection({ architecture, diagram, accent }: ArchitectureProps) {
   const t = useTranslations("projectDetail");
 
   return (
@@ -63,21 +82,21 @@ export default function ArchitectureSection({ architecture, accent }: Architectu
         <div className="rounded-xl border border-border bg-canvas-card p-6 space-y-4">
           {/* Frontend Layer */}
           <div className="rounded-lg border border-border p-4 text-center" style={{ boxShadow: `0 0 20px ${accent.glow}` }}>
-            <p className="button-cap text-foreground mb-1">FRONTEND (React SPA)</p>
-            <p className="body-small text-muted-foreground">React 19 · Vite 8 · TanStack Query · Firebase Web SDK · i18next · PWA</p>
+            <p className="button-cap text-foreground mb-1">{diagram.frontend.label}</p>
+            <p className="body-small text-muted-foreground">{diagram.frontend.tech}</p>
           </div>
           {/* Arrow */}
           <div className="flex justify-center">
             <div className="text-muted-foreground body-small flex flex-col items-center gap-1">
               <span>↓</span>
-              <span className="mono-sm">axios + Firebase ID Token</span>
+              {diagram.arrow.label && <span className="mono-sm">{diagram.arrow.label}</span>}
               <span>↓</span>
             </div>
           </div>
           {/* Backend Layer */}
           <div className="rounded-lg border border-border p-4 text-center" style={{ boxShadow: `0 0 20px ${accent.glow}` }}>
-            <p className="button-cap text-foreground mb-1">BACKEND (Express 5 API)</p>
-            <p className="body-small text-muted-foreground">Multer · Rate Limiting · Helmet/CORS · Firebase Admin · Zod Validation</p>
+            <p className="button-cap text-foreground mb-1">{diagram.backend.label}</p>
+            <p className="body-small text-muted-foreground">{diagram.backend.tech}</p>
           </div>
           {/* Arrow */}
           <div className="flex justify-center">
@@ -87,14 +106,12 @@ export default function ArchitectureSection({ architecture, accent }: Architectu
           </div>
           {/* External Services */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="rounded-lg border border-border p-4 text-center">
-              <p className="button-cap text-foreground mb-1">Gemini AI API</p>
-              <p className="body-small text-muted-foreground">gemini-2.5-flash · Structured JSON · Persona prompts</p>
-            </div>
-            <div className="rounded-lg border border-border p-4 text-center">
-              <p className="button-cap text-foreground mb-1">Firestore</p>
-              <p className="body-small text-muted-foreground">analyses/{'{docId}'} · userId, fileName, persona, result, fileUrl</p>
-            </div>
+            {diagram.services.map((service, i) => (
+              <div key={i} className="rounded-lg border border-border p-4 text-center">
+                <p className="button-cap text-foreground mb-1">{service.name}</p>
+                <p className="body-small text-muted-foreground">{service.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </motion.section>
