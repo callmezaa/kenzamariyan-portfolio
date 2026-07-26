@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { LayoutGrid, List, ArrowLeft } from "lucide-react";
 import { projects } from "../data/projects";
@@ -23,6 +24,8 @@ const projectImages: Record<string, string> = {
 type ViewMode = "grid" | "list";
 
 export default function AllProjects() {
+  const t = useTranslations("projects");
+  const pd = useTranslations("projectDetail");
   const [view, setView] = useState<ViewMode>("grid");
 
   return (
@@ -34,9 +37,9 @@ export default function AllProjects() {
               href="/#projects"
               className="label text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1"
             >
-              <ArrowLeft size={12} /> Back to Home
+              <ArrowLeft size={12} /> {pd('backToProjects')}
             </Link>
-            <h1 className="display-xl text-balance">All Projects</h1>
+            <h1 className="display-xl text-balance">{t('heading')}</h1>
           </div>
           <div
             role="group"

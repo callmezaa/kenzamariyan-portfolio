@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
 import { LayoutGrid, List, ArrowRight } from "lucide-react";
 import { PROJECT_CATEGORIES, CATEGORY_TABS } from "../data/projects";
@@ -24,6 +25,7 @@ const projectImages: Record<string, string> = {
 type ViewMode = "grid" | "list";
 
 export default function Projects() {
+  const t = useTranslations("projects");
   const [view, setView] = useState<ViewMode>("grid");
   const [activeTab, setActiveTab] = useState<string>("All");
   const reduceMotion = useReducedMotion();
@@ -42,8 +44,8 @@ export default function Projects() {
           className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4"
         >
           <div className="space-y-3">
-            <p className="label text-ink-muted">Selected Work</p>
-            <h2 className="display-xl text-balance">Projects That Ship</h2>
+            <p className="label text-ink-muted">{t('label')}</p>
+            <h2 className="display-xl text-balance">{t('heading')}</h2>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <div
@@ -53,6 +55,12 @@ export default function Projects() {
             >
               {CATEGORY_TABS.map((tab) => {
                 const active = activeTab === tab;
+                const tabLabels: Record<string, string> = {
+                  "All": t('tabAll'),
+                  "Web App": t('tabWebApp'),
+                  "Mobile": t('tabMobile'),
+                  "Playground": t('tabPlayground'),
+                };
                 return (
                   <button
                     key={tab}
@@ -78,7 +86,7 @@ export default function Projects() {
                         active ? "text-ink" : "text-ink-muted hover:text-ink"
                       }`}
                     >
-                      {tab}
+                      {tabLabels[tab]}
                     </span>
                   </button>
                 );
@@ -119,8 +127,8 @@ export default function Projects() {
 
         {empty ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <p className="body-base text-ink-muted">No projects yet in this category.</p>
-            <p className="body-small text-ink-tertiary mt-1">Coming soon.</p>
+            <p className="body-base text-ink-muted">{t('emptyTitle')}</p>
+            <p className="body-small text-ink-tertiary mt-1">{t('emptySubtitle')}</p>
           </div>
         ) : view === "grid" ? (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -186,7 +194,7 @@ export default function Projects() {
         >
           <Link href="/projects">
             <Button variant="outline" size="lg" className="rounded-full">
-              View All Projects <ArrowRight data-icon="inline-end" />
+              {t('viewAll')} <ArrowRight data-icon="inline-end" />
             </Button>
           </Link>
         </motion.div>

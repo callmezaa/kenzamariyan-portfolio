@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { ArrowLeft, ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Project } from "../data/projects";
@@ -138,6 +139,7 @@ interface ProjectDetailProps {
 }
 
 export default function ProjectDetail({ project }: ProjectDetailProps) {
+  const t = useTranslations("projectDetail");
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -173,7 +175,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           className="inline-flex items-center gap-2 label text-muted-foreground hover:text-foreground transition-colors mb-8"
         >
           <ArrowLeft size={14} />
-          Back to Projects
+          {t('backToProjects')}
         </Link>
 
         <motion.div
@@ -229,33 +231,33 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           {/* Tabs */}
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="w-full justify-center md:w-auto">
-              <TabsTrigger value="overview" className="flex-1 md:flex-none px-5">Overview</TabsTrigger>
-              <TabsTrigger value="screenshots" className="flex-1 md:flex-none px-5">Screenshots</TabsTrigger>
-              <TabsTrigger value="tech-stack" className="flex-1 md:flex-none px-5">Tech Stack</TabsTrigger>
+              <TabsTrigger value="overview" className="flex-1 md:flex-none px-5">{t('overview')}</TabsTrigger>
+              <TabsTrigger value="screenshots" className="flex-1 md:flex-none px-5">{t('screenshots')}</TabsTrigger>
+              <TabsTrigger value="tech-stack" className="flex-1 md:flex-none px-5">{t('techStack')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="pt-6 space-y-10">
               <section className="space-y-3">
-                <h2 className="button-cap text-foreground">Challenge</h2>
+                <h2 className="button-cap text-foreground">{t('challenge')}</h2>
                 <p className="body-base text-muted-foreground">{project.challenge}</p>
               </section>
               <section className="space-y-3">
-                <h2 className="button-cap text-foreground">Solution</h2>
+                <h2 className="button-cap text-foreground">{t('solution')}</h2>
                 <p className="body-base text-muted-foreground">{project.solution}</p>
               </section>
               <section className="space-y-3">
-                <h2 className="button-cap text-foreground">Impact</h2>
+                <h2 className="button-cap text-foreground">{t('impact')}</h2>
                 <p className="body-base text-muted-foreground">{project.impact}</p>
               </section>
               <div className="flex flex-wrap gap-3 pt-4 border-t border-border">
                 <Button variant="outline" className="rounded-full" nativeButton={false} render={<a href={project.sourceUrl} target="_blank" rel="noopener noreferrer" />}>
                   <Github size={16} />
-                  Source Code
+                  {t('sourceCode')}
                 </Button>
                 {project.demoUrl && (
                   <Button className="rounded-full" nativeButton={false} render={<a href={project.demoUrl} target="_blank" rel="noopener noreferrer" />}>
                     <ExternalLink size={16} />
-                    Live Demo
+                    {t('liveDemo')}
                   </Button>
                 )}
               </div>
@@ -263,7 +265,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
             <TabsContent value="screenshots" className="pt-6">
               {allScreenshots.length === 0 ? (
-                <p className="body-base text-muted-foreground text-center py-12">No screenshots available.</p>
+                <p className="body-base text-muted-foreground text-center py-12">{t('noScreenshots')}</p>
               ) : (
                 <>
                   <div
