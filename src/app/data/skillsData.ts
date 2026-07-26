@@ -4,6 +4,7 @@ import {
   SiGo, SiExpress, SiPostgresql, SiRedis,
   SiDocker, SiGooglecloud, SiPrisma, SiSupabase,
   SiFirebase, SiExpo, SiNodedotjs, SiFastapi,
+  SiMongodb, SiGit,
 } from "react-icons/si";
 
 export interface SkillItem {
@@ -47,10 +48,13 @@ export const skillsData: SkillCategory[] = [
     tagline: "APIs and data layers built for real traffic.",
     skills: [
       { name: "Go (Gin & Fiber)", icon: SiGo, brandColor: "#00ADD8", mastery: 85, years: 2 },
-      { name: "Node.js / Express", icon: SiNodedotjs, brandColor: "#5FA04E", mastery: 80, years: 4 },
+      { name: "Node.js", icon: SiNodedotjs, brandColor: "#5FA04E", mastery: 82, years: 4 },
+      { name: "Express", icon: SiExpress, brandColor: "#000000", mastery: 78, years: 4 },
       { name: "PostgreSQL", icon: SiPostgresql, brandColor: "#4169E1", mastery: 82, years: 3 },
       { name: "Redis", icon: SiRedis, brandColor: "#FF4438", mastery: 70, years: 2 },
-      { name: "FastAPI", icon: SiFastapi, brandColor: "#009688", mastery: 78, years: 2 },
+      { name: "MongoDB", icon: SiMongodb, brandColor: "#47A248", mastery: 72, years: 2 },
+      { name: "REST API", mastery: 85, years: 4 },
+      { name: "JWT Auth", mastery: 78, years: 3 },
     ],
   },
   {
@@ -61,6 +65,7 @@ export const skillsData: SkillCategory[] = [
       { name: "Google Cloud", icon: SiGooglecloud, brandColor: "#4285F4", mastery: 72, years: 2 },
       { name: "Prisma", icon: SiPrisma, brandColor: "#5B51D8", mastery: 80, years: 3 },
       { name: "Supabase", icon: SiSupabase, brandColor: "#3ECF8E", mastery: 75, years: 2 },
+      { name: "Git", icon: SiGit, brandColor: "#F05032", mastery: 90, years: 5 },
       { name: "Gemini / OpenAI API", mastery: 68, years: 2 },
     ],
   },

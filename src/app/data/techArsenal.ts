@@ -3,6 +3,7 @@ import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
   SiGo, SiPython, SiFastapi, SiPostgresql, SiRedis, SiPrisma,
   SiDocker, SiGooglecloud, SiSupabase,
+  SiExpress, SiNodedotjs, SiMongodb, SiGit,
 } from "react-icons/si";
 
 export interface TechItem {
@@ -104,6 +105,39 @@ export const techArsenal: TechItem[] = [
     brandColor: "#5B51D8",
     mastery: 80,
     description: "Type-safe database ORM",
+  },
+  {
+    name: "Node.js",
+    icon: SiNodedotjs,
+    category: "Backend",
+    brandColor: "#5FA04E",
+    mastery: 80,
+    description: "JavaScript runtime for scalable servers",
+  },
+  {
+    name: "Express",
+    icon: SiExpress,
+    category: "Backend",
+    brandColor: "#000000",
+    brandColorDark: "#FFFFFF",
+    mastery: 78,
+    description: "Minimalist Node.js web framework",
+  },
+  {
+    name: "MongoDB",
+    icon: SiMongodb,
+    category: "Backend",
+    brandColor: "#47A248",
+    mastery: 72,
+    description: "NoSQL document database",
+  },
+  {
+    name: "Git",
+    icon: SiGit,
+    category: "Backend",
+    brandColor: "#F05032",
+    mastery: 85,
+    description: "Distributed version control",
   },
   {
     name: "Docker",
