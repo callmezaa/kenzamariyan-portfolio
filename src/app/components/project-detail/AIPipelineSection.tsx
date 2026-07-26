@@ -74,7 +74,7 @@ export default function AIPipelineSection({ aiPipeline, accent }: AIPipelineProp
       {/* Risk Scoring Algorithm */}
       <motion.section variants={staggerItem} className="space-y-4">
         <h3 className="button-cap text-foreground">{t("riskScoring")}</h3>
-        <div className="rounded-xl border border-border bg-canvas-card p-6 space-y-4">
+        <div className="rounded-xl border border-border bg-canvas-card p-6 space-y-4" style={{ boxShadow: `0 0 20px ${accent.glow}` }}>
           <div className="text-center space-y-2">
             <p className="mono-sm text-foreground">
               Score = (High Risk × {aiPipeline.riskFormula.high}) + (Medium Risk × {aiPipeline.riskFormula.medium})
