@@ -191,6 +191,8 @@
     "apiDesign": "API Design",
     "securityAuth": "Security & Authentication",
     "errorHandling": "Error Handling",
+    "errorHandlingPatternTitle": "AppError + asyncHandler Pattern",
+    "errorHandlingPatternDesc": "Custom error class with statusCode, async route wrapper, and global error handler for consistent API responses",
     "architectureDecisions": "Architecture Decisions",
     "keyCodeSnippets": "Key Code Snippets",
     "whyThisMatters": "Why This Matters",

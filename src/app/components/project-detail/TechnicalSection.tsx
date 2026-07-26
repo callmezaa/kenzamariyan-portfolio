@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { staggerContainer, staggerItem } from "@/app/utils/animations";
 import { Check, Copy, Shield, AlertTriangle, Code } from "lucide-react";
 
@@ -57,7 +58,7 @@ export default function TechnicalSection({ endpoints, codeSnippets, accent }: Te
       {/* API Design */}
       <motion.section variants={staggerItem} className="space-y-4">
         <h3 className="button-cap text-foreground">{t("apiDesign")}</h3>
-        <div className="rounded-xl border border-border overflow-hidden">
+        <div className="rounded-xl border border-border overflow-hidden" style={{ boxShadow: `0 0 20px ${accent.glow}` }}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -73,11 +74,11 @@ export default function TechnicalSection({ endpoints, codeSnippets, accent }: Te
                 {endpoints.map((ep, i) => (
                   <tr key={i} className="border-b border-border last:border-0">
                     <td className="px-4 py-2.5">
-                      <span className={`mono-sm px-1.5 py-0.5 rounded text-xs font-medium ${
+                      <span className={cn("mono-sm px-1.5 py-0.5 rounded text-xs font-medium",
                         ep.method === "POST" ? "bg-blue-500/10 text-blue-600 dark:text-blue-400" :
                         ep.method === "GET" ? "bg-green-500/10 text-green-600 dark:text-green-400" :
                         "bg-muted text-foreground"
-                      }`}>
+                      )}>
                         {ep.method}
                       </span>
                     </td>
@@ -127,8 +128,8 @@ export default function TechnicalSection({ endpoints, codeSnippets, accent }: Te
           <div className="flex items-start gap-3">
             <AlertTriangle size={16} className="text-muted-foreground mt-0.5" />
             <div>
-              <p className="body-base font-medium text-foreground">AppError + asyncHandler Pattern</p>
-              <p className="body-small text-muted-foreground">Custom error class with statusCode, async route wrapper, and global error handler for consistent API responses</p>
+              <p className="body-base font-medium text-foreground">{t("errorHandlingPatternTitle")}</p>
+              <p className="body-small text-muted-foreground">{t("errorHandlingPatternDesc")}</p>
             </div>
           </div>
         </div>

@@ -191,6 +191,8 @@
     "apiDesign": "Desain API",
     "securityAuth": "Keamanan & Autentikasi",
     "errorHandling": "Penanganan Error",
+    "errorHandlingPatternTitle": "Pola AppError + asyncHandler",
+    "errorHandlingPatternDesc": "Kelas error kustom dengan statusCode, pembungkus route async, dan handler error global untuk respons API yang konsisten",
     "architectureDecisions": "Keputusan Arsitektur",
     "keyCodeSnippets": "Snippet Kode Utama",
     "whyThisMatters": "Mengapa Ini Penting",
