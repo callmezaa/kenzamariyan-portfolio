@@ -28,17 +28,26 @@ export default function MetricCards({ metrics, accent }: MetricCardsProps) {
           <motion.div
             key={`${metric}-${i}`}
             variants={staggerItem}
-            className="rounded-xl border border-border bg-canvas-card p-4 text-center space-y-1"
-            style={{ boxShadow: `0 0 20px ${accent.glow}` }}
+            className="group relative rounded-xl border border-hairline bg-canvas-card overflow-hidden"
           >
-            {number !== null ? (
-              <div className="display-lg" style={{ color: accent.color }}>
-                <NumberTicker value={number} prefix={prefix} duration={0.8} stagger={0.05} />
-              </div>
-            ) : (
-              <div className="display-lg text-foreground">{metric.split(" ")[0]}</div>
-            )}
-            <p className="body-small text-muted-foreground">{label}</p>
+            {/* Accent top line */}
+            <div
+              className="absolute top-0 inset-x-0 h-px"
+              style={{ background: `linear-gradient(90deg, transparent, ${accent.color}, transparent)` }}
+            />
+
+            <div className="p-4 md:p-5 text-center space-y-2">
+              {number !== null ? (
+                <div className="font-mono text-2xl md:text-3xl font-semibold tracking-tight" style={{ color: accent.color }}>
+                  <NumberTicker value={number} prefix={prefix} duration={0.8} stagger={0.05} />
+                </div>
+              ) : (
+                <div className="font-mono text-2xl md:text-3xl font-semibold tracking-tight text-ink">
+                  {metric.split(" ")[0]}
+                </div>
+              )}
+              <p className="text-xs font-medium tracking-wide uppercase text-ink-muted">{label}</p>
+            </div>
           </motion.div>
         );
       })}
