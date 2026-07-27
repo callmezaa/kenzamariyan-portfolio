@@ -14,6 +14,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${project.title} | Ken Zamariyan`,
     description: project.summary,
+    openGraph: {
+      title: `${project.title} | Ken Zamariyan`,
+      description: project.summary,
+      url: `/projects/${slug}`,
+      siteName: "Ken Zamariyan Portfolio",
+      images: [
+        {
+          url: `/projects/${slug}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: `${project.title} — Ken Zamariyan`,
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | Ken Zamariyan`,
+      description: project.summary,
+      images: [`/projects/${slug}/opengraph-image`],
+    },
   };
 }
 
