@@ -40,6 +40,11 @@ export interface Project {
     outputSchema: { field: string; type: string; description: string }[];
   };
   codeSnippets?: { title: string; language: string; code: string; reason: string }[];
+  siteMap?: {
+    userRoles: { role: string; description: string; needs: string; icon: string }[];
+    userFlow: { step: string; detail: string }[];
+    siteArchitecture: { section: string; type: string; description: string }[];
+  };
 }
 
 export const projectsEn: Project[] = [
@@ -275,6 +280,233 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     accent: {
       glow: "rgba(184, 17, 4, 0.14)",
       color: "#B81104",
+    },
+    architecture: {
+      monorepo: [
+        { name: "src/components/", tech: "React 19 + Motion", description: "6 layout components (Navbar, Footer, Container, BackToTop, ScrollProgress, SectionDivider) and 10 section components (Hero, About, VisionMission, BusinessUnits, Products, Gallery, Testimonials, FAQ, Contact, SectionHeader)" },
+        { name: "src/data/", tech: "TypeScript modules", description: "12 static data modules (navigation, company, businessUnits, products, gallery, testimonials, faq, contact, statistics, values, timeline, partners, certifications)" },
+        { name: "src/hooks/", tech: "TypeScript", description: "Custom hooks including useCounter — IntersectionObserver-triggered animated counter for statistics" },
+        { name: "src/utils/", tech: "TypeScript", description: "cn() utility combining clsx + tailwind-merge for conflict-free class composition" },
+      ],
+      decisions: [
+        { decision: "Vite 8 over Next.js", reason: "Static company profile doesn't need SSR/SSG — Vite's instant HMR and simpler build pipeline is faster to iterate on with zero server cost" },
+        { decision: "React 19 + Motion over vanilla JS", reason: "Component architecture with declarative scroll-driven animations (useScroll, useTransform, whileInView) for the editorial experience" },
+        { decision: "Tailwind CSS v4 with @theme", reason: "Custom design tokens (brand-red, brand-lemon, Satoshi/Outfit fonts) in a single config — no CSS preprocessor needed" },
+        { decision: "Embla Carousel over Swiper", reason: "Lightweight (12KB), framework-agnostic, full control over autoplay and custom progress bar animation" },
+        { decision: "Sharp build-time WebP conversion", reason: "Pre-converted WebP via prebuild script — zero runtime overhead, all images served in modern format" },
+        { decision: "Static data modules over CMS", reason: "No database or API — content lives in TypeScript files with full type safety, zero runtime latency, instant page loads" },
+        { decision: "IntersectionObserver for nav tracking", reason: "Native browser API with multiple thresholds (0, 0.25, 0.5, 0.75) and rootMargin for accurate active section detection" },
+      ],
+      endpoints: [
+        { method: "GET", path: "/", auth: false, rate: "N/A", purpose: "Serve static SPA entry point — all content bundled at build time" },
+        { method: "N/A", path: "src/data/*.ts", auth: false, rate: "N/A", purpose: "Static data modules imported at build time — zero runtime API dependencies" },
+      ],
+      dataFlow: [
+        "User loads koperasi-kpjmi.vercel.app → Vite-built SPA serves index.html with bundled CSS/JS",
+        "App.tsx composes Navbar + 9 sections + Footer in linear scroll layout",
+        "Each section imports its data directly from src/data/*.ts at build time — no network requests",
+        "ScrollProgress + Navbar use useScroll() for real-time scroll progress tracking",
+        "Navbar IntersectionObserver highlights active section based on viewport visibility with multiple thresholds",
+        "Gallery images loaded via Vite import.meta.glob — WebP preferred, PNG fallback via <picture>",
+        "Testimonials Embla carousel autoplays with custom progress bar synced to autoplay timer",
+        "Contact section renders Google Maps embed iframe + WhatsApp deep link for instant messaging",
+        "All animations respect prefers-reduced-motion via Motion's useReducedMotion hook"
+      ],
+      deployment: [
+        "npm run build → prebuild (Sharp WebP conversion) → tsc -b + vite build",
+        "Static output in dist/ — no server-side runtime, no Node.js on production",
+        "Deployed to Vercel via Git push — zero-config static hosting on edge network",
+        "Vercel serves compressed dist/ with automatic HTTPS, HTTP/2, and global CDN caching"
+      ],
+    },
+    diagram: {
+      frontend: { label: "FRONTEND (React SPA)", tech: "React 19 · Vite 8 · TypeScript 6 · Motion · Tailwind CSS v4 · Embla Carousel" },
+      backend: { label: "BACKEND", tech: "None — fully static site, all content in src/data/" },
+      arrow: { label: "Build-time data import" },
+      services: [
+        { name: "Vercel Edge Network", description: "Static hosting · Global CDN · Zero-config · HTTPS · Auto-deploy from Git" },
+        { name: "Embla Carousel", description: "12KB gzip · Autoplay · Responsive breakpoints · Touch-optimized dots + progress bar" },
+        { name: "Google Maps Embed", description: "Static iframe embed for KPJMI office location in Banyumas" },
+      ],
+    },
+    codeSnippets: [
+      {
+        title: "Parallax Hero — useScroll + useTransform",
+        language: "typescript",
+        code: `const { scrollYProgress } = useScroll({
+  target: heroRef,
+  offset: ["start start", "end start"],
+});
+const bgY = useTransform(scrollYProgress, [0, 1],
+  prefersReducedMotion ? ["0%", "0%"] : ["0%", "30%"]);
+const contentY = useTransform(scrollYProgress, [0, 1],
+  prefersReducedMotion ? ["0%", "0%"] : ["0%", "12%"]);
+
+return (
+  <section ref={heroRef} className="relative flex min-h-screen overflow-hidden">
+    <motion.div className="absolute inset-0 bg-cover bg-center"
+      style={{ y: bgY }}>
+      <picture>
+        <source srcSet={heroBgWebp} type="image/webp" />
+        <img src={heroBg} alt="" className="h-full w-full object-cover" />
+      </picture>
+    </motion.div>
+    <motion.div style={{ y: contentY }} className="relative z-10">
+      <h1>...</h1>
+    </motion.div>
+  </section>
+);`,
+        reason: "Scroll-driven parallax with Motion's useScroll + useTransform — background and content move at different rates for depth, with full reduced-motion respect"
+      },
+      {
+        title: "Navbar Glass Transition + Active Section",
+        language: "typescript",
+        code: `function useActiveSection(ids: string[]) {
+  const [activeId, setActiveId] = useState("");
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length > 0) setActiveId(visible[0].target.id);
+      },
+      { threshold: [0, 0.25, 0.5, 0.75], rootMargin: "-80px 0px 0px 0px" }
+    );
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, [ids]);
+  return activeId;
+}
+
+// In component:
+<motion.header
+  animate={{ y: hidden ? -80 : 0 }}
+  className={cn(
+    "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
+    scrolled
+      ? "bg-white/80 backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.08)]"
+      : "bg-transparent"
+  )}
+>`,
+        reason: "Transparent-to-glass navbar with IntersectionObserver-based active section tracking — the rootMargin accounts for navbar height, multiple thresholds prevent jitter"
+      },
+      {
+        title: "Embla Carousel — Autoplay Progress Bar",
+        language: "typescript",
+        code: `const [emblaRef, emblaApi] = useEmblaCarousel(
+  { loop: true, align: "start" },
+  [Autoplay({ delay: 4000, stopOnInteraction: false })]
+);
+
+// Animated progress bar synced to autoplay timer
+const [progress, setProgress] = useState(0);
+useEffect(() => {
+  if (!emblaApi) return;
+  const onTimer = setInterval(() => {
+    setProgress((prev) => (prev >= 100 ? 0 : prev + 1));
+  }, 40); // 4000ms / 100 steps
+  return () => clearInterval(onTimer);
+}, [emblaApi]);
+
+return (
+  <div className="overflow-hidden" ref={emblaRef}>
+    <div className="flex">
+      {slides.map(slide => (
+        <div className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.33%]">
+          {slide}
+        </div>
+      ))}
+    </div>
+    <div className="mt-4 h-1 rounded-full bg-gray-200">
+      <motion.div
+        className="h-full rounded-full bg-brand-red"
+        style={{ width: \`\${progress}%\` }}
+      />
+    </div>
+  </div>
+);`,
+        reason: "Embla autoplay carousel with a custom animated progress bar — 4s autoplay divided into 100 steps (40ms each) for smooth visual progress tracking per slide"
+      },
+      {
+        title: "Gallery Lightbox — AnimatePresence + Drag Dismiss",
+        language: "typescript",
+        code: `const images = Object.entries(
+  import.meta.glob<{ default: string }>(
+    "/src/assets/dokumentasi/*.png", { eager: true }
+  )
+);
+
+// Animated grid with category filter
+<AnimatePresence mode="popLayout">
+  {filteredImages.map(([path, mod]) => (
+    <motion.div
+      key={path}
+      layout
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+      onClick={() => setLightbox(path)}
+    >
+      <ResponsiveImage src={mod.default} />
+    </motion.div>
+  ))}
+</AnimatePresence>
+
+// Lightbox overlay with drag to dismiss
+<AnimatePresence>
+  {lightbox && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+    >
+      <motion.img
+        drag="y"
+        onDragEnd={(_, info) => {
+          if (Math.abs(info.offset.y) > 150) setLightbox(null);
+        }}
+        dragConstraints={{ top: 0, bottom: 0 }}
+      />
+    </motion.div>
+  )}
+</AnimatePresence>`,
+        reason: "Image gallery with Vite import.meta.glob for asset discovery, AnimatePresence popLayout for smooth filter transitions, and drag-to-dismiss lightbox overlay"
+      },
+    ],
+    siteMap: {
+      userRoles: [
+        { role: "Farmers & Members", description: "Cooperative members selling organic produce", needs: "Looking to showcase their products, build trust with buyers, and attract new partnership opportunities through a professional brand presence.", icon: "👨‍🌾" },
+        { role: "Wholesale Buyers", description: "Businesses sourcing organic papaya products", needs: "Need to verify product quality, understand the cooperative's production capacity, and easily reach out via WhatsApp or contact form.", icon: "🛒" },
+        { role: "General Visitors", description: "Public interested in organic products and social impact", needs: "Want to learn about organic farming practices, the cooperative's story, and how to support local farmers in Banyumas.", icon: "👤" },
+        { role: "Government & Partners", description: "Local government and institutional partners", needs: "Need transparent information about the cooperative's operations, certifications, and community impact for partnership evaluation.", icon: "🤝" },
+      ],
+      userFlow: [
+        { step: "Parallax Hero Landing", detail: "Full-bleed hero with scroll-driven parallax, animated text reveal, and three CTAs: Jelajahi Profil, Hubungi Kami, and WhatsApp direct link" },
+        { step: "About & Statistics", detail: "Magazine-spread editorial layout with organic image mask, floating glass quote card, and animated counter statistics triggered by IntersectionObserver" },
+        { step: "Vision, Mission & Timeline", detail: "Centered glass vision card, zigzag timeline cards with staggered scroll animations, and commitment banner on image background" },
+        { step: "Production & Business Units", detail: "Rich detail cards showing four business units with per-item breakdown — Users can understand the full product ecosystem at a glance" },
+        { step: "Product Showcase", detail: "Real product photography for Papaya Candy, Chips, and Soap with category badges and WhatsApp CTA for inquiries" },
+        { step: "Gallery with Lightbox", detail: "Documentation photos in a filterable grid (AnimatePresence popLayout), with drag-to-dismiss lightbox and pinch-to-zoom on mobile" },
+        { step: "Testimonials Carousel", detail: "Embla autoplay carousel with animated progress bar, responsive breakpoints (1/2/3 slides), and dot navigation" },
+        { step: "FAQ & Contact", detail: "Smooth accordion with AnimatePresence, live Google Maps embed, WhatsApp integration, and contact form for inquiries" },
+      ],
+      siteArchitecture: [
+        { section: "Hero", type: "Full-bleed parallax", description: "Scroll-driven background/content parallax with ambient glow overlay, noise texture, and animated headline reveal" },
+        { section: "About", type: "Editorial magazine-spread", description: "Organic image mask with clip-path, floating glass quote card, feature grid, animated statistics counter, story card" },
+        { section: "Vision & Mission", type: "Zigzag timeline", description: "Centered glass vision card, alternating left/right mission cards with staggered fade-in, commitment banner on image background" },
+        { section: "Business Units", type: "Detail cards", description: "Four business unit cards (Papaya Farming, Processing, Livestock, Trading) with icon, description, and per-unit breakdown" },
+        { section: "Products", type: "Product catalog", description: "Three product cards (Opak, Candy, Soap) with real photography, category badges, and WhatsApp inquiry CTA" },
+        { section: "Gallery", type: "Filterable grid + lightbox", description: "Vite import.meta.glob asset discovery, category filter tabs with AnimatePresence popLayout, drag-to-dismiss overlay" },
+        { section: "Testimonials", type: "Embla carousel", description: "Autoplay with progress bar, 3 responsive breakpoints, dot navigation, previous/next buttons" },
+        { section: "FAQ", type: "Accordion", description: "8 FAQ items with AnimatePresence smooth expand/collapse, brand-red accent on active items" },
+        { section: "Contact", type: "Google Maps + WhatsApp", description: "Live Google Maps iframe embed, WhatsApp deep link, address/phone/email info, operating hours" },
+        { section: "Footer", type: "Dark footer", description: "Brand logo, social media icons (SVG), navigation links, copyright with brand-red separator" },
+      ],
     },
   },
   {

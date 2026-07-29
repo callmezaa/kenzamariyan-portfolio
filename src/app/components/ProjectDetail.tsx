@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/motion/ta
 import MetricCards from "./project-detail/MetricCards";
 import ArchitectureSection from "./project-detail/ArchitectureSection";
 import AIPipelineSection from "./project-detail/AIPipelineSection";
+import SiteMapSection from "./project-detail/SiteMapSection";
 import TechnicalSection from "./project-detail/TechnicalSection";
 
 const projectImages: Record<string, string> = {
@@ -166,7 +167,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const galleryScreenshots = isMobileApp && gallery ? gallery.slice(3) : gallery;
   const allScreenshots = galleryScreenshots ?? [];
 
-  const hasDetailedData = !!(project.architecture || project.aiPipeline || project.codeSnippets);
+  const pipelineLabel = project.aiPipeline ? t("aiPipeline") : t("siteMap");
+  const hasDetailedData = !!(project.architecture || project.aiPipeline || project.siteMap || project.codeSnippets);
 
   const scrollTo = useCallback((index: number) => {
     const container = containerRef.current;
@@ -257,7 +259,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               <TabsList>
                 {NAV_SECTIONS.map((section) => (
                   <TabsTrigger key={section} value={section}>
-                    {t(section)}
+                    {section === "aiPipeline" ? pipelineLabel : t(section)}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -308,6 +310,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             {project.aiPipeline && (
               <TabsContent value="aiPipeline">
                 <AIPipelineSection aiPipeline={project.aiPipeline} accent={project.accent} />
+              </TabsContent>
+            )}
+            {project.siteMap && (
+              <TabsContent value="aiPipeline">
+                <SiteMapSection siteMap={project.siteMap} accent={project.accent} />
               </TabsContent>
             )}
 

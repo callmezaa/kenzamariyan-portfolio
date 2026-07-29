@@ -234,6 +234,232 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
       glow: "rgba(184, 17, 4, 0.14)",
       color: "#B81104",
     },
+    architecture: {
+      monorepo: [
+        { name: "src/components/", tech: "React 19 + Motion", description: "6 komponen layout (Navbar, Footer, Container, BackToTop, ScrollProgress, SectionDivider) dan 10 komponen seksi (Hero, About, VisionMission, BusinessUnits, Products, Gallery, Testimonials, FAQ, Contact, SectionHeader)" },
+        { name: "src/data/", tech: "Modul TypeScript", description: "12 modul data statis (navigation, company, businessUnits, products, gallery, testimonials, faq, contact, statistics, values, timeline, partners, certifications)" },
+        { name: "src/hooks/", tech: "TypeScript", description: "Custom hooks termasuk useCounter — IntersectionObserver untuk animasi counter statistik yang dipicu scroll" },
+        { name: "src/utils/", tech: "TypeScript", description: "Utilitas cn() menggabungkan clsx + tailwind-merge untuk komposisi class tanpa konflik" },
+      ],
+      decisions: [
+        { decision: "Vite 8 daripada Next.js", reason: "Company profile statis tidak butuh SSR/SSG — HMR instan Vite dan pipeline build sederhana lebih cepat untuk iterasi tanpa biaya server" },
+        { decision: "React 19 + Motion daripada vanilla JS", reason: "Arsitektur komponen dengan animasi scroll-driven deklaratif (useScroll, useTransform, whileInView) untuk pengalaman editorial" },
+        { decision: "Tailwind CSS v4 dengan @theme", reason: "Token desain kustom (brand-red, brand-lemon, font Satoshi/Outfit) dalam satu konfigurasi — tanpa preprocessor CSS" },
+        { decision: "Embla Carousel daripada Swiper", reason: "Ringan (12KB), agnostik framework, kontrol penuh atas autoplay dan animasi progress bar kustom" },
+        { decision: "Konversi WebP build-time dengan Sharp", reason: "WebP pra-konversi via script prebuild — tanpa overhead runtime, semua gambar dalam format modern" },
+        { decision: "Modul data statis daripada CMS", reason: "Tanpa database atau API — konten di file TypeScript dengan type safety penuh, tanpa latensi runtime, muat halaman instan" },
+        { decision: "IntersectionObserver untuk navigasi", reason: "API browser native dengan multiple threshold (0, 0.25, 0.5, 0.75) dan rootMargin untuk deteksi seksi aktif yang akurat" },
+      ],
+      endpoints: [
+        { method: "GET", path: "/", auth: false, rate: "N/A", purpose: "Melayani entry point SPA statis — semua konten dibundel saat build" },
+        { method: "N/A", path: "src/data/*.ts", auth: false, rate: "N/A", purpose: "Modul data statis diimpor saat build — tanpa dependensi API runtime" },
+      ],
+      dataFlow: [
+        "Pengguna membuka koperasi-kpjmi.vercel.app → SPA Vite melayani index.html dengan CSS/JS terbundel",
+        "App.tsx menyusun Navbar + 9 seksi + Footer dalam tata letak scroll linear",
+        "Setiap seksi mengimpor datanya langsung dari src/data/*.ts saat build — tanpa permintaan jaringan",
+        "ScrollProgress + Navbar menggunakan useScroll() untuk pelacakan progress scroll real-time",
+        "IntersectionObserver Navbar menyoroti seksi aktif berdasarkan visibilitas viewport dengan multiple threshold",
+        "Gambar galeri dimuat via Vite import.meta.glob — WebP sebagai preferensi, PNG fallback via <picture>",
+        "Carousel Testimonials Embla berputar otomatis dengan progress bar kustom yang sinkron dengan timer autoplay",
+        "Seksi Kontak menampilkan embed Google Maps iframe + tautan WhatsApp untuk pesan instan",
+        "Semua animasi menghormati prefers-reduced-motion melalui hook useReducedMotion dari Motion"
+      ],
+      deployment: [
+        "npm run build → prebuild (Sharp WebP conversion) → tsc -b + vite build",
+        "Output statis di dist/ — tanpa runtime server, tanpa Node.js di produksi",
+        "Di-deploy ke Vercel via push Git — hosting statis zero-config di edge network",
+        "Vercel melayani dist/ terkompresi dengan HTTPS otomatis, HTTP/2, dan caching CDN global"
+      ],
+    },
+    diagram: {
+      frontend: { label: "FRONTEND (React SPA)", tech: "React 19 · Vite 8 · TypeScript 6 · Motion · Tailwind CSS v4 · Embla Carousel" },
+      backend: { label: "BACKEND", tech: "Tidak ada — situs statis penuh, semua konten di src/data/" },
+      arrow: { label: "Import data saat build" },
+      services: [
+        { name: "Vercel Edge Network", description: "Hosting statis · CDN Global · Zero-config · HTTPS · Deploy otomatis dari Git" },
+        { name: "Embla Carousel", description: "12KB gzip · Autoplay · Breakpoint responsif · Dot + progress bar touch-friendly" },
+        { name: "Google Maps Embed", description: "Iframe statis untuk lokasi kantor KPJMI di Banyumas" },
+      ],
+    },
+    codeSnippets: [
+      {
+        title: "Hero Parallax — useScroll + useTransform",
+        language: "typescript",
+        code: `const { scrollYProgress } = useScroll({
+  target: heroRef,
+  offset: ["start start", "end start"],
+});
+const bgY = useTransform(scrollYProgress, [0, 1],
+  prefersReducedMotion ? ["0%", "0%"] : ["0%", "30%"]);
+const contentY = useTransform(scrollYProgress, [0, 1],
+  prefersReducedMotion ? ["0%", "0%"] : ["0%", "12%"]);
+
+return (
+  <section ref={heroRef} className="relative flex min-h-screen overflow-hidden">
+    <motion.div className="absolute inset-0 bg-cover bg-center"
+      style={{ y: bgY }}>
+      <picture>
+        <source srcSet={heroBgWebp} type="image/webp" />
+        <img src={heroBg} alt="" className="h-full w-full object-cover" />
+      </picture>
+    </motion.div>
+    <motion.div style={{ y: contentY }} className="relative z-10">
+      <h1>...</h1>
+    </motion.div>
+  </section>
+);`,
+        reason: "Parallaks scroll-driven dengan Motion useScroll + useTransform — background dan konten bergerak dengan kecepatan berbeda untuk efek kedalaman, dengan penghormatan penuh terhadap reduced-motion"
+      },
+      {
+        title: "Navbar Glass Transisi + Seksi Aktif",
+        language: "typescript",
+        code: `function useActiveSection(ids: string[]) {
+  const [activeId, setActiveId] = useState("");
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length > 0) setActiveId(visible[0].target.id);
+      },
+      { threshold: [0, 0.25, 0.5, 0.75], rootMargin: "-80px 0px 0px 0px" }
+    );
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, [ids]);
+  return activeId;
+}
+
+// Di komponen:
+<motion.header
+  animate={{ y: hidden ? -80 : 0 }}
+  className={cn(
+    "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
+    scrolled
+      ? "bg-white/80 backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.08)]"
+      : "bg-transparent"
+  )}
+>`,
+        reason: "Navbar transparan-ke-glass dengan IntersectionObserver untuk pelacakan seksi aktif — rootMargin mengakomodasi tinggi navbar, multiple threshold mencegah jitter"
+      },
+      {
+        title: "Embla Carousel — Progress Bar Autoplay",
+        language: "typescript",
+        code: `const [emblaRef, emblaApi] = useEmblaCarousel(
+  { loop: true, align: "start" },
+  [Autoplay({ delay: 4000, stopOnInteraction: false })]
+);
+
+const [progress, setProgress] = useState(0);
+useEffect(() => {
+  if (!emblaApi) return;
+  const onTimer = setInterval(() => {
+    setProgress((prev) => (prev >= 100 ? 0 : prev + 1));
+  }, 40);
+  return () => clearInterval(onTimer);
+}, [emblaApi]);
+
+return (
+  <div className="overflow-hidden" ref={emblaRef}>
+    <div className="flex">
+      {slides.map(slide => (
+        <div className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.33%]">
+          {slide}
+        </div>
+      ))}
+    </div>
+    <div className="mt-4 h-1 rounded-full bg-gray-200">
+      <motion.div
+        className="h-full rounded-full bg-brand-red"
+        style={{ width: \`\${progress}%\` }}
+      />
+    </div>
+  </div>
+);`,
+        reason: "Carousel Embla autoplay dengan progress bar animasi kustom — 4s autoplay dibagi 100 langkah (40ms per langkah) untuk progress visual yang halus per slide"
+      },
+      {
+        title: "Galeri Lightbox — AnimatePresence + Drag Dismiss",
+        language: "typescript",
+        code: `const images = Object.entries(
+  import.meta.glob<{ default: string }>(
+    "/src/assets/dokumentasi/*.png", { eager: true }
+  )
+);
+
+// Grid animasi dengan filter kategori
+<AnimatePresence mode="popLayout">
+  {filteredImages.map(([path, mod]) => (
+    <motion.div
+      key={path}
+      layout
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+      onClick={() => setLightbox(path)}
+    >
+      <ResponsiveImage src={mod.default} />
+    </motion.div>
+  ))}
+</AnimatePresence>
+
+// Overlay lightbox dengan drag untuk tutup
+<AnimatePresence>
+  {lightbox && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+    >
+      <motion.img
+        drag="y"
+        onDragEnd={(_, info) => {
+          if (Math.abs(info.offset.y) > 150) setLightbox(null);
+        }}
+        dragConstraints={{ top: 0, bottom: 0 }}
+      />
+    </motion.div>
+  )}
+</AnimatePresence>`,
+        reason: "Galeri gambar dengan Vite import.meta.glob untuk discovery aset, AnimatePresence popLayout untuk transisi filter halus, dan lightbox dengan drag-to-dismiss"
+      },
+    ],
+    siteMap: {
+      userRoles: [
+        { role: "Petani & Anggota", description: "Anggota koperasi yang menjual hasil organik", needs: "Ingin menampilkan produk mereka, membangun kepercayaan dengan pembeli, dan menarik peluang kemitraan baru melalui kehadiran merek profesional.", icon: "👨‍🌾" },
+        { role: "Pembeli Grosir", description: "Bisnis yang mencari produk pepaya organik", needs: "Perlu memverifikasi kualitas produk, memahami kapasitas produksi koperasi, dan mudah menghubungi melalui WhatsApp atau form kontak.", icon: "🛒" },
+        { role: "Pengunjung Umum", description: "Publik yang tertarik dengan produk organik dan dampak sosial", needs: "Ingin belajar tentang praktik pertanian organik, kisah koperasi, dan cara mendukung petani lokal di Banyumas.", icon: "👤" },
+        { role: "Pemerintah & Mitra", description: "Pemerintah daerah dan mitra institusi", needs: "Membutuhkan informasi transparan tentang operasi koperasi, sertifikasi, dan dampak komunitas untuk evaluasi kemitraan.", icon: "🤝" },
+      ],
+      userFlow: [
+        { step: "Hero Parallax", detail: "Hero full-bleed dengan parallax scroll-driven, animasi teks reveal, dan tiga CTA: Jelajahi Profil, Hubungi Kami, dan tautan langsung WhatsApp" },
+        { step: "Tentang & Statistik", detail: "Tata letak editorial magazine-spread dengan image mask organik, floating glass quote card, dan counter statistik animasi yang dipicu IntersectionObserver" },
+        { step: "Visi, Misi & Timeline", detail: "Kartu visi glass terpusat, kartu misi timeline zigzag dengan animasi scroll staggered, dan banner komitmen di latar gambar" },
+        { step: "Produksi & Unit Usaha", detail: "Kartu detail yang menampilkan empat unit bisnis dengan rincian per-item — pengguna dapat memahami ekosistem produk secara sekilas" },
+        { step: "Showcase Produk", detail: "Fotografi produk nyata untuk Permen Pepaya, Keripik, dan Sabun dengan badge kategori dan CTA WhatsApp untuk pertanyaan" },
+        { step: "Galeri dengan Lightbox", detail: "Foto dokumentasi dalam grid yang dapat difilter (AnimatePresence popLayout), dengan lightbox drag-to-dismiss dan pinch-to-zoom di mobile" },
+        { step: "Carousel Testimoni", detail: "Carousel Embla autoplay dengan progress bar animasi, breakpoint responsif (1/2/3 slide), dan navigasi dot" },
+        { step: "FAQ & Kontak", detail: "Akordion halus dengan AnimatePresence, embed Google Maps langsung, integrasi WhatsApp, dan form kontak untuk pertanyaan" },
+      ],
+      siteArchitecture: [
+        { section: "Hero", type: "Parallax full-bleed", description: "Parallax background/konten scroll-driven dengan ambient glow overlay, tekstur noise, dan animasi headline reveal" },
+        { section: "Tentang", type: "Editorial magazine-spread", description: "Image mask organik dengan clip-path, floating glass quote card, grid fitur, counter statistik animasi, kartu cerita" },
+        { section: "Visi & Misi", type: "Timeline zigzag", description: "Kartu visi glass terpusat, kartu misi bergantian kiri/kanan dengan fade-in staggered, banner komitmen di latar gambar" },
+        { section: "Unit Usaha", type: "Kartu detail", description: "Empat kartu unit bisnis (Pertanian Pepaya, Pengolahan, Peternakan, Perdagangan) dengan ikon, deskripsi, dan rincian per-unit" },
+        { section: "Produk", type: "Katalog produk", description: "Tiga kartu produk (Opak, Permen, Sabun) dengan foto nyata, badge kategori, dan CTA WhatsApp" },
+        { section: "Galeri", type: "Grid + lightbox", description: "Vite import.meta.glob untuk discovery aset, tab filter kategori dengan AnimatePresence popLayout, overlay drag-to-dismiss" },
+        { section: "Testimoni", type: "Carousel Embla", description: "Autoplay dengan progress bar, 3 breakpoint responsif, navigasi dot, tombol previous/next" },
+        { section: "FAQ", type: "Akordion", description: "8 item FAQ dengan AnimatePresence expand/collapse halus, aksen brand-red pada item aktif" },
+        { section: "Kontak", type: "Google Maps + WhatsApp", description: "Embed Google Maps iframe langsung, tautan WhatsApp, info alamat/telepon/email, jam operasional" },
+        { section: "Footer", type: "Footer gelap", description: "Logo merek, ikon media sosial (SVG), tautan navigasi, hak cipta dengan pemisah brand-red" },
+      ],
+    },
   },
   {
     slug: "gotani-pos",
