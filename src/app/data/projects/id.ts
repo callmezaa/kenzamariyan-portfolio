@@ -213,6 +213,53 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     ],
   },
   {
+    slug: "koperasi-kpjmi",
+    title: "KPJMI — Company Profile Koperasi Petani",
+    summary:
+      "Situs web perusahaan bergaya editorial premium untuk Koperasi Petani Jaya Makmur Indonesia (KPJMI), sebuah koperasi yang memberdayakan petani lokal di Banyumas melalui budidaya pepaya organik dan produk olahan.",
+    challenge:
+      "KPJMI, sebuah koperasi petani di Banyumas, Jawa Tengah, membutuhkan kehadiran digital modern yang mencerminkan produk organik premium mereka dan martabat para petani. Situs web koperasi yang ada seringkali ketinggalan zaman dan gagal mengomunikasikan positioning premium merek — sehingga sulit menarik mitra, pembeli, dan anggota baru.",
+    solution:
+      "Membangun SPA React 19 + TypeScript dengan Vite 8 dan Tailwind CSS v4, menampilkan tata letak editorial magazine-spread dengan hero full-bleed, image mask organik, floating glass quote card, timeline zigzag untuk visi & misi, showcase fotografi produk nyata (Permen Pepaya, Keripik, Sabun), galeri lightbox dengan Embla Carousel, bagian kontak terintegrasi WhatsApp, dan embed Google Maps langsung — semuanya dibungkus dalam sistem desain editorial Swiss premium.",
+    impact:
+      "Menghadirkan company profile yang responsif dan berperforma tinggi yang memposisikan KPJMI sebagai merek koperasi modern dan terpercaya. Memiliki 10+ bagian yang berbeda, animasi scroll-aware yang halus melalui Motion, navbar glass transparan/gelap, dan bahasa desain editorial yang konsisten dengan aksen merah merek (#B81104).",
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS"],
+    role: "Pengembang Frontend & Desainer UI",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/koperasi-KPJMI",
+    demoUrl: "https://koperasi-kpjmi.vercel.app",
+    type: "company",
+    metrics: ["React 19 + Vite 8", "Tailwind CSS v4", "Editorial Design", "Embla Lightbox"],
+    accent: {
+      glow: "rgba(184, 17, 4, 0.14)",
+      color: "#B81104",
+    },
+  },
+  {
+    slug: "gotani-pos",
+    title: "Aplikasi POS Mobile Gotani",
+    summary:
+      "Aplikasi point-of-sale dan alur kerja rantai pasok React Native berperforma tinggi yang dirancang untuk operasi pembukuan pertanian offline-first di daerah pedesaan terpencil.",
+    challenge:
+      "Operator koperasi di daerah pertanian terpencil tidak memiliki koneksi desktop dan membutuhkan alat transaksi yang mampu mencatat log POS secara offline tanpa koneksi internet.",
+    solution:
+      "Membangun cache state lokal yang tersinkronisasi dengan Firestore, mengintegrasikan state machine transaksional dengan antrean offline, dan merancang grid transaksi responsif yang dioptimalkan untuk perangkat mobile kelas bawah.",
+    impact:
+      "Menghilangkan pembukuan kertas manual, mengurangi kesalahan rekonsiliasi data hingga 90% dan mempercepat entri transaksi hingga di bawah 5 detik per operasi.",
+    stack: ["React Native", "Expo", "Firebase", "Firestore", "AsyncStorage"],
+    role: "Pengembang Mobile & Backend",
+    year: "2024",
+    sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
+    type: "pos",
+    featured: true,
+    badge: "Enterprise App",
+    metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
+    accent: {
+      glow: "rgba(16, 185, 129, 0.14)",
+      color: "#10b981",
+    },
+  },
+  {
     slug: "interviewos",
     title: "InterviewOS — Platform Wawancara Bertenaga AI",
     summary:
@@ -259,30 +306,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     accent: {
       glow: "rgba(168, 85, 247, 0.14)",
       color: "#a855f7",
-    },
-  },
-  {
-    slug: "gotani-pos",
-    title: "Aplikasi POS Mobile Gotani",
-    summary:
-      "Aplikasi point-of-sale dan alur kerja rantai pasok React Native berperforma tinggi yang dirancang untuk operasi pembukuan pertanian offline-first di daerah pedesaan terpencil.",
-    challenge:
-      "Operator koperasi di daerah pertanian terpencil tidak memiliki koneksi desktop dan membutuhkan alat transaksi yang mampu mencatat log POS secara offline tanpa koneksi internet.",
-    solution:
-      "Membangun cache state lokal yang tersinkronisasi dengan Firestore, mengintegrasikan state machine transaksional dengan antrean offline, dan merancang grid transaksi responsif yang dioptimalkan untuk perangkat mobile kelas bawah.",
-    impact:
-      "Menghilangkan pembukuan kertas manual, mengurangi kesalahan rekonsiliasi data hingga 90% dan mempercepat entri transaksi hingga di bawah 5 detik per operasi.",
-    stack: ["React Native", "Expo", "Firebase", "Firestore", "AsyncStorage"],
-    role: "Pengembang Mobile & Backend",
-    year: "2024",
-    sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
-    type: "pos",
-    featured: true,
-    badge: "Enterprise App",
-    metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
-    accent: {
-      glow: "rgba(16, 185, 129, 0.14)",
-      color: "#10b981",
     },
   },
   {

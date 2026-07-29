@@ -57,7 +57,7 @@ export const techDescriptions: Record<string, string> = {
 export const PROJECT_CATEGORIES: Record<string, typeof projects> = {
   All: projects,
   "Web App": projects.filter((p) =>
-    ["contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
+    ["koperasi-kpjmi", "contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
   ),
   Mobile: projects.filter((p) =>
     ["gotani-pos", "mercato", "nextalk"].includes(p.slug)

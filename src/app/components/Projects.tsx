@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
 
 const projectImages: Record<string, string> = {
+  "koperasi-kpjmi": "/image/koperasi-kpjmi/mockup.png",
   "contract-chill": "/image/contract-chill/screenshot/mockup.png",
   interviewos: "/image/interviewOS/mockup-v2.png",
   assetra: "/image/assetra/mockup-v2.png",
@@ -39,7 +40,7 @@ export default function Projects() {
     return {
       All: localized,
       "Web App": localized.filter((p) =>
-        ["contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
+        ["koperasi-kpjmi", "contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
       ),
       Mobile: localized.filter((p) =>
         ["gotani-pos", "mercato", "nextalk"].includes(p.slug)

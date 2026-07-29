@@ -17,6 +17,7 @@ import AIPipelineSection from "./project-detail/AIPipelineSection";
 import TechnicalSection from "./project-detail/TechnicalSection";
 
 const projectImages: Record<string, string> = {
+  "koperasi-kpjmi": "/image/koperasi-kpjmi/homepage.png",
   "contract-chill": "/image/contract-chill/screenshot/homepage.png",
   interviewos: "/image/interviewOS/homesection.png",
   assetra: "/image/assetra/homesection.png",
@@ -28,6 +29,15 @@ const projectImages: Record<string, string> = {
 };
 
 const screenshots: Record<string, { src: string; label: string }[]> = {
+  "koperasi-kpjmi": [
+    { src: "/image/koperasi-kpjmi/homepage.png", label: "Homepage" },
+    { src: "/image/koperasi-kpjmi/tentangkami.png", label: "Tentang Kami" },
+    { src: "/image/koperasi-kpjmi/visidanmisi.png", label: "Visi & Misi" },
+    { src: "/image/koperasi-kpjmi/produksi.png", label: "Produksi & Distribusi" },
+    { src: "/image/koperasi-kpjmi/product.png", label: "Produk" },
+    { src: "/image/koperasi-kpjmi/gallery.png", label: "Galeri" },
+    { src: "/image/koperasi-kpjmi/contact.png", label: "Kontak" },
+  ],
   "contract-chill": [
     { src: "/image/contract-chill/screenshot/homepage.png", label: "Homepage" },
     { src: "/image/contract-chill/screenshot/analysizpage.png", label: "Analysis" },

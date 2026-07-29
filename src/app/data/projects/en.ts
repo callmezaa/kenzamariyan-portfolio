@@ -255,6 +255,53 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     ],
   },
   {
+    slug: "koperasi-kpjmi",
+    title: "KPJMI — Company Profile Koperasi Petani",
+    summary:
+      "A premium editorial-style corporate website for Koperasi Petani Jaya Makmur Indonesia (KPJMI), a cooperative empowering local farmers in Banyumas through organic papaya cultivation and processed products.",
+    challenge:
+      "KPJMI, a farmer cooperative in Banyumas, Central Java, needed a modern digital presence that reflects their premium organic products and the dignity of their farmers. Existing cooperative websites are often outdated and fail to communicate the brand's premium positioning — making it hard to attract partners, buyers, and new members.",
+    solution:
+      "Built a React 19 + TypeScript SPA with Vite 8 and Tailwind CSS v4, featuring an editorial magazine-spread layout with full-bleed hero, organic image masks, floating glass quote cards, zigzag timeline for vision & mission, real product photography showcase (Papaya Candy, Chips, Soap), gallery lightbox with Embla Carousel, WhatsApp-integrated contact section, and live Google Maps embed — all wrapped in a premium Swiss-editorial design system.",
+    impact:
+      "Delivered a fully responsive, performant company profile that positions KPJMI as a modern, trustworthy cooperative brand. Features 10+ distinct sections, smooth scroll-aware animations via Motion, dark/transparent glass navbar, and a consistent editorial design language with brand red (#B81104) accent.",
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS"],
+    role: "Frontend Developer & UI Designer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/koperasi-KPJMI",
+    demoUrl: "https://koperasi-kpjmi.vercel.app",
+    type: "company",
+    metrics: ["React 19 + Vite 8", "Tailwind CSS v4", "Editorial Design", "Embla Lightbox"],
+    accent: {
+      glow: "rgba(184, 17, 4, 0.14)",
+      color: "#B81104",
+    },
+  },
+  {
+    slug: "gotani-pos",
+    title: "Gotani Mobile POS Application",
+    summary:
+      "A high-performance React Native point-of-sale and supply-chain workflow app designed for offline-first agricultural ledger operations in remote farming areas.",
+    challenge:
+      "Cooperative operators in remote farming areas lacked desktop connections and required a robust transaction tool capable of recording POS ledger logs offline without internet connectivity.",
+    solution:
+      "Built a robust local state cache synced with Firestore, integrated transactional state machines with offline queue, and designed responsive transaction grids optimized for low-end mobile devices.",
+    impact:
+      "Eliminated manual paper bookkeeping, reducing data reconciliation errors by 90% and accelerating transaction entries to under 5 seconds per operation.",
+    stack: ["React Native", "Expo", "Firebase", "Firestore", "AsyncStorage"],
+    role: "Mobile & Backend Developer",
+    year: "2024",
+    sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
+    type: "pos",
+    featured: true,
+    badge: "Enterprise App",
+    metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
+    accent: {
+      glow: "rgba(16, 185, 129, 0.14)",
+      color: "#10b981",
+    },
+  },
+  {
     slug: "interviewos",
     title: "InterviewOS — AI-Powered Interview Platform",
     summary:
@@ -301,30 +348,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     accent: {
       glow: "rgba(168, 85, 247, 0.14)",
       color: "#a855f7",
-    },
-  },
-  {
-    slug: "gotani-pos",
-    title: "Gotani Mobile POS Application",
-    summary:
-      "A high-performance React Native point-of-sale and supply-chain workflow app designed for offline-first agricultural ledger operations in remote farming areas.",
-    challenge:
-      "Cooperative operators in remote farming areas lacked desktop connections and required a robust transaction tool capable of recording POS ledger logs offline without internet connectivity.",
-    solution:
-      "Built a robust local state cache synced with Firestore, integrated transactional state machines with offline queue, and designed responsive transaction grids optimized for low-end mobile devices.",
-    impact:
-      "Eliminated manual paper bookkeeping, reducing data reconciliation errors by 90% and accelerating transaction entries to under 5 seconds per operation.",
-    stack: ["React Native", "Expo", "Firebase", "Firestore", "AsyncStorage"],
-    role: "Mobile & Backend Developer",
-    year: "2024",
-    sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
-    type: "pos",
-    featured: true,
-    badge: "Enterprise App",
-    metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
-    accent: {
-      glow: "rgba(16, 185, 129, 0.14)",
-      color: "#10b981",
     },
   },
   {
