@@ -4,12 +4,14 @@ import {
   SiGo, SiPython, SiFastapi, SiPostgresql, SiRedis, SiPrisma,
   SiDocker, SiGooglecloud, SiSupabase,
   SiExpress, SiNodedotjs, SiMongodb, SiGit,
+  SiVite, SiThreedotjs, SiGreensock, SiReactquery, SiChartdotjs, SiBox, SiExpo,
+  SiFirebase, SiRailway, SiGithubactions, SiCloudinary, SiUpstash, SiVercel,
 } from "react-icons/si";
 
 export interface TechItem {
   name: string;
   icon: IconType;
-  category: "Frontend" | "Mobile" | "Backend" | "AI & Infra";
+  category: "Frontend" | "Mobile" | "Backend" | "Database & Infrastructure";
   brandColor: string;
   brandColorDark?: string;
   mastery: number;
@@ -51,12 +53,70 @@ export const techArsenalEn: TechItem[] = [
     description: "Utility-first design system",
   },
   {
+    name: "Vite",
+    icon: SiVite,
+    category: "Frontend",
+    brandColor: "#646CFF",
+    mastery: 80,
+    description: "Next-gen build tooling",
+  },
+  {
+    name: "TanStack Query",
+    icon: SiReactquery,
+    category: "Frontend",
+    brandColor: "#FF4154",
+    mastery: 78,
+    description: "Server state & caching",
+  },
+  {
+    name: "Zustand",
+    icon: SiBox,
+    category: "Frontend",
+    brandColor: "#7C3AED",
+    mastery: 75,
+    description: "Lightweight state management",
+  },
+  {
+    name: "GSAP",
+    icon: SiGreensock,
+    category: "Frontend",
+    brandColor: "#88CE02",
+    mastery: 72,
+    description: "High-performance animation",
+  },
+  {
+    name: "Three.js",
+    icon: SiThreedotjs,
+    category: "Frontend",
+    brandColor: "#000000",
+    brandColorDark: "#FFFFFF",
+    mastery: 65,
+    description: "3D graphics in the browser",
+  },
+  {
+    name: "Recharts",
+    icon: SiChartdotjs,
+    category: "Frontend",
+    brandColor: "#22B5BF",
+    mastery: 70,
+    description: "Composable React charting",
+  },
+  {
     name: "React Native",
     icon: SiReact,
     category: "Mobile",
     brandColor: "#61DAFB",
     mastery: 85,
     description: "Cross-platform mobile apps",
+  },
+  {
+    name: "Expo",
+    icon: SiExpo,
+    category: "Mobile",
+    brandColor: "#000020",
+    brandColorDark: "#FFFFFF",
+    mastery: 80,
+    description: "Managed React Native framework",
   },
   {
     name: "Go",
@@ -142,7 +202,7 @@ export const techArsenalEn: TechItem[] = [
   {
     name: "Docker",
     icon: SiDocker,
-    category: "AI & Infra",
+    category: "Database & Infrastructure",
     brandColor: "#2496ED",
     mastery: 75,
     description: "Containerized deployments",
@@ -150,7 +210,7 @@ export const techArsenalEn: TechItem[] = [
   {
     name: "Google Cloud",
     icon: SiGooglecloud,
-    category: "AI & Infra",
+    category: "Database & Infrastructure",
     brandColor: "#4285F4",
     mastery: 72,
     description: "Cloud infrastructure & serverless",
@@ -158,9 +218,59 @@ export const techArsenalEn: TechItem[] = [
   {
     name: "Supabase",
     icon: SiSupabase,
-    category: "AI & Infra",
+    category: "Database & Infrastructure",
     brandColor: "#3ECF8E",
     mastery: 75,
     description: "Open-source BaaS platform",
+  },
+  {
+    name: "Firebase",
+    icon: SiFirebase,
+    category: "Database & Infrastructure",
+    brandColor: "#FFCA28",
+    mastery: 78,
+    description: "App backend & real-time database",
+  },
+  {
+    name: "Upstash Redis",
+    icon: SiUpstash,
+    category: "Database & Infrastructure",
+    brandColor: "#00E9A3",
+    mastery: 70,
+    description: "Serverless Redis caching",
+  },
+  {
+    name: "Vercel",
+    icon: SiVercel,
+    category: "Database & Infrastructure",
+    brandColor: "#000000",
+    brandColorDark: "#FFFFFF",
+    mastery: 85,
+    description: "Edge deployment platform",
+  },
+  {
+    name: "Railway",
+    icon: SiRailway,
+    category: "Database & Infrastructure",
+    brandColor: "#0B0D0E",
+    brandColorDark: "#FFFFFF",
+    mastery: 72,
+    description: "Full-stack deployment platform",
+  },
+  {
+    name: "GitHub Actions",
+    icon: SiGithubactions,
+    category: "Database & Infrastructure",
+    brandColor: "#2088FF",
+    mastery: 75,
+    description: "CI/CD automation pipelines",
+  },
+  {
+    name: "Cloudinary",
+    icon: SiCloudinary,
+    category: "Database & Infrastructure",
+    brandColor: "#3448C5",
+    mastery: 68,
+    description: "Media management & optimization",
   },
 ];

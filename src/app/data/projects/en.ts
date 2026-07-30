@@ -520,17 +520,230 @@ return (
       "Built a robust local state cache synced with Firestore, integrated transactional state machines with offline queue, and designed responsive transaction grids optimized for low-end mobile devices.",
     impact:
       "Eliminated manual paper bookkeeping, reducing data reconciliation errors by 90% and accelerating transaction entries to under 5 seconds per operation.",
-    stack: ["React Native", "Expo", "Firebase", "Firestore", "AsyncStorage"],
+    stack: ["React Native", "Expo", "TypeScript", "Firebase", "Firestore", "Midtrans"],
     role: "Mobile & Backend Developer",
     year: "2024",
     sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
     type: "pos",
     featured: true,
     badge: "Enterprise App",
-    metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
+    metrics: ["90% Error Reduction", "Dual-Role Auth", "Midtrans Payments", "5s Entry Time"],
     accent: {
       glow: "rgba(16, 185, 129, 0.14)",
       color: "#10b981",
+    },
+    architecture: {
+      monorepo: [
+        { name: "app/", tech: "Expo Router (file-based)", description: "Root layout, auth screens (login/register/forgot-password), splash screen, and main (tabs) group with 20+ screens for transactions, stock, reports, employees, payments, settings" },
+        { name: "contexts/", tech: "React Context + mitt", description: "UserContext (dual-role auth state) and EmployeeContext (employee session) — wrapped around tab navigator for global access" },
+        { name: "components/", tech: "React Native + Reanimated", description: "14 reusable components including RoleGuard, RoleBlockModal, TransactionCard, CalendarPicker, MonthPicker, CustomDrawer, and UI primitives" },
+        { name: "utils/", tech: "TypeScript", description: "QRIS generator with CRC16 checksum, Cloudinary image upload helper, and mitt-based profile event emitter" },
+        { name: "server/", tech: "Express 5 + Midtrans Client", description: "Standalone Node.js server for Midtrans Snap payment token generation and webhook callback handling" },
+      ],
+      decisions: [
+        { decision: "Expo Router over React Navigation directly", reason: "File-based routing mirrors web conventions — screens map to files, eliminating manual navigation config for 20+ screens" },
+        { decision: "Dual-role auth (Firebase Auth + Firestore lookup)", reason: "Admin uses Firebase Auth email/password; employees stored in Firestore subcollections under each admin, looked up via an admin UID index" },
+        { decision: "React Context + mitt over Redux/Zustand", reason: "App has 2 global state concerns (auth role, employee) — Context is sufficient. mitt handles cross-tab events like profile updates without a store" },
+        { decision: "Midtrans Snap over direct payment gateway integration", reason: "Snap provides QRIS, GoPay, OVO, ShopeePay, DANA in one iframe — no need to integrate each provider separately" },
+        { decision: "Express server for Midtrans webhook", reason: "Midtrans requires a server-side endpoint for transaction callbacks — Express provides a minimal, deployable webhook handler" },
+        { decision: "Firestore over PostgreSQL/SQLite", reason: "Real-time sync for multi-device access, serverless scaling, built-in security rules — ideal for cooperative with no dedicated IT team" },
+        { decision: "AsyncStorage for session persistence", reason: "Lightweight key-value storage, no native module linking required — sufficient for caching auth tokens and offline queue" },
+      ],
+      endpoints: [
+        { method: "POST", path: "/create-transaction", auth: true, rate: "N/A", purpose: "Generate Midtrans Snap token for online payment (QRIS, e-Wallet)" },
+        { method: "POST", path: "/webhook", auth: false, rate: "N/A", purpose: "Midtrans payment status callback — updates transaction status in Firestore" },
+      ],
+      dataFlow: [
+        "Admin login via Firebase Auth (email/password) → session persisted in AsyncStorage → UserContext detects role",
+        "Employee login via Firestore lookup: searches users/{adminUid}/employees/{uid} → sets role='karyawan' in UserContext",
+        "Transaction flow: select products → set quantities → choose payment method",
+        "Cash payment: enter nominal → auto-calculate change → save to Firestore → decrement stock",
+        "Online payment: call Express /create-transaction → get Snap token → open Midtrans SDK → webhook updates status",
+        "QRIS payment: generate EMVCo payload via qrisGenerator.ts → display QR code → customer scans and pays",
+        "Reports: query Firestore transaction history → render with react-native-chart-kit (bar, line, pie) → optional CSV/PDF export via expo-print",
+        "Stock management: track inventory with expiry dates, supplier records, distribution logs, and automated stock movement history",
+        "Offline queue: pending transactions stored in AsyncStorage → sync to Firestore when connection restores",
+      ],
+      deployment: [
+        "Expo build: npx eas build --platform android → generates .aab for Play Store",
+        "Express server: deployed to Railway/Render as a Node.js service on PORT 4000",
+        "Firebase: production Firestore with security rules + Firebase Auth for admin authentication",
+        "Midtrans: sandbox → production migration requires updating server key and enabling production mode",
+        "Environment: MIDTRANS_CLIENT_KEY, MIDTRANS_SERVER_KEY, Firebase credentials via .env file",
+      ],
+    },
+    diagram: {
+      frontend: { label: "MOBILE APP (Expo Router)", tech: "React Native 0.76 · Expo SDK 52 · TypeScript 5 · Reanimated · Gesture Handler" },
+      backend: { label: "EXPRESS SERVER", tech: "Express 5 · Midtrans Snap · dotenv · CORS" },
+      arrow: { label: "HTTPS + Midtrans Snap Token" },
+      services: [
+        { name: "Firebase Auth", description: "Email/password authentication for admin users" },
+        { name: "Firestore", description: "Real-time NoSQL DB — users, products, transactions, employees, suppliers, stock history" },
+        { name: "Midtrans", description: "Snap payment gateway — QRIS, GoPay, OVO, ShopeePay, DANA, credit card" },
+        { name: "Cloudinary", description: "Image upload for product photos and employee profile pictures" },
+      ],
+    },
+    codeSnippets: [
+      {
+        title: "Dual-Role Authentication — UserContext",
+        language: "typescript",
+        code: `useEffect(() => {
+  const auth = getAuth();
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        // Admin login — direct Firestore doc
+        setRole(userDoc.data().role || "admin");
+      } else {
+        // Karyawan login — search admin subcollections
+        const adminsSnap = await getDoc(doc(db, "admins", "index"));
+        const adminUIDs = adminsSnap.data()?.uids || [];
+        for (const adminUid of adminUIDs) {
+          const empSnap = await getDoc(
+            doc(db, \`users/\${adminUid}/employees\`, user.uid)
+          );
+          if (empSnap.exists()) {
+            setRole("karyawan");
+            setEmployee(empSnap.data());
+            break;
+          }
+        }
+      }
+    }
+  });
+  return () => unsubscribe();
+}, []);`,
+        reason: "Dual-role authentication — admin users authenticate via Firebase Auth with docs in users/{uid}, while employees are stored in subcollections under each admin and discovered through an admin UID index"
+      },
+      {
+        title: "Midtrans Payment Integration — Express Server",
+        language: "javascript",
+        code: `const snap = new midtransClient.Snap({
+  isProduction: false,
+  serverKey: process.env.MIDTRANS_SERVER_KEY,
+});
+
+app.post("/create-transaction", async (req, res) => {
+  const { orderId, grossAmount, customerName } = req.body;
+  try {
+    const parameter = {
+      transaction_details: {
+        order_id: orderId,
+        gross_amount: grossAmount,
+      },
+      customer_details: {
+        first_name: customerName || "Pelanggan",
+      },
+    };
+    const transaction = await snap.createTransaction(parameter);
+    res.json({
+      token: transaction.token,
+      redirect_url: transaction.redirect_url,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Gagal membuat transaksi" });
+  }
+});
+
+app.post("/webhook", (req, res) => {
+  const payload = req.body;
+  // TODO: Update payment status in Firebase via Admin SDK
+  res.status(200).send("OK");
+});`,
+        reason: "Midtrans Snap integration with two endpoints — one to generate a payment token (which the mobile app uses to open the Snap payment page), and a webhook for async payment status callbacks"
+      },
+      {
+        title: "QRIS Payment — CRC16 Generator",
+        language: "typescript",
+        code: `function crc16(payload: string) {
+  let crc = 0xffff;
+  for (let i = 0; i < payload.length; i++) {
+    crc ^= payload.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      if ((crc & 0x8000) !== 0)
+        crc = (crc << 1) ^ 0x1021;
+      else crc <<= 1;
+    }
+  }
+  return (crc & 0xffff).toString(16)
+    .toUpperCase().padStart(4, "0");
+}
+
+export function generateQRIS(total: number, paymentId: string) {
+  const amount = total.toFixed(2);
+  const payload =
+    "000201" + "010212" +
+    "29370016COM.EXAMPLE.QR01" +
+    "52040000" + "5303360" +
+    \`5405\${total}\` +
+    "5802ID" + "5908TOKOKU" +
+    "6007JAKARTA" + \`6212\${paymentId}\` +
+    "6304";
+  return payload + crc16(payload);
+}`,
+        reason: "QRIS (Indonesian QR payment standard) payload generation with CRC16-CCITT checksum — the payload follows EMVCo data element encoding for merchant, amount, currency, and a custom metadata field"
+      },
+      {
+        title: "Role Guard — Access Control Component",
+        language: "typescript",
+        code: `type Role = "admin" | "karyawan" | "kasir" | "inventaris" | "manajer";
+
+export function RoleGuard({
+  allowedRoles,
+  children,
+  fallback,
+}: {
+  allowedRoles: Role[];
+  children: ReactNode;
+  fallback?: ReactNode;
+}) {
+  const { role, employee } = useUser();
+  const userRole = role === "karyawan" ? employee?.role : role;
+  const hasAccess = userRole && allowedRoles.includes(userRole as Role);
+
+  if (!hasAccess) {
+    return fallback ?? <RoleBlockModal />;
+  }
+  return <>{children}</>;
+}
+
+// Usage in screen:
+<RoleGuard allowedRoles={["admin", "manajer"]}>
+  <StockManagementScreen />
+</RoleGuard>`,
+        reason: "Declarative role-based access control — wraps screens and sections with allowedRoles array and shows a blocked modal when unauthorized, supporting 5 distinct user roles"
+      },
+    ],
+    siteMap: {
+      userRoles: [
+        { role: "Admin (Pemilik Toko)", description: "Full access to all features — auth via Firebase email/password", needs: "Manage products, employees, suppliers, view all reports, configure store settings, and access all transactions with full CRUD capabilities.", icon: "👑" },
+        { role: "Kasir", description: "Limited to transaction processing", needs: "Create new transactions, process cash/online payments, print receipts, and view limited transaction history — no access to stock or employee management.", icon: "💳" },
+        { role: "Inventaris", description: "Stock and supply chain management", needs: "Manage product inventory, track stock with expiry dates, handle supplier records, process stock distribution, and view stock movement history.", icon: "📦" },
+        { role: "Manajer", description: "Reports and team oversight", needs: "View all sales reports (omzet, best-selling products, transaction history), monitor employee transactions, and export data to CSV/PDF for analysis.", icon: "📊" },
+      ],
+      userFlow: [
+        { step: "Splash Screen & Auth", detail: "App loads with branded splash + Poppins font loading → admin logs in via Firebase Auth or employee via Firestore subcollection lookup → session persisted in AsyncStorage" },
+        { step: "Dashboard (Beranda)", detail: "Role-aware dashboard showing key metrics (today's sales, active products, pending transactions) with quick-action buttons for new transaction, add product, and stock check" },
+        { step: "New Transaction", detail: "Search/browse products → set quantities → review cart → choose payment method: Cash (auto change calculation) or Online (Midtrans Snap with QRIS/GoPay/OVO)" },
+        { step: "Payment Processing", detail: "Cash: enter amount tendered → auto-calculate change → save to Firestore → decrement stock. Online: generate Snap token via Express server → open Midtrans SDK → webhook updates status" },
+        { step: "Receipt & Sharing", detail: "Digital receipt generated via expo-print → share as text via WhatsApp, Email, or other apps through Expo Sharing API" },
+        { step: "Stock Management", detail: "Add/edit products with categories, prices, and images → track stock with expiry dates and supplier records → distribute stock to employees → view full stock movement history" },
+        { step: "Reports & Analytics", detail: "5 report types: omzet per month (line chart), best-selling products (pie chart), products sold (detail with period filter), sales transactions (bar chart), employee transaction history (per-person filter)" },
+        { step: "Employee Management", detail: "Admin adds employees with role (kasir/inventaris/manajer) → each employee has scoped access via RoleGuard → admin monitors all employee transactions" },
+      ],
+      siteArchitecture: [
+        { section: "Auth", type: "Dual-role login", description: "Splash screen → Firebase Auth (admin) or Firestore lookup (employee) → role-based redirect to dashboard" },
+        { section: "Dashboard", type: "Role-aware home", description: "Key metrics, quick-action buttons, role-scoped card visibility — kasir sees transactions, inventaris sees stock alerts" },
+        { section: "Transaction", type: "POS terminal", description: "Product search, cart management, quantity adjustment, cash/online payment selection, auto change calculation" },
+        { section: "Payment", type: "Midtrans Snap + QRIS", description: "Online: Snap token generation → Midtrans SDK. QRIS: EMVCo payload generation → QR code display → customer scan" },
+        { section: "Products", type: "CRUD + categories", description: "Add/edit products with image upload (Cloudinary), categories, prices, stock quantities, and toggle active/inactive" },
+        { section: "Stock", type: "Inventory management", description: "Stock history with movement log, expiry date tracking, supplier management, stock distribution to employees" },
+        { section: "Reports", type: "5 chart types", description: "Omzet per bulan (line), produk terlaris (pie), produk terjual (detail), transaksi penjualan (bar), riwayat karyawan (filter)" },
+        { section: "Employees", type: "Multi-role system", description: "Admin CRUD for employees with role assignment, RoleGuard component for declarative access control, per-employee transaction history" },
+        { section: "Settings", type: "Store configuration", description: "Store profile (name, address, logo), receipt template customization, password change" },
+        { section: "Server", type: "Express webhook", description: "Standalone Node.js server for Midtrans Snap token generation and payment status webhook callback" },
+      ],
     },
   },
   {

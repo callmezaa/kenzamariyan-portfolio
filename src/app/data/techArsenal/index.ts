@@ -11,7 +11,7 @@ export const categories = [
   "Frontend",
   "Backend",
   "Mobile",
-  "AI & Infra",
+  "Database & Infrastructure",
 ] as const;
 
 export function getTechArsenal(locale: Locale) {

@@ -472,17 +472,230 @@ return (
       "Membangun cache state lokal yang tersinkronisasi dengan Firestore, mengintegrasikan state machine transaksional dengan antrean offline, dan merancang grid transaksi responsif yang dioptimalkan untuk perangkat mobile kelas bawah.",
     impact:
       "Menghilangkan pembukuan kertas manual, mengurangi kesalahan rekonsiliasi data hingga 90% dan mempercepat entri transaksi hingga di bawah 5 detik per operasi.",
-    stack: ["React Native", "Expo", "Firebase", "Firestore", "AsyncStorage"],
+    stack: ["React Native", "Expo", "TypeScript", "Firebase", "Firestore", "Midtrans"],
     role: "Pengembang Mobile & Backend",
     year: "2024",
     sourceUrl: "https://github.com/callmezaa/gotani-POS-application",
     type: "pos",
     featured: true,
     badge: "Enterprise App",
-    metrics: ["90% Error Reduction", "Offline Transaction Sync", "5s Entry Time"],
+    metrics: ["90% Error Reduction", "Dual-Role Auth", "Midtrans Payments", "5s Entry Time"],
     accent: {
       glow: "rgba(16, 185, 129, 0.14)",
       color: "#10b981",
+    },
+    architecture: {
+      monorepo: [
+        { name: "app/", tech: "Expo Router (file-based)", description: "Root layout, layar auth (login/register/lupa-password), splash screen, dan grup (tabs) utama dengan 20+ layar untuk transaksi, stok, laporan, karyawan, pembayaran, pengaturan" },
+        { name: "contexts/", tech: "React Context + mitt", description: "UserContext (state auth dual-role) dan EmployeeContext (sesi karyawan) — dibungkus di sekitar navigator tab untuk akses global" },
+        { name: "components/", tech: "React Native + Reanimated", description: "14 komponen reusable termasuk RoleGuard, RoleBlockModal, TransactionCard, CalendarPicker, MonthPicker, CustomDrawer, dan primitif UI" },
+        { name: "utils/", tech: "TypeScript", description: "Generator QRIS dengan CRC16 checksum, helper upload gambar Cloudinary, dan event emitter profil berbasis mitt" },
+        { name: "server/", tech: "Express 5 + Midtrans Client", description: "Server Node.js mandiri untuk generasi token pembayaran Midtrans Snap dan penanganan webhook callback" },
+      ],
+      decisions: [
+        { decision: "Expo Router daripada React Navigation manual", reason: "Routing berbasis file mirroring web — screen dipetakan ke file, menghilangkan konfigurasi navigasi manual untuk 20+ layar" },
+        { decision: "Auth dual-role (Firebase Auth + Firestore lookup)", reason: "Admin menggunakan Firebase Auth email/password; karyawan disimpan di subkoleksi Firestore di bawah setiap admin, ditemukan melalui index UID admin" },
+        { decision: "React Context + mitt daripada Redux/Zustand", reason: "Aplikasi hanya punya 2 state global (role auth, employee) — Context sudah cukup. mitt menangani event antar-tab seperti update profil tanpa store" },
+        { decision: "Midtrans Snap daripada integrasi payment gateway langsung", reason: "Snap menyediakan QRIS, GoPay, OVO, ShopeePay, DANA dalam satu iframe — tidak perlu integrasi masing-masing provider secara terpisah" },
+        { decision: "Server Express untuk webhook Midtrans", reason: "Midtrans membutuhkan endpoint server-side untuk callback transaksi — Express menyediakan webhook handler yang minimal dan dapat di-deploy" },
+        { decision: "Firestore daripada PostgreSQL/SQLite", reason: "Sinkronisasi real-time untuk akses multi-perangkat, scaling serverless, security rules bawaan — ideal untuk koperasi tanpa tim IT khusus" },
+        { decision: "AsyncStorage untuk persistensi sesi", reason: "Key-value storage ringan, tanpa link modul native — cukup untuk caching token auth dan antrean offline" },
+      ],
+      endpoints: [
+        { method: "POST", path: "/create-transaction", auth: true, rate: "N/A", purpose: "Generate token Midtrans Snap untuk pembayaran online (QRIS, e-Wallet)" },
+        { method: "POST", path: "/webhook", auth: false, rate: "N/A", purpose: "Callback status pembayaran Midtrans — update status transaksi di Firestore" },
+      ],
+      dataFlow: [
+        "Login admin via Firebase Auth (email/password) → sesi di AsyncStorage → UserContext mendeteksi role",
+        "Login karyawan via Firestore lookup: mencari users/{adminUid}/employees/{uid} → set role='karyawan' di UserContext",
+        "Alur transaksi: pilih produk → atur jumlah → pilih metode bayar",
+        "Pembayaran tunai: masukkan nominal → hitung kembalian otomatis → simpan ke Firestore → kurangi stok",
+        "Pembayaran online: panggil Express /create-transaction → dapatkan Snap token → buka Midtrans SDK → webhook update status",
+        "Pembayaran QRIS: generate payload EMVCo via qrisGenerator.ts → tampilkan QR code → pelanggan scan dan bayar",
+        "Laporan: query riwayat transaksi Firestore → render dengan react-native-chart-kit (bar, line, pie) → ekspor CSV/PDF via expo-print",
+        "Manajemen stok: lacak inventaris dengan tanggal kedaluwarsa, catatan supplier, log distribusi, dan riwayat pergerakan stok otomatis",
+        "Antrean offline: transaksi tertunda disimpan di AsyncStorage → sinkron ke Firestore saat koneksi pulih",
+      ],
+      deployment: [
+        "Build Expo: npx eas build --platform android → menghasilkan .aab untuk Play Store",
+        "Server Express: di-deploy ke Railway/Render sebagai service Node.js di PORT 4000",
+        "Firebase: Firestore production dengan security rules + Firebase Auth untuk autentikasi admin",
+        "Midtrans: migrasi sandbox → production membutuhkan update server key dan mengaktifkan mode production",
+        "Environment: MIDTRANS_CLIENT_KEY, MIDTRANS_SERVER_KEY, kredensial Firebase via file .env",
+      ],
+    },
+    diagram: {
+      frontend: { label: "MOBILE APP (Expo Router)", tech: "React Native 0.76 · Expo SDK 52 · TypeScript 5 · Reanimated · Gesture Handler" },
+      backend: { label: "EXPRESS SERVER", tech: "Express 5 · Midtrans Snap · dotenv · CORS" },
+      arrow: { label: "HTTPS + Midtrans Snap Token" },
+      services: [
+        { name: "Firebase Auth", description: "Autentikasi email/password untuk pengguna admin" },
+        { name: "Firestore", description: "NoSQL DB real-time — users, produk, transaksi, karyawan, supplier, riwayat stok" },
+        { name: "Midtrans", description: "Payment gateway Snap — QRIS, GoPay, OVO, ShopeePay, DANA, kartu kredit" },
+        { name: "Cloudinary", description: "Upload gambar untuk foto produk dan foto profil karyawan" },
+      ],
+    },
+    codeSnippets: [
+      {
+        title: "Autentikasi Dual-Role — UserContext",
+        language: "typescript",
+        code: `useEffect(() => {
+  const auth = getAuth();
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        // Login Admin — Firestore doc langsung
+        setRole(userDoc.data().role || "admin");
+      } else {
+        // Login Karyawan — cari subkoleksi admin
+        const adminsSnap = await getDoc(doc(db, "admins", "index"));
+        const adminUIDs = adminsSnap.data()?.uids || [];
+        for (const adminUid of adminUIDs) {
+          const empSnap = await getDoc(
+            doc(db, \`users/\${adminUid}/employees\`, user.uid)
+          );
+          if (empSnap.exists()) {
+            setRole("karyawan");
+            setEmployee(empSnap.data());
+            break;
+          }
+        }
+      }
+    }
+  });
+  return () => unsubscribe();
+}, []);`,
+        reason: "Autentikasi dual-role — admin menggunakan Firebase Auth dengan dokumen di users/{uid}, sementara karyawan disimpan di subkoleksi setiap admin dan ditemukan melalui index UID admin"
+      },
+      {
+        title: "Integrasi Pembayaran Midtrans — Server Express",
+        language: "javascript",
+        code: `const snap = new midtransClient.Snap({
+  isProduction: false,
+  serverKey: process.env.MIDTRANS_SERVER_KEY,
+});
+
+app.post("/create-transaction", async (req, res) => {
+  const { orderId, grossAmount, customerName } = req.body;
+  try {
+    const parameter = {
+      transaction_details: {
+        order_id: orderId,
+        gross_amount: grossAmount,
+      },
+      customer_details: {
+        first_name: customerName || "Pelanggan",
+      },
+    };
+    const transaction = await snap.createTransaction(parameter);
+    res.json({
+      token: transaction.token,
+      redirect_url: transaction.redirect_url,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Gagal membuat transaksi" });
+  }
+});
+
+app.post("/webhook", (req, res) => {
+  const payload = req.body;
+  // TODO: Update payment status di Firebase via Admin SDK
+  res.status(200).send("OK");
+});`,
+        reason: "Integrasi Midtrans Snap dengan dua endpoint — satu untuk generate token pembayaran (digunakan mobile app untuk membuka halaman Snap), dan webhook untuk callback status pembayaran async"
+      },
+      {
+        title: "Pembayaran QRIS — Generator CRC16",
+        language: "typescript",
+        code: `function crc16(payload: string) {
+  let crc = 0xffff;
+  for (let i = 0; i < payload.length; i++) {
+    crc ^= payload.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      if ((crc & 0x8000) !== 0)
+        crc = (crc << 1) ^ 0x1021;
+      else crc <<= 1;
+    }
+  }
+  return (crc & 0xffff).toString(16)
+    .toUpperCase().padStart(4, "0");
+}
+
+export function generateQRIS(total: number, paymentId: string) {
+  const amount = total.toFixed(2);
+  const payload =
+    "000201" + "010212" +
+    "29370016COM.EXAMPLE.QR01" +
+    "52040000" + "5303360" +
+    \`5405\${total}\` +
+    "5802ID" + "5908TOKOKU" +
+    "6007JAKARTA" + \`6212\${paymentId}\` +
+    "6304";
+  return payload + crc16(payload);
+}`,
+        reason: "Generasi payload QRIS (standar pembayaran QR Indonesia) dengan CRC16-CCITT checksum — payload mengikuti encoding data element EMVCo untuk merchant, jumlah, mata uang, dan field metadata kustom"
+      },
+      {
+        title: "Role Guard — Komponen Kontrol Akses",
+        language: "typescript",
+        code: `type Role = "admin" | "karyawan" | "kasir" | "inventaris" | "manajer";
+
+export function RoleGuard({
+  allowedRoles,
+  children,
+  fallback,
+}: {
+  allowedRoles: Role[];
+  children: ReactNode;
+  fallback?: ReactNode;
+}) {
+  const { role, employee } = useUser();
+  const userRole = role === "karyawan" ? employee?.role : role;
+  const hasAccess = userRole && allowedRoles.includes(userRole as Role);
+
+  if (!hasAccess) {
+    return fallback ?? <RoleBlockModal />;
+  }
+  return <>{children}</>;
+}
+
+// Penggunaan di layar:
+<RoleGuard allowedRoles={["admin", "manajer"]}>
+  <StockManagementScreen />
+</RoleGuard>`,
+        reason: "Kontrol akses berbasis peran deklaratif — membungkus layar dan bagian dengan array allowedRoles dan menampilkan modal blokir saat tidak berwenang, mendukung 5 peran pengguna"
+      },
+    ],
+    siteMap: {
+      userRoles: [
+        { role: "Admin (Pemilik Toko)", description: "Akses penuh ke semua fitur — auth via Firebase email/password", needs: "Mengelola produk, karyawan, supplier, melihat semua laporan, mengonfigurasi pengaturan toko, dan mengakses semua transaksi dengan kemampuan CRUD penuh.", icon: "👑" },
+        { role: "Kasir", description: "Terbatas pada pemrosesan transaksi", needs: "Membuat transaksi baru, memproses pembayaran tunai/online, mencetak struk, dan melihat riwayat transaksi terbatas — tanpa akses ke stok atau manajemen karyawan.", icon: "💳" },
+        { role: "Inventaris", description: "Manajemen stok dan rantai pasok", needs: "Mengelola inventaris produk, melacak stok dengan tanggal kedaluwarsa, mengurus catatan supplier, memproses distribusi stok, dan melihat riwayat pergerakan stok.", icon: "📦" },
+        { role: "Manajer", description: "Laporan dan pengawasan tim", needs: "Melihat semua laporan penjualan (omzet, produk terlaris, riwayat transaksi), memantau transaksi karyawan, dan mengekspor data ke CSV/PDF untuk analisis.", icon: "📊" },
+      ],
+      userFlow: [
+        { step: "Splash Screen & Auth", detail: "Aplikasi dimuat dengan splash branded + loading font Poppins → admin login via Firebase Auth atau karyawan via Firestore subcollection lookup → sesi di AsyncStorage" },
+        { step: "Dashboard (Beranda)", detail: "Dashboard sadar-role menampilkan metrik utama (penjualan hari ini, produk aktif, transaksi tertunda) dengan tombol aksi cepat untuk transaksi baru, tambah produk, dan cek stok" },
+        { step: "Transaksi Baru", detail: "Cari/jelajahi produk → atur jumlah → review keranjang → pilih metode bayar: Tunai (hitung kembalian otomatis) atau Online (Midtrans Snap dengan QRIS/GoPay/OVO)" },
+        { step: "Pemrosesan Pembayaran", detail: "Tunai: masukkan nominal dibayar → hitung kembalian otomatis → simpan ke Firestore → kurangi stok. Online: generate Snap token via Express server → buka Midtrans SDK → webhook update status" },
+        { step: "Struk & Berbagi", detail: "Struk digital dihasilkan via expo-print → bagikan sebagai teks melalui WhatsApp, Email, atau aplikasi lain melalui Expo Sharing API" },
+        { step: "Manajemen Stok", detail: "Tambah/edit produk dengan kategori, harga, dan gambar → lacak stok dengan tanggal kedaluwarsa dan catatan supplier → distribusikan stok ke karyawan → lihat riwayat pergerakan stok lengkap" },
+        { step: "Laporan & Analitik", detail: "5 jenis laporan: omzet per bulan (line chart), produk terlaris (pie chart), produk terjual (detail dengan filter periode), transaksi penjualan (bar chart), riwayat transaksi karyawan (filter per orang)" },
+        { step: "Manajemen Karyawan", detail: "Admin menambah karyawan dengan role (kasir/inventaris/manajer) → setiap karyawan memiliki akses terbatas via RoleGuard → admin memantau semua transaksi karyawan" },
+      ],
+      siteArchitecture: [
+        { section: "Auth", type: "Login dual-role", description: "Splash screen → Firebase Auth (admin) atau Firestore lookup (karyawan) → redirect berbasis peran ke dashboard" },
+        { section: "Dashboard", type: "Beranda sadar-role", description: "Metrik utama, tombol aksi cepat, visibilitas kartu berdasarkan peran — kasir melihat transaksi, inventaris melihat alert stok" },
+        { section: "Transaksi", type: "Terminal POS", description: "Pencarian produk, manajemen keranjang, penyesuaian jumlah, pemilihan pembayaran tunai/online, hitung kembalian otomatis" },
+        { section: "Pembayaran", type: "Midtrans Snap + QRIS", description: "Online: generasi Snap token → Midtrans SDK. QRIS: generasi payload EMVCo → tampilan QR code → scan pelanggan" },
+        { section: "Produk", type: "CRUD + kategori", description: "Tambah/edit produk dengan upload gambar (Cloudinary), kategori, harga, jumlah stok, dan toggle aktif/non-aktif" },
+        { section: "Stok", type: "Manajemen inventaris", description: "Riwayat stok dengan log pergerakan, pelacakan tanggal kedaluwarsa, manajemen supplier, distribusi stok ke karyawan" },
+        { section: "Laporan", type: "5 jenis chart", description: "Omzet per bulan (line), produk terlaris (pie), produk terjual (detail), transaksi penjualan (bar), riwayat karyawan (filter)" },
+        { section: "Karyawan", type: "Sistem multi-role", description: "CRUD admin untuk karyawan dengan penetapan peran, komponen RoleGuard untuk kontrol akses deklaratif, riwayat transaksi per karyawan" },
+        { section: "Pengaturan", type: "Konfigurasi toko", description: "Profil toko (nama, alamat, logo), kustomisasi template struk, ubah password" },
+        { section: "Server", type: "Webhook Express", description: "Server Node.js mandiri untuk generasi token Midtrans Snap dan callback status pembayaran" },
+      ],
     },
   },
   {

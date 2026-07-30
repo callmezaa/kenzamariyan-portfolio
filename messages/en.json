@@ -35,7 +35,7 @@
   "about": {
     "label": "About Me",
     "heading": "Building reliable digital products with clarity and purpose.",
-    "description": "Shipping production apps across web, mobile, and AI — from AI contract analyzers processing documents under <time>15 seconds</time> to offline-first mobile POS serving <users>1,500+</users> cooperative members. TypeScript, Go, Python, and PostgreSQL, end to end.",
+    "description": "Shipping production-grade applications across web, mobile, and AI — from AI-powered contract analyzers processing documents in under <time>15 seconds</time> to offline-first mobile POS systems, real-time interview platforms, and full-stack e-commerce solutions. Proficient across TypeScript, Go, Python, PostgreSQL, and the MERN stack — delivering end-to-end product engineering.",
     "time": "15 seconds",
     "users": "1,500+",
     "infoItems": {
@@ -47,7 +47,7 @@
       "projects": { "label": "Projects Shipped", "reveal": "contracts · mobile · AI" },
       "years": { "label": "Years Experience", "reveal": "since 2020" },
       "technologies": { "label": "Technologies", "reveal": "react → go" },
-      "users": { "label": "Users Served", "reveal": "served worldwide" }
+      "opensource": { "label": "Open Source Projects", "reveal": "featured repositories" }
     },
     "techArsenalLabel": "Technology Arsenal"
   },
@@ -223,7 +223,8 @@
       "frontend": "Frontend",
       "backend": "Backend",
       "mobile": "Mobile",
-      "aiInfra": "AI & Infra"
+      "aiInfra": "Database & Infrastructure",
+      "databaseInfra": "Database & Infrastructure"
     }
   },
   "common": {

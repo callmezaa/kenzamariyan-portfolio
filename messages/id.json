@@ -35,7 +35,7 @@
   "about": {
     "label": "Tentang Saya",
     "heading": "Membangun produk digital yang andal dengan jelas dan penuh tujuan.",
-    "description": "Mengirimkan aplikasi production di web, mobile, dan AI — dari AI analisis kontrak yang memproses dokumen dalam <time>15 detik</time> hingga mobile POS offline yang melayani <users>1.500+</users> anggota koperasi. TypeScript, Go, Python, dan PostgreSQL, end to end.",
+    "description": "Mengirimkan aplikasi production-grade di web, mobile, dan AI — dari analisis kontrak bertenaga AI yang memproses dokumen dalam <time>15 detik</time> hingga sistem POS offline, platform wawancara real-time, dan solusi e-commerce full-stack. Mahir dalam TypeScript, Go, Python, PostgreSQL, dan MERN stack — menghadirkan rekayasa produk end-to-end.",
     "time": "15 detik",
     "users": "1.500+",
     "infoItems": {
@@ -47,7 +47,7 @@
       "projects": { "label": "Proyek Dikirim", "reveal": "kontrak · mobile · AI" },
       "years": { "label": "Tahun Pengalaman", "reveal": "sejak 2020" },
       "technologies": { "label": "Teknologi", "reveal": "react → go" },
-      "users": { "label": "Pengguna Dilayani", "reveal": "dilayani di seluruh dunia" }
+      "opensource": { "label": "Proyek Open Source", "reveal": "repositori unggulan" }
     },
     "techArsenalLabel": "Persenjataan Teknologi"
   },
@@ -223,7 +223,8 @@
       "frontend": "Frontend",
       "backend": "Backend",
       "mobile": "Mobile",
-      "aiInfra": "AI & Infra"
+      "aiInfra": "Database & Infrastructure",
+      "databaseInfra": "Database & Infrastructure"
     }
   },
   "common": {

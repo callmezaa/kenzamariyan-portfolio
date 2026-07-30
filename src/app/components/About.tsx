@@ -10,8 +10,6 @@ import { techArsenal } from "../data/techArsenal";
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import TechArsenal from "./TechArsenal";
 
-const formatThousands = (n: number) => Math.round(n).toLocaleString();
-
 export default function About() {
   const t = useTranslations("about");
   const [hoveredStat, setHoveredStat] = useState<number | null>(null);
@@ -23,11 +21,17 @@ export default function About() {
     { icon: Briefcase, label: t("infoItems.freelance.label"), desc: t("infoItems.freelance.desc"), badgeIcon: Sparkles, color: "#F59E0B" },
   ];
 
-  const stats = [
+  const stats: {
+    value: number;
+    label: string;
+    suffix?: string;
+    format?: (n: number) => string;
+    reveal: string;
+  }[] = [
     { value: projects.length, label: t("stats.projects.label"), suffix: "+", reveal: t("stats.projects.reveal") },
     { value: 4, label: t("stats.years.label"), reveal: t("stats.years.reveal") },
     { value: techArsenal.length, label: t("stats.technologies.label"), reveal: t("stats.technologies.reveal") },
-    { value: 1500, label: t("stats.users.label"), suffix: "+", format: formatThousands, reveal: t("stats.users.reveal") },
+    { value: 4, label: t("stats.opensource.label"), suffix: "+", reveal: t("stats.opensource.reveal") },
   ];
 
   return (
@@ -42,8 +46,7 @@ export default function About() {
             <p className="label text-ink-muted">{t("label")}</p>
             <h2 className="display-xl text-balance">{t("heading")}</h2>
             <p className="body-base">{t.rich("description", {
-              time: (chunks) => <strong className="font-semibold text-ink tabular-nums">{chunks}</strong>,
-              users: (chunks) => <strong className="font-semibold text-ink tabular-nums">{chunks}</strong>
+              time: (chunks) => <strong className="font-semibold text-ink tabular-nums">{chunks}</strong>
             })}</p>
           </motion.div>
           <div className="space-y-8 md:col-span-5">

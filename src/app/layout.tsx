@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     template: "%s | Ken Zamariyan",
   },
   description:
-    "Full-stack developer building with React, Next.js, Go, Python, and PostgreSQL. Shipping production apps across web, mobile, and AI — from contract analyzers to mobile POS systems.",
-  keywords: ["Ken Zamariyan", "Full-Stack Developer", "React Developer", "Go Developer", "Next.js Developer", "React Native Developer", "TypeScript", "PostgreSQL"],
+    "Full-stack engineer shipping production-grade applications across web, mobile, and AI — from AI contract analyzers and offline-first POS systems to real-time interview platforms and e-commerce solutions. Proficient in TypeScript, Go, Python, PostgreSQL, and the MERN stack.",
+  keywords: ["Ken Zamariyan", "Full-Stack Developer", "React Developer", "Go Developer", "Next.js Developer", "React Native Developer", "TypeScript", "PostgreSQL", "MERN Stack", "MongoDB", "Express"],
   authors: [{ name: "Ken Zamariyan" }],
   creator: "Ken Zamariyan",
   openGraph: {
     title: "Ken Zamariyan | Full-Stack Developer",
     description:
-      "Full-stack development across React, Go, Python, PostgreSQL, and cloud infrastructure. AI-powered apps, mobile POS, e-commerce, and more.",
+      "Full-stack engineer building production-grade apps across web, mobile, and AI — AI contract analyzers, offline-first POS, real-time interview platforms, and e-commerce. Proficient in TypeScript, Go, Python, PostgreSQL, and MERN stack.",
     url: "/",
     siteName: "Ken Zamariyan Portfolio",
     images: [
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ken Zamariyan | Full-Stack Developer",
-    description: "React, Go, Python, PostgreSQL, AI, and cloud-native apps.",
+    description: "Full-stack engineer — TypeScript, Go, Python, PostgreSQL, MERN. AI apps, mobile POS, e-commerce, real-time platforms.",
     images: ["/opengraph-image"],
   },
   icons: {

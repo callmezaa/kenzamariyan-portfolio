@@ -17,7 +17,7 @@ const categoryLabelMap: Record<string, string> = {
   Frontend: "categories.frontend",
   Backend: "categories.backend",
   Mobile: "categories.mobile",
-  "AI & Infra": "categories.aiInfra",
+  "Database & Infrastructure": "categories.databaseInfra",
 };
 
 export default function TechArsenal() {

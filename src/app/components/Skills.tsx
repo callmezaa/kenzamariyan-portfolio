@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { SiGithub } from "react-icons/si";
 import { getLocalizedSkills } from "@/i18n/data";
 import type { Locale } from "@/i18n/request";
@@ -10,21 +10,12 @@ import type { SkillCategory, SkillItem } from "../data/skillsData";
 import { staggerContainer, staggerItem, easeOut } from "../utils/animations";
 import { Tooltip } from "@/components/motion/tooltip";
 import { AnimatedNumber } from "@/components/motion/animated-number";
-import { Button } from "@/components/ui/button";
 import GitHubSection from "./GitHubSection";
 
 export default function Skills() {
   const t = useTranslations("skills");
   const locale = useLocale();
   const skillsData = useMemo(() => getLocalizedSkills(locale as Locale), [locale]);
-  const TABS = useMemo(() => [t("tabAll"), ...skillsData.map((c) => c.title)], [t, skillsData]);
-  const [activeTab, setActiveTab] = useState(TABS[0]);
-  const reduceMotion = useReducedMotion();
-
-  const visible =
-    activeTab === TABS[0]
-      ? skillsData
-      : skillsData.filter((c) => c.title === activeTab);
 
   return (
     <section id="skills" className="bg-canvas-alt py-24 md:py-28">
@@ -35,46 +26,6 @@ export default function Skills() {
           <p className="body-base">{t("description")}</p>
         </div>
 
-        {/* Interactive tab filter */}
-        <div
-          role="tablist"
-          aria-label="Skill categories"
-          className="mb-10 flex flex-wrap gap-1.5 rounded-full bg-surface-soft p-1"
-        >
-          {TABS.map((tab) => {
-            const active = activeTab === tab;
-            return (
-              <button
-                key={tab}
-                role="tab"
-                aria-selected={active}
-                aria-pressed={active}
-                onClick={() => setActiveTab(tab)}
-                className="relative rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
-              >
-                {active && (
-                  <motion.span
-                    layoutId="skill-tab"
-                    className="absolute inset-0 rounded-full bg-canvas-card shadow-1"
-                    transition={
-                      reduceMotion
-                        ? { duration: 0 }
-                        : { type: "spring", stiffness: 380, damping: 30, mass: 0.7 }
-                    }
-                  />
-                )}
-                <span
-                  className={`relative z-10 ${
-                    active ? "text-ink" : "text-ink-muted hover:text-ink"
-                  }`}
-                >
-                  {tab}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -82,11 +33,9 @@ export default function Skills() {
           viewport={{ once: true }}
           className="grid gap-6 md:grid-cols-2"
         >
-          <AnimatePresence mode="popLayout">
-            {visible.map((cat) => (
+          {skillsData.map((cat) => (
               <SkillCard key={cat.title} category={cat} />
             ))}
-          </AnimatePresence>
         </motion.div>
 
         <motion.div
