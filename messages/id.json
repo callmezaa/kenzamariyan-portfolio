@@ -39,13 +39,13 @@
     "time": "15 detik",
     "users": "1.500+",
     "infoItems": {
-      "experience": { "label": "4+ Tahun Pengalaman", "desc": "Rekayasa produk full-stack & mobile" },
+      "experience": { "label": "2+ Tahun Pengalaman", "desc": "Rekayasa produk full-stack & mobile" },
       "location": { "label": "Berbasis di Indonesia", "desc": "Ramah remote, zona waktu global" },
       "freelance": { "label": "Terbuka untuk Freelance & Kolaborasi", "desc": "Tersedia untuk kontrak & kemitraan" }
     },
     "stats": {
       "projects": { "label": "Proyek Dikirim", "reveal": "kontrak · mobile · AI" },
-      "years": { "label": "Tahun Pengalaman", "reveal": "sejak 2020" },
+      "years": { "label": "Tahun Pengalaman", "reveal": "sejak 2024" },
       "technologies": { "label": "Teknologi", "reveal": "react → go" },
       "opensource": { "label": "Proyek Open Source", "reveal": "repositori unggulan" }
     },

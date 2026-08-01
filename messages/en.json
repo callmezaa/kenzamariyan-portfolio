@@ -39,13 +39,13 @@
     "time": "15 seconds",
     "users": "1,500+",
     "infoItems": {
-      "experience": { "label": "4+ Years Experience", "desc": "Full-stack & mobile product engineering" },
+      "experience": { "label": "2+ Years Experience", "desc": "Full-stack & mobile product engineering" },
       "location": { "label": "Based in Indonesia", "desc": "Remote-friendly, global timezone" },
       "freelance": { "label": "Open to Freelance & Collaboration", "desc": "Available for contracts & partnerships" }
     },
     "stats": {
       "projects": { "label": "Projects Shipped", "reveal": "contracts · mobile · AI" },
-      "years": { "label": "Years Experience", "reveal": "since 2020" },
+      "years": { "label": "Years Experience", "reveal": "since 2024" },
       "technologies": { "label": "Technologies", "reveal": "react → go" },
       "opensource": { "label": "Open Source Projects", "reveal": "featured repositories" }
     },

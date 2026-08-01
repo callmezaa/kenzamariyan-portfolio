@@ -29,7 +29,7 @@ export default function About() {
     reveal: string;
   }[] = [
     { value: projects.length, label: t("stats.projects.label"), suffix: "+", reveal: t("stats.projects.reveal") },
-    { value: 4, label: t("stats.years.label"), reveal: t("stats.years.reveal") },
+    { value: 2, label: t("stats.years.label"), reveal: t("stats.years.reveal") },
     { value: techArsenal.length, label: t("stats.technologies.label"), reveal: t("stats.technologies.reveal") },
     { value: 4, label: t("stats.opensource.label"), suffix: "+", reveal: t("stats.opensource.reveal") },
   ];
