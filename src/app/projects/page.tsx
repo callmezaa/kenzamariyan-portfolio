@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AllProjects from "@/app/components/AllProjects";
 
 export const metadata: Metadata = {
-  title: "All Projects | Ken Zamariyan",
+  title: "All Projects",
   description:
     "A curated collection of full-stack projects spanning web applications, mobile apps, and AI-powered tools.",
 };

@@ -1,5 +1,8 @@
 import { ImageResponse } from "next/og";
-import { projects } from "@/app/data/projects";
+import { getLocale } from "next-intl/server";
+import { getLocalizedProjects } from "@/i18n/data";
+import { SITE_HOSTNAME } from "@/lib/site";
+import type { Locale } from "@/i18n/request";
 
 export const size = {
   width: 1200,
@@ -10,7 +13,8 @@ export const contentType = "image/png";
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const locale = await getLocale();
+  const project = getLocalizedProjects(locale as Locale).find((p) => p.slug === slug);
 
   if (!project) {
     return new ImageResponse(
@@ -107,7 +111,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               </div>
             ))}
           </div>
-          <div style={{ fontSize: 18, color: "#64748b" }}>kenzamariyan.vercel.app</div>
+          <div style={{ fontSize: 18, color: "#64748b" }}>{SITE_HOSTNAME}</div>
         </div>
       </div>
     ),

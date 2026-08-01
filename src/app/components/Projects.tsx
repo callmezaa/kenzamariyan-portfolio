@@ -8,21 +8,10 @@ import { motion, useReducedMotion } from "motion/react";
 import { LayoutGrid, List, ArrowRight } from "lucide-react";
 import { getLocalizedProjects } from "@/i18n/data";
 import type { Locale } from "@/i18n/request";
+import { PROJECT_CARD_IMAGES } from "@/app/data/projectImages";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
-
-const projectImages: Record<string, string> = {
-  "koperasi-kpjmi": "/image/koperasi-kpjmi/mockup.png",
-  "contract-chill": "/image/contract-chill/screenshot/mockup.png",
-  interviewos: "/image/interviewOS/mockup-v2.png",
-  assetra: "/image/assetra/mockup-v2.png",
-  "gotani-pos": "/image/GotaniApp/mockup-v2.png",
-  mercato: "/image/mercato/mockup.png",
-  monetra: "/image/monetra/mockup-v2.png",
-  nextalk: "/image/nextalkApp/mockup-v2.png",
-  "pallete-studio": "/image/PalleteStudio/mockup.png",
-};
 
 const CATEGORY_TABS = ["All", "Web App", "Mobile", "Playground"] as const;
 
@@ -164,7 +153,7 @@ export default function Projects() {
                 <Link href={`/projects/${project.slug}`} className="group block">
                   <TiltCard max={8} glare={true} className="rounded-[14px] overflow-hidden shadow-1 group-hover:shadow-2 transition-shadow duration-300">
                     <Image
-                      src={projectImages[project.slug] || projectImages[project.slug]}
+                      src={PROJECT_CARD_IMAGES[project.slug]}
                       alt={project.title}
                       width={1200}
                       height={750}

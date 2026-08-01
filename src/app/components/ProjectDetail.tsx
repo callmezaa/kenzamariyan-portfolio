@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { ArrowLeft, ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Project } from "../data/projects";
-import { techDescriptions } from "../data/projects";
+import { PROJECT_HERO_IMAGES } from "../data/projectImages";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/motion/tabs";
@@ -16,18 +16,6 @@ import ArchitectureSection from "./project-detail/ArchitectureSection";
 import AIPipelineSection from "./project-detail/AIPipelineSection";
 import SiteMapSection from "./project-detail/SiteMapSection";
 import TechnicalSection from "./project-detail/TechnicalSection";
-
-const projectImages: Record<string, string> = {
-  "koperasi-kpjmi": "/image/koperasi-kpjmi/homepage.png",
-  "contract-chill": "/image/contract-chill/screenshot/homepage.png",
-  interviewos: "/image/interviewOS/homesection.png",
-  assetra: "/image/assetra/homesection.png",
-  "gotani-pos": "/image/GotaniApp/mockup-v2.png",
-  monetra: "/image/monetra/homesection.png",
-  mercato: "/image/mercato/mockup.png",
-  nextalk: "/image/nextalkApp/mockup-v2.png",
-  "pallete-studio": "/image/PalleteStudio/mockup.png",
-};
 
 const screenshots: Record<string, { src: string; label: string }[]> = {
   "koperasi-kpjmi": [
@@ -160,7 +148,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const heroSrc = projectImages[project.slug];
+  const heroSrc = PROJECT_HERO_IMAGES[project.slug];
   const gallery = screenshots[project.slug];
   const isMobileApp = MOBILE_APPS.includes(project.slug);
   const heroScreenshots = isMobileApp && gallery ? gallery.slice(0, 3) : null;

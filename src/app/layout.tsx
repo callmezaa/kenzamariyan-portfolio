@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import LayoutClient from "./components/LayoutClient";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -16,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://portfolio-amber-ten-22.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Ken Zamariyan | Full-Stack Developer",
     template: "%s | Ken Zamariyan",

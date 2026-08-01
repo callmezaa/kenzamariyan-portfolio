@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { getLocale } from "next-intl/server";
 import { projects } from "@/app/data/projects";
+import { getLocalizedProjects } from "@/i18n/data";
+import type { Locale } from "@/i18n/request";
 import ProjectDetail from "@/app/components/ProjectDetail";
 
 export async function generateStaticParams() {
@@ -9,10 +12,11 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const locale = await getLocale();
+  const project = getLocalizedProjects(locale as Locale).find((p) => p.slug === slug);
   if (!project) return {};
   return {
-    title: `${project.title} | Ken Zamariyan`,
+    title: project.title,
     description: project.summary,
     openGraph: {
       title: `${project.title} | Ken Zamariyan`,
@@ -27,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
           alt: `${project.title} — Ken Zamariyan`,
         },
       ],
-      locale: "en_US",
+      locale: locale === "id" ? "id_ID" : "en_US",
       type: "website",
     },
     twitter: {
@@ -41,7 +45,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const locale = await getLocale();
+  const project = getLocalizedProjects(locale as Locale).find((p) => p.slug === slug);
 
   if (!project) notFound();
 
