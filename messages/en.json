@@ -1,7 +1,7 @@
 {
   "hero": {
     "headlines": ["Products shipped.", "Problems solved.", "No fluff."],
-    "subheadline": "Full-stack engineer building AI-powered products that ship in weeks, not months.",
+    "subheadline": "Full-stack engineer turning ideas into production-ready products — from frontend to deployment.",
     "getInTouch": "Get in Touch",
     "downloadCv": "Download CV",
     "cvTitle": "Curriculum Vitae",
@@ -35,11 +35,11 @@
   "about": {
     "label": "About Me",
     "heading": "Building reliable digital products with clarity and purpose.",
-    "description": "Shipping production-grade applications across web, mobile, and AI — from AI-powered contract analyzers processing documents in under <time>15 seconds</time> to offline-first mobile POS systems, real-time interview platforms, and full-stack e-commerce solutions. Proficient across TypeScript, Go, Python, PostgreSQL, and the MERN stack — delivering end-to-end product engineering.",
+    "description": "Building production-grade web applications end to end — from high-performance document processing portals returning results in under <time>15 seconds</time> to offline-first e-commerce stores, real-time dashboards, and full-stack management platforms. Proficient in the TypeScript ecosystem — React, Next.js, Node.js, and Express — alongside PostgreSQL, Firebase, Supabase, and Git — engineering clean, secure, and scalable applications from architecture to deployment.",
     "time": "15 seconds",
     "users": "1,500+",
     "infoItems": {
-      "experience": { "label": "2+ Years Experience", "desc": "Full-stack & mobile product engineering" },
+      "experience": { "label": "2+ Years Experience", "desc": "Full-stack web development" },
       "location": { "label": "Based in Indonesia", "desc": "Remote-friendly, global timezone" },
       "freelance": { "label": "Open to Freelance & Collaboration", "desc": "Available for contracts & partnerships" }
     },

@@ -1,7 +1,7 @@
 {
   "hero": {
     "headlines": ["Produk dikirim.", "Masalah dipecahkan.", "Tanpa basa-basi."],
-    "subheadline": "Full-stack engineer membangun produk bertenaga AI yang siap dikirim dalam hitungan minggu, bukan bulan.",
+    "subheadline": "Full-stack engineer mengubah ide menjadi produk yang siap produksi — dari frontend hingga deployment.",
     "getInTouch": "Hubungi Saya",
     "downloadCv": "Unduh CV",
     "cvTitle": "Curriculum Vitae",
@@ -35,11 +35,11 @@
   "about": {
     "label": "Tentang Saya",
     "heading": "Membangun produk digital yang andal dengan jelas dan penuh tujuan.",
-    "description": "Mengirimkan aplikasi production-grade di web, mobile, dan AI — dari analisis kontrak bertenaga AI yang memproses dokumen dalam <time>15 detik</time> hingga sistem POS offline, platform wawancara real-time, dan solusi e-commerce full-stack. Mahir dalam TypeScript, Go, Python, PostgreSQL, dan MERN stack — menghadirkan rekayasa produk end-to-end.",
+    "description": "Membangun aplikasi web production-grade secara end-to-end — dari mesin pemrosesan dokumen berperforma tinggi yang mengembalikan hasil dalam <time>15 detik</time> hingga toko e-commerce offline-first, dashboard real-time, dan platform manajemen full-stack. Mahir dalam ekosistem TypeScript — React, Next.js, Node.js, dan Express — serta PostgreSQL, Firebase, Supabase, dan Git — mengembangkan aplikasi yang efisien, aman, dan mudah dipelihara dari arsitektur hingga deployment.",
     "time": "15 detik",
     "users": "1.500+",
     "infoItems": {
-      "experience": { "label": "2+ Tahun Pengalaman", "desc": "Rekayasa produk full-stack & mobile" },
+      "experience": { "label": "2+ Tahun Pengalaman", "desc": "Pengembangan web full-stack" },
       "location": { "label": "Berbasis di Indonesia", "desc": "Ramah remote, zona waktu global" },
       "freelance": { "label": "Terbuka untuk Freelance & Kolaborasi", "desc": "Tersedia untuk kontrak & kemitraan" }
     },
