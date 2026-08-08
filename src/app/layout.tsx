@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     siteName: "Ken Zamariyan Portfolio",
     images: [
       {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
+        url: "/og-home.png",
+        width: 1734,
+        height: 907,
         alt: "Ken Zamariyan portfolio preview",
       },
     ],
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ken Zamariyan | Full-Stack Developer",
     description: "Full-stack engineer — TypeScript, Go, Python, PostgreSQL, MERN. AI apps, mobile POS, e-commerce, real-time platforms.",
-    images: ["/opengraph-image"],
+    images: ["/og-home.png"],
   },
   icons: {
     icon: [
