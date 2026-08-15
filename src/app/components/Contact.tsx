@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { easeOut } from "../utils/animations";
+import { Reveal } from "@/components/motion/reveal/Reveal";
+import { TextReveal } from "@/components/motion/text-reveal";
 import ContactForm from "./ContactForm";
 
 export default function Contact() {
@@ -24,51 +26,42 @@ export default function Contact() {
                 {t('label')}
               </motion.p>
               <div className="space-y-1">
-                <motion.h2
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, ease: easeOut }}
+                <TextReveal
+                  as="h2"
+                  text={[t('heading1')]}
+                  split="word"
+                  stagger={0.08}
+                  blur={8}
+                  yOffset="20%"
+                  whileInView
+                  className="display-xl leading-tight text-balance text-ink"
+                />
+                <TextReveal
+                  as="h2"
+                  text={[t('heading2')]}
+                  split="word"
+                  stagger={0.08}
+                  blur={8}
+                  yOffset="20%"
+                  whileInView
                   className="display-xl leading-tight text-balance text-ink"
                 >
-                  {t('heading1')}
-                </motion.h2>
-                <motion.h2
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, ease: easeOut, delay: 0.1 }}
-                  className="display-xl leading-tight text-balance text-ink"
-                >
-                  {t('heading2')}
                   <motion.span
                     animate={{ opacity: [1, 0] }}
                     transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }}
                     className="inline-block h-[0.85em] w-[3px] bg-ink ml-1 align-middle"
                   />
-                </motion.h2>
+                </TextReveal>
               </div>
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, ease: easeOut, delay: 0.2 }}
-                className="body-base"
-              >
-                {t('description')}
-              </motion.p>
+              <Reveal variant="rise" delay={0.2}>
+                <p className="body-base">{t('description')}</p>
+              </Reveal>
             </div>
 
             {/* Right: Form */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, ease: easeOut, delay: 0.15 }}
-              className="w-full lg:col-span-7 lg:pl-8 lg:self-center"
-            >
+            <Reveal className="w-full lg:col-span-7 lg:pl-8 lg:self-center">
               <ContactForm />
-            </motion.div>
+            </Reveal>
           </div>
         </div>
       </div>

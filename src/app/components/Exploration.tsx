@@ -8,6 +8,7 @@ import { X } from "lucide-react";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
+import { Reveal } from "@/components/motion/reveal/Reveal";
 import { getLocalizedExplorations } from "@/i18n/data";
 import type { Locale } from "@/i18n/request";
 
@@ -42,28 +43,15 @@ export default function Exploration() {
   return (
     <section id="exploration" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: easeOut }}
-          className="mb-12 max-w-2xl space-y-3"
-        >
+        <Reveal variant="rise" className="mb-12 max-w-2xl space-y-3">
           <p className="label text-ink-muted">{t("label")}</p>
           <h2 className="display-xl text-balance">{t("heading")}</h2>
           <p className="body-base">{t("description")}</p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {items.map((item, i) => (
-            <motion.div
-              key={item.slug}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, ease: easeOut, delay: i * 0.05 }}
-              className="h-full"
-            >
+            <Reveal key={item.slug} variant="scale" delay={i * 0.05} className="h-full">
               <TiltCard
                 max={6}
                 glare={true}
@@ -96,7 +84,7 @@ export default function Exploration() {
                   </div>
                 </button>
               </TiltCard>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

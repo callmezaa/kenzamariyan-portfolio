@@ -7,6 +7,7 @@ import { getLocalizedExperience } from "@/i18n/data";
 import type { ExperienceType } from "../data/experience";
 import type { Locale } from "@/i18n/request";
 import { BouncyAccordion } from "@/components/motion/bouncy-accordion";
+import { Reveal } from "@/components/motion/reveal/Reveal";
 import { Briefcase, GraduationCap, Building } from "lucide-react";
 import { appleSpring } from "../utils/animations";
 import { Button } from "@/components/ui/button";
@@ -60,24 +61,12 @@ export default function Experience() {
   return (
     <section id="experience" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-12 space-y-3"
-        >
+        <Reveal variant="mask" className="mb-12 space-y-3">
           <p className="label text-ink-muted">{t("label")}</p>
           <h2 className="display-xl text-balance">{t("heading")}</h2>
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 flex flex-wrap gap-2"
-        >
+        <Reveal className="mb-8 flex flex-wrap gap-2">
           {filters.map((f) => (
             <Button
               key={f.value}
@@ -90,7 +79,7 @@ export default function Experience() {
               {f.label}
             </Button>
           ))}
-        </motion.div>
+        </Reveal>
 
         <motion.div
           key={activeFilter}

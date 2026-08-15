@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useTranslations } from "next-intl";
 import { ExternalLink, ChevronLeft, ChevronRight, X, Download, Eye } from "lucide-react";
 import { easeOut } from "../utils/animations";
+import { Reveal } from "@/components/motion/reveal/Reveal";
 import { Button } from "@/components/ui/button";
 
 interface Certificate {
@@ -360,64 +361,51 @@ export default function Achievements() {
   return (
     <section id="achievements" className="bg-canvas py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="mb-12 max-w-2xl space-y-3">
+        <Reveal variant="mask" className="mb-12 max-w-2xl space-y-3">
           <p className="label text-ink-muted">{t("label")}</p>
           <h2 className="display-xl text-balance">{t("heading")}</h2>
-        </div>
+        </Reveal>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence>
-            {visible.map((cert, i) => (
+          {visible.map((cert, i) => (
+            <Reveal key={cert.title} variant="rise" delay={i * 0.03} className="h-full">
               <motion.div
-                key={cert.title}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-                transition={{ duration: 0.3, ease: easeOut, delay: i * 0.03 }}
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.3, ease: easeOut }}
+                className="rounded-[14px] overflow-hidden shadow-1 hover:shadow-2 bg-canvas-card h-full flex flex-col transition-shadow duration-300"
               >
-                <motion.div
-                  whileHover={{ y: -3 }}
-                  transition={{ duration: 0.3, ease: easeOut }}
-                  className="rounded-[14px] overflow-hidden shadow-1 hover:shadow-2 bg-canvas-card h-full flex flex-col transition-shadow duration-300"
-                >
-                  <CertificatePreview cert={cert} files={cert.files} />
-                  <div className="p-5 space-y-2 flex-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="body-base font-semibold text-ink">{cert.title}</h3>
-                      {cert.url && (
-                        <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-surface-soft px-2 py-0.5 mono-sm text-ink-tertiary">
-                          <ExternalLink size={10} /> {t("verifiable")}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 body-small text-ink-muted">
-                      <span>{cert.issuer}</span>
-                      <span className="text-hairline">·</span>
-                      <span>{cert.year}</span>
-                    </div>
+                <CertificatePreview cert={cert} files={cert.files} />
+                <div className="p-5 space-y-2 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="body-base font-semibold text-ink">{cert.title}</h3>
+                    {cert.url && (
+                      <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-surface-soft px-2 py-0.5 mono-sm text-ink-tertiary">
+                        <ExternalLink size={10} /> {t("verifiable")}
+                      </span>
+                    )}
                   </div>
-                  <div className="px-5 pb-5">
-                    <Button
-                      onClick={() => setModalIndex(i)}
-                      variant="ghost"
-                      size="sm"
-                      className="text-ink-muted group"
-                    >
-                      {t("viewDetails")} <Eye size={12} className="transition-transform group-hover:translate-x-0.5" />
-                    </Button>
+                  <div className="flex items-center gap-2 body-small text-ink-muted">
+                    <span>{cert.issuer}</span>
+                    <span className="text-hairline">·</span>
+                    <span>{cert.year}</span>
                   </div>
-                </motion.div>
+                </div>
+                <div className="px-5 pb-5">
+                  <Button
+                    onClick={() => setModalIndex(i)}
+                    variant="ghost"
+                    size="sm"
+                    className="text-ink-muted group"
+                  >
+                    {t("viewDetails")} <Eye size={12} className="transition-transform group-hover:translate-x-0.5" />
+                  </Button>
+                </div>
               </motion.div>
-            ))}
-          </AnimatePresence>
+            </Reveal>
+          ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-10 text-center"
-        >
+        <Reveal className="mt-10 text-center">
           <Button
             onClick={() => setShowAll((v) => !v)}
             variant="outline"
@@ -426,7 +414,7 @@ export default function Achievements() {
           >
             {showAll ? t("showLess") : t("showAll", { count: hidden })}
           </Button>
-        </motion.div>
+        </Reveal>
       </div>
 
       <AnimatePresence>
