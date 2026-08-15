@@ -12,6 +12,11 @@
 
 ## Global Constraints
 
+> **Controller resolutions (2026-08-15, approved by human):**
+> - **Drop the `blur` reveal variant** (Task 2). It animated `filter: blur()` which violates Constraint #4; it is unused by any section (headings use the existing `TextReveal` `word` variant). Registry is `fade | rise | mask | scale` only.
+> - **Drop `will-change: transform`** from the `.vt-project-image` CSS (Task 7). The transition itself animates it; honors "will-change only while animating".
+> - **Per-slug `view-transition-name`** (Task 7, post-review). The single shared `vt-project-image` name violates the CSS View Transitions spec's uniqueness requirement (duplicate names → the browser captures only the last matching element, so the morph starts from the wrong card). Cards use inline `style={{ viewTransitionName: 'vt-' + project.slug }}` and the detail hero uses the matching `'vt-' + project.slug`. The `.vt-project-image` CSS class is dropped (unused).
+
 - Import all easing/springs/durations from `@/lib/motion` in any new or modified motion code — **no inline easing/duration hardcodes**.
 - Respect `prefers-reduced-motion` in every new primitive: cursor-follow/mask/magnet disabled, reveals become plain opacity fades, page transitions skipped.
 - Respect touch devices: gate all cursor-follow effects behind the existing `useHoverCapable` hook.
@@ -173,7 +178,7 @@ git commit -m "refactor: consolidate motion tokens into src/lib/motion.ts"
 **Interfaces:**
 - Consumes: `EASE_OUT`, `DURATION_MED`, `DURATION_SLOW`, `EASE_EXPO` from `@/lib/motion`; `cn` from `@/lib/utils`.
 - Produces:
-  - `type RevealVariant = "fade" | "rise" | "mask" | "blur" | "scale"`
+  - `type RevealVariant = "fade" | "rise" | "mask" | "scale"`
   - `function Reveal({ children, variant, delay, duration, amount, className }): JSX.Element`
   - `const revealVariants: Record<RevealVariant, Variants>`
 - Note: the `word` variant from the spec is already fulfilled by the existing `TextReveal` component (`src/components/motion/text-reveal.tsx`) — no new variant needed; the section map uses `TextReveal` directly for word-staggered headlines (Hero existing, Contact in Task 4).
@@ -183,7 +188,7 @@ git commit -m "refactor: consolidate motion tokens into src/lib/motion.ts"
 ```ts
 import type { Variants } from "motion/react";
 
-export type RevealVariant = "fade" | "rise" | "mask" | "blur" | "scale";
+export type RevealVariant = "fade" | "rise" | "mask" | "scale";
 
 /** Per-variant hidden/visible states. Reduced motion handled by Reveal.tsx. */
 export const revealVariants: Record<RevealVariant, Variants> = {
@@ -198,10 +203,6 @@ export const revealVariants: Record<RevealVariant, Variants> = {
   mask: {
     hidden: { clipPath: "inset(0 0 100% 0)" },
     visible: { clipPath: "inset(0 0 0% 0)" },
-  },
-  blur: {
-    hidden: { opacity: 0, filter: "blur(8px)" },
-    visible: { opacity: 1, filter: "blur(0px)" },
   },
   scale: {
     hidden: { opacity: 0, scale: 0.96 },
@@ -1163,7 +1164,6 @@ Append at the end of `globals.css`:
 /* Shared-element morph for the project card image -> detail hero. */
 .vt-project-image {
   view-transition-name: vt-project-image;
-  will-change: transform;
 }
 
 /* Keep the page interactive while the transition overlay is active. */
