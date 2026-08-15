@@ -8,5 +8,7 @@ declare module "react" {
       | MotionValue<string>
       | MotionValue<number>
       | undefined;
+    /** Native View Transitions API — used for the project image morph. */
+    viewTransitionName?: string;
   }
 }
