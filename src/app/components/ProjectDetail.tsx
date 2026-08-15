@@ -218,8 +218,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   width={1200}
                   height={675}
                   priority
-                  className="w-full h-auto block vt-project-image"
-                  style={{ viewTransitionName: "vt-project-image" }}
+                  className="w-full h-auto block"
+                  style={{ viewTransitionName: `vt-${project.slug}` }}
                   sizes="(max-width: 768px) 100vw, 896px"
                 />
               </div>

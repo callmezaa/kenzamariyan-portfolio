@@ -398,11 +398,6 @@ textarea::placeholder {
   from { opacity: 0; }
 }
 
-/* Shared-element morph for the project card image -> detail hero. */
-.vt-project-image {
-  view-transition-name: vt-project-image;
-}
-
 /* Keep the page interactive while the transition overlay is active. */
 ::view-transition {
   pointer-events: none;

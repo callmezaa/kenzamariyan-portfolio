@@ -84,8 +84,8 @@ export default function AllProjects() {
                       alt={project.title}
                       width={1200}
                       height={750}
-                      className="w-full h-auto vt-project-image"
-                      style={{ viewTransitionName: "vt-project-image" }}
+                      className="w-full h-auto"
+                      style={{ viewTransitionName: `vt-${project.slug}` }}
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </TiltCard>
