@@ -12,6 +12,7 @@ import { PROJECT_CARD_IMAGES } from "@/app/data/projectImages";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
+import { Reveal } from "@/components/motion/reveal/Reveal";
 
 const CATEGORY_TABS = ["All", "Web App", "Mobile", "Playground"] as const;
 
@@ -46,13 +47,7 @@ export default function Projects() {
   return (
     <section id="projects" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: easeOut }}
-          className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4"
-        >
+        <Reveal variant="mask" className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-3">
             <p className="label text-ink-muted">{t('label')}</p>
             <h2 className="display-xl text-balance">{t('heading')}</h2>
@@ -133,7 +128,7 @@ export default function Projects() {
               </button>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
 
         {empty ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -143,13 +138,7 @@ export default function Projects() {
         ) : view === "grid" ? (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {visible.map((project, i) => (
-              <motion.div
-                key={project.slug}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, ease: easeOut, delay: i * 0.05 }}
-              >
+              <Reveal key={project.slug} variant="rise" delay={i * 0.05} className="h-full">
                 <Link href={`/projects/${project.slug}`} className="group block">
                   <TiltCard max={8} glare={true} className="rounded-[14px] overflow-hidden shadow-1 group-hover:shadow-2 transition-shadow duration-300">
                     <Image
@@ -166,48 +155,31 @@ export default function Projects() {
                     <p className="body-small text-ink-muted mt-1">{project.stack.slice(0, 3).join(" · ")}</p>
                   </div>
                 </Link>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         ) : (
           <div className="space-y-3">
             {visible.map((project, i) => (
-              <motion.div
-                key={project.slug}
-                initial={{ opacity: 0, x: -8 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, ease: easeOut, delay: i * 0.03 }}
-              >
-                <motion.div
-                  whileHover={{ y: -2 }}
-                  transition={{ duration: 0.3, ease: easeOut }}
-                >
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="flex items-center gap-3 p-4 rounded-[14px] bg-canvas-glass shadow-1 hover:shadow-2 transition-shadow duration-300"
-                  >
+              <Reveal key={project.slug} variant="rise" delay={i * 0.03}>
+                <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.3, ease: easeOut }}>
+                  <Link href={`/projects/${project.slug}`} className="flex items-center gap-3 p-4 rounded-[14px] bg-canvas-glass shadow-1 hover:shadow-2 transition-shadow duration-300">
                     <h3 className="body-base font-semibold text-ink truncate">{project.title}</h3>
                     <p className="body-small text-ink-muted truncate ml-auto">{project.stack.slice(0, 3).join(" · ")}</p>
                   </Link>
                 </motion.div>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         )}
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-10 text-center"
-        >
+        <Reveal className="mt-10 text-center">
           <Link href="/projects">
             <Button variant="outline" size="lg" className="rounded-full">
               {t('viewAll')} <ArrowRight data-icon="inline-end" />
             </Button>
           </Link>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

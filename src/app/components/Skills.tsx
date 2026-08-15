@@ -7,10 +7,11 @@ import { SiGithub } from "react-icons/si";
 import { getLocalizedSkills } from "@/i18n/data";
 import type { Locale } from "@/i18n/request";
 import type { SkillCategory, SkillItem } from "../data/skillsData";
-import { staggerContainer, staggerItem, easeOut } from "../utils/animations";
+import { easeOut } from "../utils/animations";
 import { Tooltip } from "@/components/motion/tooltip";
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import GitHubSection from "./GitHubSection";
+import { Reveal } from "@/components/motion/reveal/Reveal";
 
 export default function Skills() {
   const t = useTranslations("skills");
@@ -20,31 +21,19 @@ export default function Skills() {
   return (
     <section id="skills" className="bg-canvas-alt py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="mb-10 max-w-2xl space-y-3">
+        <Reveal variant="rise" className="mb-10 max-w-2xl space-y-3">
           <p className="label text-ink-muted">{t("label")}</p>
           <h2 className="display-xl text-balance">{t("heading")}</h2>
           <p className="body-base">{t("description")}</p>
+        </Reveal>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {skillsData.map((cat) => (
+            <SkillCard key={cat.title} category={cat} />
+          ))}
         </div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid gap-6 md:grid-cols-2"
-        >
-          {skillsData.map((cat) => (
-              <SkillCard key={cat.title} category={cat} />
-            ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: easeOut }}
-          className="mt-14"
-        >
+        <Reveal className="mt-14">
           <div className="rounded-[14px] bg-canvas-glass backdrop-blur-sm shadow-1 p-6 md:p-8">
             <div className="flex items-center justify-between mb-4">
               <p className="label text-ink-muted">{t("openSource")}</p>
@@ -61,7 +50,7 @@ export default function Skills() {
             </div>
             <GitHubSection />
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );
@@ -69,15 +58,7 @@ export default function Skills() {
 
 function SkillCard({ category }: { category: SkillCategory }) {
   return (
-    <motion.div
-      variants={staggerItem}
-      layout
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ duration: 0.3, ease: easeOut }}
-      className="h-full"
-    >
+    <Reveal variant="scale" className="h-full">
       <motion.div
         whileHover={{ y: -2 }}
         transition={{ duration: 0.3, ease: easeOut }}
@@ -98,7 +79,7 @@ function SkillCard({ category }: { category: SkillCategory }) {
           </div>
         </div>
       </motion.div>
-    </motion.div>
+    </Reveal>
   );
 }
 
