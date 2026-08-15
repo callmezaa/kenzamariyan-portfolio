@@ -1,4 +1,5 @@
 import type { Variants, Transition } from "framer-motion";
+import { EASE_OUT } from "@/lib/motion";
 
 export const appleSpring: Transition = {
   type: "spring",
@@ -19,7 +20,7 @@ export const appleSpringGentle: Transition = {
   damping: 22,
 };
 
-export const easeOut = [0.16, 1, 0.3, 1] as const;
+export const easeOut = EASE_OUT;
 
 export const fadeUpSpring: Variants = {
   hidden: { opacity: 0, y: 20 },
