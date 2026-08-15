@@ -12,6 +12,7 @@ import { Tooltip } from "@/components/motion/tooltip";
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import GitHubSection from "./GitHubSection";
 import { Reveal } from "@/components/motion/reveal/Reveal";
+import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
 
 export default function Skills() {
   const t = useTranslations("skills");
@@ -59,11 +60,7 @@ export default function Skills() {
 function SkillCard({ category }: { category: SkillCategory }) {
   return (
     <Reveal variant="scale" className="h-full">
-      <motion.div
-        whileHover={{ y: -2 }}
-        transition={{ duration: 0.3, ease: easeOut }}
-        className="flex h-full rounded-[14px] bg-canvas-glass backdrop-blur-sm shadow-1 p-6 transition-shadow duration-300 hover:shadow-2"
-      >
+      <SpotlightCard className="flex h-full rounded-[14px] bg-canvas-glass backdrop-blur-sm shadow-1 p-6 transition-shadow duration-300 hover:shadow-2">
         <div className="flex w-full flex-col gap-5">
           <div>
             <h3 className="button-cap text-ink">{category.title}</h3>
@@ -78,7 +75,7 @@ function SkillCard({ category }: { category: SkillCategory }) {
             ))}
           </div>
         </div>
-      </motion.div>
+      </SpotlightCard>
     </Reveal>
   );
 }

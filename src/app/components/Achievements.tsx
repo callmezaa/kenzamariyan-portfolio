@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl";
 import { ExternalLink, ChevronLeft, ChevronRight, X, Download, Eye } from "lucide-react";
 import { easeOut } from "../utils/animations";
 import { Reveal } from "@/components/motion/reveal/Reveal";
+import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
+import { ArrowSlide } from "@/components/motion/hover/ArrowSlide";
 import { Button } from "@/components/ui/button";
 
 interface Certificate {
@@ -369,11 +371,7 @@ export default function Achievements() {
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {visible.map((cert, i) => (
             <Reveal key={cert.title} variant="rise" delay={i * 0.03} className="h-full">
-              <motion.div
-                whileHover={{ y: -3 }}
-                transition={{ duration: 0.3, ease: easeOut }}
-                className="rounded-[14px] overflow-hidden shadow-1 hover:shadow-2 bg-canvas-card h-full flex flex-col transition-shadow duration-300"
-              >
+              <SpotlightCard className="rounded-[14px] overflow-hidden shadow-1 hover:shadow-2 bg-canvas-card h-full flex flex-col transition-shadow duration-300">
                 <CertificatePreview cert={cert} files={cert.files} />
                 <div className="p-5 space-y-2 flex-1">
                   <div className="flex items-start justify-between gap-2">
@@ -395,12 +393,12 @@ export default function Achievements() {
                     onClick={() => setModalIndex(i)}
                     variant="ghost"
                     size="sm"
-                    className="text-ink-muted group"
+                    className="text-ink-muted"
                   >
-                    {t("viewDetails")} <Eye size={12} className="transition-transform group-hover:translate-x-0.5" />
+                    <ArrowSlide icon={<Eye size={12} />}>{t("viewDetails")}</ArrowSlide>
                   </Button>
                 </div>
-              </motion.div>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>

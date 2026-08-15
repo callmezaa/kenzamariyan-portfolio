@@ -13,6 +13,7 @@ import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { Reveal } from "@/components/motion/reveal/Reveal";
+import { Magnetic } from "@/components/motion/hover/Magnetic";
 
 const CATEGORY_TABS = ["All", "Web App", "Mobile", "Playground"] as const;
 
@@ -174,11 +175,13 @@ export default function Projects() {
         )}
 
         <Reveal className="mt-10 text-center">
-          <Link href="/projects">
-            <Button variant="outline" size="lg" className="rounded-full">
-              {t('viewAll')} <ArrowRight data-icon="inline-end" />
-            </Button>
-          </Link>
+          <Magnetic>
+            <Link href="/projects">
+              <Button variant="outline" size="lg" className="rounded-full">
+                {t('viewAll')} <ArrowRight data-icon="inline-end" />
+              </Button>
+            </Link>
+          </Magnetic>
         </Reveal>
       </div>
     </section>

@@ -10,6 +10,7 @@ import { techArsenal } from "../data/techArsenal";
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import TechArsenal from "./TechArsenal";
 import { Reveal } from "@/components/motion/reveal/Reveal";
+import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
 
 export default function About() {
   const t = useTranslations("about");
@@ -49,10 +50,7 @@ export default function About() {
           <div className="space-y-8 md:col-span-5">
             {infoItems.map((item, i) => (
               <Reveal key={item.label} variant="fade" delay={i * 0.1}>
-                <motion.div
-                  whileHover={{ y: -2, transition: { duration: 0.3, ease: easeOut } }}
-                  className="flex items-start gap-4 rounded-[14px] bg-canvas-card shadow-1 hover:shadow-2 p-5 transition-shadow duration-300"
-                >
+                <SpotlightCard className="flex items-start gap-4 rounded-[14px] bg-canvas-card shadow-1 hover:shadow-2 p-5 transition-shadow duration-300">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-soft"
                     style={{ color: item.color }}>
                     <item.icon size={18} />
@@ -64,7 +62,7 @@ export default function About() {
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-soft text-ink-tertiary">
                     <item.badgeIcon size={14} />
                   </span>
-                </motion.div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>

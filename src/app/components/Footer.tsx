@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Mail, MessageCircle, Briefcase, Code2 } from "lucide-react";
+import { ArrowSlide } from "@/components/motion/hover/ArrowSlide";
 
 export default function Footer() {
   const t = useTranslations("footer");
@@ -29,7 +30,7 @@ export default function Footer() {
               aria-label={s.label}
               className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-soft text-ink-muted transition-colors hover:bg-surface-active hover:text-ink"
             >
-              <s.icon size={14} />
+              <ArrowSlide icon={<s.icon size={14} />} className="gap-0">{null}</ArrowSlide>
             </a>
           ))}
         </div>
