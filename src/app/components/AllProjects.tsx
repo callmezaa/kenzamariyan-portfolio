@@ -11,6 +11,7 @@ import type { Locale } from "@/i18n/request";
 import { PROJECT_CARD_IMAGES } from "@/app/data/projectImages";
 import { easeOut } from "../utils/animations";
 import { TiltCard } from "@/components/motion/tilt-card";
+import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 
 type ViewMode = "grid" | "list";
 
@@ -76,14 +77,15 @@ export default function AllProjects() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, ease: easeOut, delay: i * 0.05 }}
               >
-                <Link href={`/projects/${project.slug}`} className="group block">
+                <TransitionLink href={`/projects/${project.slug}`} className="group block">
                   <TiltCard max={8} glare={true} className="rounded-[14px] overflow-hidden shadow-1 group-hover:shadow-2 transition-shadow duration-300">
                     <Image
                       src={PROJECT_CARD_IMAGES[project.slug]}
                       alt={project.title}
                       width={1200}
                       height={750}
-                      className="w-full h-auto"
+                      className="w-full h-auto vt-project-image"
+                      style={{ viewTransitionName: "vt-project-image" }}
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </TiltCard>
@@ -91,7 +93,7 @@ export default function AllProjects() {
                     <h3 className="body-base font-semibold text-ink group-hover:text-ink-muted transition-colors duration-200">{project.title}</h3>
                     <p className="body-small text-ink-muted mt-1">{project.stack.slice(0, 3).join(" · ")}</p>
                   </div>
-                </Link>
+                </TransitionLink>
               </motion.div>
             ))}
           </div>
@@ -106,13 +108,13 @@ export default function AllProjects() {
                 transition={{ duration: 0.3, ease: easeOut, delay: i * 0.03 }}
               >
                 <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.3, ease: easeOut }}>
-                  <Link
+                  <TransitionLink
                     href={`/projects/${project.slug}`}
                     className="flex items-center gap-3 p-4 rounded-[14px] bg-canvas-glass shadow-1 hover:shadow-2 transition-shadow duration-300"
                   >
                     <h3 className="body-base font-semibold text-ink truncate">{project.title}</h3>
                     <p className="body-small text-ink-muted truncate ml-auto">{project.stack.slice(0, 3).join(" · ")}</p>
-                  </Link>
+                  </TransitionLink>
                 </motion.div>
               </motion.div>
             ))}

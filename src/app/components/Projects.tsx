@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { Magnetic } from "@/components/motion/hover/Magnetic";
+import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 
 const CATEGORY_TABS = ["All", "Web App", "Mobile", "Playground"] as const;
 
@@ -140,14 +141,15 @@ export default function Projects() {
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {visible.map((project, i) => (
               <Reveal key={project.slug} variant="rise" delay={i * 0.05} className="h-full">
-                <Link href={`/projects/${project.slug}`} className="group block">
+                <TransitionLink href={`/projects/${project.slug}`} className="group block">
                   <TiltCard max={8} glare={true} className="rounded-[14px] overflow-hidden shadow-1 group-hover:shadow-2 transition-shadow duration-300">
                     <Image
                       src={PROJECT_CARD_IMAGES[project.slug]}
                       alt={project.title}
                       width={1200}
                       height={750}
-                      className="w-full h-auto"
+                      className="w-full h-auto vt-project-image"
+                      style={{ viewTransitionName: "vt-project-image" }}
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </TiltCard>
@@ -155,7 +157,7 @@ export default function Projects() {
                     <h3 className="body-base font-semibold text-ink group-hover:text-ink-muted transition-colors duration-200">{project.title}</h3>
                     <p className="body-small text-ink-muted mt-1">{project.stack.slice(0, 3).join(" · ")}</p>
                   </div>
-                </Link>
+                </TransitionLink>
               </Reveal>
             ))}
           </div>
@@ -164,10 +166,13 @@ export default function Projects() {
             {visible.map((project, i) => (
               <Reveal key={project.slug} variant="rise" delay={i * 0.03}>
                 <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.3, ease: easeOut }}>
-                  <Link href={`/projects/${project.slug}`} className="flex items-center gap-3 p-4 rounded-[14px] bg-canvas-glass shadow-1 hover:shadow-2 transition-shadow duration-300">
+                  <TransitionLink
+                    href={`/projects/${project.slug}`}
+                    className="flex items-center gap-3 p-4 rounded-[14px] bg-canvas-glass shadow-1 hover:shadow-2 transition-shadow duration-300"
+                  >
                     <h3 className="body-base font-semibold text-ink truncate">{project.title}</h3>
                     <p className="body-small text-ink-muted truncate ml-auto">{project.stack.slice(0, 3).join(" · ")}</p>
-                  </Link>
+                  </TransitionLink>
                 </motion.div>
               </Reveal>
             ))}

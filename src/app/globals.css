@@ -381,3 +381,39 @@ textarea::placeholder {
     @apply font-sans;
   }
 }
+
+/* ---- View Transitions (native API, no dependency) ---- */
+
+::view-transition-old(root) {
+  animation: vt-fade-out 0.2s ease-out both;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in 0.25s ease-out both;
+}
+
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
+}
+
+/* Shared-element morph for the project card image -> detail hero. */
+.vt-project-image {
+  view-transition-name: vt-project-image;
+}
+
+/* Keep the page interactive while the transition overlay is active. */
+::view-transition {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

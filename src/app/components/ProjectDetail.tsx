@@ -2,13 +2,13 @@
 
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { ArrowLeft, ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Project } from "../data/projects";
 import { PROJECT_HERO_IMAGES } from "../data/projectImages";
 import { easeOut } from "../utils/animations";
+import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/motion/tabs";
 import MetricCards from "./project-detail/MetricCards";
@@ -178,13 +178,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   return (
     <div className="min-h-dvh bg-canvas pt-28 md:pt-36">
       <div className="mx-auto max-w-4xl px-6 md:px-8 pb-24">
-        <Link
+        <TransitionLink
           href="/#projects"
           className="inline-flex items-center gap-2 label text-muted-foreground hover:text-foreground transition-colors mb-8"
         >
           <ArrowLeft size={14} />
           {t('backToProjects')}
-        </Link>
+        </TransitionLink>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -218,7 +218,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   width={1200}
                   height={675}
                   priority
-                  className="w-full h-auto block"
+                  className="w-full h-auto block vt-project-image"
+                  style={{ viewTransitionName: "vt-project-image" }}
                   sizes="(max-width: 768px) 100vw, 896px"
                 />
               </div>
