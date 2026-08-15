@@ -39,7 +39,7 @@ export default function About() {
     <section id="about" className="bg-canvas py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="grid items-center gap-10 md:grid-cols-12 md:gap-14 lg:gap-20">
-          <Reveal className="space-y-6 md:col-span-7">
+          <Reveal variant="mask" className="space-y-6 md:col-span-7">
             <p className="label text-ink-muted">{t("label")}</p>
             <h2 className="display-xl text-balance">{t("heading")}</h2>
             <p className="body-base">{t.rich("description", {
