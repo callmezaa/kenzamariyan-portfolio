@@ -510,6 +510,104 @@ return (
     },
   },
   {
+    slug: "interviewos",
+    title: "InterviewOS — AI-Powered Interview Platform",
+    summary:
+      "A production-grade realtime technical interview platform combining WebRTC video calls, synchronized code editing, screen recording, and Whisper-powered speech-to-text transcription into a single operating system for hiring.",
+    challenge:
+      "Technical interviews are fragmented across Zoom, CoderPad, Loom, and manual evaluation sheets — creating friction, context-switching, and inconsistent candidate experiences for engineering teams.",
+    solution:
+      "Architected a full-stack monorepo with Next.js 16 + NestJS 11 featuring P2P WebRTC video with Socket.io signaling, synchronized Monaco Editor with keystroke broadcast, MediaRecorder screen recording, and an OpenAI Whisper transcription pipeline — all wrapped in an Apple-inspired dark design system with JWT/OAuth authentication.",
+    impact:
+      "Delivered a comprehensive platform integrating WebRTC, collaborative editing, Whisper AI transcription, screen recording, live audio waveforms, and room management — demonstrating deep full-stack systems architecture across 51 commits with Sentry monitoring, PostHog analytics, and Playwright E2E tests.",
+    stack: ["Next.js 16", "React 19", "NestJS 11", "TypeScript", "WebRTC", "Socket.io", "Monaco Editor", "OpenAI Whisper", "Prisma", "PostgreSQL", "Docker", "Tailwind CSS"],
+    role: "Full-Stack Developer & Systems Architect",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/InterviewOS",
+    demoUrl: "https://interviewos-dev.vercel.app",
+    type: "interviewos",
+    featured: true,
+    badge: "Open Source",
+    metrics: ["WebRTC Video Calls", "Collaborative Code Editor", "Whisper Transcription", "Screen Recording"],
+    accent: {
+      glow: "rgba(0, 102, 204, 0.14)",
+      color: "#0066cc",
+    },
+  },
+  {
+    slug: "assetra",
+    title: "Assetra — Digital Asset Marketplace",
+    summary:
+      "A modern digital asset marketplace built with Next.js 16 where creators can buy, sell, and discover premium UI kits, templates, icons, and digital resources.",
+    challenge:
+      "Creators lacked a dedicated platform to monetize digital assets with secure file delivery, integrated payments, and real-time buyer-seller communication.",
+    solution:
+      "Built a full-featured marketplace with Next.js 16 App Router, Supabase (PostgreSQL + RLS) for auth & data, Midtrans payment gateway integration, real-time chat between buyers and sellers, and secure file downloads via Supabase Signed URLs.",
+    impact:
+      "Delivered a production-grade marketplace featuring server-side filtering, creator wallets with earnings analytics, dark/light mode, JSON-LD structured data for SEO, and skeleton loading states.",
+    stack: ["Next.js 16", "TypeScript", "Supabase", "PostgreSQL", "Midtrans", "Resend", "Tailwind CSS"],
+    role: "Full-Stack Developer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/assetra-digital-product",
+    demoUrl: "https://assetra-digital-product.vercel.app",
+    type: "marketplace",
+    featured: true,
+    metrics: ["Midtrans Payments", "Real-time Chat", "Creator Wallet", "Supabase RLS"],
+    accent: {
+      glow: "rgba(168, 85, 247, 0.14)",
+      color: "#a855f7",
+    },
+  },
+  {
+    slug: "monetra",
+    title: "Monetra — Personal Finance Tracker",
+    summary:
+      "A full-stack personal finance tracker with a Go (Gin) backend and React frontend, featuring budget tracking, financial goals, transaction management, and AI-powered spending insights.",
+    challenge:
+      "Existing finance tracking apps were either too complex for casual users or lacked the depth needed for meaningful budget analysis and goal tracking.",
+    solution:
+      "Architected a clean REST API in Go with Gin framework and PostgreSQL, paired with a React/Vite dashboard featuring Recharts visualizations, budget alerts, recurring transaction automation, and AI-generated spending insights.",
+    impact:
+      "Created a production-ready finance platform with JWT authentication, CSV reporting, dark mode, and comprehensive budget/goal tracking — demonstrating full-stack capability across Go and React.",
+    stack: ["Go", "Gin", "PostgreSQL", "React", "Vite", "Tailwind CSS", "Recharts"],
+    role: "Full-Stack Developer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/monetra-financetrackerApp",
+    demoUrl: "https://monetra-financetracker-app.vercel.app/",
+    type: "finance",
+    featured: true,
+    metrics: ["Go + React Full Stack", "AI Spending Insights", "JWT Auth", "Recurring Transactions"],
+    accent: {
+      glow: "rgba(251, 146, 60, 0.14)",
+      color: "#fb923c",
+    },
+  },
+  {
+    slug: "pallete-studio",
+    title: "Palette Studio — Color Extraction Toolkit",
+    summary:
+      "A premium color toolkit that extracts dominant colors from any image, generates harmonies, checks WCAG contrast, visualizes palettes in 3D, and exports to CSS/Tailwind/JSON — all in a dark-first glassmorphic UI.",
+    challenge:
+      "Designers and developers lacked a single, beautiful tool that could extract a palette from an image, analyze its accessibility, visualize relationships, and export production-ready design tokens — without relying on multiple disjointed utilities.",
+    solution:
+      "Built a comprehensive color toolkit with custom median-cut quantization for extraction, a relationship map showing complementary/analogous/triadic harmonies, a Three.js 3D DNA helix visualization, a gradient physics playground, and a live UI preview system — all powered by Zustand state management and GSAP animations.",
+    impact:
+      "Delivered a fully self-contained color ecosystem with 15+ features including mood detection, pairwise WCAG contrast analysis, palette history with shareable links, and multi-format export (CSS variables, Tailwind config, JSON, SCSS, design tokens, PNG strip).",
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "Three.js", "GSAP", "Zustand"],
+    role: "Full-Stack Developer & UI Engineer",
+    year: "2026",
+    sourceUrl: "https://github.com/callmezaa/Pallete-studio",
+    demoUrl: "https://pallete-studio-ten.vercel.app",
+    type: "playground",
+    featured: true,
+    badge: "Playground",
+    metrics: ["Color Extraction", "WCAG Contrast", "3D DNA Helix", "Export CSS/JSON"],
+    accent: {
+      glow: "rgba(236, 72, 153, 0.14)",
+      color: "#ec4899",
+    },
+  },
+  {
     slug: "gotani-pos",
     title: "Gotani Mobile POS Application",
     summary:
@@ -746,149 +844,4 @@ export function RoleGuard({
       ],
     },
   },
-  {
-    slug: "interviewos",
-    title: "InterviewOS — AI-Powered Interview Platform",
-    summary:
-      "A production-grade realtime technical interview platform combining WebRTC video calls, synchronized code editing, screen recording, and Whisper-powered speech-to-text transcription into a single operating system for hiring.",
-    challenge:
-      "Technical interviews are fragmented across Zoom, CoderPad, Loom, and manual evaluation sheets — creating friction, context-switching, and inconsistent candidate experiences for engineering teams.",
-    solution:
-      "Architected a full-stack monorepo with Next.js 16 + NestJS 11 featuring P2P WebRTC video with Socket.io signaling, synchronized Monaco Editor with keystroke broadcast, MediaRecorder screen recording, and an OpenAI Whisper transcription pipeline — all wrapped in an Apple-inspired dark design system with JWT/OAuth authentication.",
-    impact:
-      "Delivered a comprehensive platform integrating WebRTC, collaborative editing, Whisper AI transcription, screen recording, live audio waveforms, and room management — demonstrating deep full-stack systems architecture across 51 commits with Sentry monitoring, PostHog analytics, and Playwright E2E tests.",
-    stack: ["Next.js 16", "React 19", "NestJS 11", "TypeScript", "WebRTC", "Socket.io", "Monaco Editor", "OpenAI Whisper", "Prisma", "PostgreSQL", "Docker", "Tailwind CSS"],
-    role: "Full-Stack Developer & Systems Architect",
-    year: "2026",
-    sourceUrl: "https://github.com/callmezaa/InterviewOS",
-    demoUrl: "https://interviewos-dev.vercel.app",
-    type: "interviewos",
-    featured: true,
-    badge: "Open Source",
-    metrics: ["WebRTC Video Calls", "Collaborative Code Editor", "Whisper Transcription", "Screen Recording"],
-    accent: {
-      glow: "rgba(0, 102, 204, 0.14)",
-      color: "#0066cc",
-    },
-  },
-  {
-    slug: "assetra",
-    title: "Assetra — Digital Asset Marketplace",
-    summary:
-      "A modern digital asset marketplace built with Next.js 16 where creators can buy, sell, and discover premium UI kits, templates, icons, and digital resources.",
-    challenge:
-      "Creators lacked a dedicated platform to monetize digital assets with secure file delivery, integrated payments, and real-time buyer-seller communication.",
-    solution:
-      "Built a full-featured marketplace with Next.js 16 App Router, Supabase (PostgreSQL + RLS) for auth & data, Midtrans payment gateway integration, real-time chat between buyers and sellers, and secure file downloads via Supabase Signed URLs.",
-    impact:
-      "Delivered a production-grade marketplace featuring server-side filtering, creator wallets with earnings analytics, dark/light mode, JSON-LD structured data for SEO, and skeleton loading states.",
-    stack: ["Next.js 16", "TypeScript", "Supabase", "PostgreSQL", "Midtrans", "Resend", "Tailwind CSS"],
-    role: "Full-Stack Developer",
-    year: "2026",
-    sourceUrl: "https://github.com/callmezaa/assetra-digital-product",
-    demoUrl: "https://assetra-digital-product.vercel.app",
-    type: "marketplace",
-    featured: true,
-    metrics: ["Midtrans Payments", "Real-time Chat", "Creator Wallet", "Supabase RLS"],
-    accent: {
-      glow: "rgba(168, 85, 247, 0.14)",
-      color: "#a855f7",
-    },
-  },
-  {
-    slug: "mercato",
-    title: "Mercato — E-Commerce Boutique",
-    summary:
-      "A flagship mobile e-commerce platform built with React Native, featuring a cinematic onboarding flow, boutique wishlist, skeleton shimmer loaders, and a beautifully rendered digital e-receipt system.",
-    challenge:
-      "Mobile e-commerce apps often feel generic and transactional — lacking the premium, boutique experience that modern consumers expect, with jarring native spinners and uninspired navigation flows.",
-    solution:
-      "Architected a full-stack mobile e-commerce app with React Native and Expo for the frontend, Express.js and PostgreSQL for the backend, and Prisma ORM for data modeling. Delivered zero-scroll cinematic onboarding, a 2-column boutique wishlist grid, breathing skeleton shimmer loaders, and a perforated ticket-style digital e-receipt — all wrapped in JWT-secured authentication.",
-    impact:
-      "Created a production-ready e-commerce platform with seamless onboarding-to-checkout flows, dynamic parallax transitions, safe-area-aware navigation, and a perceived-performance-first approach that eliminated all native loading spinners.",
-    stack: ["React Native", "Expo", "Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "Reanimated"],
-    role: "Full-Stack Mobile Developer",
-    year: "2026",
-    sourceUrl: "https://github.com/callmezaa/mercato-ecommerceApp",
-    type: "mobile",
-    featured: true,
-    badge: "Mobile App",
-    metrics: ["React Native", "Express API", "PostgreSQL", "Prisma ORM"],
-    accent: {
-      glow: "rgba(239, 68, 68, 0.14)",
-      color: "#ef4444",
-    },
-  },
-  {
-    slug: "monetra",
-    title: "Monetra — Personal Finance Tracker",
-    summary:
-      "A full-stack personal finance tracker with a Go (Gin) backend and React frontend, featuring budget tracking, financial goals, transaction management, and AI-powered spending insights.",
-    challenge:
-      "Existing finance tracking apps were either too complex for casual users or lacked the depth needed for meaningful budget analysis and goal tracking.",
-    solution:
-      "Architected a clean REST API in Go with Gin framework and PostgreSQL, paired with a React/Vite dashboard featuring Recharts visualizations, budget alerts, recurring transaction automation, and AI-generated spending insights.",
-    impact:
-      "Created a production-ready finance platform with JWT authentication, CSV reporting, dark mode, and comprehensive budget/goal tracking — demonstrating full-stack capability across Go and React.",
-    stack: ["Go", "Gin", "PostgreSQL", "React", "Vite", "Tailwind CSS", "Recharts"],
-    role: "Full-Stack Developer",
-    year: "2026",
-    sourceUrl: "https://github.com/callmezaa/monetra-financetrackerApp",
-    demoUrl: "https://monetra-financetracker-app.vercel.app/",
-    type: "finance",
-    featured: true,
-    metrics: ["Go + React Full Stack", "AI Spending Insights", "JWT Auth", "Recurring Transactions"],
-    accent: {
-      glow: "rgba(251, 146, 60, 0.14)",
-      color: "#fb923c",
-    },
-  },
-  {
-    slug: "pallete-studio",
-    title: "Palette Studio — Color Extraction Toolkit",
-    summary:
-      "A premium color toolkit that extracts dominant colors from any image, generates harmonies, checks WCAG contrast, visualizes palettes in 3D, and exports to CSS/Tailwind/JSON — all in a dark-first glassmorphic UI.",
-    challenge:
-      "Designers and developers lacked a single, beautiful tool that could extract a palette from an image, analyze its accessibility, visualize relationships, and export production-ready design tokens — without relying on multiple disjointed utilities.",
-    solution:
-      "Built a comprehensive color toolkit with custom median-cut quantization for extraction, a relationship map showing complementary/analogous/triadic harmonies, a Three.js 3D DNA helix visualization, a gradient physics playground, and a live UI preview system — all powered by Zustand state management and GSAP animations.",
-    impact:
-      "Delivered a fully self-contained color ecosystem with 15+ features including mood detection, pairwise WCAG contrast analysis, palette history with shareable links, and multi-format export (CSS variables, Tailwind config, JSON, SCSS, design tokens, PNG strip).",
-    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "Three.js", "GSAP", "Zustand"],
-    role: "Full-Stack Developer & UI Engineer",
-    year: "2026",
-    sourceUrl: "https://github.com/callmezaa/Pallete-studio",
-    demoUrl: "https://pallete-studio-ten.vercel.app",
-    type: "playground",
-    featured: true,
-    badge: "Playground",
-    metrics: ["Color Extraction", "WCAG Contrast", "3D DNA Helix", "Export CSS/JSON"],
-    accent: {
-      glow: "rgba(236, 72, 153, 0.14)",
-      color: "#ec4899",
-    },
-  },
-  {
-    slug: "nextalk",
-    title: "NexTalk — Real-Time Messaging App",
-    summary:
-      "A sophisticated real-time messaging ecosystem with a Go/Fiber backend, Redis caching, and a premium React Native frontend featuring glassmorphism design and AI-powered chat assistant.",
-    challenge:
-      "Modern messaging apps often compromise between beautiful UI and real-time performance, leaving users with either clunky interfaces or unreliable message delivery.",
-    solution:
-      "Engineered a high-performance messaging platform using Go (Fiber) with Gorilla WebSocket for real-time communication, Redis for state management, PostgreSQL with GORM for data persistence, and a React Native frontend with indigo-themed glassmorphic UI and Reanimated animations.",
-    impact:
-      "Delivered a full-featured messaging app with real-time chat, group conversations, AI assistant (NexBot), story/sharing features, call history, and Cloudinary media uploads — all running on a scalable Go backend.",
-    stack: ["Go", "Fiber", "Gorilla WebSocket", "React Native", "Expo", "PostgreSQL", "Redis", "Cloudinary"],
-    role: "Full-Stack Developer & Backend Engineer",
-    year: "2026",
-    sourceUrl: "https://github.com/callmezaa/nextalk-messagingApp",
-    type: "chat",
-    featured: true,
-    metrics: ["Real-time WebSocket", "Go + Fiber Backend", "Redis Caching", "AI Chat Assistant"],
-    accent: {
-      glow: "rgba(59, 130, 246, 0.14)",
-      color: "#3b82f6",
-    },
-  },
-];
+]

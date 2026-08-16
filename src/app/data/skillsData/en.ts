@@ -3,8 +3,7 @@ import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
   SiGo, SiExpress, SiPostgresql, SiRedis,
   SiDocker, SiGooglecloud, SiPrisma, SiSupabase,
-  SiFirebase, SiExpo, SiNodedotjs, SiFastapi,
-  SiMongodb, SiGit,
+  SiNodedotjs, SiMongodb, SiGit, SiReactquery, SiGraphql, SiTrpc,
 } from "react-icons/si";
 
 export interface SkillItem {
@@ -34,13 +33,14 @@ export const skillsDataEn: SkillCategory[] = [
     ],
   },
   {
-    title: "Apps that work offline",
-    tagline: "Mobile products that stay reliable without signal.",
+    title: "APIs that connect",
+    tagline: "Type-safe data fetching, real-time sync, and clean client-server communication.",
     skills: [
-      { name: "React Native", icon: SiReact, brandColor: "#61DAFB", mastery: 85, years: 2 },
-      { name: "Expo", icon: SiExpo, mastery: 80, years: 2 },
-      { name: "Firebase", icon: SiFirebase, brandColor: "#FFCA28", mastery: 75, years: 2 },
-      { name: "Offline-first", mastery: 78, years: 2 },
+      { name: "TanStack Query", icon: SiReactquery, brandColor: "#FF4154", mastery: 82, years: 2 },
+      { name: "GraphQL", icon: SiGraphql, brandColor: "#E10098", mastery: 70, years: 2 },
+      { name: "tRPC", icon: SiTrpc, brandColor: "#398CCB", mastery: 68, years: 2 },
+      { name: "WebSocket / Realtime", mastery: 75, years: 2 },
+      { name: "Server Actions", mastery: 72, years: 2 },
     ],
   },
   {

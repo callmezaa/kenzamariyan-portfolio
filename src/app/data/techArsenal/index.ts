@@ -10,7 +10,6 @@ export const techArsenal = techArsenalEn;
 export const categories = [
   "Frontend",
   "Backend",
-  "Mobile",
   "Database & Infrastructure",
 ] as const;
 

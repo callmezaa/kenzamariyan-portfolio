@@ -1,4 +1,4 @@
-import type { MotionValue } from "framer-motion";
+import type { MotionValue } from "motion/react";
 
 declare module "react" {
   interface CSSProperties {

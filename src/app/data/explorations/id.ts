@@ -30,25 +30,11 @@ export const explorationsId: Exploration[] = [
     tag: "Mobile",
   },
   {
-    slug: "mercato",
-    title: "E-Commerce Mercato",
-    caption: "Toko butik React Native",
-    image: "/image/mercato/mockup.png",
-    tag: "Mobile",
-  },
-  {
     slug: "monetra",
     title: "Dashboard Keuangan",
     caption: "Wawasan pengeluaran Go + React",
     image: "/image/monetra/mockup-v2.png",
     tag: "Dashboard",
-  },
-  {
-    slug: "nextalk",
-    title: "Pesan Real-time",
-    caption: "Chat WebSocket dengan asisten AI",
-    image: "/image/nextalkApp/mockup-v2.png",
-    tag: "Real-time",
   },
   {
     slug: "pallete-studio",

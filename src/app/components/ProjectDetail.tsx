@@ -108,34 +108,9 @@ const screenshots: Record<string, { src: string; label: string }[]> = {
     { src: "/image/monetra/login.png", label: "Login" },
     { src: "/image/monetra/settings.png", label: "Settings" },
   ],
-  nextalk: [
-    { src: "/image/nextalkApp/homescreen.png", label: "Home" },
-    { src: "/image/nextalkApp/roomchatscreen.png", label: "Room Chat" },
-    { src: "/image/nextalkApp/explorescreen.png", label: "Explore" },
-    { src: "/image/nextalkApp/splashscreen.png", label: "Splash" },
-    { src: "/image/nextalkApp/onboarding1.png", label: "Onboarding 1" },
-    { src: "/image/nextalkApp/onboarding2.png", label: "Onboarding 2" },
-    { src: "/image/nextalkApp/onboarding3.png", label: "Onboarding 3" },
-    { src: "/image/nextalkApp/loginscreen.png", label: "Login" },
-    { src: "/image/nextalkApp/registerscreen.png", label: "Register" },
-    { src: "/image/nextalkApp/grupscreen.png", label: "Group" },
-    { src: "/image/nextalkApp/creategrupscreen.png", label: "Create Group" },
-    { src: "/image/nextalkApp/nexbotscreen.png", label: "NexBot AI" },
-    { src: "/image/nextalkApp/storyscreen.png", label: "Story" },
-    { src: "/image/nextalkApp/unreadscreen.png", label: "Unread" },
-    { src: "/image/nextalkApp/callscreen.png", label: "Call" },
-    { src: "/image/nextalkApp/profilescreen.png", label: "Profile" },
-  ],
-  mercato: [
-    { src: "/image/mercato/1.png", label: "Onboarding" },
-    { src: "/image/mercato/2.png", label: "Products" },
-    { src: "/image/mercato/3.png", label: "Wishlist" },
-    { src: "/image/mercato/4.png", label: "E-Receipt" },
-    { src: "/image/mercato/5.png", label: "Profile" },
-  ],
 };
 
-const MOBILE_APPS = ["gotani-pos", "mercato", "nextalk"];
+const MOBILE_APPS = ["gotani-pos"];
 
 const NAV_SECTIONS = ["overview", "architecture", "aiPipeline", "technical", "screenshots"] as const;
 

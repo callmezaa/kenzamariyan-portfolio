@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "motion/react";
 
 const sections = ["home", "about", "skills", "projects", "experience", "achievements", "playground", "contact"];
 

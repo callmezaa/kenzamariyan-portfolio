@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { motion } from "motion/react";
-import { LayoutGrid, List, ArrowLeft } from "lucide-react";
+import { LayoutGrid, List, ArrowLeft, ArrowUpRight } from "lucide-react";
 import { getLocalizedProjects } from "@/i18n/data";
 import type { Locale } from "@/i18n/request";
 import { PROJECT_CARD_IMAGES } from "@/app/data/projectImages";
@@ -110,10 +110,30 @@ export default function AllProjects() {
                 <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.3, ease: easeOut }}>
                   <TransitionLink
                     href={`/projects/${project.slug}`}
-                    className="flex items-center gap-3 p-4 rounded-[14px] bg-canvas-glass shadow-1 hover:shadow-2 transition-shadow duration-300"
+                    className="group flex items-center gap-4 rounded-[14px] bg-canvas-glass p-3 shadow-1 transition-shadow duration-300 hover:shadow-2"
                   >
-                    <h3 className="body-base font-semibold text-ink truncate">{project.title}</h3>
-                    <p className="body-small text-ink-muted truncate ml-auto">{project.stack.slice(0, 3).join(" · ")}</p>
+                    <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-[10px] bg-canvas-card sm:h-24 sm:w-40">
+                      <Image
+                        src={PROJECT_CARD_IMAGES[project.slug]}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 768px) 112px, 160px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="body-base font-semibold text-ink truncate">{project.title}</h3>
+                      <p className="body-small text-ink-muted mt-0.5 truncate">{project.stack.slice(0, 4).join(" · ")}</p>
+                      <div className="mt-2 flex items-center gap-1.5">
+                        {project.year && (
+                          <span className="label text-ink-tertiary">{project.year}</span>
+                        )}
+                        {project.badge && (
+                          <span className="label rounded-full bg-surface-soft px-2 py-0.5 text-ink-tertiary">{project.badge}</span>
+                        )}
+                      </div>
+                    </div>
+                    <ArrowUpRight size={18} className="shrink-0 text-ink-muted/50 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink" />
                   </TransitionLink>
                 </motion.div>
               </motion.div>

@@ -27,9 +27,28 @@ export function Reveal({
   className,
 }: RevealProps) {
   const reduce = useReducedMotion();
+  const isMask = !reduce && variant === "mask";
   const v = reduce
     ? ({ hidden: { opacity: 0 }, visible: { opacity: 1 } } as Variants)
-    : revealVariants[variant];
+    : isMask
+      ? ({ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } } as Variants)
+      : revealVariants[variant];
+
+  if (isMask) {
+    return (
+      <div className={cn("overflow-hidden", className)}>
+        <motion.div
+          variants={v}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount }}
+          transition={{ duration: duration ?? DURATION_SLOW, ease: EASE_OUT, delay }}
+        >
+          {children}
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -37,7 +56,7 @@ export function Reveal({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount }}
-      transition={{ duration: duration ?? (variant === "mask" ? DURATION_SLOW : DURATION_MED), ease: EASE_OUT, delay }}
+      transition={{ duration: duration ?? DURATION_MED, ease: EASE_OUT, delay }}
       className={cn(className)}
     >
       {children}

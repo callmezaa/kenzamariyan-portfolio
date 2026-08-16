@@ -3,7 +3,7 @@ import {
   SiGo, SiPython, SiFastapi, SiPostgresql, SiRedis, SiPrisma,
   SiDocker, SiGooglecloud, SiSupabase,
   SiExpress, SiNodedotjs, SiMongodb, SiGit,
-  SiVite, SiThreedotjs, SiGreensock, SiReactquery, SiChartdotjs, SiBox, SiExpo,
+  SiVite, SiThreedotjs, SiGreensock, SiReactquery, SiChartdotjs, SiBox,
   SiFirebase, SiRailway, SiGithubactions, SiCloudinary, SiUpstash, SiVercel,
 } from "react-icons/si";
 import type { TechItem } from "./en";
@@ -90,23 +90,6 @@ export const techArsenalId: TechItem[] = [
     brandColor: "#22B5BF",
     mastery: 70,
     description: "Komponen grafik React",
-  },
-  {
-    name: "React Native",
-    icon: SiReact,
-    category: "Mobile",
-    brandColor: "#61DAFB",
-    mastery: 85,
-    description: "Aplikasi mobile lintas platform",
-  },
-  {
-    name: "Expo",
-    icon: SiExpo,
-    category: "Mobile",
-    brandColor: "#000020",
-    brandColorDark: "#FFFFFF",
-    mastery: 80,
-    description: "Framework React Native terkelola",
   },
   {
     name: "Go",

@@ -16,7 +16,6 @@ import {
 const categoryLabelMap: Record<string, string> = {
   Frontend: "categories.frontend",
   Backend: "categories.backend",
-  Mobile: "categories.mobile",
   "Database & Infrastructure": "categories.databaseInfra",
 };
 

@@ -2,7 +2,9 @@
 
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
-import Navbar from "./Navbar";
+import { DockNav } from "./DockNav";
+import { FloatingLogo } from "./FloatingLogo";
+import { UtilityPill } from "./UtilityPill";
 import KeyboardNav from "./KeyboardNav";
 import Footer from "./Footer";
 import { ThemeProvider } from "./ThemeProvider";
@@ -24,7 +26,9 @@ export default function LayoutClient({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <KeyboardNav />
-      <Navbar />
+      <FloatingLogo />
+      <DockNav />
+      <UtilityPill />
       <SmoothScroll>
         {children}
         <Footer />

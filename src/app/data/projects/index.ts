@@ -60,7 +60,7 @@ export const PROJECT_CATEGORIES: Record<string, typeof projects> = {
     ["koperasi-kpjmi", "contract-chill", "interviewos", "assetra", "monetra"].includes(p.slug)
   ),
   Mobile: projects.filter((p) =>
-    ["gotani-pos", "mercato", "nextalk"].includes(p.slug)
+    ["gotani-pos"].includes(p.slug)
   ),
   Playground: projects.filter((p) =>
     ["pallete-studio"].includes(p.slug)

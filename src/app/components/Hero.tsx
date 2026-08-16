@@ -26,7 +26,6 @@ import { Button } from "@/components/ui/button";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { Marquee } from "@/components/motion/marquee";
 import { Loader } from "@/components/motion/loader";
-import { Magnetic } from "@/components/motion/hover/Magnetic";
 import ContactForm from "./ContactForm";
 
 export default function Hero() {
@@ -111,14 +110,12 @@ export default function Hero() {
               >
                 {/* Get in Touch Modal */}
                 <CenterMorphModal>
-                  <Magnetic>
-                    <CenterMorphModalTrigger>
-                      <Button variant="default" size="lg" className="rounded-full shadow-sm" suppressHydrationWarning>
-                        <Send data-icon="inline-start" />
-                        {t("getInTouch")}
-                      </Button>
-                    </CenterMorphModalTrigger>
-                  </Magnetic>
+                  <CenterMorphModalTrigger>
+                    <Button variant="default" size="lg" className="btn-3d rounded-full shadow-sm" suppressHydrationWarning>
+                      <Send data-icon="inline-start" />
+                      {t("getInTouch")}
+                    </Button>
+                  </CenterMorphModalTrigger>
                   <CenterMorphModalContent
                     ariaLabel={t("getInTouch")}
                     className="max-w-sm"
@@ -151,16 +148,14 @@ export default function Hero() {
 
                 {/* Download CV Dialog */}
                 <Dialog>
-                  <Magnetic>
-                    <DialogTrigger
-                      render={
-                        <Button variant="outline" size="lg" className="rounded-full" suppressHydrationWarning />
-                      }
-                    >
-                      <Download data-icon="inline-start" />
-                      {t("downloadCv")}
-                    </DialogTrigger>
-                  </Magnetic>
+                  <DialogTrigger
+                    render={
+                      <Button variant="outline" size="lg" className="rounded-full" suppressHydrationWarning />
+                    }
+                  >
+                    <Download data-icon="inline-start" />
+                    {t("downloadCv")}
+                  </DialogTrigger>
                   <DialogContent
                     showCloseButton={false}
                     className="rounded-[20px] bg-popover/80 backdrop-blur-xl p-0 shadow-2 border-0 sm:max-w-3xl overflow-y-auto max-h-[85vh]"
