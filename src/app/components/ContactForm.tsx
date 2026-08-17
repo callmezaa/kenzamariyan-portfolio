@@ -156,7 +156,7 @@ export default function ContactForm({ onSuccess, inline }: ContactFormProps) {
           state={status}
           variant="primary"
           size="md"
-          className="w-full"
+          className="btn-3d w-full"
           loadingText={t('sendingButton')}
           successText={t('successButton')}
           errorText={t('errorButton')}

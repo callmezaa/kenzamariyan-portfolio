@@ -406,9 +406,9 @@ export default function Achievements() {
         <Reveal className="mt-10 text-center">
           <Button
             onClick={() => setShowAll((v) => !v)}
-            variant="outline"
+            variant="default"
             size="lg"
-            className="rounded-full"
+            className="btn-3d rounded-full"
           >
             {showAll ? t("showLess") : t("showAll", { count: hidden })}
           </Button>

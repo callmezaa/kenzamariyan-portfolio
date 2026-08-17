@@ -173,7 +173,7 @@ export default function Hero() {
                         </div>
                       )}
                       <iframe
-                        src="/Ken_Zamariyan_FullStack_Developer.pdf"
+                        src="/CV-KENZAMARIYAN.pdf"
                         className="h-full w-full"
                         style={{ minHeight: "50vh" }}
                         onLoad={() => setCvLoaded(true)}
@@ -181,7 +181,7 @@ export default function Hero() {
                     </div>
                     <div className="flex items-center justify-end border-t border-border px-5 py-3">
                       <a
-                        href="/Ken_Zamariyan_FullStack_Developer.pdf"
+                        href="/CV-KENZAMARIYAN.pdf"
                         download
                         className="button-cap inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                       >
