@@ -63,7 +63,7 @@ export const projectsEn: Project[] = [
     role: "Full-Stack Developer & AI Engineer",
     year: "2025",
     sourceUrl: "https://github.com/callmezaa/contract-chill",
-    demoUrl: "https://contract-chill-production.up.railway.app",
+    demoUrl: "https://contract-chill-client.vercel.app",
     type: "ai",
     featured: true,
     badge: "Hackathon",

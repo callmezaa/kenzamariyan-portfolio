@@ -16,7 +16,7 @@ export const projectsId: Project[] = [
     role: "Pengembang Full-Stack & Insinyur AI",
     year: "2025",
     sourceUrl: "https://github.com/callmezaa/contract-chill",
-    demoUrl: "https://contract-chill-production.up.railway.app",
+    demoUrl: "https://contract-chill-client.vercel.app",
     type: "ai",
     featured: true,
     badge: "Hackathon",
