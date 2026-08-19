@@ -3,14 +3,12 @@
 import { useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { motion } from "motion/react";
-import { SiGithub } from "react-icons/si";
 import { getLocalizedSkills } from "@/i18n/data";
 import type { Locale } from "@/i18n/request";
 import type { SkillCategory, SkillItem } from "../data/skillsData";
 import { easeOut } from "../utils/animations";
 import { Tooltip } from "@/components/motion/tooltip";
 import { AnimatedNumber } from "@/components/motion/animated-number";
-import GitHubSection from "./GitHubSection";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
 
@@ -33,25 +31,6 @@ export default function Skills() {
             <SkillCard key={cat.title} category={cat} />
           ))}
         </div>
-
-        <Reveal className="mt-14">
-          <div className="rounded-[14px] bg-canvas-glass backdrop-blur-sm shadow-1 p-6 md:p-8">
-            <div className="flex items-center justify-between mb-4">
-              <p className="label text-ink-muted">{t("openSource")}</p>
-              <motion.a
-                href="https://github.com/callmezaa"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.02 }}
-                className="inline-flex items-center gap-2 rounded-full border border-hairline px-4 py-1.5 body-small text-ink-muted hover:text-ink hover:border-ink/20 transition-colors"
-              >
-                <SiGithub size={14} />
-                {t("viewGithub")}
-              </motion.a>
-            </div>
-            <GitHubSection />
-          </div>
-        </Reveal>
       </div>
     </section>
   );

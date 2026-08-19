@@ -1,12 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { Download, Send, X, ChevronDown } from "lucide-react";
-import { SPRING_MOUSE } from "@/lib/ease";
-import { useHoverCapable } from "@/lib/hooks/use-hover-capable";
 import { SiReact, SiTypescript, SiGo, SiNextdotjs, SiTailwindcss, SiPostgresql, SiDocker, SiPython, SiExpress, SiNodedotjs, SiMongodb, SiGit, SiLinkedin, SiGithub, SiGmail, SiWhatsapp } from "react-icons/si";
 import { appleSpring } from "../utils/animations";
 
@@ -32,7 +30,6 @@ export default function Hero() {
   const t = useTranslations("hero");
   const [cvLoaded, setCvLoaded] = useState(false);
   const reduceMotion = useReducedMotion();
-  const canHover = useHoverCapable();
 
   const contactLinks = [
     { icon: SiLinkedin, label: t("contactLinks.linkedin"),  href: "https://www.linkedin.com/in/ken-zamariyan", color: "#0A66C2" },
@@ -40,28 +37,6 @@ export default function Hero() {
     { icon: SiGmail,    label: t("contactLinks.email"),     href: "mailto:kenzamariyan32@gmail.com",            color: "#EA4335" },
     { icon: SiWhatsapp, label: t("contactLinks.whatsapp"),  href: "https://wa.me/6285878221758",                color: "#25D366" },
   ];
-
-  const avatarRef = useRef<HTMLDivElement>(null);
-  const enabled = !reduceMotion && canHover;
-  const mx = useMotionValue(50);
-  const my = useMotionValue(50);
-  const smx = useSpring(mx, SPRING_MOUSE);
-  const smy = useSpring(my, SPRING_MOUSE);
-  const glow = useMotionTemplate`radial-gradient(circle at ${smx}% ${smy}%, rgba(255,255,255,0.18), transparent 55%)`;
-  const ringX = useMotionTemplate`${smx}%`;
-  const ringY = useMotionTemplate`${smy}%`;
-
-  const onAvatarMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = avatarRef.current;
-    if (!el || !enabled) return;
-    const rect = el.getBoundingClientRect();
-    mx.set(((e.clientX - rect.left) / rect.width) * 100);
-    my.set(((e.clientY - rect.top) / rect.height) * 100);
-  };
-  const onAvatarLeave = () => {
-    mx.set(50);
-    my.set(50);
-  };
 
   const techStack = [
     { icon: SiReact, name: t("techStack.react") },
@@ -194,31 +169,17 @@ export default function Hero() {
             </div>
             <div className="lg:col-span-5 w-full flex flex-col items-center">
               <motion.div
-                ref={avatarRef}
-                onMouseMove={onAvatarMove}
-                onMouseLeave={onAvatarLeave}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 140, damping: 20, mass: 0.6 } }}
                 transition={{ ...appleSpring, delay: 0.2 }}
-                className="relative"
+                className="relative group"
               >
-                <div className="relative h-[180px] w-[180px] lg:h-[220px] lg:w-[220px] overflow-hidden rounded-[16px] shadow-2 outline outline-1 outline-white/10 dark:outline-black/10">
+                <div className="relative h-[180px] w-[180px] lg:h-[220px] lg:w-[220px] overflow-hidden rounded-[16px] shadow-2 outline outline-1 outline-white/10 dark:outline-black/10 transition-shadow duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:shadow-3">
                   <Image src="/image/profile/profile-image.jpeg" alt={t("name")} fill priority
-                    sizes="(max-width: 1024px) 180px, 220px" className="object-cover object-[center_60%]" />
-                  {enabled ? (
-                    <motion.div aria-hidden style={{ background: glow }} className="pointer-events-none absolute inset-0 mix-blend-screen" />
-                  ) : null}
+                    sizes="(max-width: 1024px) 180px, 220px"
+                    className="object-cover object-[center_60%] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]" />
                 </div>
-                {enabled ? (
-                  <motion.div
-                    aria-hidden
-                    style={{ left: ringX, top: ringY }}
-                    className="pointer-events-none absolute -inset-3 -z-10 rounded-[28px] opacity-60 blur-xl"
-                  >
-                    <div className="h-full w-full rounded-[28px] bg-gradient-to-br from-white/20 via-transparent to-transparent" />
-                  </motion.div>
-                ) : null}
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
