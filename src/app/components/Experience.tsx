@@ -2,19 +2,22 @@
 
 import { useMemo } from "react";
 import { motion } from "motion/react";
-import { useTranslations, useLocale } from "next-intl";
-import { getLocalizedExperience } from "@/i18n/data";
-import type { Locale } from "@/i18n/request";
+import { useTranslations } from "next-intl";
+import { ArrowRight } from "lucide-react";
+import type { Experience } from "../data/experience";
 import { BouncyAccordion } from "@/components/motion/bouncy-accordion";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { Briefcase, GraduationCap, Building } from "lucide-react";
 import { appleSpring } from "../utils/animations";
+import { TransitionLink } from "@/components/motion/transition/TransitionLink";
+import { Button } from "@/components/ui/button";
 
-export default function Experience() {
+interface ExperienceProps {
+  experiences: Experience[];
+}
+
+export default function Experience({ experiences }: ExperienceProps) {
   const t = useTranslations("experience");
-  const locale = useLocale();
-
-  const experiences = useMemo(() => getLocalizedExperience(locale as Locale), [locale]);
 
   const items = useMemo(() => experiences.map((exp) => ({
     id: `${exp.title}-${exp.year}`,
@@ -66,6 +69,14 @@ export default function Experience() {
               {t("empty")}
             </p>
           )}
+
+          <Reveal className="mt-10 flex justify-center">
+            <TransitionLink href="/experience">
+              <Button variant="outline" size="lg" className="btn-3d-outline rounded-full">
+                {t("moreLink")} <ArrowRight data-icon="inline-end" />
+              </Button>
+            </TransitionLink>
+          </Reveal>
         </motion.div>
       </div>
     </section>

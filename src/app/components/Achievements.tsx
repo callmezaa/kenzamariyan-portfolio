@@ -1,111 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useTranslations } from "next-intl";
-import { ExternalLink, ChevronLeft, ChevronRight, X, Download, Eye } from "lucide-react";
+import { useTranslations } from "next-intl";import { ExternalLink, ChevronLeft, ChevronRight, Eye, ArrowRight } from "lucide-react";
 import { easeOut } from "../utils/animations";
+import {
+  CERTIFICATE_KEYS,
+  certificatesMeta,
+  type CertificateKind,
+} from "@/app/data/certificates";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
 import { ArrowSlide } from "@/components/motion/hover/ArrowSlide";
 import { Button } from "@/components/ui/button";
+import { TransitionLink } from "@/components/motion/transition/TransitionLink";
+import { CertificateLightbox } from "./ui/CertificateLightbox";
 
-interface Certificate {
-  title: string;
-  issuer: string;
-  year: string;
-  description: string;
-  files: string[];
-  url?: string;
-}
-
-const CERT_KEYS = ["bnsp", "googleAi", "hubspot", "micro1", "juaraVibeCoding", "programmingFundamental", "intermediateWeb", "fundamentalWeb", "fullstackNasional"];
-
-const certificates: Certificate[] = [
-  {
-    title: "Certified Programmer — Software Development",
-    issuer: "BNSP (Badan Nasional Sertifikasi Profesi)",
-    year: "2026",
-    description: "Indonesian national professional certification validating competency in software development — including programming fundamentals, system design, and application architecture.",
-    files: ["/image/Achievement/BNSP Certified Programmer - Software Development-1.png"],
-    url: "https://lisensi.bnsp.go.id/",
-  },
-  {
-    title: "AI Professional Certificate",
-    issuer: "Google",
-    year: "2026",
-    description: "Comprehensive certification in artificial intelligence — covering ML workflows, Google AI tools, prompt engineering, and responsible AI deployment practices.",
-    files: ["/image/Achievement/Google AI Professional Certificate-1.png"],
-    url: "https://www.credly.com/",
-  },
-  {
-    title: "CMS For Developer II",
-    issuer: "HubSpot Academy",
-    year: "2026",
-    description: "Advanced HubSpot CMS development certification — custom modules, serverless functions, HubDB integration, and marketplace app publishing.",
-    files: ["/image/Achievement/HubSpot CMS For Developer II.png"],
-    url: "https://academy.hubspot.com/certification-results",
-  },
-  {
-    title: "Certified Full-Stack Developer",
-    issuer: "micro1",
-    year: "2026",
-    description: "Industry-validated full-stack engineering certification assessing proficiency across frontend, backend, database, and cloud deployment technologies.",
-    files: ["/image/Achievement/micro1 Certified Full-Stack Developer.jpg"],
-    url: "https://micro1.ai/",
-  },
-  {
-    title: "Top 100 — JuaraVibeCoding",
-    issuer: "JuaraVibeCoding",
-    year: "2026",
-    description: "Recognized among the top 100 participants in a national coding competition, demonstrating strong algorithmic problem-solving and software engineering skills.",
-    files: ["/image/Achievement/Top 100 JuaraVibeCoding Certificate of Achievement-1.png"],
-    url: "https://juaravibecoding.com/",
-  },
-  {
-    title: "Programming Fundamental",
-    issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-    year: "2026",
-    description: "Indonesian national certification in core programming concepts — algorithms, data structures, and object-oriented programming with practical assessments.",
-    files: [
-      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Programming Fundamental Nasional-1.png",
-      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Programming Fundamental Nasional-2.png",
-    ],
-  },
-  {
-    title: "Intermediate Assistant Web Developer",
-    issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-    year: "2026",
-    description: "Indonesian national certification in intermediate web development — frontend frameworks, REST API integration, and relational database management.",
-    files: [
-      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Intermediate Assistant Web Developer Nasional-1.png",
-      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Intermediate Assistant Web Developer Nasional-2.png",
-    ],
-  },
-  {
-    title: "Fundamental of Assistant Web Developer",
-    issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-    year: "2026",
-    description: "Indonesian national certification in foundational web development — HTML, CSS, JavaScript, responsive design, and basic front-end engineering.",
-    files: [
-      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Fundamental of Assistant Web Developer Nasional-1.png",
-      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Fundamental of Assistant Web Developer Nasional-2.png",
-    ],
-  },
-  {
-    title: "Front-End & Back-End Development",
-    issuer: "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-    year: "2026",
-    description: "Indonesian national certification in full-stack web development — covering frontend frameworks, backend APIs, database integration, and production deployment workflows.",
-    files: [
-      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Front-End  Back-End Development - Nasional-1.png",
-      "/image/Achievement/Sertifikat_KEN ZAMARIYAN_Front-End  Back-End Development - Nasional-2.png",
-    ],
-  },
-];
-
-function CertificatePreview({ cert, files }: { cert: Certificate; files: string[] }) {
+function CertificatePreview({ cert, files }: { cert: { title: string }; files: string[] }) {
   const [page, setPage] = useState(0);
   const multi = files.length > 1;
 
@@ -159,192 +71,17 @@ function CertificatePreview({ cert, files }: { cert: Certificate; files: string[
   );
 }
 
-function CertificateModal({
-  cert,
-  currentIndex,
-  total,
-  onClose,
-  onPrev,
-  onNext,
-}: {
-  cert: Certificate;
-  currentIndex: number;
-  total: number;
-  onClose: () => void;
-  onPrev: () => void;
-  onNext: () => void;
-}) {
-  const t = useTranslations("achievements");
-  const [page, setPage] = useState(0);
-  const multi = cert.files.length > 1;
-  const isFirst = currentIndex === 0;
-  const isLast = currentIndex === total - 1;
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-    const panel = panelRef.current;
-    const initial = panel?.querySelector<HTMLElement>(
-      'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])',
-    );
-    initial?.focus();
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-        return;
-      }
-      if (e.key === "ArrowLeft" && !isFirst) onPrev();
-      if (e.key === "ArrowRight" && !isLast) onNext();
-      if (e.key === "Tab" && panel) {
-        const focusables = panel.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])',
-        );
-        if (focusables.length === 0) return;
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-    window.addEventListener("keydown", handler);
-    return () => {
-      window.removeEventListener("keydown", handler);
-      previouslyFocused?.focus?.();
-    };
-  }, [onClose, onPrev, onNext, isFirst, isLast]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-canvas/80 p-4 backdrop-blur-sm"
-    >
-      <motion.div
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="certificate-modal-title"
-        initial={{ opacity: 0, scale: 0.95, y: 8 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 8 }}
-        transition={{ duration: 0.25, ease: easeOut }}
-        onClick={(e) => e.stopPropagation()}
-        className="flex w-full max-w-3xl flex-col overflow-hidden rounded-[20px] border border-hairline bg-canvas-glass backdrop-blur-xl shadow-3"
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-hairline px-4 py-2.5 md:px-5 md:py-3">
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={onPrev}
-              disabled={isFirst}
-              variant="ghost"
-              size="icon-sm"
-              className="rounded-full text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none"
-              aria-label="Previous certificate"
-            >
-              <ChevronLeft size={16} />
-            </Button>
-            <span className="body-small text-ink-muted">
-              {currentIndex + 1} / {total}
-            </span>
-            <Button
-              onClick={onNext}
-              disabled={isLast}
-              variant="ghost"
-              size="icon-sm"
-              className="rounded-full text-ink-muted hover:text-ink disabled:opacity-0 disabled:pointer-events-none"
-              aria-label="Next certificate"
-            >
-              <ChevronRight size={16} />
-            </Button>
-          </div>
-          <Button
-            onClick={onClose}
-            variant="ghost"
-            size="icon-sm"
-            className="rounded-full text-ink-muted hover:text-ink"
-            aria-label="Close modal"
-          >
-            <X size={16} />
-          </Button>
-        </div>
-
-        {/* Body */}
-        <div className="flex flex-1 flex-col overflow-y-auto md:flex-row">
-          {/* Image section */}
-          <div className="relative flex items-start justify-center bg-canvas">
-            <div className="relative aspect-[3/4] w-full max-h-[50vh] md:max-h-[75vh] md:min-h-[60vh]">
-              <Image
-                src={cert.files[page]}
-                alt={cert.title}
-                fill
-                className="object-contain p-4 md:p-6"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
-            </div>
-            {multi && (
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex gap-1.5 md:gap-2">
-                {cert.files.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setPage(i)}
-                    className={`h-1.5 w-1.5 md:h-2 md:w-2 rounded-full transition-colors cursor-pointer ${i === page ? "w-3 md:w-4 bg-ink" : "bg-surface-active"}`}
-                    aria-label={`Go to page ${i + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Info section */}
-          <div className="flex w-full flex-col border-t border-hairline md:w-72 md:shrink-0 md:border-t-0 md:border-l">
-            <div className="flex flex-1 flex-col gap-3 p-4 md:p-5">
-              <div className="space-y-1">
-                <h3 id="certificate-modal-title" className="body-small md:body-base font-bold text-ink leading-snug">{cert.title}</h3>
-                <p className="body-small text-ink-muted leading-snug">
-                  {cert.issuer} <span className="text-hairline">·</span> {cert.year}
-                </p>
-              </div>
-              <p className="body-small text-ink-muted leading-relaxed">
-                {cert.description}
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 border-t border-hairline p-4 md:p-5">
-              <Button variant="outline" size="lg" className="rounded-full" nativeButton={false} render={<a href={cert.files[page]} download />}>
-                <Download size={12} /> {t("download")}
-              </Button>
-              {cert.url && (
-                <Button variant="outline" size="lg" className="rounded-full" nativeButton={false} render={<a href={cert.url} target="_blank" rel="noopener noreferrer" />}>
-                  <ExternalLink size={12} /> {t("viewOriginal")}
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
 export default function Achievements() {
   const t = useTranslations("achievements");
   const ct = useTranslations("certificates");
   const [showAll, setShowAll] = useState(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
 
-  const certs = useMemo(() => certificates.map((cert, i) => ({
-    ...cert,
-    title: ct(`${CERT_KEYS[i]}.title`),
-    description: ct(`${CERT_KEYS[i]}.description`),
+  const certs = useMemo(() => CERTIFICATE_KEYS.map((key) => ({
+    ...certificatesMeta[key],
+    key,
+    title: ct(`${key}.title`),
+    description: ct(`${key}.description`),
   })), [ct]);
 
   const visible = showAll ? certs : certs.slice(0, 3);
@@ -413,11 +150,19 @@ export default function Achievements() {
             {showAll ? t("showLess") : t("showAll", { count: hidden })}
           </Button>
         </Reveal>
+
+        <Reveal className="mt-4 flex justify-center">
+          <TransitionLink href="/achievements">
+            <Button variant="outline" size="lg" className="btn-3d-outline rounded-full">
+              {t("moreLink")} <ArrowRight data-icon="inline-end" />
+            </Button>
+          </TransitionLink>
+        </Reveal>
       </div>
 
       <AnimatePresence>
         {modalIndex !== null && (
-          <CertificateModal
+          <CertificateLightbox
             key={modalIndex}
             cert={certs[modalIndex]}
             currentIndex={modalIndex}
@@ -431,3 +176,5 @@ export default function Achievements() {
     </section>
   );
 }
+
+export type { CertificateKind };

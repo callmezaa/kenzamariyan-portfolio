@@ -1,6 +1,10 @@
 {
   "hero": {
-    "headlines": ["Products shipped.", "Problems solved.", "No fluff."],
+    "headlines": [
+      "Products shipped.",
+      "Problems solved.",
+      "No fluff."
+    ],
     "subheadline": "Full-stack engineer turning ideas into production-ready products — from frontend to deployment.",
     "getInTouch": "Get in Touch",
     "downloadCv": "Download CV",
@@ -36,53 +40,188 @@
     "label": "About Me",
     "heading": "Building reliable digital products with clarity and purpose.",
     "description": "Building production-grade web applications end to end — from high-performance document processing portals returning results in under <time>15 seconds</time> to offline-first e-commerce stores, real-time dashboards, and full-stack management platforms. Proficient in the TypeScript ecosystem — React, Next.js, Node.js, and Express — alongside PostgreSQL, Firebase, Supabase, and Git — engineering clean, secure, and scalable applications from architecture to deployment.",
-    "time": "15 seconds",
-    "users": "1,500+",
     "infoItems": {
-      "experience": { "label": "2+ Years Experience", "desc": "Full-stack web development" },
-      "location": { "label": "Based in Indonesia", "desc": "Remote-friendly, global timezone" },
-      "freelance": { "label": "Open to Freelance & Collaboration", "desc": "Available for contracts & partnerships" }
+      "experience": {
+        "label": "2+ Years Experience",
+        "desc": "Full-stack web development"
+      },
+      "location": {
+        "label": "Based in Indonesia",
+        "desc": "Remote-friendly, global timezone"
+      },
+      "freelance": {
+        "label": "Open to Freelance & Collaboration",
+        "desc": "Available for contracts & partnerships"
+      }
     },
     "stats": {
-      "projects": { "label": "Projects Shipped", "reveal": "contracts · mobile · AI" },
-      "years": { "label": "Years Experience", "reveal": "since 2024" },
-      "technologies": { "label": "Technologies", "reveal": "react → go" },
-      "opensource": { "label": "Open Source Projects", "reveal": "featured repositories" }
+      "projects": {
+        "label": "Projects Shipped",
+        "reveal": "contracts · mobile · AI"
+      },
+      "years": {
+        "label": "Years Experience",
+        "reveal": "since 2024"
+      },
+      "technologies": {
+        "label": "Technologies",
+        "reveal": "react → go"
+      },
+      "opensource": {
+        "label": "Open Source Projects",
+        "reveal": "featured repositories"
+      }
     },
-    "techArsenalLabel": "Technology Arsenal"
+    "techArsenalLabel": "Technology Arsenal",
+    "moreLink": "More about me"
+  },
+  "aboutPage": {
+    "backHome": "Back home",
+    "hero": {
+      "kicker": "About me",
+      "line1": "The person behind",
+      "line2": "the products.",
+      "tagline": "Frontend & Mobile Product Engineer from Indonesia — building production-grade software with structural speed, readability, and design integrity."
+    },
+    "story": {
+      "label": "My story",
+      "heading": "From curiosity to craft.",
+      "p1": "My path into software started the way most do — curiosity. What began as tinkering with web pages during Informatics Engineering turned into an obsession with how interfaces feel, not just how they work. Somewhere between my first React component and my first production deploy, I found the thing I want to be great at.",
+      "p2": "Today I build across the stack — React, React Native, Node.js, Go — but my heart lives in the frontend: interfaces that load fast, read clearly, and feel intentional. I have shipped an offline-first POS for an agriculture platform, a real-time interview platform over WebRTC, and an AI contract analyzer that reads legal PDFs in under fifteen seconds.",
+      "p3": "I grow by shipping. Hackathons taught me to build under pressure — and to win #JuaraVibeCoding doing it. Internships taught me that real users forgive nothing. Certifications like BNSP and Google AI keep me honest about fundamentals. Everything else I learn in public: open source, side projects, and this site."
+    },
+    "journey": {
+      "label": "Journey",
+      "heading": "Milestones so far."
+    },
+    "values": {
+      "label": "How I work",
+      "heading": "Principles I build by.",
+      "v1t": "Craft over shortcuts",
+      "v1d": "Code is read far more often than it is written. I optimize for the next developer — clear structure, honest naming, no clever traps.",
+      "v2t": "Performance is a feature",
+      "v2d": "Speed shapes how software feels. Offline-first thinking, sub-15-second pipelines, and bundle budgets are requirements, not extras.",
+      "v3t": "Design with intent",
+      "v3d": "Every pixel earns its place. Typography, spacing, motion — design integrity separates a product from a demo.",
+      "v4t": "Learn in public",
+      "v4d": "Open source, case studies, certifications — growth compounds when it is shared. This portfolio is part of that habit."
+    },
+    "beyond": {
+      "label": "Beyond the screen",
+      "heading": "Things I care about outside the editor.",
+      "i1": "UI motion & interaction",
+      "i2": "Open source",
+      "i3": "Hackathons",
+      "i4": "Tech communities",
+      "i5": "Mobile UX",
+      "i6": "Design systems"
+    },
+    "arsenal": {
+      "label": "Toolbox",
+      "heading": "Weapons of choice."
+    },
+    "cta": {
+      "text": "Want the longer version? The projects tell it better than I can.",
+      "button": "Explore case studies",
+      "contactText": "Or skip straight to saying hello.",
+      "contactButton": "Get in touch"
+    }
+  },
+  "skillsPage": {
+    "backHome": "Back home",
+    "kicker": "Skills",
+    "line1": "Every tool,",
+    "line2": "mastered deliberately.",
+    "tagline": "Twenty-four technologies across four disciplines. Click any tile to see how deep each one goes — and where it has already shipped.",
+    "hint": "Click a tile to inspect",
+    "relatedHeading": "Used in the wild",
+    "emptyRelated": "No published case study uses this one yet — more shipping soon.",
+    "ctaText": "Curious how these stack up in real products?",
+    "ctaButton": "See them applied",
+    "masteryLabel": "mastery"
+  },
+  "experiencePage": {
+    "backHome": "Back home",
+    "kicker": "Experience",
+    "line1": "Four eras,",
+    "line2": "one direction.",
+    "tagline": "From lecture halls to hackathon podiums to production internships — every era sharpened a different edge of the same craft.",
+    "highlightsLabel": "Highlights",
+    "shippedLabel": "Shipped output",
+    "ctaText": "The full stories live in the case studies.",
+    "ctaButton": "Explore case studies",
+    "eras": {
+      "e1h1": "Won #JuaraVibeCoding by shipping a production-grade AI contract analyzer under hackathon pressure",
+      "e1h2": "PDF/DOCX contracts parsed and analyzed in under 15 seconds via a 4-persona Gemini pipeline",
+      "e1h3": "Containerized on Google Cloud Run — the demo survived live judging without a hiccup",
+      "e2h1": "Built the Gotani POS app end-to-end — transaction workflows, dual-role auth, Midtrans payments",
+      "e2h2": "Designed an offline-first Firestore data layer targeting a 5-second entry time for field usage",
+      "e2h3": "Learned that in agriculture, offline isn't a feature request — it's the default condition",
+      "e3h1": "Delivered KPJMI's editorial company profile plus an admin dashboard with real CMS workflows",
+      "e3h2": "Translated a farmer cooperative's brand into a premium, trustworthy digital presence",
+      "e3h3": "Learned that design integrity is what earns trust from non-technical audiences",
+      "e4h1": "Foundations in algorithms, databases, OOP, and software engineering through practical projects",
+      "e4h2": "Final years ran parallel with two full-stack internships — theory met production weekly",
+      "e4h3": "Learned that fundamentals compound: everything after builds on these years"
+    }
+  },
+  "achievementsPage": {
+    "backHome": "Back home",
+    "kicker": "Achievements",
+    "line1": "Proof of work,",
+    "line2": "certified.",
+    "tagline": "Nine credentials spanning national professional certification, global tech programs, and a national competition podium — every one verifiable.",
+    "statsCredentials": "credentials",
+    "statsIssuers": "issuers",
+    "statsVerifiable": "verifiable online",
+    "filterAll": "All",
+    "filterCertification": "Certification",
+    "filterCompetition": "Competition",
+    "filterCourse": "National course",
+    "ctaText": "Credentials open doors — projects prove what's behind them.",
+    "ctaButton": "See the case studies"
+  },
+  "contactPage": {
+    "backHome": "Back home",
+    "kicker": "Contact",
+    "line1": "Let's make",
+    "line2": "it real.",
+    "tagline": "Have a product to build, a role to fill, or just want to talk shop? My inbox is open — pick whichever door feels natural.",
+    "channelsLabel": "Direct channels",
+    "emailDesc": "Best for project inquiries",
+    "whatsappDesc": "Quick questions & follow-ups",
+    "linkedinDesc": "Professional profile & DMs",
+    "githubDesc": "Code, issues & collaborations",
+    "copyTooltip": "Copy address",
+    "copiedFeedback": "Copied!",
+    "availableBadge": "Open to new projects",
+    "responseLine": "Usually replies within 24 hours.",
+    "localTimeLabel": "My local time (WIB)",
+    "locationLabel": "Banyumas, Central Java, Indonesia"
   },
   "skills": {
     "label": "Capabilities",
     "heading": "What I can deliver for you",
     "description": "Grouped by outcome, not just tools — the engineering domains I use to launch reliable digital products.",
-    "tabAll": "All",
-    "openSource": "Open Source",
-    "viewGithub": "View GitHub",
     "years": "yr",
-    "yearsPlural": "yrs"
+    "yearsPlural": "yrs",
+    "moreLink": "Explore all skills"
   },
   "projects": {
     "label": "Selected Work",
     "heading": "Projects That Ship",
-    "tabAll": "All",
-    "tabWebApp": "Web App",
-    "tabMobile": "Mobile",
-    "tabPlayground": "Playground",
     "viewMode": "View mode",
     "gridView": "Grid view",
     "listView": "List view",
-    "emptyTitle": "No projects yet in this category.",
-    "emptySubtitle": "Coming soon.",
     "viewAll": "View All Projects"
   },
   "experience": {
     "label": "Career",
     "heading": "Experience & Education",
-    "filterAll": "All",
     "filterWork": "Work",
     "filterEducation": "Education",
-    "filterOrganization": "Organization",
-    "empty": "No entries in this category yet."
+    "empty": "No entries in this category yet.",
+    "moreLink": "Full experience"
   },
   "achievements": {
     "label": "Credentials",
@@ -92,7 +231,8 @@
     "showAll": "View All ({count})",
     "showLess": "Show Less",
     "download": "Download",
-    "viewOriginal": "View Original"
+    "viewOriginal": "View Original",
+    "moreLink": "View all credentials"
   },
   "exploration": {
     "label": "Exploration",
@@ -106,7 +246,8 @@
     "label": "Get In Touch",
     "heading1": "Let's Build",
     "heading2": "Something Elite",
-    "description": "Have an active product requirement, need an engineer to scale operations, or want to audit your UI architecture? Reach out below."
+    "description": "Have an active product requirement, need an engineer to scale operations, or want to audit your UI architecture? Reach out below.",
+    "moreLink": "Full contact page"
   },
   "contactForm": {
     "nameLabel": "Name",
@@ -146,10 +287,7 @@
     "skills": "Skills",
     "experience": "Experience",
     "achievements": "Achievements",
-    "contact": "Contact",
-    "menuLabel": "Navigation menu",
-    "openMenu": "Open navigation",
-    "closeMenu": "Close navigation"
+    "contact": "Contact"
   },
   "commandMenu": {
     "home": "Home",
@@ -159,8 +297,6 @@
     "experience": "Experience",
     "achievements": "Achievements",
     "contact": "Contact",
-    "github": "GitHub",
-    "linkedin": "LinkedIn",
     "email": "Email",
     "groupNavigate": "Navigate",
     "groupLinks": "Links"
@@ -173,7 +309,6 @@
     "siteMap": "Site Map",
     "technical": "Technical",
     "screenshots": "Screenshots",
-    "techStack": "Tech Stack",
     "challenge": "Challenge",
     "solution": "Solution",
     "impact": "Impact",
@@ -185,7 +320,6 @@
     "dataFlow": "Data Flow Pipeline",
     "deployment": "Deployment Architecture",
     "the4Personas": "The 4 AI Personas",
-    "promptEngineering": "Prompt Engineering",
     "textExtraction": "Text Extraction Pipeline",
     "riskScoring": "Risk Scoring Algorithm",
     "outputSchema": "Output Schema",
@@ -202,28 +336,18 @@
     "purpose": "Purpose",
     "method": "Method",
     "auth": "Auth",
-    "decision": "Decision",
-    "reason": "Why",
-    "copyCode": "Copy",
-    "copied": "Copied!",
     "highRisk": "High Risk",
     "mediumRisk": "Medium Risk",
     "safe": "Safe",
     "userRoles": "User Roles",
     "userFlow": "User Flow",
-    "siteArchitecture": "Site Architecture",
-    "contractAnalysis": "Contract Analysis",
-    "aiPersonas": "AI Personas",
-    "fileSupport": "File Support",
-    "deployed": "Deployed"
+    "siteArchitecture": "Site Architecture"
   },
   "techArsenal": {
     "mastery": "Mastery",
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
-      "mobile": "Mobile",
-      "aiInfra": "Database & Infrastructure",
       "databaseInfra": "Database & Infrastructure"
     }
   },
@@ -236,73 +360,52 @@
     "switchToEn": "Switch to English",
     "switchToId": "Switch to Indonesian"
   },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred while loading this project page.",
+    "retry": "Try again",
+    "backToProjects": "Back to projects"
+  },
   "notFound": {
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "goHome": "Go home"
   },
-  "githubSection": {
-    "noData": "No contribution data available.",
-    "contributions": "contributions in the last year"
-  },
-  "visitor": {
-    "count": "visitors",
-    "offline": "offline",
-    "unavailable": "Visitor count unavailable"
-  },
   "certificates": {
     "bnsp": {
       "title": "Certified Programmer — Software Development",
-      "issuer": "BNSP (Badan Nasional Sertifikasi Profesi)",
-      "year": "2026",
       "description": "Indonesian national professional certification validating competency in software development — including programming fundamentals, system design, and application architecture."
     },
     "googleAi": {
       "title": "AI Professional Certificate",
-      "issuer": "Google",
-      "year": "2026",
       "description": "Comprehensive certification in artificial intelligence — covering ML workflows, Google AI tools, prompt engineering, and responsible AI deployment practices."
     },
     "hubspot": {
       "title": "CMS For Developer II",
-      "issuer": "HubSpot Academy",
-      "year": "2026",
       "description": "Advanced HubSpot CMS development certification — custom modules, serverless functions, HubDB integration, and marketplace app publishing."
     },
     "micro1": {
       "title": "Certified Full-Stack Developer",
-      "issuer": "micro1",
-      "year": "2026",
       "description": "Industry-validated full-stack engineering certification assessing proficiency across frontend, backend, database, and cloud deployment technologies."
     },
     "juaraVibeCoding": {
       "title": "Top 100 — JuaraVibeCoding",
-      "issuer": "JuaraVibeCoding",
-      "year": "2026",
       "description": "Recognized among the top 100 participants in a national coding competition, demonstrating strong algorithmic problem-solving and software engineering skills."
     },
     "programmingFundamental": {
       "title": "Programming Fundamental",
-      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-      "year": "2026",
       "description": "Indonesian national certification in core programming concepts — algorithms, data structures, and object-oriented programming with practical assessments."
     },
     "intermediateWeb": {
       "title": "Intermediate Assistant Web Developer",
-      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-      "year": "2026",
       "description": "Indonesian national certification in intermediate web development — frontend frameworks, REST API integration, and relational database management."
     },
     "fundamentalWeb": {
       "title": "Fundamental of Assistant Web Developer",
-      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-      "year": "2026",
       "description": "Indonesian national certification in foundational web development — HTML, CSS, JavaScript, responsive design, and basic front-end engineering."
     },
     "fullstackNasional": {
       "title": "Front-End & Back-End Development",
-      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-      "year": "2026",
       "description": "Indonesian national certification in full-stack web development — covering frontend frameworks, backend APIs, database integration, and production deployment workflows."
     }
   }

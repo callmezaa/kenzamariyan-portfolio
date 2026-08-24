@@ -1,13 +1,16 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
-import { projects } from "@/app/data/projects";
+import { getProjects } from "@/app/data/projects";
 import { getLocalizedProjects } from "@/i18n/data";
 import type { Locale } from "@/i18n/request";
 import ProjectDetail from "@/app/components/ProjectDetail";
+import JsonLd from "@/components/json-ld";
+import { projectSchemas } from "@/lib/seo";
 
 export async function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  // Slugs are locale-independent; either locale yields the same set.
+  return getProjects("en").map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -18,6 +21,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: project.title,
     description: project.summary,
+    alternates: {
+      canonical: `/projects/${slug}`,
+    },
     openGraph: {
       title: `${project.title} | Ken Zamariyan`,
       description: project.summary,
@@ -50,5 +56,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   if (!project) notFound();
 
-  return <ProjectDetail project={project} />;
+  return (
+    <>
+      <JsonLd id={`ld-project-${project.slug}`} data={projectSchemas(project, locale)} />
+      <ProjectDetail project={project} />
+    </>
+  );
 }

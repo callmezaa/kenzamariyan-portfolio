@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import {
   Home,
@@ -14,21 +15,28 @@ import {
 } from "lucide-react";
 import { MagneticDock } from "@/components/ui/magnetic-dock";
 import { EASE_OUT } from "@/lib/motion";
+import { SECTION_IDS } from "@/lib/sections";
 import { useHideOnScroll } from "./use-hide-on-scroll";
 
 const DOCK_HEIGHT = 72;
 
-const SECTION_IDS = [
-  "home",
-  "projects",
-  "about",
-  "skills",
-  "experience",
-  "achievements",
-  "contact",
-] as const;
+/** Dock omits exploration to stay compact — hotkey `7` still reaches it. */
+const DOCK_SECTIONS = SECTION_IDS.filter(
+  (id): id is Exclude<(typeof SECTION_IDS)[number], "exploration"> =>
+    id !== "exploration"
+);
 
-type SectionId = (typeof SECTION_IDS)[number];
+type SectionId = (typeof DOCK_SECTIONS)[number];
+
+/** Sections that are full pages instead of home-page anchors. */
+const PAGE_ROUTES: Partial<Record<SectionId, string>> = {
+  projects: "/projects",
+  about: "/about",
+  skills: "/skills",
+  experience: "/experience",
+  achievements: "/achievements",
+  contact: "/contact",
+};
 
 const SECTION_ICONS: Record<SectionId, React.ReactNode> = {
   home: <Home size={22} />,
@@ -43,6 +51,8 @@ const SECTION_ICONS: Record<SectionId, React.ReactNode> = {
 export function DockNav() {
   const t = useTranslations("navbar");
   const reduce = useReducedMotion();
+  const router = useRouter();
+  const pathname = usePathname();
   const [active, setActive] = useState<SectionId>("home");
   const visible = useHideOnScroll();
 
@@ -50,7 +60,7 @@ export function DockNav() {
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
-    SECTION_IDS.forEach((id) => {
+    DOCK_SECTIONS.forEach((id) => {
       const el = document.getElementById(id);
       if (!el) return;
       const observer = new IntersectionObserver(
@@ -66,22 +76,34 @@ export function DockNav() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  const scrollToSection = useCallback((id: string) => {
-    requestAnimationFrame(() => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const top =
-        el.getBoundingClientRect().top + window.scrollY - DOCK_HEIGHT - 20;
-      window.scrollTo({ top, behavior: "smooth" });
-    });
-  }, []);
+  const scrollToSection = useCallback(
+    (id: string) => {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(id);
+        // Section lives on the home page — navigate there if we're elsewhere.
+        if (!el) {
+          router.push(`/#${id}`);
+          return;
+        }
+        const top =
+          el.getBoundingClientRect().top + window.scrollY - DOCK_HEIGHT - 20;
+        window.scrollTo({ top, behavior: "smooth" });
+      });
+    },
+    [router],
+  );
 
-  const items = SECTION_IDS.map((id) => ({
+  // Route-backed sections are "active" when their page is open.
+  const activeRouteItem = DOCK_SECTIONS.find((id) => PAGE_ROUTES[id] === pathname);
+  const effectiveActive: SectionId = activeRouteItem ?? active;
+
+  const items = DOCK_SECTIONS.map((id) => ({
     id,
     label: t(id),
     icon: SECTION_ICONS[id],
-    isActive: active === id,
-    onClick: () => scrollToSection(id),
+    isActive: effectiveActive === id,
+    onClick: () =>
+      PAGE_ROUTES[id] ? router.push(PAGE_ROUTES[id]!) : scrollToSection(id),
   }));
 
   return (

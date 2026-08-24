@@ -24,7 +24,7 @@ export function UtilityPill() {
       className="fixed top-6 right-6 z-50 flex items-center gap-1 rounded-full border border-hairline/50 bg-canvas-glass px-3 py-1 shadow-1 backdrop-blur-xl"
     >
       <div className="hidden md:flex items-center gap-1">
-        <Tooltip content={t("gitHub")} side="bottom">
+        <Tooltip id="tip-github" content={t("gitHub")} side="bottom">
           <a
             href="https://github.com/callmezaa"
             target="_blank"
@@ -35,7 +35,7 @@ export function UtilityPill() {
             <FaGithub size={16} />
           </a>
         </Tooltip>
-        <Tooltip content={t("linkedin")} side="bottom">
+        <Tooltip id="tip-linkedin" content={t("linkedin")} side="bottom">
           <a
             href="https://www.linkedin.com/in/ken-zamariyan-10b140318/"
             target="_blank"
@@ -48,7 +48,7 @@ export function UtilityPill() {
         </Tooltip>
       </div>
       <LanguageToggle />
-      <Tooltip content={theme === "dark" ? t("lightMode") : t("darkMode")} side="bottom">
+      <Tooltip id="tip-theme" content={theme === "dark" ? t("lightMode") : t("darkMode")} side="bottom">
         <ThemeToggle
           variant="rectangle"
           start="bottom-up"

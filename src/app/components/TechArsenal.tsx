@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import { categories, type Category, type TechItem } from "../data/techArsenal";
-import { getLocalizedTechArsenal } from "@/i18n/data";
-import type { Locale } from "@/i18n/request";
+import type { TechItem } from "../data/techArsenal";
+import { ICONS } from "../data/icons";
 import { Button } from "@/components/ui/button";
 import {
   HoverCard,
@@ -13,24 +12,30 @@ import {
   HoverCardContent,
 } from "@/components/ui/hover-card";
 
+const categories = [
+  "Frontend",
+  "Backend",
+  "Database & Infrastructure",
+] as const;
+
+type Category = (typeof categories)[number];
+
 const categoryLabelMap: Record<string, string> = {
   Frontend: "categories.frontend",
   Backend: "categories.backend",
   "Database & Infrastructure": "categories.databaseInfra",
 };
 
-export default function TechArsenal() {
+export default function TechArsenal({ items }: { items: TechItem[] }) {
   const t = useTranslations("techArsenal");
-  const locale = useLocale();
-  const techArsenal = useMemo(() => getLocalizedTechArsenal(locale as Locale), [locale]);
   const [activeCategory, setActiveCategory] = useState<Category>("Frontend");
 
   const categoryCounts = useMemo(() => categories.reduce<Record<string, number>>((acc, cat) => {
-    acc[cat] = techArsenal.filter((t) => t.category === cat).length;
+    acc[cat] = items.filter((t) => t.category === cat).length;
     return acc;
-  }, {}), [techArsenal]);
+  }, {}), [items]);
 
-  const filtered = techArsenal.filter((t) => t.category === activeCategory);
+  const filtered = items.filter((t) => t.category === activeCategory);
 
   return (
     <div className="space-y-6">
@@ -66,6 +71,7 @@ export default function TechArsenal() {
 }
 
 function TechChip({ tech, masteryLabel }: { tech: TechItem; masteryLabel: string }) {
+  const Icon = ICONS[tech.icon];
   return (
     <motion.div
       variants={{
@@ -79,7 +85,7 @@ function TechChip({ tech, masteryLabel }: { tech: TechItem; masteryLabel: string
             <Button variant="outline" size="sm" className="rounded-full" />
           }
         >
-          <tech.icon size={14} />
+          <Icon size={14} />
           <span>{tech.name}</span>
         </HoverCardTrigger>
         <HoverCardContent
@@ -90,7 +96,7 @@ function TechChip({ tech, masteryLabel }: { tech: TechItem; masteryLabel: string
         >
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
-              <tech.icon size={18} className="text-foreground" />
+              <Icon size={18} className="text-foreground" />
               <span className="body-base font-bold text-foreground">{tech.name}</span>
             </div>
             <p className="body-small text-muted-foreground leading-relaxed">{tech.description}</p>

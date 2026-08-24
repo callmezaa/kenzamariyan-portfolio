@@ -1,21 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
 import { easeOut } from "../utils/animations";
+import type { Exploration } from "../data/explorations";
 import { Button } from "@/components/ui/button";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { Reveal } from "@/components/motion/reveal/Reveal";
-import { getLocalizedExplorations } from "@/i18n/data";
-import type { Locale } from "@/i18n/request";
 
-export default function Exploration() {
+interface ExplorationProps {
+  items: Exploration[];
+}
+
+export default function Exploration({ items }: ExplorationProps) {
   const t = useTranslations("exploration");
-  const locale = useLocale();
-  const items = useMemo(() => getLocalizedExplorations(locale as Locale), [locale]);
   const [active, setActive] = useState<number | null>(null);
   const open = active !== null;
 

@@ -114,6 +114,24 @@ const MOBILE_APPS = ["gotani-pos"];
 
 const NAV_SECTIONS = ["overview", "architecture", "aiPipeline", "technical", "screenshots"] as const;
 
+type NavSection = (typeof NAV_SECTIONS)[number];
+
+/** A section is only navigable when its backing data actually exists. */
+function isSectionAvailable(project: Project, section: NavSection, screenshotCount: number): boolean {
+  switch (section) {
+    case "architecture":
+      return !!(project.architecture && project.diagram);
+    case "aiPipeline":
+      return !!(project.aiPipeline || project.siteMap);
+    case "technical":
+      return !!(project.codeSnippets && project.architecture);
+    case "screenshots":
+      return screenshotCount > 0;
+    default:
+      return true;
+  }
+}
+
 interface ProjectDetailProps {
   project: Project;
 }
@@ -131,7 +149,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const allScreenshots = galleryScreenshots ?? [];
 
   const pipelineLabel = project.aiPipeline ? t("aiPipeline") : t("siteMap");
-  const hasDetailedData = !!(project.architecture || project.aiPipeline || project.siteMap || project.codeSnippets);
+  const availableTabs = NAV_SECTIONS.filter((section) =>
+    isSectionAvailable(project, section, allScreenshots.length)
+  );
 
   const scrollTo = useCallback((index: number) => {
     const container = containerRef.current;
@@ -221,7 +241,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           <Tabs defaultValue="overview" variant="pill">
             <div className="flex justify-center mb-8">
               <TabsList>
-                {NAV_SECTIONS.map((section) => (
+                {availableTabs.map((section) => (
                   <TabsTrigger key={section} value={section}>
                     {section === "aiPipeline" ? pipelineLabel : t(section)}
                   </TabsTrigger>

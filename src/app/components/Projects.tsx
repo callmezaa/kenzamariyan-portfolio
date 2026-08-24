@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useMemo } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { LayoutGrid, List, ArrowRight, ArrowUpRight } from "lucide-react";
-import { getLocalizedProjects } from "@/i18n/data";
-import type { Locale } from "@/i18n/request";
+import type { Project } from "../data/projects";
 import { PROJECT_CARD_IMAGES } from "@/app/data/projectImages";
 import { easeOut } from "../utils/animations";
 import { Button } from "@/components/ui/button";
@@ -17,12 +16,13 @@ import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 
 type ViewMode = "grid" | "list";
 
-export default function Projects() {
-  const t = useTranslations("projects");
-  const locale = useLocale();
-  const [view, setView] = useState<ViewMode>("grid");
+interface ProjectsProps {
+  projects: Project[];
+}
 
-  const projects = useMemo(() => getLocalizedProjects(locale as Locale), [locale]);
+export default function Projects({ projects }: ProjectsProps) {
+  const t = useTranslations("projects");
+  const [view, setView] = useState<ViewMode>("grid");
 
   return (
     <section id="projects" className="bg-canvas-alt py-24 md:py-28">

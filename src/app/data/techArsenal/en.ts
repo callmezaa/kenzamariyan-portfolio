@@ -1,16 +1,7 @@
-import type { IconType } from "react-icons";
-import {
-  SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
-  SiGo, SiPython, SiFastapi, SiPostgresql, SiRedis, SiPrisma,
-  SiDocker, SiGooglecloud, SiSupabase,
-  SiExpress, SiNodedotjs, SiMongodb, SiGit,
-  SiVite, SiThreedotjs, SiGreensock, SiReactquery, SiChartdotjs, SiBox,
-  SiFirebase, SiRailway, SiGithubactions, SiCloudinary, SiUpstash, SiVercel,
-} from "react-icons/si";
-
+import type { IconName } from "../icons";
 export interface TechItem {
   name: string;
-  icon: IconType;
+  icon: IconName;
   category: "Frontend" | "Backend" | "Database & Infrastructure";
   brandColor: string;
   brandColorDark?: string;
@@ -21,7 +12,7 @@ export interface TechItem {
 export const techArsenalEn: TechItem[] = [
   {
     name: "React",
-    icon: SiReact,
+    icon: "SiReact",
     category: "Frontend",
     brandColor: "#61DAFB",
     mastery: 95,
@@ -29,7 +20,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Next.js",
-    icon: SiNextdotjs,
+    icon: "SiNextdotjs",
     category: "Frontend",
     brandColor: "#000000",
     brandColorDark: "#FFFFFF",
@@ -38,7 +29,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "TypeScript",
-    icon: SiTypescript,
+    icon: "SiTypescript",
     category: "Frontend",
     brandColor: "#3178C6",
     mastery: 92,
@@ -46,7 +37,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Tailwind CSS",
-    icon: SiTailwindcss,
+    icon: "SiTailwindcss",
     category: "Frontend",
     brandColor: "#38BDF8",
     mastery: 85,
@@ -54,7 +45,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Vite",
-    icon: SiVite,
+    icon: "SiVite",
     category: "Frontend",
     brandColor: "#646CFF",
     mastery: 80,
@@ -62,7 +53,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "TanStack Query",
-    icon: SiReactquery,
+    icon: "SiReactquery",
     category: "Frontend",
     brandColor: "#FF4154",
     mastery: 78,
@@ -70,7 +61,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Zustand",
-    icon: SiBox,
+    icon: "SiBox",
     category: "Frontend",
     brandColor: "#7C3AED",
     mastery: 75,
@@ -78,7 +69,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "GSAP",
-    icon: SiGreensock,
+    icon: "SiGreensock",
     category: "Frontend",
     brandColor: "#88CE02",
     mastery: 72,
@@ -86,7 +77,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Three.js",
-    icon: SiThreedotjs,
+    icon: "SiThreedotjs",
     category: "Frontend",
     brandColor: "#000000",
     brandColorDark: "#FFFFFF",
@@ -95,7 +86,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Recharts",
-    icon: SiChartdotjs,
+    icon: "SiChartdotjs",
     category: "Frontend",
     brandColor: "#22B5BF",
     mastery: 70,
@@ -103,7 +94,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Go",
-    icon: SiGo,
+    icon: "SiGo",
     category: "Backend",
     brandColor: "#00ADD8",
     mastery: 85,
@@ -111,7 +102,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Python",
-    icon: SiPython,
+    icon: "SiPython",
     category: "Backend",
     brandColor: "#3776AB",
     mastery: 80,
@@ -119,7 +110,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "FastAPI",
-    icon: SiFastapi,
+    icon: "SiFastapi",
     category: "Backend",
     brandColor: "#009688",
     mastery: 78,
@@ -127,7 +118,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "PostgreSQL",
-    icon: SiPostgresql,
+    icon: "SiPostgresql",
     category: "Backend",
     brandColor: "#4169E1",
     mastery: 82,
@@ -135,7 +126,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Redis",
-    icon: SiRedis,
+    icon: "SiRedis",
     category: "Backend",
     brandColor: "#FF4438",
     mastery: 70,
@@ -143,7 +134,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Prisma",
-    icon: SiPrisma,
+    icon: "SiPrisma",
     category: "Backend",
     brandColor: "#5B51D8",
     mastery: 80,
@@ -151,7 +142,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Node.js",
-    icon: SiNodedotjs,
+    icon: "SiNodedotjs",
     category: "Backend",
     brandColor: "#5FA04E",
     mastery: 80,
@@ -159,7 +150,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Express",
-    icon: SiExpress,
+    icon: "SiExpress",
     category: "Backend",
     brandColor: "#000000",
     brandColorDark: "#FFFFFF",
@@ -168,7 +159,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "MongoDB",
-    icon: SiMongodb,
+    icon: "SiMongodb",
     category: "Backend",
     brandColor: "#47A248",
     mastery: 72,
@@ -176,7 +167,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Git",
-    icon: SiGit,
+    icon: "SiGit",
     category: "Backend",
     brandColor: "#F05032",
     mastery: 85,
@@ -184,7 +175,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Docker",
-    icon: SiDocker,
+    icon: "SiDocker",
     category: "Database & Infrastructure",
     brandColor: "#2496ED",
     mastery: 75,
@@ -192,7 +183,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Google Cloud",
-    icon: SiGooglecloud,
+    icon: "SiGooglecloud",
     category: "Database & Infrastructure",
     brandColor: "#4285F4",
     mastery: 72,
@@ -200,7 +191,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Supabase",
-    icon: SiSupabase,
+    icon: "SiSupabase",
     category: "Database & Infrastructure",
     brandColor: "#3ECF8E",
     mastery: 75,
@@ -208,7 +199,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Firebase",
-    icon: SiFirebase,
+    icon: "SiFirebase",
     category: "Database & Infrastructure",
     brandColor: "#FFCA28",
     mastery: 78,
@@ -216,7 +207,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Upstash Redis",
-    icon: SiUpstash,
+    icon: "SiUpstash",
     category: "Database & Infrastructure",
     brandColor: "#00E9A3",
     mastery: 70,
@@ -224,7 +215,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Vercel",
-    icon: SiVercel,
+    icon: "SiVercel",
     category: "Database & Infrastructure",
     brandColor: "#000000",
     brandColorDark: "#FFFFFF",
@@ -233,7 +224,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Railway",
-    icon: SiRailway,
+    icon: "SiRailway",
     category: "Database & Infrastructure",
     brandColor: "#0B0D0E",
     brandColorDark: "#FFFFFF",
@@ -242,7 +233,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "GitHub Actions",
-    icon: SiGithubactions,
+    icon: "SiGithubactions",
     category: "Database & Infrastructure",
     brandColor: "#2088FF",
     mastery: 75,
@@ -250,7 +241,7 @@ export const techArsenalEn: TechItem[] = [
   },
   {
     name: "Cloudinary",
-    icon: SiCloudinary,
+    icon: "SiCloudinary",
     category: "Database & Infrastructure",
     brandColor: "#3448C5",
     mastery: 68,

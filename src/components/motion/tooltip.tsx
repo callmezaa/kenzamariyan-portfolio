@@ -35,6 +35,12 @@ export interface TooltipProps {
   className?: string;
   /** Classes for the outer wrapper span. Use to fix baseline / fill parent. */
   wrapperClassName?: string;
+  /**
+   * Stable id linking trigger (`aria-describedby`) to the tooltip panel.
+   * Pass one when the Tooltip is part of server-rendered HTML — auto
+   * useId values can drift between SSR and hydration if the tree shifts.
+   */
+  id?: string;
 }
 
 // Gap between trigger and tooltip, in px.
@@ -118,12 +124,14 @@ export function Tooltip({
   delay = 120,
   className,
   wrapperClassName,
+  id: explicitId,
 }: TooltipProps) {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState<{ top: number; left: number } | null>(
     null,
   );
-  const id = useId();
+  const generatedId = useId();
+  const id = explicitId ?? generatedId;
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const anchorRef = useRef<HTMLSpanElement>(null);
   const reduce = useReducedMotion();

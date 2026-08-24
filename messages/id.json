@@ -1,6 +1,10 @@
 {
   "hero": {
-    "headlines": ["Produk dikirim.", "Masalah dipecahkan.", "Tanpa basa-basi."],
+    "headlines": [
+      "Produk dikirim.",
+      "Masalah dipecahkan.",
+      "Tanpa basa-basi."
+    ],
     "subheadline": "Full-stack engineer mengubah ide menjadi produk yang siap produksi — dari frontend hingga deployment.",
     "getInTouch": "Hubungi Saya",
     "downloadCv": "Unduh CV",
@@ -36,53 +40,188 @@
     "label": "Tentang Saya",
     "heading": "Membangun produk digital yang andal dengan jelas dan penuh tujuan.",
     "description": "Membangun aplikasi web production-grade secara end-to-end — dari mesin pemrosesan dokumen berperforma tinggi yang mengembalikan hasil dalam <time>15 detik</time> hingga toko e-commerce offline-first, dashboard real-time, dan platform manajemen full-stack. Mahir dalam ekosistem TypeScript — React, Next.js, Node.js, dan Express — serta PostgreSQL, Firebase, Supabase, dan Git — mengembangkan aplikasi yang efisien, aman, dan mudah dipelihara dari arsitektur hingga deployment.",
-    "time": "15 detik",
-    "users": "1.500+",
     "infoItems": {
-      "experience": { "label": "2+ Tahun Pengalaman", "desc": "Pengembangan web full-stack" },
-      "location": { "label": "Berbasis di Indonesia", "desc": "Ramah remote, zona waktu global" },
-      "freelance": { "label": "Terbuka untuk Freelance & Kolaborasi", "desc": "Tersedia untuk kontrak & kemitraan" }
+      "experience": {
+        "label": "2+ Tahun Pengalaman",
+        "desc": "Pengembangan web full-stack"
+      },
+      "location": {
+        "label": "Berbasis di Indonesia",
+        "desc": "Ramah remote, zona waktu global"
+      },
+      "freelance": {
+        "label": "Terbuka untuk Freelance & Kolaborasi",
+        "desc": "Tersedia untuk kontrak & kemitraan"
+      }
     },
     "stats": {
-      "projects": { "label": "Proyek Dikirim", "reveal": "kontrak · mobile · AI" },
-      "years": { "label": "Tahun Pengalaman", "reveal": "sejak 2024" },
-      "technologies": { "label": "Teknologi", "reveal": "react → go" },
-      "opensource": { "label": "Proyek Open Source", "reveal": "repositori unggulan" }
+      "projects": {
+        "label": "Proyek Dikirim",
+        "reveal": "kontrak · mobile · AI"
+      },
+      "years": {
+        "label": "Tahun Pengalaman",
+        "reveal": "sejak 2024"
+      },
+      "technologies": {
+        "label": "Teknologi",
+        "reveal": "react → go"
+      },
+      "opensource": {
+        "label": "Proyek Open Source",
+        "reveal": "repositori unggulan"
+      }
     },
-    "techArsenalLabel": "Persenjataan Teknologi"
+    "techArsenalLabel": "Persenjataan Teknologi",
+    "moreLink": "Tentang saya selengkapnya"
+  },
+  "aboutPage": {
+    "backHome": "Kembali ke beranda",
+    "hero": {
+      "kicker": "Tentang saya",
+      "line1": "Orang di balik",
+      "line2": "produknya.",
+      "tagline": "Frontend & Mobile Product Engineer dari Indonesia — membangun software kelas produksi dengan kecepatan terstruktur, keterbacaan, dan integritas desain."
+    },
+    "story": {
+      "label": "Cerita saya",
+      "heading": "Dari rasa penasaran menjadi keahlian.",
+      "p1": "Perjalanan saya ke dunia software dimulai seperti kebanyakan orang — rasa penasaran. Yang awalnya hanya iseng membuat halaman web semasa Teknik Informatika berubah menjadi obsesi pada bagaimana sebuah antarmuka terasa, bukan sekadar berfungsi. Di antara komponen React pertama dan deploy production pertama, saya menemukan hal yang ingin saya kuasai.",
+      "p2": "Kini saya membangun lintas stack — React, React Native, Node.js, Go — tapi hati saya ada di frontend: antarmuka yang cepat dimuat, mudah dibaca, dan terasa disengaja. Saya sudah mengirimkan POS offline-first untuk platform pertanian, platform interview real-time berbasis WebRTC, dan penganalisis kontrak AI yang membaca PDF hukum dalam waktu kurang dari lima belas detik.",
+      "p3": "Saya bertumbuh dengan cara shipping. Hackathon mengajarkan saya membangun di bawah tekanan — sekaligus memenangkan #JuaraVibeCoding. Magang mengajarkan bahwa pengguna sungguhan tidak mau berkompromi. Sertifikasi seperti BNSP dan Google AI menjaga fundamental saya tetap jujur. Selebihnya saya belajar secara terbuka: open source, proyek sampingan, dan situs ini."
+    },
+    "journey": {
+      "label": "Perjalanan",
+      "heading": "Milestone sejauh ini."
+    },
+    "values": {
+      "label": "Cara saya bekerja",
+      "heading": "Prinsip yang saya pegang.",
+      "v1t": "Craft di atas jalan pintas",
+      "v1d": "Kode lebih sering dibaca daripada ditulis. Saya optimasi untuk developer berikutnya — struktur jelas, penamaan jujur, tanpa jebakan yang terlalu pintar.",
+      "v2t": "Performa adalah fitur",
+      "v2d": "Kecepatan membentuk cara software terasa. Pola pikir offline-first, pipeline di bawah lima belas detik, dan anggaran ukuran bundle adalah kebutuhan, bukan tambahan.",
+      "v3t": "Desain dengan niat",
+      "v3d": "Setiap piksel harus layak berada di sana. Tipografi, spacing, motion — integritas desain yang membedakan produk dari sekadar demo.",
+      "v4t": "Belajar secara terbuka",
+      "v4d": "Open source, studi kasus, sertifikasi — pertumbuhan berlipat ketika dibagikan. Portofolio ini adalah bagian dari kebiasaan itu."
+    },
+    "beyond": {
+      "label": "Di luar layar",
+      "heading": "Hal-hal yang saya pedulikan di luar editor.",
+      "i1": "UI motion & interaksi",
+      "i2": "Open source",
+      "i3": "Hackathon",
+      "i4": "Komunitas teknologi",
+      "i5": "Mobile UX",
+      "i6": "Design systems"
+    },
+    "arsenal": {
+      "label": "Perkakas",
+      "heading": "Senjata andalan."
+    },
+    "cta": {
+      "text": "Ingin versi yang lebih panjang? Project-project bercerita lebih baik daripada saya.",
+      "button": "Jelajahi studi kasus",
+      "contactText": "Atau langsung saja menyapa.",
+      "contactButton": "Hubungi saya"
+    }
+  },
+  "skillsPage": {
+    "backHome": "Kembali ke beranda",
+    "kicker": "Keahlian",
+    "line1": "Setiap tools,",
+    "line2": "dikuasai dengan sengaja.",
+    "tagline": "Dua puluh empat teknologi dalam empat disiplin. Klik salah satu tile untuk melihat seberapa dalam penguasaannya — dan di mana sudah dipakai.",
+    "hint": "Klik tile untuk melihat detail",
+    "relatedHeading": "Dipakai di dunia nyata",
+    "emptyRelated": "Belum ada studi kasus terpublikasi yang memakainya — segera menyusul.",
+    "ctaText": "Penasaran bagaimana semuanya terpakai di produk nyata?",
+    "ctaButton": "Lihat penerapannya",
+    "masteryLabel": "penguasaan"
+  },
+  "experiencePage": {
+    "backHome": "Kembali ke beranda",
+    "kicker": "Pengalaman",
+    "line1": "Empat era,",
+    "line2": "satu arah.",
+    "tagline": "Dari ruang kuliah ke podium hackathon hingga magang produksi — setiap era menajamkan sisi berbeda dari craft yang sama.",
+    "highlightsLabel": "Sorotan",
+    "shippedLabel": "Hasil karya",
+    "ctaText": "Cerita lengkapnya ada di studi kasus.",
+    "ctaButton": "Jelajahi studi kasus",
+    "eras": {
+      "e1h1": "Menang #JuaraVibeCoding dengan mengirimkan penganalisis kontrak AI kelas produksi di bawah tekanan hackathon",
+      "e1h2": "Kontrak PDF/DOCX dibaca dan dianalisis dalam waktu kurang dari 15 detik lewat pipeline Gemini 4 persona",
+      "e1h3": "Dikontainerisasi di Google Cloud Run — demo berjalan mulus saat penilaian langsung",
+      "e2h1": "Membangun aplikasi Gotani POS dari ujung ke ujung — alur transaksi, auth dual-role, pembayaran Midtrans",
+      "e2h2": "Merancang lapisan data Firestore offline-first dengan target waktu entri 5 detik untuk pemakaian di lapangan",
+      "e2h3": "Belajar bahwa di dunia pertanian, offline bukan permintaan fitur — itu kondisi bawaan",
+      "e3h1": "Mengirimkan company profile editorial KPJMI plus dashboard admin dengan alur CMS sungguhan",
+      "e3h2": "Menerjemahkan merek koperasi petani menjadi kehadiran digital premium yang tepercaya",
+      "e3h3": "Belajar bahwa integritas desainlah yang membangun kepercayaan audiens non-teknis",
+      "e4h1": "Fondasi algoritma, database, OOP, dan rekayasa software lewat proyek-proyek praktis",
+      "e4h2": "Tahun akhir berjalan paralel dengan dua magang full-stack — teori bertemu produksi setiap minggu",
+      "e4h3": "Belajar bahwa fundamental itu compounding: semua yang datang setelahnya berdiri di atas tahun-tahun ini"
+    }
+  },
+  "achievementsPage": {
+    "backHome": "Kembali ke beranda",
+    "kicker": "Pencapaian",
+    "line1": "Bukti karya,",
+    "line2": "tersertifikasi.",
+    "tagline": "Sembilan kredensial yang mencakup sertifikasi profesi nasional, program teknologi global, dan podium kompetisi nasional — semuanya bisa diverifikasi.",
+    "statsCredentials": "kredensial",
+    "statsIssuers": "penerbit",
+    "statsVerifiable": "verifikasi online",
+    "filterAll": "Semua",
+    "filterCertification": "Sertifikasi",
+    "filterCompetition": "Kompetisi",
+    "filterCourse": "Kursus nasional",
+    "ctaText": "Kredensial membuka pintu — project membuktikan apa yang ada di baliknya.",
+    "ctaButton": "Lihat studi kasusnya"
+  },
+  "contactPage": {
+    "backHome": "Kembali ke beranda",
+    "kicker": "Kontak",
+    "line1": "Mari",
+    "line2": "mewujudkannya.",
+    "tagline": "Punya produk untuk dibangun, posisi untuk diisi, atau sekadar mau ngobrol seputar teknologi? Inbox saya terbuka — pilih pintu yang paling nyaman.",
+    "channelsLabel": "Kanal langsung",
+    "emailDesc": "Terbaik untuk penawaran project",
+    "whatsappDesc": "Pertanyaan singkat & follow-up",
+    "linkedinDesc": "Profil profesional & DM",
+    "githubDesc": "Kode, isu & kolaborasi",
+    "copyTooltip": "Salin alamat",
+    "copiedFeedback": "Tersalin!",
+    "availableBadge": "Terbuka untuk project baru",
+    "responseLine": "Biasanya membalas dalam 24 jam.",
+    "localTimeLabel": "Waktu lokal saya (WIB)",
+    "locationLabel": "Banyumas, Jawa Tengah, Indonesia"
   },
   "skills": {
     "label": "Kemampuan",
     "heading": "Yang bisa saya berikan untuk Anda",
     "description": "Dikelompokkan berdasarkan hasil, bukan hanya alat — domain rekayasa yang saya gunakan untuk meluncurkan produk digital yang andal.",
-    "tabAll": "Semua",
-    "openSource": "Open Source",
-    "viewGithub": "Lihat GitHub",
     "years": "thn",
-    "yearsPlural": "thn"
+    "yearsPlural": "thn",
+    "moreLink": "Jelajahi semua keahlian"
   },
   "projects": {
     "label": "Karya Terpilih",
     "heading": "Proyek Yang Dikirim",
-    "tabAll": "Semua",
-    "tabWebApp": "Web App",
-    "tabMobile": "Mobile",
-    "tabPlayground": "Playground",
     "viewMode": "Mode tampilan",
     "gridView": "Tampilan grid",
     "listView": "Tampilan daftar",
-    "emptyTitle": "Belum ada proyek di kategori ini.",
-    "emptySubtitle": "Segera hadir.",
     "viewAll": "Lihat Semua Proyek"
   },
   "experience": {
     "label": "Karir",
     "heading": "Pengalaman & Pendidikan",
-    "filterAll": "Semua",
     "filterWork": "Kerja",
     "filterEducation": "Pendidikan",
-    "filterOrganization": "Organisasi",
-    "empty": "Belum ada entri di kategori ini."
+    "empty": "Belum ada entri di kategori ini.",
+    "moreLink": "Pengalaman lengkapnya"
   },
   "achievements": {
     "label": "Kredensial",
@@ -92,7 +231,8 @@
     "showAll": "Lihat Semua ({count})",
     "showLess": "Tampilkan Sedikit",
     "download": "Unduh",
-    "viewOriginal": "Lihat Asli"
+    "viewOriginal": "Lihat Asli",
+    "moreLink": "Lihat semua kredensial"
   },
   "exploration": {
     "label": "Eksplorasi",
@@ -106,7 +246,8 @@
     "label": "Hubungi Saya",
     "heading1": "Mari Bangun",
     "heading2": "Sesuatu yang Elite",
-    "description": "Punya kebutuhan produk aktif, butuh engineer untuk menskalakan operasi, atau ingin mengaudit arsitektur UI Anda? Hubungi saya di bawah."
+    "description": "Punya kebutuhan produk aktif, butuh engineer untuk menskalakan operasi, atau ingin mengaudit arsitektur UI Anda? Hubungi saya di bawah.",
+    "moreLink": "Halaman kontak lengkap"
   },
   "contactForm": {
     "nameLabel": "Nama",
@@ -146,10 +287,7 @@
     "skills": "Keahlian",
     "experience": "Pengalaman",
     "achievements": "Pencapaian",
-    "contact": "Kontak",
-    "menuLabel": "Menu navigasi",
-    "openMenu": "Buka navigasi",
-    "closeMenu": "Tutup navigasi"
+    "contact": "Kontak"
   },
   "commandMenu": {
     "home": "Beranda",
@@ -159,8 +297,6 @@
     "experience": "Pengalaman",
     "achievements": "Pencapaian",
     "contact": "Kontak",
-    "github": "GitHub",
-    "linkedin": "LinkedIn",
     "email": "Email",
     "groupNavigate": "Navigasi",
     "groupLinks": "Tautan"
@@ -173,7 +309,6 @@
     "siteMap": "Peta Situs",
     "technical": "Teknis",
     "screenshots": "Tangkapan Layar",
-    "techStack": "Tech Stack",
     "challenge": "Tantangan",
     "solution": "Solusi",
     "impact": "Dampak",
@@ -185,7 +320,6 @@
     "dataFlow": "Alur Data Pipeline",
     "deployment": "Arsitektur Deployment",
     "the4Personas": "4 Persona AI",
-    "promptEngineering": "Prompt Engineering",
     "textExtraction": "Pipeline Ekstraksi Teks",
     "riskScoring": "Algoritma Skor Risiko",
     "outputSchema": "Skema Output",
@@ -202,28 +336,18 @@
     "purpose": "Tujuan",
     "method": "Metode",
     "auth": "Autentikasi",
-    "decision": "Keputusan",
-    "reason": "Alasan",
-    "copyCode": "Salin",
-    "copied": "Disalin!",
     "highRisk": "Risiko Tinggi",
     "mediumRisk": "Risiko Sedang",
     "safe": "Aman",
     "userRoles": "Peran Pengguna",
     "userFlow": "Alur Pengguna",
-    "siteArchitecture": "Arsitektur Situs",
-    "contractAnalysis": "Analisis Kontrak",
-    "aiPersonas": "Persona AI",
-    "fileSupport": "Dukungan File",
-    "deployed": "Di-deploy"
+    "siteArchitecture": "Arsitektur Situs"
   },
   "techArsenal": {
     "mastery": "Penguasaan",
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
-      "mobile": "Mobile",
-      "aiInfra": "Database & Infrastructure",
       "databaseInfra": "Database & Infrastructure"
     }
   },
@@ -236,73 +360,52 @@
     "switchToEn": "Ganti ke Bahasa Inggris",
     "switchToId": "Ganti ke Bahasa Indonesia"
   },
+  "error": {
+    "title": "Terjadi kesalahan",
+    "description": "Kesalahan tak terduga terjadi saat memuat halaman proyek ini.",
+    "retry": "Coba lagi",
+    "backToProjects": "Kembali ke proyek"
+  },
   "notFound": {
     "title": "Halaman tidak ditemukan",
     "description": "Halaman yang Anda cari tidak ada atau telah dipindahkan.",
     "goHome": "Ke beranda"
   },
-  "githubSection": {
-    "noData": "Data kontribusi tidak tersedia.",
-    "contributions": "kontribusi dalam setahun terakhir"
-  },
-  "visitor": {
-    "count": "pengunjung",
-    "offline": "offline",
-    "unavailable": "Jumlah pengunjung tidak tersedia"
-  },
   "certificates": {
     "bnsp": {
       "title": "Certified Programmer — Software Development",
-      "issuer": "BNSP (Badan Nasional Sertifikasi Profesi)",
-      "year": "2026",
       "description": "Sertifikasi profesi nasional Indonesia yang memvalidasi kompetensi dalam pengembangan perangkat lunak — termasuk fundamental pemrograman, desain sistem, dan arsitektur aplikasi."
     },
     "googleAi": {
       "title": "AI Professional Certificate",
-      "issuer": "Google",
-      "year": "2026",
       "description": "Sertifikasi komprehensif dalam kecerdasan buatan — mencakup alur kerja ML, alat Google AI, prompt engineering, dan praktik penerapan AI yang bertanggung jawab."
     },
     "hubspot": {
       "title": "CMS For Developer II",
-      "issuer": "HubSpot Academy",
-      "year": "2026",
       "description": "Sertifikasi pengembangan CMS HubSpot tingkat lanjut — modul kustom, serverless functions, integrasi HubDB, dan penerapan aplikasi marketplace."
     },
     "micro1": {
       "title": "Certified Full-Stack Developer",
-      "issuer": "micro1",
-      "year": "2026",
       "description": "Sertifikasi full-stack engineering yang divalidasi industri, menilai kemahiran di seluruh teknologi frontend, backend, database, dan deployment cloud."
     },
     "juaraVibeCoding": {
       "title": "Top 100 — JuaraVibeCoding",
-      "issuer": "JuaraVibeCoding",
-      "year": "2026",
       "description": "Diakui di antara 100 peserta teratas dalam kompetisi coding nasional, menunjukkan kemampuan pemecahan masalah algoritmik dan rekayasa perangkat lunak yang kuat."
     },
     "programmingFundamental": {
       "title": "Programming Fundamental",
-      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-      "year": "2026",
       "description": "Sertifikasi nasional Indonesia dalam konsep pemrograman inti — algoritma, struktur data, dan pemrograman berorientasi objek dengan penilaian praktis."
     },
     "intermediateWeb": {
       "title": "Intermediate Assistant Web Developer",
-      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-      "year": "2026",
       "description": "Sertifikasi nasional Indonesia dalam pengembangan web tingkat menengah — framework frontend, integrasi REST API, dan manajemen database relasional."
     },
     "fundamentalWeb": {
       "title": "Fundamental of Assistant Web Developer",
-      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-      "year": "2026",
       "description": "Sertifikasi nasional Indonesia dalam pengembangan web dasar — HTML, CSS, JavaScript, desain responsif, dan rekayasa front-end dasar."
     },
     "fullstackNasional": {
       "title": "Front-End & Back-End Development",
-      "issuer": "Kementerian Pendidikan dan Kebudayaan (Nasional)",
-      "year": "2026",
       "description": "Sertifikasi nasional Indonesia dalam pengembangan web full-stack — mencakup framework frontend, API backend, integrasi database, dan alur kerja deployment produksi."
     }
   }

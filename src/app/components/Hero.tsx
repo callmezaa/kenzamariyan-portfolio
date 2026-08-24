@@ -24,7 +24,6 @@ import { Button } from "@/components/ui/button";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { Marquee } from "@/components/motion/marquee";
 import { Loader } from "@/components/motion/loader";
-import ContactForm from "./ContactForm";
 
 export default function Hero() {
   const t = useTranslations("hero");

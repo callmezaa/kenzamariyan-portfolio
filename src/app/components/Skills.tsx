@@ -1,21 +1,20 @@
 "use client";
 
-import { useMemo } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import { getLocalizedSkills } from "@/i18n/data";
-import type { Locale } from "@/i18n/request";
+import { ArrowRight } from "lucide-react";
 import type { SkillCategory, SkillItem } from "../data/skillsData";
+import { ICONS } from "../data/icons";
 import { easeOut } from "../utils/animations";
 import { Tooltip } from "@/components/motion/tooltip";
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
+import { TransitionLink } from "@/components/motion/transition/TransitionLink";
+import { Button } from "@/components/ui/button";
 
-export default function Skills() {
+export default function Skills({ skills }: { skills: SkillCategory[] }) {
   const t = useTranslations("skills");
-  const locale = useLocale();
-  const skillsData = useMemo(() => getLocalizedSkills(locale as Locale), [locale]);
 
   return (
     <section id="skills" className="bg-canvas-alt py-24 md:py-28">
@@ -27,10 +26,18 @@ export default function Skills() {
         </Reveal>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {skillsData.map((cat) => (
+          {skills.map((cat) => (
             <SkillCard key={cat.title} category={cat} />
           ))}
         </div>
+
+        <Reveal className="mt-10 flex justify-center">
+          <TransitionLink href="/skills">
+            <Button variant="outline" size="lg" className="btn-3d-outline rounded-full">
+              {t("moreLink")} <ArrowRight data-icon="inline-end" />
+            </Button>
+          </TransitionLink>
+        </Reveal>
       </div>
     </section>
   );
@@ -68,11 +75,12 @@ function SkillRow({
 }) {
   const t = useTranslations("skills");
   const yearsLabel = skill.years === 1 ? t("years") : t("yearsPlural");
+  const Icon = skill.icon ? ICONS[skill.icon] : null;
   return (
     <div className="group flex cursor-default items-center gap-2 py-1">
       <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-surface-soft p-1">
-        {skill.icon ? (
-          <skill.icon
+        {Icon ? (
+          <Icon
             size={12}
             className="transition-colors duration-200 group-hover:text-ink"
             style={{
