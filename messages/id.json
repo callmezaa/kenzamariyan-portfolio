@@ -213,7 +213,15 @@
     "viewMode": "Mode tampilan",
     "gridView": "Tampilan grid",
     "listView": "Tampilan daftar",
-    "viewAll": "Lihat Semua Proyek"
+    "viewAll": "Lihat Semua Proyek",
+    "tagline": "Tujuh build produksi lintas web, mobile, dan AI — masing-masing menjadi studi kasus mendalam.",
+    "countLabel": "studi kasus",
+    "heroMetricsProjects": "Proyek",
+    "heroMetricsCategories": "Kategori",
+    "heroMetricsYears": "Aktif",
+    "ctaHeading": "Punya ide di kepala?",
+    "ctaSub": "Setiap project besar dimulai dari sebuah percakapan. Ceritakan apa yang ingin kamu bangun — saya bantu wujudkan.",
+    "ctaButton": "Hubungi saya"
   },
   "experience": {
     "label": "Karir",
@@ -228,8 +236,6 @@
     "heading": "Sertifikasi & Pengakuan",
     "verifiable": "Dapat Diverifikasi",
     "viewDetails": "Lihat Detail",
-    "showAll": "Lihat Semua ({count})",
-    "showLess": "Tampilkan Sedikit",
     "download": "Unduh",
     "viewOriginal": "Lihat Asli",
     "moreLink": "Lihat semua kredensial"
@@ -246,8 +252,7 @@
     "label": "Hubungi Saya",
     "heading1": "Mari Bangun",
     "heading2": "Sesuatu yang Elite",
-    "description": "Punya kebutuhan produk aktif, butuh engineer untuk menskalakan operasi, atau ingin mengaudit arsitektur UI Anda? Hubungi saya di bawah.",
-    "moreLink": "Halaman kontak lengkap"
+    "description": "Punya kebutuhan produk aktif, butuh engineer untuk menskalakan operasi, atau ingin mengaudit arsitektur UI Anda? Hubungi saya di bawah."
   },
   "contactForm": {
     "nameLabel": "Nama",
@@ -358,7 +363,8 @@
     "lightMode": "Mode terang",
     "darkMode": "Mode gelap",
     "switchToEn": "Ganti ke Bahasa Inggris",
-    "switchToId": "Ganti ke Bahasa Indonesia"
+    "switchToId": "Ganti ke Bahasa Indonesia",
+    "backHome": "Kembali ke beranda"
   },
   "error": {
     "title": "Terjadi kesalahan",

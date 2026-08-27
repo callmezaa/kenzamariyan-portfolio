@@ -2,11 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
 import { easeOut } from "../utils/animations";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
-import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 import ContactForm from "./ContactForm";
 
 export default function Contact() {
@@ -63,12 +61,6 @@ export default function Contact() {
             {/* Right: Form */}
             <Reveal className="w-full lg:col-span-7 lg:pl-8 lg:self-center">
               <ContactForm />
-              <div className="mt-6 flex justify-end">
-                <TransitionLink href="/contact" className="label text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1.5 group">
-                  {t("moreLink")}
-                  <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                </TransitionLink>
-              </div>
             </Reveal>
           </div>
         </div>

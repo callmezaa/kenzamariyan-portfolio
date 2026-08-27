@@ -51,6 +51,8 @@
   --theme-placeholder: #a1a1aa;
   --html-bg: #f5f5f0;
   --color-scheme: light;
+  --ambient: rgba(0, 0, 0, 0.05);
+  --ambient-strong: rgba(0, 0, 0, 0.07);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -107,6 +109,8 @@
   --theme-placeholder: #52525b;
   --html-bg: #0a0a0a;
   --color-scheme: dark;
+  --ambient: rgba(255, 255, 255, 0.06);
+  --ambient-strong: rgba(255, 255, 255, 0.09);
 }
 
 html {
@@ -172,6 +176,61 @@ body {
   line-height: 1.25;
   letter-spacing: -0.015em;
   color: var(--theme-ink);
+}
+
+/* Giant cropped brand wordmark at the bottom of the footer.
+   The wrapper (in Footer.tsx) is shorter than the text box, so the
+   lower portion of the glyphs is clipped while a vertical gradient
+   fades the ink out just before the cut line. */
+.footer-wordmark {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: transparent;
+  background-image: linear-gradient(
+    180deg,
+    var(--theme-ink) 0%,
+    var(--theme-ink) 72%,
+    transparent 98%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Hero backdrop: hairline grid that is strongest above the fold and
+   dissolves before the content below takes over. */
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--theme-hairline) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--theme-hairline) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 55%,
+    transparent 96%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 55%,
+    transparent 96%
+  );
+}
+
+/* Soft ambient light pool for hero backdrops. Size/position via inline
+   styles; color comes from the theme's --ambient tokens. */
+.mesh-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
 }
 
 .body-base {

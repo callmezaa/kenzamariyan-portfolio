@@ -213,7 +213,15 @@
     "viewMode": "View mode",
     "gridView": "Grid view",
     "listView": "List view",
-    "viewAll": "View All Projects"
+    "viewAll": "View All Projects",
+    "tagline": "Seven production builds across web, mobile, and AI — each one a full deep-dive case study.",
+    "countLabel": "case studies",
+    "heroMetricsProjects": "Projects",
+    "heroMetricsCategories": "Categories",
+    "heroMetricsYears": "Active",
+    "ctaHeading": "Have something in mind?",
+    "ctaSub": "Every great project starts with a conversation. Tell me what you are building — I will help you ship it.",
+    "ctaButton": "Reach out"
   },
   "experience": {
     "label": "Career",
@@ -228,8 +236,6 @@
     "heading": "Certifications & Recognition",
     "verifiable": "Verifiable",
     "viewDetails": "View Details",
-    "showAll": "View All ({count})",
-    "showLess": "Show Less",
     "download": "Download",
     "viewOriginal": "View Original",
     "moreLink": "View all credentials"
@@ -246,8 +252,7 @@
     "label": "Get In Touch",
     "heading1": "Let's Build",
     "heading2": "Something Elite",
-    "description": "Have an active product requirement, need an engineer to scale operations, or want to audit your UI architecture? Reach out below.",
-    "moreLink": "Full contact page"
+    "description": "Have an active product requirement, need an engineer to scale operations, or want to audit your UI architecture? Reach out below."
   },
   "contactForm": {
     "nameLabel": "Name",
@@ -358,7 +363,8 @@
     "lightMode": "Light mode",
     "darkMode": "Dark mode",
     "switchToEn": "Switch to English",
-    "switchToId": "Switch to Indonesian"
+    "switchToId": "Switch to Indonesian",
+    "backHome": "Back home"
   },
   "error": {
     "title": "Something went wrong",

@@ -1,11 +1,13 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { motion, useReducedMotion } from "motion/react";
 import { Mail, MessageCircle, Briefcase, Code2 } from "lucide-react";
 import { ArrowSlide } from "@/components/motion/hover/ArrowSlide";
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const reduce = useReducedMotion();
 
   const socials = [
     { icon: Mail, href: "mailto:kenzamariyan32@gmail.com", label: t("email") },
@@ -15,8 +17,8 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="px-6 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 md:flex-row md:justify-between">
+    <footer className="relative overflow-hidden border-t border-hairline">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-10 md:flex-row md:justify-between">
         <p className="body-small text-ink-muted text-center md:text-left">
           {t("copyright", { year: "2026" })}
         </p>
@@ -34,6 +36,23 @@ export default function Footer() {
             </a>
           ))}
         </div>
+      </div>
+
+      {/* Giant cropped wordmark */}
+      <div
+        aria-hidden="true"
+        className="select-none overflow-hidden text-center"
+        style={{ fontSize: "clamp(48px, 11.8vw, 240px)", height: "0.84em" }}
+      >
+        <motion.p
+          initial={reduce ? false : { y: "14%", opacity: 0 }}
+          whileInView={{ y: "0%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="footer-wordmark"
+        >
+          Ken Zamariyan
+        </motion.p>
       </div>
     </footer>
   );

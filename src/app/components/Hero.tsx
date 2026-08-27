@@ -55,7 +55,18 @@ export default function Hero() {
   return (
     <>
       <section id="home" className="relative bg-canvas min-h-dvh flex flex-col pt-32 md:pt-40 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.015)_0%,transparent_60%)] pointer-events-none" />
+        {/* Grid + ambient mesh backdrop */}
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+          <div className="hero-grid-bg" />
+          <div
+            className="mesh-blob"
+            style={{ width: 560, height: 560, top: "-10%", right: "-6%", background: "var(--ambient)" }}
+          />
+          <div
+            className="mesh-blob"
+            style={{ width: 420, height: 420, top: "22%", left: "-8%", background: "var(--ambient-strong)" }}
+          />
+        </div>
         <div className="relative mx-auto max-w-6xl px-6 md:px-8 w-full">
           <div className="flex flex-col lg:grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7 w-full space-y-8 text-center lg:text-left">

@@ -74,7 +74,6 @@ function CertificatePreview({ cert, files }: { cert: { title: string }; files: s
 export default function Achievements() {
   const t = useTranslations("achievements");
   const ct = useTranslations("certificates");
-  const [showAll, setShowAll] = useState(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
 
   const certs = useMemo(() => CERTIFICATE_KEYS.map((key) => ({
@@ -84,8 +83,7 @@ export default function Achievements() {
     description: ct(`${key}.description`),
   })), [ct]);
 
-  const visible = showAll ? certs : certs.slice(0, 3);
-  const hidden = certs.length - 3;
+  const visible = certs.slice(0, 3);
 
   const handleModalClose = useCallback(() => setModalIndex(null), []);
   const handleModalPrev = useCallback(
@@ -140,18 +138,7 @@ export default function Achievements() {
           ))}
         </div>
 
-        <Reveal className="mt-10 text-center">
-          <Button
-            onClick={() => setShowAll((v) => !v)}
-            variant="default"
-            size="lg"
-            className="btn-3d rounded-full"
-          >
-            {showAll ? t("showLess") : t("showAll", { count: hidden })}
-          </Button>
-        </Reveal>
-
-        <Reveal className="mt-4 flex justify-center">
+        <Reveal className="mt-10 flex justify-center">
           <TransitionLink href="/achievements">
             <Button variant="outline" size="lg" className="btn-3d-outline rounded-full">
               {t("moreLink")} <ArrowRight data-icon="inline-end" />

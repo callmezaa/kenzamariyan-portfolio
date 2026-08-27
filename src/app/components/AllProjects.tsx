@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import { LayoutGrid, List, ArrowLeft, ArrowUpRight } from "lucide-react";
+import { LayoutGrid, List, ArrowUpRight } from "lucide-react";
 import type { Project } from "@/app/data/projects";
 import { PROJECT_CARD_IMAGES } from "@/app/data/projectImages";
 import { easeOut } from "../utils/animations";
@@ -20,51 +19,44 @@ interface AllProjectsProps {
 
 export default function AllProjects({ projects }: AllProjectsProps) {
   const t = useTranslations("projects");
-  const pd = useTranslations("projectDetail");
   const [view, setView] = useState<ViewMode>("grid");
 
   return (
-    <section className="bg-canvas-alt min-h-dvh py-24 md:py-28">
+    <section className="pb-24 md:pb-28">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div className="space-y-3">
-            <Link
-              href="/#projects"
-              className="label text-ink-muted hover:text-ink transition-colors inline-flex items-center gap-1"
-            >
-              <ArrowLeft size={12} /> {pd('backToProjects')}
-            </Link>
-            <h1 className="display-xl text-balance">{t('heading')}</h1>
-          </div>
+        <div className="flex items-center justify-between gap-4 mb-10">
+          <p className="mono-sm text-ink-tertiary tabular-nums">
+            {String(projects.length).padStart(2, "0")} — {t("countLabel")}
+          </p>
           <div
             role="group"
             aria-label={t('viewMode')}
-            className="flex rounded-full bg-surface-soft p-1 self-start"
+            className="flex rounded-full bg-surface-soft p-1"
           >
-            <button
-              onClick={() => setView("grid")}
-              aria-pressed={view === "grid"}
-              className={`rounded-full p-2 transition-colors ${
-                view === "grid"
-                  ? "bg-canvas-card text-ink shadow-1"
-                  : "text-ink-muted hover:text-ink"
-              }`}
-              aria-label={t('gridView')}
-            >
-              <LayoutGrid size={14} />
-            </button>
-            <button
-              onClick={() => setView("list")}
-              aria-pressed={view === "list"}
-              className={`rounded-full p-2 transition-colors ${
-                view === "list"
-                  ? "bg-canvas-card text-ink shadow-1"
-                  : "text-ink-muted hover:text-ink"
-              }`}
-              aria-label={t('listView')}
-            >
-              <List size={14} />
-            </button>
+          <button
+            onClick={() => setView("grid")}
+            aria-pressed={view === "grid"}
+            className={`rounded-full p-2 transition-colors ${
+              view === "grid"
+                ? "bg-canvas-card text-ink shadow-1"
+                : "text-ink-muted hover:text-ink"
+            }`}
+            aria-label={t('gridView')}
+          >
+            <LayoutGrid size={14} />
+          </button>
+          <button
+            onClick={() => setView("list")}
+            aria-pressed={view === "list"}
+            className={`rounded-full p-2 transition-colors ${
+              view === "list"
+                ? "bg-canvas-card text-ink shadow-1"
+                : "text-ink-muted hover:text-ink"
+            }`}
+            aria-label={t('listView')}
+          >
+            <List size={14} />
+          </button>
           </div>
         </div>
 
