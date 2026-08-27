@@ -2,14 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, ArrowUpRight, Check, Copy, Mail, MessageCircle, Users } from "lucide-react";
+import { ArrowUpRight, Check, Copy, Mail, MessageCircle, Users } from "lucide-react";
 import { SiGithub, SiLinkedin } from "react-icons/si";
-import { TextReveal } from "@/components/motion/text-reveal";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
 import { Tooltip } from "@/components/motion/tooltip";
-import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 import { Button } from "@/components/ui/button";
+import { PageHero } from "@/app/components/page-hero/PageHero";
 import ContactForm from "../ContactForm";
 
 const EMAIL = "kenzamariyan32@gmail.com";
@@ -95,23 +94,16 @@ export default function ContactPage() {
 
   return (
     <main id="main-content" className="min-h-dvh">
-      <div className="mx-auto max-w-5xl px-6 pb-28 pt-32 md:px-8 md:pt-40 space-y-14 md:space-y-20">
-        <TransitionLink
-          href="/"
-          className="inline-flex items-center gap-2 label text-muted-foreground hover:text-foreground transition-colors mb-2"
-        >
-          <ArrowLeft size={14} />
-          {t("backHome")}
-        </TransitionLink>
+      <PageHero
+        variant="grid"
+        compact
+        centered
+        kicker={t("kicker")}
+        lines={[t("line1"), t("line2")]}
+        tagline={t("tagline")}
+      />
 
-        {/* Hero */}
-        <header className="space-y-6">
-          <p className="label text-ink-muted">{t("kicker")}</p>
-          <h1 className="display-xl text-balance">
-            <TextReveal text={[t("line1"), t("line2")]} as="span" stagger={0.08} />
-          </h1>
-          <p className="body-lg text-ink-muted max-w-prose">{t("tagline")}</p>
-        </header>
+      <div className="mx-auto max-w-6xl px-6 md:px-8 pb-28 pt-12 md:pt-16">
 
         <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-12 items-start">
           {/* Left: status + channels */}

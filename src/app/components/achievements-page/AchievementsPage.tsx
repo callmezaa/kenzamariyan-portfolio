@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowLeft, ArrowRight, ExternalLink, Eye } from "lucide-react";
+import { ArrowRight, ExternalLink, Eye } from "lucide-react";
 import Image from "next/image";
 import {
   CERTIFICATE_KEYS,
@@ -11,11 +11,11 @@ import {
   type CertificateKind,
 } from "@/app/data/certificates";
 import { AnimatedNumber } from "@/components/motion/animated-number";
-import { TextReveal } from "@/components/motion/text-reveal";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
 import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 import { Button } from "@/components/ui/button";
+import { PageHero } from "@/app/components/page-hero/PageHero";
 import { CertificateLightbox } from "../ui/CertificateLightbox";
 
 type Filter = "all" | CertificateKind;
@@ -87,23 +87,16 @@ export default function AchievementsPage() {
 
   return (
     <main id="main-content" className="min-h-dvh">
-      <div className="mx-auto max-w-5xl px-6 pb-28 pt-32 md:px-8 md:pt-40 space-y-16 md:space-y-20">
-        <TransitionLink
-          href="/"
-          className="inline-flex items-center gap-2 label text-muted-foreground hover:text-foreground transition-colors mb-2"
-        >
-          <ArrowLeft size={14} />
-          {t("backHome")}
-        </TransitionLink>
+      <PageHero
+        variant="grid"
+        compact
+        centered
+        kicker={t("kicker")}
+        lines={[t("line1"), t("line2")]}
+        tagline={t("tagline")}
+      />
 
-        {/* Hero */}
-        <header className="space-y-6">
-          <p className="label text-ink-muted">{t("kicker")}</p>
-          <h1 className="display-xl text-balance">
-            <TextReveal text={[t("line1"), t("line2")]} as="span" stagger={0.08} />
-          </h1>
-          <p className="body-lg text-ink-muted max-w-prose">{t("tagline")}</p>
-        </header>
+      <div className="mx-auto max-w-6xl px-6 md:px-8 pb-28 pt-12 md:pt-16 space-y-16 md:space-y-20">
 
         {/* Stats */}
         <Reveal variant="rise">
@@ -201,16 +194,47 @@ export default function AchievementsPage() {
           </AnimatePresence>
         </motion.div>
 
-        {/* CTA */}
+        {/* CTA — premium ambient chrome */}
         <Reveal variant="rise">
-          <div className="relative overflow-hidden rounded-[20px] bg-hairline shadow-1 p-8 text-center md:p-12 space-y-4">
-            <p className="body-lg text-ink max-w-md mx-auto text-balance">{t("ctaText")}</p>
-            <div className="flex justify-center pt-2">
-              <TransitionLink href="/projects">
-                <Button size="lg" className="btn-3d rounded-full">
-                  {t("ctaButton")} <ArrowRight data-icon="inline-end" />
-                </Button>
-              </TransitionLink>
+          <div className="relative overflow-hidden rounded-[32px] border border-white/[0.08] shadow-[0_20px_80px_-20px_rgba(0,0,0,0.6),0_8px_32px_rgba(0,0,0,0.4)] isolate">
+            <Image
+              src="/ambient_bg.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 1152px"
+              className="object-cover object-center"
+              priority={false}
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/5"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 opacity-60"
+              style={{
+                background:
+                  "radial-gradient(ellipse 90% 70% at 50% 100%, rgba(255,255,255,0.06), transparent 60%)",
+              }}
+            />
+            <div className="relative flex flex-col items-center gap-5 px-8 py-16 text-center md:px-16 md:py-20">
+              <p className="body-lg max-w-md text-balance text-white [text-wrap:balance]">
+                {t("ctaText")}
+              </p>
+              <div className="flex justify-center pt-3">
+                <TransitionLink href="/projects">
+                  <Button
+                    size="lg"
+                    className="rounded-full bg-white px-8 text-sm font-medium tracking-wide text-black shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-all hover:bg-zinc-100 hover:shadow-[0_12px_32px_rgba(0,0,0,0.4)]"
+                  >
+                    {t("ctaButton")} <ArrowRight size={14} data-icon="inline-end" />
+                  </Button>
+                </TransitionLink>
+              </div>
             </div>
           </div>
         </Reveal>
