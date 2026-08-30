@@ -69,8 +69,8 @@ export function PageHero({
 
       {/* Content */}
       <div
-        className={`relative mx-auto max-w-5xl w-full px-6 md:px-8 ${
-          compact ? "pt-24 pb-10 md:pt-32 md:pb-12 space-y-4" : "pt-32 pb-14 md:pt-40 md:pb-20 space-y-6"
+        className={`relative mx-auto max-w-5xl w-full px-4 sm:px-6 md:px-8 ${
+          compact ? "pt-20 pb-8 sm:pt-24 sm:pb-10 md:pt-32 md:pb-12 space-y-4" : "pt-28 pb-10 sm:pt-32 sm:pb-14 md:pt-40 md:pb-20 space-y-6"
         } ${centered ? "text-center items-center flex flex-col" : ""}`}
       >
         {backLabel && (
@@ -92,8 +92,8 @@ export function PageHero({
           <TextReveal text={lines} as="span" stagger={0.08} />
         </h1>
         {tagline && (
-          <Reveal variant="fade" delay={0.15} className={centered ? "mx-auto flex justify-center" : ""}>
-            <p className={`body-lg max-w-prose ${isGlow ? "text-zinc-400" : "text-ink-muted"} ${centered ? "mx-auto text-center" : ""}`}>
+          <Reveal variant="fade" delay={0.15} className={`min-w-0 ${centered ? "mx-auto flex w-full max-w-prose justify-center" : ""}`}>
+            <p className={`body-lg max-w-prose break-words ${isGlow ? "text-zinc-400" : "text-ink-muted"} ${centered ? "mx-auto text-center text-pretty" : ""}`}>
               {tagline}
             </p>
           </Reveal>

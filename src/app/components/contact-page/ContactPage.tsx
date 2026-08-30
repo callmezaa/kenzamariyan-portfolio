@@ -32,7 +32,7 @@ function LocalTimeClock() {
   }, []);
 
   return (
-    <span className="display-lg font-semibold text-ink tabular-nums tracking-tight">
+    <span className="text-[22px] font-semibold leading-none tracking-tight text-ink tabular-nums sm:text-2xl md:text-3xl">
       {time}
     </span>
   );
@@ -103,55 +103,61 @@ export default function ContactPage() {
         tagline={t("tagline")}
       />
 
-      <div className="mx-auto max-w-6xl px-6 md:px-8 pb-28 pt-12 md:pt-16">
+      <div className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 sm:pb-28 sm:pt-12 md:px-8 md:pt-16">
 
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-12 items-start">
+        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-12">
           {/* Left: status + channels */}
-          <div className="space-y-5 order-2 lg:order-1">
+          <div className="order-2 min-w-0 space-y-5 lg:order-1">
             {/* Availability */}
             <Reveal variant="rise">
-              <SpotlightCard className="rounded-[20px] bg-canvas-glass backdrop-blur-sm shadow-1 p-6 space-y-3">
+              <SpotlightCard className="rounded-[20px] bg-canvas-glass p-5 shadow-1 backdrop-blur-sm space-y-3 sm:p-6">
                 <div className="flex items-center gap-2.5">
-                  <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+                  <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60 opacity-75" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
                   </span>
-                  <p className="body-base font-semibold text-ink">{t("availableBadge")}</p>
+                  <p className="body-base min-w-0 font-semibold text-ink">{t("availableBadge")}</p>
                 </div>
                 <p className="body-small text-ink-muted">{t("responseLine")}</p>
-                <div className="flex items-center justify-between border-t border-hairline pt-4 mt-2">
-                  <div className="space-y-0.5">
+                <div className="flex items-center justify-between gap-3 border-t border-hairline pt-4 mt-2">
+                  <div className="min-w-0 space-y-0.5">
                     <p className="label text-ink-tertiary">{t("localTimeLabel")}</p>
                     <LocalTimeClock />
                   </div>
-                  <Users size={18} className="text-ink-tertiary/50" aria-hidden="true" />
+                  <Users size={18} className="shrink-0 text-ink-tertiary/50" aria-hidden="true" />
                 </div>
-                <p className="body-small text-ink-tertiary">{t("locationLabel")}</p>
+                <p className="body-small break-words text-ink-tertiary">{t("locationLabel")}</p>
               </SpotlightCard>
             </Reveal>
 
             {/* Channels */}
-            <Reveal variant="rise" delay={0.08}>
+            <Reveal variant="rise" delay={0.08} className="min-w-0">
               <div className="space-y-3">
                 <p className="label text-ink-tertiary">{t("channelsLabel")}</p>
                 <div className="space-y-2.5">
                   {channels.map((ch) => (
                     <SpotlightCard
                       key={ch.label}
-                      className="rounded-[14px] bg-canvas-card shadow-1 hover:shadow-2 transition-shadow duration-300"
+                      className="min-w-0 rounded-[14px] bg-canvas-card shadow-1 hover:shadow-2 transition-shadow duration-300"
                     >
                       <a
                         href={ch.href}
                         target={ch.href.startsWith("mailto:") ? undefined : "_blank"}
                         rel={ch.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                        className="group flex items-center gap-4 p-4 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/40 rounded-[14px]"
+                        className="group flex items-center gap-3 p-4 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/40 rounded-[14px] sm:gap-4"
                       >
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-soft text-ink-muted group-hover:text-ink transition-colors">
                           {ch.icon}
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className="block body-small font-semibold text-ink">{ch.label}</span>
-                          <span className="block mono-sm text-ink-tertiary truncate">{ch.value} · {ch.desc}</span>
+                          <span className="block truncate mono-sm text-ink-tertiary">
+                            <span className="hidden sm:inline">{ch.value} · {ch.desc}</span>
+                            <span className="sm:hidden">{ch.value}</span>
+                          </span>
+                          <span className="block truncate mono-sm text-ink-tertiary text-xs leading-tight sm:hidden">
+                            {ch.desc}
+                          </span>
                         </span>
                         <ArrowUpRight
                           size={16}
@@ -162,15 +168,24 @@ export default function ContactPage() {
                   ))}
                 </div>
 
-                <Tooltip id="tip-copy-email" content={copied ? t("copiedFeedback") : t("copyTooltip")} side="bottom">
+                <Tooltip
+                  id="tip-copy-email"
+                  content={copied ? t("copiedFeedback") : t("copyTooltip")}
+                  side="bottom"
+                  wrapperClassName="flex w-full"
+                >
                   <Button
                     onClick={copyEmail}
                     variant={copied ? "secondary" : "outline"}
                     size="lg"
-                    className="w-full btn-3d-outline rounded-full"
+                    className="btn-3d-outline w-full min-w-0 max-w-full overflow-hidden rounded-full text-xs sm:text-sm"
                   >
-                    {copied ? <Check size={14} data-icon="inline-start" /> : <Copy size={14} data-icon="inline-start" />}
-                    {EMAIL}
+                    {copied ? (
+                      <Check size={14} data-icon="inline-start" className="shrink-0" />
+                    ) : (
+                      <Copy size={14} data-icon="inline-start" className="shrink-0" />
+                    )}
+                    <span className="min-w-0 truncate">{EMAIL}</span>
                   </Button>
                 </Tooltip>
               </div>
@@ -178,8 +193,8 @@ export default function ContactPage() {
           </div>
 
           {/* Right: form */}
-          <Reveal variant="rise" delay={0.05} className="order-1 lg:order-2">
-            <div className="rounded-[20px] border border-hairline bg-canvas-glass backdrop-blur-sm shadow-1 p-6 md:p-8">
+          <Reveal variant="rise" delay={0.05} className="order-1 min-w-0 lg:order-2">
+            <div className="rounded-[20px] border border-hairline bg-canvas-glass p-5 shadow-1 backdrop-blur-sm sm:p-6 md:p-8">
               <ContactForm />
             </div>
           </Reveal>
