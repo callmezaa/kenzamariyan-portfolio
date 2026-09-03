@@ -23,7 +23,7 @@ export default async function Home() {
   // Home grid shows the 6 featured case studies; the full set lives on /projects.
   const projects = getLocalizedProjects(locale).filter((p) => p.featured);
   const skills = getLocalizedSkills(locale);
-  const techArsenal = getLocalizedTechArsenal(locale);
+  const techArsenalCount = getLocalizedTechArsenal(locale).length;
   const experiences = getLocalizedExperience(locale);
   const explorations = getLocalizedExplorations(locale);
 
@@ -31,7 +31,7 @@ export default async function Home() {
     <main id="main-content" className="min-h-dvh">
       <Hero />
       <Projects projects={projects} />
-      <About projectCount={projects.length} techArsenal={techArsenal} />
+      <About projectCount={projects.length} techArsenalCount={techArsenalCount} />
       <Skills skills={skills} />
       <Experience experiences={experiences} />
       <Achievements />

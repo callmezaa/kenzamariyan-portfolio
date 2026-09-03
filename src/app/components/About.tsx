@@ -5,20 +5,18 @@ import { useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
 import { Calendar, MapPin, Briefcase, Clock, Globe, Sparkles, ArrowRight } from "lucide-react";
 import { easeOut } from "../utils/animations";
-import type { TechItem } from "../data/techArsenal";
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import { Button } from "@/components/ui/button";
-import TechArsenal from "./TechArsenal";
 import { Reveal } from "@/components/motion/reveal/Reveal";
 import { SpotlightCard } from "@/components/motion/hover/SpotlightCard";
 import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 
 interface AboutProps {
   projectCount: number;
-  techArsenal: TechItem[];
+  techArsenalCount: number;
 }
 
-export default function About({ projectCount, techArsenal }: AboutProps) {
+export default function About({ projectCount, techArsenalCount }: AboutProps) {
   const t = useTranslations("about");
   const [hoveredStat, setHoveredStat] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
@@ -38,7 +36,7 @@ export default function About({ projectCount, techArsenal }: AboutProps) {
   }[] = [
     { value: projectCount, label: t("stats.projects.label"), suffix: "+", reveal: t("stats.projects.reveal") },
     { value: 2, label: t("stats.years.label"), reveal: t("stats.years.reveal") },
-    { value: techArsenal.length, label: t("stats.technologies.label"), reveal: t("stats.technologies.reveal") },
+    { value: techArsenalCount, label: t("stats.technologies.label"), reveal: t("stats.technologies.reveal") },
     { value: 4, label: t("stats.opensource.label"), suffix: "+", reveal: t("stats.opensource.reveal") },
   ];
 
@@ -115,11 +113,6 @@ export default function About({ projectCount, techArsenal }: AboutProps) {
               {t("moreLink")} <ArrowRight data-icon="inline-end" />
             </Button>
           </TransitionLink>
-        </Reveal>
-
-        <Reveal className="mt-20 pt-10 border-t border-hairline">
-          <p className="label text-ink-muted text-center mb-6">{t("techArsenalLabel")}</p>
-          <TechArsenal items={techArsenal} />
         </Reveal>
       </div>
     </section>
