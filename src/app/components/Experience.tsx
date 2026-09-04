@@ -1,83 +1,97 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion } from "motion/react";
+import { useMemo, type CSSProperties } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, GraduationCap } from "lucide-react";
 import type { Experience } from "../data/experience";
-import { BouncyAccordion } from "@/components/motion/bouncy-accordion";
+import { PROJECT_CARD_IMAGES } from "@/app/data/projectImages";
 import { Reveal } from "@/components/motion/reveal/Reveal";
-import { Briefcase, GraduationCap, Building } from "lucide-react";
-import { appleSpring } from "../utils/animations";
 import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 import { Button } from "@/components/ui/button";
+import { JourneyTimeline } from "./about-page/JourneyTimeline";
 
 interface ExperienceProps {
   experiences: Experience[];
 }
 
+/** Maps a place-name fragment to the shipped case study shown beside it. */
+const ERA_MOCKUPS: [string, string][] = [
+  ["ContractChill", "contract-chill"],
+  ["BIT Indonesia", "gotani-pos"],
+  ["KPJMI", "koperasi-kpjmi"],
+];
+
 export default function Experience({ experiences }: ExperienceProps) {
   const t = useTranslations("experience");
 
-  const items = useMemo(() => experiences.map((exp) => ({
-    id: `${exp.title}-${exp.year}`,
-    title: `${exp.year} · ${exp.title}`,
-    description: (
-      <div className="space-y-3 py-2">
-        <div className="flex items-center gap-2 body-small text-ink-muted">
-          <span>{exp.place}</span>
-          <span>·</span>
-          <span>{exp.location}</span>
-          <span className="ml-auto rounded-full bg-surface-active px-2 py-0.5 text-[10px] font-medium">
-            {t(`filter${exp.type.charAt(0).toUpperCase() + exp.type.slice(1)}`)}
-          </span>
+  const visuals = useMemo(() => experiences.map((exp) => {
+    const slug = ERA_MOCKUPS.find(([needle]) => exp.place.includes(needle))?.[1];
+    if (!slug || !PROJECT_CARD_IMAGES[slug]) {
+      return (
+        <div key={exp.title} className="flex aspect-[16/10] flex-col justify-between overflow-hidden rounded-[14px] border border-hairline bg-canvas-card p-5 shadow-1">
+          <div className="flex items-center justify-between gap-2">
+            <span
+              className="about-icon-tile"
+              style={{ "--tile-accent": "#22C55E" } as CSSProperties}
+            >
+              <GraduationCap size={18} strokeWidth={2} />
+            </span>
+            <span className="mono-sm text-ink-tertiary tabular-nums">{exp.year}</span>
+          </div>
+          <div className="space-y-1">
+            <p className="body-base font-semibold text-ink">{exp.title}</p>
+            <p className="body-small text-ink-muted">{exp.place} · {exp.location}</p>
+          </div>
         </div>
-        <p className="body-base text-ink-muted leading-relaxed">{exp.description}</p>
-        <div className="flex flex-wrap gap-1.5">
-          {exp.tags.map((tag) => (
-            <span key={tag} className="mono-sm rounded-full bg-surface-soft px-2.5 py-1 text-ink-muted">{tag}</span>
-          ))}
+      );
+    }
+    return (
+      <TransitionLink
+        key={slug}
+        href={`/projects/${slug}`}
+        className="group block overflow-hidden rounded-[14px] border border-hairline bg-canvas-card shadow-1 transition-shadow duration-300 hover:shadow-2"
+      >
+        <div className="relative aspect-[16/10] overflow-hidden">
+          <Image
+            src={PROJECT_CARD_IMAGES[slug]}
+            alt={exp.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          />
         </div>
-      </div>
-    ),
-    icon: exp.type === "work" ? <Briefcase className="h-4 w-4" /> :
-          exp.type === "education" ? <GraduationCap className="h-4 w-4" /> :
-          <Building className="h-4 w-4" />,
-  })), [experiences, t]);
+        <div className="flex items-center justify-between gap-2 px-4 py-2.5">
+          <span className="body-small font-medium text-ink truncate">{exp.place}</span>
+          <ArrowUpRight size={16} className="shrink-0 text-ink-muted/50 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink" />
+        </div>
+      </TransitionLink>
+    );
+  }), [experiences]);
 
   return (
-    <section id="experience" className="bg-canvas-alt py-24 md:py-28">
+    <section id="experience" className="bg-canvas py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <Reveal variant="mask" className="mb-12 space-y-3">
+        <Reveal variant="mask" className="mb-10 md:mb-12 space-y-3">
           <p className="label text-ink-muted">{t("label")}</p>
           <h2 className="display-xl text-balance">{t("heading")}</h2>
         </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={appleSpring}
-        >
-          {items.length > 0 ? (
-            <BouncyAccordion
-              items={items}
-              defaultValue={null}
-              collapsible
-            />
-          ) : (
-            <p className="body-base text-ink-muted text-center py-8">
-              {t("empty")}
-            </p>
-          )}
+        {experiences.length > 0 ? (
+          <JourneyTimeline experiences={experiences} visuals={visuals} />
+        ) : (
+          <p className="body-base text-ink-muted text-center py-8">
+            {t("empty")}
+          </p>
+        )}
 
-          <Reveal className="mt-10 flex justify-center">
-            <TransitionLink href="/experience">
-              <Button variant="outline" size="lg" className="btn-3d-outline rounded-full">
-                {t("moreLink")} <ArrowRight data-icon="inline-end" />
-              </Button>
-            </TransitionLink>
-          </Reveal>
-        </motion.div>
+        <Reveal className="mt-10 flex justify-center">
+          <TransitionLink href="/experience">
+            <Button variant="outline" size="lg" className="btn-3d-outline rounded-full">
+              {t("moreLink")} <ArrowRight data-icon="inline-end" />
+            </Button>
+          </TransitionLink>
+        </Reveal>
       </div>
     </section>
   );

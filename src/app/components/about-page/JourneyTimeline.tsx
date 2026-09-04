@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { Briefcase, GraduationCap } from "lucide-react";
 import type { Experience } from "@/app/data/experience";
@@ -8,9 +8,10 @@ import { appleSpring } from "@/app/utils/animations";
 
 interface JourneyTimelineProps {
   experiences: Experience[];
+  visuals?: ReactNode[];
 }
 
-export function JourneyTimeline({ experiences }: JourneyTimelineProps) {
+export function JourneyTimeline({ experiences, visuals }: JourneyTimelineProps) {
   const ref = useRef<HTMLOListElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -29,7 +30,7 @@ export function JourneyTimeline({ experiences }: JourneyTimelineProps) {
         style={{ scaleY }}
         className="absolute left-[7px] top-1 bottom-1 w-px origin-top bg-gradient-to-b from-ink to-ink/30"
       />
-      {experiences.map((exp) => (
+      {experiences.map((exp, i) => (
         <li key={`${exp.year}-${exp.title}`} className="relative">
           <motion.span
             aria-hidden="true"
@@ -47,8 +48,13 @@ export function JourneyTimeline({ experiences }: JourneyTimelineProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="space-y-2"
+            className={
+              visuals?.[i]
+                ? "grid items-start gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-8"
+                : undefined
+            }
           >
+            <div className="space-y-2 min-w-0">
             <div className="flex items-center gap-2">
               <span className="label rounded-full bg-surface-active px-2.5 py-0.5 text-ink tabular-nums">
                 {exp.year}
@@ -69,6 +75,10 @@ export function JourneyTimeline({ experiences }: JourneyTimelineProps) {
             <p className="body-base text-ink-muted leading-relaxed max-w-prose">
               {exp.description}
             </p>
+            </div>
+            {visuals?.[i] ? (
+              <div className="min-w-0">{visuals[i]}</div>
+            ) : null}
           </motion.div>
         </li>
       ))}

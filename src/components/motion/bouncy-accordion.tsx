@@ -13,6 +13,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type CSSProperties,
   type ReactNode,
 } from "react";
 import { EASE_OUT } from "@/lib/ease";
@@ -24,6 +25,8 @@ export type BouncyAccordionItem = {
   description?: ReactNode;
   icon?: ReactNode;
   disabled?: boolean;
+  className?: string;
+  style?: CSSProperties;
 };
 
 export type BouncyAccordionClassNames = {
@@ -45,6 +48,8 @@ export interface BouncyAccordionProps {
   collapsible?: boolean;
   className?: string;
   classNames?: BouncyAccordionClassNames;
+  separated?: boolean;
+  radius?: number;
 }
 
 // Local springs keep the accordion's connected groups moving together while
@@ -118,6 +123,7 @@ function BouncyAccordionRow({
   triggerId,
   reduce,
   classNames,
+  radius,
   onToggle,
 }: {
   item: BouncyAccordionItem;
@@ -129,6 +135,7 @@ function BouncyAccordionRow({
   triggerId: string;
   reduce: boolean | null;
   classNames?: BouncyAccordionClassNames;
+  radius: number;
   onToggle: () => void;
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -163,16 +170,18 @@ function BouncyAccordionRow({
         data-state={open ? "open" : "closed"}
         initial={false}
         animate={{
-          borderTopLeftRadius: startsGroup ? 28 : 0,
-          borderTopRightRadius: startsGroup ? 28 : 0,
-          borderBottomLeftRadius: endsGroup ? 28 : 0,
-          borderBottomRightRadius: endsGroup ? 28 : 0,
+          borderTopLeftRadius: startsGroup ? radius : 0,
+          borderTopRightRadius: startsGroup ? radius : 0,
+          borderBottomLeftRadius: endsGroup ? radius : 0,
+          borderBottomRightRadius: endsGroup ? radius : 0,
         }}
         transition={reduce ? { duration: 0 } : ROW_TRANSITION}
+        style={item.style}
         className={cn(
           "overflow-hidden bg-card text-card-foreground",
           item.disabled && "opacity-50",
           classNames?.item,
+          item.className,
         )}
       >
         <button
@@ -268,6 +277,8 @@ export function BouncyAccordion({
   collapsible = true,
   className,
   classNames,
+  separated = false,
+  radius = 28,
 }: BouncyAccordionProps) {
   const reduce = useReducedMotion();
   const baseId = useId();
@@ -298,9 +309,9 @@ export function BouncyAccordion({
         const open = activeValue === item.id;
         const previousIsOpen = activeIndex === index - 1;
         const nextIsOpen = activeIndex === index + 1;
-        const startsGroup = open || index === 0 || previousIsOpen;
-        const endsGroup = open || index === items.length - 1 || nextIsOpen;
-        const separatedFromPrevious = index > 0 && (open || previousIsOpen);
+        const startsGroup = separated || open || index === 0 || previousIsOpen;
+        const endsGroup = separated || open || index === items.length - 1 || nextIsOpen;
+        const separatedFromPrevious = index > 0 && (separated || open || previousIsOpen);
         const contentId = `${baseId}-${item.id}-content`;
         const triggerId = `${baseId}-${item.id}-trigger`;
 
@@ -316,6 +327,7 @@ export function BouncyAccordion({
             triggerId={triggerId}
             reduce={reduce}
             classNames={classNames}
+            radius={radius}
             onToggle={() => toggleItem(item.id)}
           />
         );

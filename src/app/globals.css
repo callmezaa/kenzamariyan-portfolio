@@ -213,14 +213,14 @@ body {
   -webkit-mask-image: linear-gradient(
     to bottom,
     black 0%,
-    black 55%,
-    transparent 96%
+    black 42%,
+    transparent 88%
   );
   mask-image: linear-gradient(
     to bottom,
     black 0%,
-    black 55%,
-    transparent 96%
+    black 42%,
+    transparent 88%
   );
 }
 
@@ -407,6 +407,54 @@ body {
     inset 0 -1px 0 color-mix(in oklab, white 6%, transparent),
     0 1px 0 color-mix(in oklab, black 30%, transparent),
     0 0 0 transparent;
+}
+
+/* Premium 3D panel — static bevel for large section containers
+   (Projects, Contact). Same depth language as .btn-3d-outline,
+   scaled up: hairline edge + top inner highlight + bottom inner
+   depth + soft layered outward shadow. No transform. */
+.panel-3d {
+  position: relative;
+  border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 60%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, black 5%, transparent),
+    0 1px 2px color-mix(in oklab, black 8%, transparent),
+    0 16px 40px -16px color-mix(in oklab, black 22%, transparent);
+}
+
+[data-theme="dark"] .panel-3d {
+  border-color: color-mix(in oklab, white 14%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 12%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, black 35%, transparent),
+    0 1px 2px color-mix(in oklab, black 40%, transparent),
+    0 20px 48px -16px color-mix(in oklab, black 65%, transparent);
+}
+
+/* Solid icon tile — opaque neutral tile, accent only on the glyph.
+   No tinted wash, no colored ring, no outer glow. */
+.about-icon-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 12px;
+  color: var(--tile-accent);
+  background: var(--theme-canvas-card);
+  border: 1px solid var(--theme-hairline);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 60%, transparent),
+    0 1px 2px color-mix(in oklab, black 10%, transparent);
+}
+
+[data-theme="dark"] .about-icon-tile {
+  background: var(--theme-canvas-card);
+  border-color: color-mix(in oklab, white 10%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 8%, transparent);
 }
 
 @keyframes marquee {

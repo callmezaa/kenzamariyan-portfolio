@@ -42,9 +42,9 @@ export default function Exploration({ items }: ExplorationProps) {
   }, [open, close, prev, next]);
 
   return (
-    <section id="exploration" className="bg-canvas-alt py-24 md:py-28">
+    <section id="exploration" className="bg-canvas py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <Reveal variant="rise" className="mb-12 max-w-2xl space-y-3">
+        <Reveal variant="rise" className="mb-10 md:mb-12 max-w-2xl space-y-3">
           <p className="label text-ink-muted">{t("label")}</p>
           <h2 className="display-xl text-balance">{t("heading")}</h2>
           <p className="body-base">{t("description")}</p>

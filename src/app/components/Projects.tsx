@@ -25,9 +25,10 @@ export default function Projects({ projects }: ProjectsProps) {
   const [view, setView] = useState<ViewMode>("grid");
 
   return (
-    <section id="projects" className="bg-canvas-alt py-24 md:py-28">
+    <section id="projects" className="bg-canvas py-12 md:py-16">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <Reveal variant="mask" className="mb-12">
+        <div className="panel-3d rounded-[20px] bg-canvas-glass backdrop-blur-xl p-6 md:p-10">
+        <Reveal variant="mask" className="mb-10 md:mb-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="space-y-3">
               <p className="label text-ink-muted">{t('label')}</p>
@@ -135,6 +136,7 @@ export default function Projects({ projects }: ProjectsProps) {
             </Button>
           </Link>
         </Reveal>
+        </div>
       </div>
     </section>
   );

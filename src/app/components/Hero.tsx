@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { Download, Send, X, ChevronDown } from "lucide-react";
 import { SiReact, SiTypescript, SiGo, SiNextdotjs, SiTailwindcss, SiPostgresql, SiDocker, SiPython, SiExpress, SiNodedotjs, SiMongodb, SiGit, SiLinkedin, SiGithub, SiGmail, SiWhatsapp } from "react-icons/si";
@@ -28,7 +28,6 @@ import { Loader } from "@/components/motion/loader";
 export default function Hero() {
   const t = useTranslations("hero");
   const [cvLoaded, setCvLoaded] = useState(false);
-  const reduceMotion = useReducedMotion();
 
   const contactLinks = [
     { icon: SiLinkedin, label: t("contactLinks.linkedin"),  href: "https://www.linkedin.com/in/ken-zamariyan", color: "#0A66C2" },
@@ -54,22 +53,18 @@ export default function Hero() {
 
   return (
     <>
-      <section id="home" className="relative bg-canvas min-h-dvh flex flex-col pt-32 md:pt-40 overflow-hidden">
+      <section id="home" className="relative bg-canvas flex min-h-dvh flex-col overflow-hidden pt-24 pb-20 md:pt-28 md:pb-24">
         {/* Grid + ambient mesh backdrop */}
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <div className="hero-grid-bg" />
+          <div className="hero-grid-bg opacity-60" />
           <div
-            className="mesh-blob"
+            className="mesh-blob opacity-40"
             style={{ width: 560, height: 560, top: "-10%", right: "-6%", background: "var(--ambient)" }}
           />
-          <div
-            className="mesh-blob"
-            style={{ width: 420, height: 420, top: "22%", left: "-8%", background: "var(--ambient-strong)" }}
-          />
         </div>
-        <div className="relative mx-auto max-w-6xl px-6 md:px-8 w-full">
-          <div className="flex flex-col lg:grid lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-7 w-full space-y-8 text-center lg:text-left">
+        <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 md:px-8">
+          <div className="flex flex-col items-center gap-10 lg:grid lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-7 w-full space-y-6 text-center lg:text-left">
               <TextReveal
                 as="h1"
                 text={[t("headlines.0"), t("headlines.1"), t("headlines.2")]}
@@ -83,7 +78,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...appleSpring, delay: 0.15 }}
-                className="body-base text-ink-muted max-w-xl mx-auto lg:mx-0 text-wrap-pretty"
+                className="body-base text-ink-muted max-w-xl mx-auto lg:mx-0 text-balance"
               >
                 {t("subheadline")}
               </motion.p>
@@ -96,7 +91,7 @@ export default function Hero() {
                 {/* Get in Touch Modal */}
                 <CenterMorphModal>
                   <CenterMorphModalTrigger>
-                    <Button variant="default" size="lg" className="btn-3d rounded-full shadow-sm" suppressHydrationWarning>
+                    <Button variant="default" size="lg" className="btn-3d rounded-full shadow-sm active:scale-[0.97] transition-transform duration-150 ease-out" suppressHydrationWarning>
                       <Send data-icon="inline-start" />
                       {t("getInTouch")}
                     </Button>
@@ -135,7 +130,7 @@ export default function Hero() {
                 <Dialog>
                   <DialogTrigger
                     render={
-                      <Button variant="outline" size="lg" className="rounded-full" suppressHydrationWarning />
+                      <Button variant="outline" size="lg" className="rounded-full active:scale-[0.97] transition-transform duration-150 ease-out" suppressHydrationWarning />
                     }
                   >
                     <Download data-icon="inline-start" />
@@ -179,16 +174,16 @@ export default function Hero() {
             </div>
             <div className="lg:col-span-5 w-full flex flex-col items-center">
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 140, damping: 20, mass: 0.6 } }}
                 transition={{ ...appleSpring, delay: 0.2 }}
                 className="relative group"
               >
-                <div className="relative h-[180px] w-[180px] lg:h-[220px] lg:w-[220px] overflow-hidden rounded-[16px] shadow-2 outline outline-1 outline-white/10 dark:outline-black/10 transition-shadow duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:shadow-3">
+                <div className="relative h-[240px] w-[240px] lg:h-[280px] lg:w-[280px] overflow-hidden rounded-[24px] shadow-2 ring-1 ring-hairline transition-shadow duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
                   <Image src="/image/profile/profile-image.jpeg" alt={t("name")} fill priority
-                    sizes="(max-width: 1024px) 180px, 220px"
-                    className="object-cover object-[center_60%] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]" />
+                    sizes="(max-width: 1024px) 240px, 280px"
+                    className="object-cover object-[center_60%]" />
                 </div>
               </motion.div>
               <motion.div
@@ -204,12 +199,12 @@ export default function Hero() {
           </div>
 
           {/* Tech Stack Marquee */}
-          <div className="mt-16 md:mt-24 pb-8">
-            <Marquee speed={25} fade={true}>
+          <div className="mt-12 md:mt-16">
+            <Marquee speed={18} fade={true}>
               {techStack.map((tech) => (
                 <div key={tech.name} className="flex items-center gap-2 mx-4 shrink-0">
-                  <tech.icon size={16} className="text-ink-muted/30" />
-                  <span className="mono-sm text-ink-muted/30 whitespace-nowrap">{tech.name}</span>
+                  <tech.icon size={16} className="text-ink-muted/20" />
+                  <span className="mono-sm text-ink-muted/20 whitespace-nowrap">{tech.name}</span>
                 </div>
               ))}
             </Marquee>
@@ -217,15 +212,13 @@ export default function Hero() {
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 touch-none"
-          animate={reduceMotion ? undefined : { y: [0, 6, 0] }}
-          transition={reduceMotion ? undefined : { repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        <div
+          className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1"
           aria-hidden="true"
         >
           <span className="label text-ink-muted/40">{t("scroll")}</span>
           <ChevronDown size={18} className="text-ink-muted/40" />
-        </motion.div>
+        </div>
       </section>
     </>
   );
