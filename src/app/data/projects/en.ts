@@ -10,6 +10,10 @@ export interface Project {
   stack: string[];
   role: string;
   year: string;
+  client?: string;
+  category?: string;
+  timeline?: string;
+  features?: { title: string; description: string; screenshot: string; screenshotLabel: string }[];
   sourceUrl: string;
   demoUrl?: string;
   type: ProjectType;
@@ -60,8 +64,49 @@ export const projectsEn: Project[] = [
     impact:
       "Processes contracts under 15 seconds with 4 AI personas, deployed as a Docker multi-stage container on Railway with Firebase Auth + Firestore persistence, featuring a premium PDF report export system, PWA support, full EN/ID bilingual interface, and a client-side risk scoring algorithm (High=+35pts, Medium=+15pts, capped at 100).",
     stack: ["React", "TypeScript", "Node.js", "Express", "Google Gemini AI", "Firebase", "Docker", "Google Cloud Run"],
-    role: "Full-Stack Developer & AI Engineer",
+    role: "Full-Stack Developer",
     year: "2025",
+    client: "Hackathon",
+    category: "Web App",
+    timeline: "2026",
+    features: [
+      {
+        title: "Instant AI Analysis",
+        description: "Upload a contract as PDF, DOCX, or TXT and get structured analysis in under 15 seconds — risk score, red flag detection, key clause breakdowns, and plain-language jargon translations.",
+        screenshot: "/image/contract-chill/screenshot/analysizpage.png",
+        screenshotLabel: "Analysis report",
+      },
+      {
+        title: "4 AI Personas",
+        description: "Chill Friend, Angry Lawyer, Corporate Mentor, and Freelancer Senior — four distinct tones explaining the same contract, from casual to fierce.",
+        screenshot: "/image/contract-chill/screenshot/livedemopage.png",
+        screenshotLabel: "Persona live demo",
+      },
+      {
+        title: "Contract Generator",
+        description: "Draft new contracts and negotiation scripts from scratch with customizable tones — Friendly, Assertive, or Tough.",
+        screenshot: "/image/contract-chill/screenshot/contractgeneratorpage.png",
+        screenshotLabel: "Contract generator",
+      },
+      {
+        title: "Guided How-It-Works",
+        description: "A step-by-step walkthrough that takes first-time users from upload to understanding their contract in minutes.",
+        screenshot: "/image/contract-chill/screenshot/howitsworkpage.png",
+        screenshotLabel: "How it works",
+      },
+      {
+        title: "Analysis History",
+        description: "Every analysis persists to Firestore — revisit past contracts, compare risk scores, and export premium PDF reports anytime.",
+        screenshot: "/image/contract-chill/screenshot/historypage.png",
+        screenshotLabel: "History",
+      },
+      {
+        title: "Secure Authentication",
+        description: "Firebase Auth with Google and email sign-in, rate-limited API, and per-user data isolation from day one.",
+        screenshot: "/image/contract-chill/screenshot/loginpage.png",
+        screenshotLabel: "Login",
+      },
+    ],
     sourceUrl: "https://github.com/callmezaa/contract-chill",
     demoUrl: "https://contract-chill-client.vercel.app",
     type: "ai",

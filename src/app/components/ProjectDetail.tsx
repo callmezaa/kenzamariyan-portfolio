@@ -4,18 +4,15 @@ import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import { ArrowLeft, ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import type { Project } from "../data/projects";
 import { PROJECT_HERO_IMAGES } from "../data/projectImages";
 import { easeOut } from "../utils/animations";
 import { TransitionLink } from "@/components/motion/transition/TransitionLink";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/motion/tabs";
-import MetricCards from "./project-detail/MetricCards";
-import ArchitectureSection from "./project-detail/ArchitectureSection";
-import AIPipelineSection from "./project-detail/AIPipelineSection";
-import SiteMapSection from "./project-detail/SiteMapSection";
-import TechnicalSection from "./project-detail/TechnicalSection";
+import { Reveal } from "@/components/motion/reveal/Reveal";
+import { FeatureZigzag } from "./project-detail/FeatureZigzag";
+import { DocsModal } from "./project-detail/DocsModal";
 
 const screenshots: Record<string, { src: string; label: string }[]> = {
   "koperasi-kpjmi": [
@@ -112,26 +109,6 @@ const screenshots: Record<string, { src: string; label: string }[]> = {
 
 const MOBILE_APPS = ["gotani-pos"];
 
-const NAV_SECTIONS = ["overview", "architecture", "aiPipeline", "technical", "screenshots"] as const;
-
-type NavSection = (typeof NAV_SECTIONS)[number];
-
-/** A section is only navigable when its backing data actually exists. */
-function isSectionAvailable(project: Project, section: NavSection, screenshotCount: number): boolean {
-  switch (section) {
-    case "architecture":
-      return !!(project.architecture && project.diagram);
-    case "aiPipeline":
-      return !!(project.aiPipeline || project.siteMap);
-    case "technical":
-      return !!(project.codeSnippets && project.architecture);
-    case "screenshots":
-      return screenshotCount > 0;
-    default:
-      return true;
-  }
-}
-
 interface ProjectDetailProps {
   project: Project;
 }
@@ -148,10 +125,17 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const galleryScreenshots = isMobileApp && gallery ? gallery.slice(3) : gallery;
   const allScreenshots = galleryScreenshots ?? [];
 
-  const pipelineLabel = project.aiPipeline ? t("aiPipeline") : t("siteMap");
-  const availableTabs = NAV_SECTIONS.filter((section) =>
-    isSectionAvailable(project, section, allScreenshots.length)
+  // Screenshots already showcased inside feature rows are not repeated.
+  const featureShots = new Set((project.features ?? []).map((f) => f.screenshot));
+  const showcaseShots = allScreenshots.filter(
+    (ss) => ss.src !== heroSrc && !featureShots.has(ss.src)
   );
+
+  const meta: { label: string; value: string }[] = [];
+  if (project.client) meta.push({ label: t("client"), value: project.client });
+  meta.push({ label: t("roleLabel"), value: project.role });
+  if (project.category) meta.push({ label: t("category"), value: project.category });
+  if (project.timeline) meta.push({ label: t("timeline"), value: project.timeline });
 
   const scrollTo = useCallback((index: number) => {
     const container = containerRef.current;
@@ -172,7 +156,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
   return (
     <div className="min-h-dvh bg-canvas pt-28 md:pt-36">
-      <div className="mx-auto max-w-4xl px-6 md:px-8 pb-24">
+      <div className="mx-auto max-w-6xl px-6 md:px-8 pb-24">
         <TransitionLink
           href="/#projects"
           className="inline-flex items-center gap-2 label text-muted-foreground hover:text-foreground transition-colors mb-8"
@@ -185,9 +169,27 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: easeOut }}
-          className="space-y-10"
+          className="space-y-14 md:space-y-20"
         >
-          {/* Hero Image */}
+          {/* Hero: title, summary, meta, actions */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h1 className="display-xl text-balance">{project.title}</h1>
+              <p className="body-base text-muted-foreground max-w-prose">{project.summary}</p>
+            </div>
+
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-4">
+              {meta.map((item) => (
+                <div key={item.label} className="space-y-1 min-w-0">
+                  <dt className="label text-muted-foreground">{item.label}</dt>
+                  <dd className="body-base font-semibold text-foreground text-balance">{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+          </div>
+
+          {/* Showcase */}
           <div className="space-y-3">
             {heroScreenshots ? (
               <div className="grid grid-cols-3 gap-2 md:gap-4">
@@ -206,186 +208,143 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 ))}
               </div>
             ) : (
-              <div className="relative w-full rounded-sm border border-border bg-canvas-card overflow-hidden">
-                <Image
-                  src={heroSrc}
-                  alt={project.title}
-                  width={1200}
-                  height={675}
-                  priority
-                  className="w-full h-auto block"
-                  style={{ viewTransitionName: `vt-${project.slug}` }}
-                  sizes="(max-width: 768px) 100vw, 896px"
-                />
-              </div>
-            )}
-
-            <div className="flex flex-wrap items-center gap-3">
-              {project.badge && (
-                <span className="label px-2.5 py-1 rounded-sm border border-border text-muted-foreground">{project.badge}</span>
-              )}
-              <span className="body-small text-muted-foreground">{project.year}</span>
-              <span className="body-small text-muted-foreground">·</span>
-              <span className="body-small text-muted-foreground">{project.role}</span>
-            </div>
-            <h1 className="display-xl text-balance">{project.title}</h1>
-            <p className="body-base text-muted-foreground">{project.summary}</p>
-
-            {/* Metric Cards */}
-            {project.metrics.length > 0 && (
-              <MetricCards metrics={project.metrics} accent={project.accent} />
+              heroSrc && (
+                <div className="relative w-full rounded-[14px] border border-border bg-canvas-card overflow-hidden">
+                  <Image
+                    src={heroSrc}
+                    alt={project.title}
+                    width={1200}
+                    height={675}
+                    priority
+                    className="w-full h-auto block"
+                    style={{ viewTransitionName: `vt-${project.slug}` }}
+                    sizes="(max-width: 768px) 100vw, 1152px"
+                  />
+                </div>
+              )
             )}
           </div>
 
-          {/* Tabs */}
-          <Tabs defaultValue="overview" variant="pill">
-            <div className="flex justify-center mb-8">
-              <TabsList>
-                {availableTabs.map((section) => (
-                  <TabsTrigger key={section} value={section}>
-                    {section === "aiPipeline" ? pipelineLabel : t(section)}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+          {/* Narrative */}
+          <div className="space-y-8 md:space-y-10 max-w-prose">
+            <Reveal variant="rise" className="space-y-3">
+              <h2 className="button-cap text-foreground">{t('challenge')}</h2>
+              <p className="body-base text-muted-foreground">{project.challenge}</p>
+            </Reveal>
+            <Reveal variant="rise" className="space-y-3">
+              <h2 className="button-cap text-foreground">{t('solution')}</h2>
+              <p className="body-base text-muted-foreground">{project.solution}</p>
+            </Reveal>
+            <Reveal variant="rise" className="space-y-3">
+              <h2 className="button-cap text-foreground">{t('impact')}</h2>
+              <p className="body-base text-muted-foreground">{project.impact}</p>
+            </Reveal>
+          </div>
+
+          {/* Features zigzag */}
+          {project.features && project.features.length > 0 && (
+            <div className="space-y-8 md:space-y-10">
+              <Reveal variant="mask" className="space-y-3">
+                <p className="label text-muted-foreground">{t('features')}</p>
+                <h2 className="display-lg text-balance">{t('features')}</h2>
+              </Reveal>
+              <FeatureZigzag features={project.features} />
             </div>
+          )}
 
-            {/* Overview Tab */}
-            <TabsContent value="overview">
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <h2 className="button-cap text-foreground">{t('challenge')}</h2>
-                  <p className="body-base text-muted-foreground">{project.challenge}</p>
-                </div>
-                <div className="space-y-3">
-                  <h2 className="button-cap text-foreground">{t('solution')}</h2>
-                  <p className="body-base text-muted-foreground">{project.solution}</p>
-                </div>
-                <div className="space-y-3">
-                  <h2 className="button-cap text-foreground">{t('impact')}</h2>
-                  <p className="body-base text-muted-foreground">{project.impact}</p>
-                </div>
-                <div className="flex flex-wrap gap-3 pt-4 border-t border-border">
-                  <Button variant="outline" className="rounded-full" nativeButton={false} render={<a href={project.sourceUrl} target="_blank" rel="noopener noreferrer" />}>
-                    <Github size={16} />
-                    {t('sourceCode')}
-                  </Button>
-                  {project.demoUrl && (
-                    <Button className="rounded-full" nativeButton={false} render={<a href={project.demoUrl} target="_blank" rel="noopener noreferrer" />}>
-                      <ExternalLink size={16} />
-                      {t('liveDemo')}
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </TabsContent>
-
-            {/* Architecture Tab */}
-            {project.architecture && project.diagram && (
-              <TabsContent value="architecture">
-                <ArchitectureSection
-                  architecture={project.architecture}
-                  diagram={project.diagram}
-                  accent={project.accent}
-                />
-              </TabsContent>
-            )}
-
-            {/* AI Pipeline Tab */}
-            {project.aiPipeline && (
-              <TabsContent value="aiPipeline">
-                <AIPipelineSection aiPipeline={project.aiPipeline} accent={project.accent} />
-              </TabsContent>
-            )}
-            {project.siteMap && (
-              <TabsContent value="aiPipeline">
-                <SiteMapSection siteMap={project.siteMap} accent={project.accent} />
-              </TabsContent>
-            )}
-
-            {/* Technical Tab */}
-            {project.codeSnippets && project.architecture && (
-              <TabsContent value="technical">
-                <TechnicalSection
-                  endpoints={project.architecture.endpoints}
-                  codeSnippets={project.codeSnippets}
-                  accent={project.accent}
-                />
-              </TabsContent>
-            )}
-
-            {/* Screenshots Tab */}
-            <TabsContent value="screenshots">
-              {allScreenshots.length === 0 ? (
-                <p className="body-base text-muted-foreground text-center py-12">{t('noScreenshots')}</p>
-              ) : (
-                <>
+          {/* Gallery showcase */}
+          {showcaseShots.length > 0 && (
+            <div className="space-y-6">
+              <div
+                ref={containerRef}
+                onScroll={handleScroll}
+                className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar
+                           md:grid md:grid-cols-2 md:overflow-visible md:snap-none md:gap-4"
+              >
+                {showcaseShots.map((ss, i) => (
                   <div
-                    ref={containerRef}
-                    onScroll={handleScroll}
-                    className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar
-                               md:grid md:grid-cols-2 md:overflow-visible md:snap-none md:gap-4"
+                    key={ss.label}
+                    className="snap-start shrink-0 w-[85vw] md:w-auto
+                               rounded-[14px] overflow-hidden border border-border
+                               bg-canvas-card hover:shadow-md transition-shadow duration-300"
                   >
-                    {allScreenshots.map((ss, i) => (
-                      <div
-                        key={ss.label}
-                        className="snap-start shrink-0 w-[85vw] md:w-auto
-                                   rounded-[14px] overflow-hidden border border-border
-                                   bg-canvas-card hover:shadow-md transition-shadow duration-300"
-                      >
-                        <Image
-                          src={ss.src}
-                          alt={ss.label}
-                          width={400}
-                          height={isMobileApp ? 711 : 280}
-                          className="w-full h-auto block"
-                          loading={i < 2 ? "eager" : "lazy"}
-                          sizes="(max-width: 768px) 85vw, (max-width: 1024px) 50vw, 400px"
-                        />
-                      </div>
+                    <Image
+                      src={ss.src}
+                      alt={ss.label}
+                      width={400}
+                      height={isMobileApp ? 711 : 280}
+                      className="w-full h-auto block"
+                      loading={i < 2 ? "eager" : "lazy"}
+                      sizes="(max-width: 768px) 85vw, (max-width: 1024px) 50vw, 560px"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {showcaseShots.length > 1 && (
+                <div className="flex items-center justify-center gap-4 mt-5 md:hidden">
+                  <Button
+                    onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
+                    disabled={activeIndex === 0}
+                    variant="outline"
+                    size="icon-sm"
+                    className="rounded-full"
+                    aria-label="Previous screenshot"
+                  >
+                    <ChevronLeft size={16} />
+                  </Button>
+                  <div className="flex gap-1.5">
+                    {showcaseShots.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => scrollTo(i)}
+                        aria-label={`Go to screenshot ${i + 1}`}
+                        aria-current={i === activeIndex ? "true" : undefined}
+                        className={`h-2 rounded-full transition-colors cursor-pointer ${
+                          i === activeIndex
+                            ? "bg-foreground w-4"
+                            : "bg-muted-foreground/30 hover:bg-muted-foreground/60 w-2"
+                        }`}
+                      />
                     ))}
                   </div>
-
-                  {allScreenshots.length > 1 && (
-                    <div className="flex items-center justify-center gap-4 mt-5 md:hidden">
-                      <Button
-                        onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
-                        disabled={activeIndex === 0}
-                        variant="outline"
-                        size="icon-sm"
-                        className="rounded-full"
-                      >
-                        <ChevronLeft size={16} />
-                      </Button>
-                      <div className="flex gap-1.5">
-                        {allScreenshots.map((_, i) => (
-                          <button
-                            key={i}
-                            onClick={() => scrollTo(i)}
-                            aria-label={`Go to screenshot ${i + 1}`}
-                            aria-current={i === activeIndex ? "true" : undefined}
-                            className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${
-                              i === activeIndex
-                                ? "bg-foreground w-4"
-                                : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <Button
-                        onClick={() => scrollTo(Math.min(allScreenshots.length - 1, activeIndex + 1))}
-                        disabled={activeIndex === allScreenshots.length - 1}
-                        variant="outline"
-                        size="icon-sm"
-                        className="rounded-full"
-                      >
-                        <ChevronRight size={16} />
-                      </Button>
-                    </div>
-                  )}
-                </>
+                  <Button
+                    onClick={() => scrollTo(Math.min(showcaseShots.length - 1, activeIndex + 1))}
+                    disabled={activeIndex === showcaseShots.length - 1}
+                    variant="outline"
+                    size="icon-sm"
+                    className="rounded-full"
+                    aria-label="Next screenshot"
+                  >
+                    <ChevronRight size={16} />
+                  </Button>
+                </div>
               )}
-            </TabsContent>
-          </Tabs>
+            </div>
+          )}
+
+          {/* Bottom actions */}
+          <div className="flex flex-wrap justify-center gap-3 pt-4 border-t border-border">
+            {project.demoUrl && (
+              <Button className="btn-3d rounded-full" nativeButton={false} render={<a href={project.demoUrl} target="_blank" rel="noopener noreferrer" />}>
+                <ExternalLink size={16} />
+                {t('liveDemo')}
+              </Button>
+            )}
+            <Button variant="outline" className="btn-3d-outline rounded-full" nativeButton={false} render={<a href={project.sourceUrl} target="_blank" rel="noopener noreferrer" />}>
+              <Github size={16} />
+              {t('sourceCode')}
+            </Button>
+            <DocsModal
+              project={project}
+              trigger={
+                <Button variant="outline" className="rounded-full">
+                  <FileText size={16} />
+                  {t('docs')}
+                </Button>
+              }
+            />
+          </div>
         </motion.div>
       </div>
     </div>
