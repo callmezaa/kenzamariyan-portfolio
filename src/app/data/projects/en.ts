@@ -1704,4 +1704,118 @@ export function RoleGuard({
       ],
     },
   },
+  {
+    slug: "kpjmi-admin-cms",
+    title: "KPJMI — Admin CMS Dashboard",
+    summary:
+      "Self-hosted admin dashboard backing the KPJMI company profile — a Supabase-powered CMS for products, gallery, testimonials, FAQ, and contact info, so client edits go live instantly with no redeploy.",
+    challenge:
+      "Client content lived in code — every product or gallery change needed a developer commit and redeploy.",
+    solution:
+      "Built an `/admin` area with Supabase Auth, CRUD plus ordering and visibility toggles across 5 content modules, in-browser WebP image compression before Storage upload, and a layered public-site content provider (localStorage cache → Supabase → bundled defaults).",
+    impact:
+      "Non-technical admin independently updates 6 products, 8 gallery photos, 4 testimonials, and 8 FAQs; the public site never renders blank and updates appear without a rebuild.",
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase", "react-router-dom", "Vercel Analytics"],
+    role: "Full-Stack Developer",
+    year: "2026",
+    client: "KPJMI — Koperasi Petani Jaya Makmur",
+    category: "Admin Dashboard",
+    timeline: "2026",
+    features: [
+      {
+        title: "Secure Admin Auth",
+        description: "Supabase Auth email + password login with protected routes guarding every /admin page.",
+        screenshot: "/image/admin_kpjmi_cms/login_page.png",
+        screenshotLabel: "Login",
+      },
+      {
+        title: "Dashboard Monitoring",
+        description: "At-a-glance content counts with Vercel Analytics pointers and live Supabase sync status.",
+        screenshot: "/image/admin_kpjmi_cms/dashboard.png",
+        screenshotLabel: "Dashboard",
+      },
+      {
+        title: "Products CRUD",
+        description: "Manage 6 products with arrow ordering, visibility toggles, and WebP-compressed image uploads.",
+        screenshot: "/image/admin_kpjmi_cms/product_page.png",
+        screenshotLabel: "Products",
+      },
+      {
+        title: "Gallery Manager",
+        description: "Curate 8 gallery photos with the same ordering and visibility pattern as products.",
+        screenshot: "/image/admin_kpjmi_cms/gallery_page.png",
+        screenshotLabel: "Gallery",
+      },
+      {
+        title: "Testimonials Manager",
+        description: "Publish and reorder 4 testimonials shown on the public site.",
+        screenshot: "/image/admin_kpjmi_cms/testimony_page.png",
+        screenshotLabel: "Testimonials",
+      },
+      {
+        title: "FAQ Manager",
+        description: "Maintain 8 questions and answers without touching code.",
+        screenshot: "/image/admin_kpjmi_cms/FAQ_page.png",
+        screenshotLabel: "FAQ",
+      },
+      {
+        title: "Contact Info Manager",
+        description: "Edit WhatsApp, address, and office details driving the public contact section.",
+        screenshot: "/image/admin_kpjmi_cms/contact_page.png",
+        screenshotLabel: "Contact",
+      },
+    ],
+    sourceUrl: "https://github.com/callmezaa/koperasi-KPJMI",
+    type: "dashboard",
+    badge: "CMS",
+    metrics: ["5 Content Modules", "Supabase RLS", "WebP Uploads", "Zero Redeploy"],
+    accent: {
+      glow: "rgba(184, 17, 4, 0.14)",
+      color: "#B81104",
+    },
+    architecture: {
+      monorepo: [
+        { name: "src/admin/", tech: "React 19 + react-router-dom", description: "Login, admin layout with collapsible sidebar, breadcrumb navbar, and account menu, plus one CRUD page per content module with a per-table API layer" },
+        { name: "src/content/", tech: "Provider + defaults + shared types", description: "Layered content provider for the public site: localStorage cache paints instantly, Supabase fetch refreshes, bundled defaults guarantee the page never renders blank" },
+        { name: "supabase/schema.sql + scripts/seed-supabase.mjs", tech: "Postgres + Storage + seed", description: "Tables with RLS policies, public media bucket, plus a seed script that uploads initial imagery, inserts content, and creates the admin account" },
+      ],
+      decisions: [
+        { decision: "Supabase Postgres over a headless CMS", reason: "One vendor for database, auth, and storage on the free tier, with row-level security gating every write" },
+        { decision: "Public-read / admin-write RLS", reason: "Visitors read content anonymously while only the authenticated admin can write — enforced in the database, not just the UI" },
+        { decision: "Browser-side WebP compression before upload", reason: "Images are compressed and converted in-browser so Storage bandwidth stays small and page loads stay fast" },
+        { decision: "react-router-dom for /admin inside the Vite SPA", reason: "Admin lives at /admin/* routes in the same deployment, served by the vercel.json SPA rewrite — no second app to host" },
+      ],
+      endpoints: [
+        { method: "SELECT", path: "products", auth: false, rate: "N/A", purpose: "Public product list read by the website; writes require admin auth" },
+        { method: "SELECT", path: "gallery", auth: false, rate: "N/A", purpose: "Public gallery photos read by the website; writes require admin auth" },
+        { method: "SELECT", path: "testimonials", auth: false, rate: "N/A", purpose: "Public testimonials read by the website; writes require admin auth" },
+        { method: "SELECT", path: "faq", auth: false, rate: "N/A", purpose: "Public FAQ entries read by the website; writes require admin auth" },
+        { method: "SELECT", path: "contact_info", auth: false, rate: "N/A", purpose: "Public contact details read by the website; writes require admin auth" },
+        { method: "READ", path: "Storage bucket media", auth: false, rate: "N/A", purpose: "Public image bucket for uploaded product and gallery photos" },
+      ],
+      dataFlow: [
+        "Admin logs in at /admin via Supabase Auth email + password; routes stay protected until authenticated",
+        "Admin edits products, gallery, testimonials, FAQ, or contact info with ordering and visibility toggles",
+        "Images are compressed to WebP in-browser then uploaded to the public media Storage bucket",
+        "Row writes go to Supabase Postgres under admin-only RLS write policies",
+        "Public site provider serves localStorage cache instantly, then revalidates from Supabase",
+        "Edits appear on the live website with no rebuild and no redeploy",
+      ],
+      deployment: [
+        "Vite build deployed to Vercel as a static SPA with vercel.json rewrite for /admin deep links",
+        "Production env: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY; service-role key used by the seed script locally only",
+        "Seed script run once per Supabase project: uploads assets, inserts content, creates the admin account",
+      ],
+    },
+    diagram: {
+      frontend: { label: "CLIENT (React SPA + Admin)", tech: "React 19 · Vite 8 · Tailwind CSS v4 · react-router-dom" },
+      backend: { label: "BACKEND (Supabase)", tech: "Postgres · Auth · Storage" },
+      arrow: { label: "Supabase client, RLS-gated" },
+      services: [
+        { name: "Vercel Edge Network", description: "Static SPA hosting with rewrite serving /admin deep links" },
+        { name: "Supabase", description: "Postgres content tables, email Auth, and public media Storage bucket" },
+        { name: "Vercel Analytics", description: "Visitor traffic stats linked from the admin dashboard" },
+      ],
+    },
+  },
 ]

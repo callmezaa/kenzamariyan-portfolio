@@ -11,7 +11,7 @@ export const explorationsEn: Exploration[] = [
     slug: "contract-chill",
     title: "AI Contract Analyzer",
     caption: "Gemini-powered document review UI",
-    image: "/image/contract-chill/screenshot/mockup.png",
+    image: "/image/contract-chill/screenshot/hero_section.png",
     tag: "AI",
   },
   {

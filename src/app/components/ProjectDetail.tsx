@@ -25,7 +25,7 @@ const screenshots: Record<string, { src: string; label: string }[]> = {
     { src: "/image/koperasi-kpjmi/contact.png", label: "Kontak" },
   ],
   "contract-chill": [
-    { src: "/image/contract-chill/screenshot/homepage.png", label: "Homepage" },
+    { src: "/image/contract-chill/screenshot/hero_section.png", label: "Homepage" },
     { src: "/image/contract-chill/screenshot/analysizpage.png", label: "Analysis" },
     { src: "/image/contract-chill/screenshot/howitsworkpage.png", label: "How It Works" },
     { src: "/image/contract-chill/screenshot/contractgeneratorpage.png", label: "Contract Generator" },
@@ -104,6 +104,16 @@ const screenshots: Record<string, { src: string; label: string }[]> = {
     { src: "/image/monetra/recurring.png", label: "Recurring" },
     { src: "/image/monetra/login.png", label: "Login" },
     { src: "/image/monetra/settings.png", label: "Settings" },
+  ],
+  "kpjmi-admin-cms": [
+    { src: "/image/admin_kpjmi_cms/dashboard.png", label: "Dashboard" },
+    { src: "/image/admin_kpjmi_cms/login_page.png", label: "Login" },
+    { src: "/image/admin_kpjmi_cms/product_page.png", label: "Products" },
+    { src: "/image/admin_kpjmi_cms/gallery_page.png", label: "Gallery" },
+    { src: "/image/admin_kpjmi_cms/testimony_page.png", label: "Testimonials" },
+    { src: "/image/admin_kpjmi_cms/FAQ_page.png", label: "FAQ" },
+    { src: "/image/admin_kpjmi_cms/contact_page.png", label: "Contact" },
+    { src: "/image/admin_kpjmi_cms/mockup.png", label: "Overview" },
   ],
 };
 

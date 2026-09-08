@@ -1652,4 +1652,118 @@ export function RoleGuard({
       ],
     },
   },
+  {
+    slug: "kpjmi-admin-cms",
+    title: "KPJMI — Dashboard Admin CMS",
+    summary:
+      "Dashboard admin self-hosted yang menopang company profile KPJMI — CMS bertenaga Supabase untuk produk, galeri, testimoni, FAQ, dan info kontak, sehingga edit klien langsung tayang tanpa redeploy.",
+    challenge:
+      "Konten klien hidup di dalam kode — setiap perubahan produk atau galeri butuh commit developer dan redeploy.",
+    solution:
+      "Membangun area `/admin` dengan Supabase Auth, CRUD plus toggle urutan dan visibilitas di 5 modul konten, kompresi gambar WebP di browser sebelum upload ke Storage, dan provider konten berlapis di situs publik (cache localStorage → Supabase → default bawaan).",
+    impact:
+      "Admin non-teknis mandiri mengupdate 6 produk, 8 foto galeri, 4 testimoni, dan 8 FAQ; situs publik tidak pernah blank dan perubahan tampil tanpa rebuild.",
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase", "react-router-dom", "Vercel Analytics"],
+    role: "Pengembang Full-Stack",
+    year: "2026",
+    client: "KPJMI — Koperasi Petani Jaya Makmur",
+    category: "Dashboard Admin",
+    timeline: "2026",
+    features: [
+      {
+        title: "Auth Admin Aman",
+        description: "Login email + password Supabase Auth dengan route terproteksi yang menjaga setiap halaman /admin.",
+        screenshot: "/image/admin_kpjmi_cms/login_page.png",
+        screenshotLabel: "Login",
+      },
+      {
+        title: "Monitoring Dashboard",
+        description: "Ringkasan jumlah konten sekilas dengan tautan Vercel Analytics dan status sinkron Supabase live.",
+        screenshot: "/image/admin_kpjmi_cms/dashboard.png",
+        screenshotLabel: "Dashboard",
+      },
+      {
+        title: "CRUD Produk",
+        description: "Kelola 6 produk dengan pengurutan panah, toggle visibilitas, dan upload gambar terkompresi WebP.",
+        screenshot: "/image/admin_kpjmi_cms/product_page.png",
+        screenshotLabel: "Produk",
+      },
+      {
+        title: "Manajer Galeri",
+        description: "Kurasi 8 foto galeri dengan pola urutan dan visibilitas yang sama seperti produk.",
+        screenshot: "/image/admin_kpjmi_cms/gallery_page.png",
+        screenshotLabel: "Galeri",
+      },
+      {
+        title: "Manajer Testimoni",
+        description: "Terbitkan dan urutkan ulang 4 testimoni yang tampil di situs publik.",
+        screenshot: "/image/admin_kpjmi_cms/testimony_page.png",
+        screenshotLabel: "Testimoni",
+      },
+      {
+        title: "Manajer FAQ",
+        description: "Rawat 8 pertanyaan dan jawaban tanpa menyentuh kode.",
+        screenshot: "/image/admin_kpjmi_cms/FAQ_page.png",
+        screenshotLabel: "FAQ",
+      },
+      {
+        title: "Manajer Info Kontak",
+        description: "Edit WhatsApp, alamat, dan detail kantor penggerak section kontak publik.",
+        screenshot: "/image/admin_kpjmi_cms/contact_page.png",
+        screenshotLabel: "Kontak",
+      },
+    ],
+    sourceUrl: "https://github.com/callmezaa/koperasi-KPJMI",
+    type: "dashboard",
+    badge: "CMS",
+    metrics: ["5 Modul Konten", "RLS Supabase", "Upload WebP", "Nol Redeploy"],
+    accent: {
+      glow: "rgba(184, 17, 4, 0.14)",
+      color: "#B81104",
+    },
+    architecture: {
+      monorepo: [
+        { name: "src/admin/", tech: "React 19 + react-router-dom", description: "Login, layout admin dengan sidebar lipat, navbar breadcrumb, dan menu akun, plus satu halaman CRUD per modul konten dengan API layer per tabel" },
+        { name: "src/content/", tech: "Provider + default + tipe bersama", description: "Provider konten berlapis untuk situs publik: cache localStorage tampil instan, fetch Supabase menyegarkan, default bawaan menjamin halaman tidak pernah blank" },
+        { name: "supabase/schema.sql + scripts/seed-supabase.mjs", tech: "Postgres + Storage + seed", description: "Tabel dengan policy RLS, bucket media publik, plus skrip seed yang mengunggah gambar awal, mengisi konten, dan membuat akun admin" },
+      ],
+      decisions: [
+        { decision: "Supabase Postgres alih-alih headless CMS", reason: "Satu vendor untuk database, auth, dan storage di tier gratis, dengan row-level security mengawal setiap write" },
+        { decision: "RLS baca-publik / tulis-admin", reason: "Pengunjung membaca konten secara anonim sementara hanya admin terautentikasi yang bisa menulis — ditegakkan di database, bukan hanya di UI" },
+        { decision: "Kompresi WebP di browser sebelum upload", reason: "Gambar dikompresi dan dikonversi di browser sehingga bandwidth Storage tetap kecil dan load halaman tetap cepat" },
+        { decision: "react-router-dom untuk /admin di dalam SPA Vite", reason: "Admin hidup di route /admin/* dalam deploy yang sama, dilayani rewrite vercel.json SPA — tidak perlu hosting aplikasi kedua" },
+      ],
+      endpoints: [
+        { method: "SELECT", path: "products", auth: false, rate: "N/A", purpose: "Daftar produk publik dibaca website; write butuh auth admin" },
+        { method: "SELECT", path: "gallery", auth: false, rate: "N/A", purpose: "Foto galeri publik dibaca website; write butuh auth admin" },
+        { method: "SELECT", path: "testimonials", auth: false, rate: "N/A", purpose: "Testimoni publik dibaca website; write butuh auth admin" },
+        { method: "SELECT", path: "faq", auth: false, rate: "N/A", purpose: "Entri FAQ publik dibaca website; write butuh auth admin" },
+        { method: "SELECT", path: "contact_info", auth: false, rate: "N/A", purpose: "Detail kontak publik dibaca website; write butuh auth admin" },
+        { method: "READ", path: "Storage bucket media", auth: false, rate: "N/A", purpose: "Bucket gambar publik untuk foto produk dan galeri yang diunggah" },
+      ],
+      dataFlow: [
+        "Admin login di /admin via email + password Supabase Auth; route tetap terproteksi hingga terautentikasi",
+        "Admin mengedit produk, galeri, testimoni, FAQ, atau info kontak dengan toggle urutan dan visibilitas",
+        "Gambar dikompresi ke WebP di browser lalu diunggah ke bucket Storage media publik",
+        "Write baris masuk ke Postgres Supabase di bawah policy RLS tulis-khusus-admin",
+        "Provider situs publik menyajikan cache localStorage seketika, lalu revalidasi dari Supabase",
+        "Edit tampil di website live tanpa rebuild dan tanpa redeploy",
+      ],
+      deployment: [
+        "Build Vite di-deploy ke Vercel sebagai SPA statis dengan rewrite vercel.json untuk deep link /admin",
+        "Env produksi: VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY; service-role key hanya dipakai skrip seed secara lokal",
+        "Skrip seed dijalankan sekali per project Supabase: mengunggah aset, mengisi konten, membuat akun admin",
+      ],
+    },
+    diagram: {
+      frontend: { label: "CLIENT (React SPA + Admin)", tech: "React 19 · Vite 8 · Tailwind CSS v4 · react-router-dom" },
+      backend: { label: "BACKEND (Supabase)", tech: "Postgres · Auth · Storage" },
+      arrow: { label: "Supabase client, RLS-gated" },
+      services: [
+        { name: "Vercel Edge Network", description: "Hosting SPA statis dengan rewrite yang melayani deep link /admin" },
+        { name: "Supabase", description: "Tabel konten Postgres, Auth email, dan bucket Storage media publik" },
+        { name: "Vercel Analytics", description: "Statistik traffic pengunjung yang ditautkan dari dashboard admin" },
+      ],
+    },
+  },
 ]
