@@ -115,6 +115,10 @@ const screenshots: Record<string, { src: string; label: string }[]> = {
     { src: "/image/admin_kpjmi_cms/contact_page.png", label: "Contact" },
     { src: "/image/admin_kpjmi_cms/mockup.png", label: "Overview" },
   ],
+  "cv-ats-builder": [
+    { src: "/image/cv_ats_builder/dashboard.png", label: "Builder" },
+    { src: "/image/cv_ats_builder/hero_section.png", label: "Intro" },
+  ],
 };
 
 const MOBILE_APPS = ["gotani-pos"];

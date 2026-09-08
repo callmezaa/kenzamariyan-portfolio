@@ -7,6 +7,7 @@ export const PROJECT_CARD_IMAGES: Record<string, string> = {
   monetra: "/image/monetra/mockup-v2.png",
   "pallete-studio": "/image/PalleteStudio/mockup.png",
   "kpjmi-admin-cms": "/image/admin_kpjmi_cms/mockup.png",
+  "cv-ats-builder": "/image/cv_ats_builder/hero_section.png",
 };
 
 export const PROJECT_HERO_IMAGES: Record<string, string> = {
@@ -18,4 +19,5 @@ export const PROJECT_HERO_IMAGES: Record<string, string> = {
   monetra: "/image/monetra/homesection.png",
   "pallete-studio": "/image/PalleteStudio/mockup.png",
   "kpjmi-admin-cms": "/image/admin_kpjmi_cms/mockup.png",
+  "cv-ats-builder": "/image/cv_ats_builder/hero_section.png",
 };

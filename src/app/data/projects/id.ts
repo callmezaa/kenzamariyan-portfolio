@@ -1766,4 +1766,108 @@ export function RoleGuard({
       ],
     },
   },
+  {
+    slug: "cv-ats-builder",
+    title: "ATS CV Builder — Studio CV Privasi",
+    summary:
+      "Builder CV yang privasi-first dan ramah ATS dengan preview PDF A4 live, tailoring deskripsi pekerjaan, dan ekspor PDF sekali klik — satu CV master, varian tailored tanpa batas, nol akun, data tidak pernah meninggalkan browser.",
+    challenge:
+      "Pencari kerja merawat salinan CV yang tersebar per lamaran dan tidak tahu apakah CV mereka lolos applicant tracking system — atau mereka mengunggah data pribadi ke builder online tak dikenal.",
+    solution:
+      "Membangun workspace local-first Next.js 16: satu CV master yang memberi makan varian tanpa batas dengan toggle dan urutan section per varian, pencocokan keyword JD (tercakup hijau / hilang amber), cek kesiapan ATS berbasis aturan, preview A4 real-time via @react-pdf/renderer, dan backup/restore JSON — semua dipersisten di localStorage dalam satu key.",
+    impact:
+      "Deploy sepenuhnya statis tanpa env var; suite Vitest mengawal state, matching, readiness, dan formatting; dark mode plus nol friksi sign-up.",
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Zustand", "@react-pdf/renderer", "Zod", "Vitest"],
+    role: "Pengembang Frontend",
+    year: "2026",
+    client: "Inisiatif mandiri",
+    category: "Perkakas Produktivitas",
+    timeline: "2026",
+    features: [
+      {
+        title: "CV Master + Varian",
+        description: "Satu sumber kebenaran yang memberi makan varian peran tanpa batas dengan toggle section, urutan, dan pilihan proyek per varian.",
+        screenshot: "/image/cv_ats_builder/dashboard.png",
+        screenshotLabel: "Builder",
+      },
+      {
+        title: "Preview A4 Live + Ekspor PDF",
+        description: "Preview @react-pdf A4 real-time dengan template teks-asli satu kolom dan nama file cerdas.",
+        screenshot: "/image/cv_ats_builder/dashboard.png",
+        screenshotLabel: "Preview live",
+      },
+      {
+        title: "Tailoring Keyword JD",
+        description: "Tempel deskripsi pekerjaan dan lihat sorotan keyword tercakup versus hilang seketika.",
+        screenshot: "/image/cv_ats_builder/dashboard.png",
+        screenshotLabel: "Tailoring",
+      },
+      {
+        title: "Cek Kesiapan ATS",
+        description: "Cek berbasis aturan required, optional, dan warning yang menangkap masalah sebelum ekspor.",
+        screenshot: "/image/cv_ats_builder/dashboard.png",
+        screenshotLabel: "Readiness",
+      },
+      {
+        title: "Backup & Restore",
+        description: "Ekspor dan impor seluruh workspace sebagai JSON di mesin mana pun.",
+        screenshot: "/image/cv_ats_builder/hero_section.png",
+        screenshotLabel: "Intro",
+      },
+      {
+        title: "Local-First + Dark Mode",
+        description: "Tanpa sign-up dengan segalanya di bawah key localStorage cv-builder:v1, plus tema sadar-sistem.",
+        screenshot: "/image/cv_ats_builder/hero_section.png",
+        screenshotLabel: "Privasi",
+      },
+    ],
+    sourceUrl: "https://github.com/callmezaa/cv-engineeringTools",
+    demoUrl: "https://cv-ats-builder-beta.vercel.app",
+    type: "playground",
+    badge: "Tool",
+    metrics: ["Local-First", "Preview A4 Live", "Tailoring JD", "Nol Backend"],
+    accent: {
+      glow: "rgba(229, 229, 229, 0.14)",
+      color: "#e5e5e5",
+    },
+    architecture: {
+      monorepo: [
+        { name: "app/", tech: "Next.js 16 App Router, output statis", description: "Halaman hero intro plus route workspace /builder — halaman sepenuhnya statis tanpa runtime server" },
+        { name: "lib/", tech: "Zustand + Zod + matcher + helper pdf", description: "Store state/ dengan middleware persist di bawah key cv-builder:v1, matcher keyword tailoring/, aturan ATS dan skema Zod validation/, helper ekspor dan nama file pdf/" },
+        { name: "components/", tech: "Folder fitur React 19", description: "Editor section editor/, dokumen @react-pdf dan renderer section cv/, hero intro/, shell workspace layout/, primitif coss ui/" },
+      ],
+      decisions: [
+        { decision: "Zustand persist alih-alih backend", reason: "Nol server, nol akun, nol biaya — seluruh workspace hidup dalam satu key localStorage" },
+        { decision: "@react-pdf/renderer alih-alih html2canvas", reason: "Output teks asli tetap parseable oleh applicant tracking system alih-alih gambar pipih" },
+        { decision: "Template satu kolom satu warna alih-alih layout mewah", reason: "Template yang restrained selamat dari parser ATS dunia nyata yang tersedak kolom dan grafis" },
+        { decision: "Deploy statis penuh alih-alih SSR", reason: "Nol env var dan nol runtime — setiap push mendapat preview URL tanpa konfigurasi" },
+      ],
+      endpoints: [
+        { method: "GET", path: "/", auth: false, rate: "Statis", purpose: "Halaman hero intro menuju builder" },
+        { method: "GET", path: "/builder", auth: false, rate: "Statis", purpose: "Workspace builder CV — seluruh state client-side, tanpa API dipanggil" },
+      ],
+      dataFlow: [
+        "Pengguna mengisi CV master di panel editor dengan update preview seketika",
+        "Pengguna membuat satu varian per peran target dengan toggle dan urutan section",
+        "Pengguna menempel deskripsi pekerjaan dan menutup gap keyword yang hilang",
+        "Pengguna menjalankan cek kesiapan ATS dan memperbaiki issue required",
+        "Pengguna mengekspor PDF dan mem-backup workspace sebagai JSON",
+      ],
+      deployment: [
+        "Output statis next build di-deploy ke Vercel dengan nol konfigurasi",
+        "Tidak butuh environment variable",
+        "Setiap push mendapat preview URL otomatis",
+      ],
+    },
+    diagram: {
+      frontend: { label: "CLIENT (Situs Statis Next.js)", tech: "Next.js 16 · React 19 · Zustand · @react-pdf/renderer · Tailwind CSS v4" },
+      backend: { label: "BACKEND", tech: "None — 100% localStorage, key cv-builder:v1" },
+      arrow: { label: "Nol request setelah load" },
+      services: [
+        { name: "Zustand persist", description: "State workspace dipersisten ke localStorage dalam satu key" },
+        { name: "@react-pdf/renderer", description: "Preview A4 real-time dan ekspor PDF teks-asli sekali klik" },
+        { name: "Vercel Edge Network", description: "Hosting statis zero-config dengan preview URL per push" },
+      ],
+    },
+  },
 ]

@@ -1818,4 +1818,108 @@ export function RoleGuard({
       ],
     },
   },
+  {
+    slug: "cv-ats-builder",
+    title: "ATS CV Builder — Privacy-First CV Studio",
+    summary:
+      "Privacy-first, ATS-friendly CV builder with live A4 PDF preview, job-description tailoring, and one-click PDF export — one master CV, unlimited tailored variants, zero accounts, data never leaves the browser.",
+    challenge:
+      "Jobseekers maintain scattered CV copies per application and can't tell whether their CV survives applicant tracking systems — or they upload personal data to unknown online builders.",
+    solution:
+      "Built a local-first Next.js 16 workspace: one master CV feeding unlimited variants with per-variant section toggles and ordering, JD keyword matching (covered green / missing amber), rule-based ATS readiness checks, real-time A4 preview via @react-pdf/renderer, and JSON backup/restore — all persisted in localStorage under one key.",
+    impact:
+      "Fully static deploy with zero env vars; Vitest suite guards state, matching, readiness, and formatting; dark mode plus no sign-up friction.",
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Zustand", "@react-pdf/renderer", "Zod", "Vitest"],
+    role: "Frontend Developer",
+    year: "2026",
+    client: "Self-initiated",
+    category: "Productivity Tool",
+    timeline: "2026",
+    features: [
+      {
+        title: "Master CV + Variants",
+        description: "One source of truth feeding unlimited role variants with per-variant section toggles, ordering, and project picks.",
+        screenshot: "/image/cv_ats_builder/dashboard.png",
+        screenshotLabel: "Builder",
+      },
+      {
+        title: "Live A4 Preview + PDF Export",
+        description: "Real-time @react-pdf A4 preview with a single-column real-text template and smart filenames.",
+        screenshot: "/image/cv_ats_builder/dashboard.png",
+        screenshotLabel: "Live preview",
+      },
+      {
+        title: "JD Keyword Tailoring",
+        description: "Paste a job description and see covered versus missing keyword highlights instantly.",
+        screenshot: "/image/cv_ats_builder/dashboard.png",
+        screenshotLabel: "Tailoring",
+      },
+      {
+        title: "ATS Readiness Checks",
+        description: "Rule-based required, optional, and warning checks that catch issues before export.",
+        screenshot: "/image/cv_ats_builder/dashboard.png",
+        screenshotLabel: "Readiness",
+      },
+      {
+        title: "Backup & Restore",
+        description: "Export and import the full workspace as JSON on any machine.",
+        screenshot: "/image/cv_ats_builder/hero_section.png",
+        screenshotLabel: "Intro",
+      },
+      {
+        title: "Local-First + Dark Mode",
+        description: "No sign-up with everything under the cv-builder:v1 localStorage key, plus a system-aware theme.",
+        screenshot: "/image/cv_ats_builder/hero_section.png",
+        screenshotLabel: "Privacy",
+      },
+    ],
+    sourceUrl: "https://github.com/callmezaa/cv-engineeringTools",
+    demoUrl: "https://cv-ats-builder-beta.vercel.app",
+    type: "playground",
+    badge: "Tool",
+    metrics: ["Local-First", "Live A4 Preview", "JD Tailoring", "Zero Backend"],
+    accent: {
+      glow: "rgba(229, 229, 229, 0.14)",
+      color: "#e5e5e5",
+    },
+    architecture: {
+      monorepo: [
+        { name: "app/", tech: "Next.js 16 App Router, static output", description: "Intro hero page plus the /builder workspace route — fully static pages with no server runtime" },
+        { name: "lib/", tech: "Zustand + Zod + matchers + pdf helpers", description: "state/ store with persist middleware under key cv-builder:v1, tailoring/ keyword matcher, validation/ ATS rules and Zod schemas, pdf/ export and filename helpers" },
+        { name: "components/", tech: "React 19 feature folders", description: "editor/ section editors, cv/ @react-pdf document and section renderers, intro/ hero, layout/ workspace shell, ui/ coss ui primitives" },
+      ],
+      decisions: [
+        { decision: "Zustand persist over a backend", reason: "Zero server, zero accounts, zero cost — the entire workspace lives in one localStorage key" },
+        { decision: "@react-pdf/renderer over html2canvas", reason: "Real text output stays parseable by applicant tracking systems instead of flattened images" },
+        { decision: "Single-column single-color template over fancy layouts", reason: "Restrained templates survive real-world ATS parsers that choke on columns and graphics" },
+        { decision: "Fully static deploy over SSR", reason: "Zero env vars and zero runtime — every push gets a preview URL with nothing to configure" },
+      ],
+      endpoints: [
+        { method: "GET", path: "/", auth: false, rate: "Static", purpose: "Intro hero page leading into the builder" },
+        { method: "GET", path: "/builder", auth: false, rate: "Static", purpose: "The CV builder workspace — all state client-side, no APIs called" },
+      ],
+      dataFlow: [
+        "User fills the master CV in the editor panel with instant preview updates",
+        "User creates one variant per target role with section toggles and ordering",
+        "User pastes the job description and closes missing-keyword gaps",
+        "User runs the ATS readiness check and fixes required issues",
+        "User exports the PDF and backs up the workspace as JSON",
+      ],
+      deployment: [
+        "next build static output deployed to Vercel with zero configuration",
+        "No environment variables required",
+        "Every push gets an automatic preview URL",
+      ],
+    },
+    diagram: {
+      frontend: { label: "CLIENT (Next.js Static Site)", tech: "Next.js 16 · React 19 · Zustand · @react-pdf/renderer · Tailwind CSS v4" },
+      backend: { label: "BACKEND", tech: "None — 100% localStorage, key cv-builder:v1" },
+      arrow: { label: "Zero requests after load" },
+      services: [
+        { name: "Zustand persist", description: "Workspace state persisted to localStorage under one key" },
+        { name: "@react-pdf/renderer", description: "Real-time A4 preview and one-click real-text PDF export" },
+        { name: "Vercel Edge Network", description: "Zero-config static hosting with preview URL per push" },
+      ],
+    },
+  },
 ]
